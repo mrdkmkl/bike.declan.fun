@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>sign in · bike.declan.fun</title>
+<style>
+:root{--fg:#111;--shadow-lg:0 16px 40px rgba(17,17,17,.14);--mono:'SF Mono','JetBrains Mono','DM Mono',ui-monospace,Menlo,Consolas,monospace;}
+*{box-sizing:border-box;}
+html,body{min-height:100%;margin:0;color:var(--fg);font-family:var(--mono);
+  background:radial-gradient(circle at 20% 0%,#ffffff 0%,#f4f5f7 55%,#eceef2 100%);}
+body{display:flex;align-items:center;justify-content:center;padding:18px;min-height:100vh;}
+.card{width:100%;max-width:440px;background:#fff;border-radius:18px;padding:30px 28px 24px;box-shadow:var(--shadow-lg);}
+.brand{font-size:12px;letter-spacing:1px;color:#999;margin:0 0 14px;}
+h1{font-size:20px;font-weight:700;letter-spacing:-.3px;margin:0 0 6px;}
+p{font-size:11.5px;line-height:1.6;color:#666;margin:8px 0;}
+.hidden{display:none !important;}
+button{font-family:inherit;}
+.g-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px 14px;font-size:12px;border:1.6px solid #d2d2d0;border-radius:999px;background:#fff;color:#444;letter-spacing:1px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
+.g-btn:hover:not(:disabled){background:#111;border-color:#111;color:#fff;}
+.g-btn:disabled{opacity:.6;cursor:default;}
+.g-btn svg{width:14px;height:14px;flex:none;}
+.or{text-align:center;font-size:10px;color:#aaa;margin:14px 0;letter-spacing:1px;}
+input:not([type=file]){width:100%;padding:11px 14px;border:1.6px solid #d2d2d0;border-radius:12px;font-size:13px;font-family:inherit;margin-bottom:8px;outline:none;background:#fff;color:#111;}
+input:focus{border-color:#111;}
+.main-btn{width:100%;padding:12px;border:none;border-radius:999px;background:#111;color:#fff;font-size:12px;letter-spacing:1.5px;cursor:pointer;margin-top:6px;}
+.main-btn:disabled{opacity:.6;cursor:default;}
+.hint{font-size:10.5px;color:#888;min-height:14px;margin:-2px 2px 8px;line-height:1.4;}
+.hint.err{color:#b3261e;} .hint.ok{color:#1b7f3b;}
+.label{display:block;font-size:10px;color:#999;letter-spacing:1px;margin:10px 2px 5px;}
+.links{display:flex;justify-content:space-between;gap:10px;margin-top:12px;}
+.links.center{justify-content:center;}
+.link{border:none;background:none;text-decoration:underline;color:#888;cursor:pointer;font-size:10.5px;letter-spacing:.6px;padding:2px 4px;}
+.link:hover{color:#111;}
+.row{position:relative;} .at{position:absolute;left:14px;top:11px;font-size:13px;color:#888;} #pfHandle{padding-left:30px !important;}
+.pic{display:flex;align-items:center;gap:14px;margin:16px 0 4px;}
+.pic .link{display:block;margin-top:6px;padding-left:0;}
+.up-btn{padding:7px 14px;font-size:10.5px;border:1.6px solid #d2d2d0;border-radius:999px;background:#fff;color:#444;letter-spacing:1px;cursor:pointer;}
+.up-btn:hover{background:#111;border-color:#111;color:#fff;}
+.av{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;color:#fff;font-weight:700;flex:none;background:#999;}
+.av img{width:100%;height:100%;object-fit:cover;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">bike.declan.fun</div>
+
+  <!-- loading -->
+  <div id="vLoad"><h1>one sec…</h1><p id="loadMsg">connecting</p></div>
+
+  <!-- sign in / create account -->
+  <div id="vAuth" class="hidden">
+    <h1 id="authTitle">sign in</h1>
+    <p>save your progress and get on the leaderboard. totally optional, you can always play as a guest.</p>
+    <button class="g-btn" id="authGoogle" type="button"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>continue with google</span></button>
+    <div class="or">or use email</div>
+    <input id="authEmail" type="email" placeholder="email" autocomplete="email" autocapitalize="off">
+    <input id="authPass" type="password" placeholder="password (6+ characters)" autocomplete="current-password">
+    <div id="authErr" class="hint"></div>
+    <button class="main-btn" id="authSubmit" type="button">sign in</button>
+    <div class="links"><button class="link" id="authToggle" type="button"></button><button class="link" id="authForgot" type="button">forgot password?</button></div>
+    <div class="links center"><button class="link" id="authGuest" type="button">continue as guest</button></div>
+  </div>
+
+  <!-- first-time profile setup -->
+  <div id="vProfile" class="hidden">
+    <h1>set up your profile</h1>
+    <p>pick a unique handle and a name for the leaderboard. your google name and photo are never used.</p>
+    <div class="pic"><span id="pfAv"></span>
+      <div><button class="up-btn" id="pfUpload" type="button">upload picture</button><button class="link" id="pfNoPic" type="button">use a letter instead</button></div>
+      <input type="file" id="pfFile" accept="image/*" hidden>
+    </div>
+    <label class="label" for="pfHandle">HANDLE (unique)</label>
+    <div class="row"><span class="at">@</span><input id="pfHandle" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your_handle"></div>
+    <div class="hint" id="pfHandleHint"></div>
+    <label class="label" for="pfName">NAME</label>
+    <input id="pfName" maxlength="20" autocomplete="off" placeholder="your name">
+    <div class="hint" id="pfNameHint"></div>
+    <button class="main-btn" id="pfSave" type="button">save &amp; play</button>
+    <div class="links center"><button class="link" id="pfCancel" type="button">cancel &amp; sign out</button></div>
+  </div>
+</div>
+
+<script type="module">
+/* same firebase project as the game, so signing in here also signs you in there */
+const firebaseConfig={
+  apiKey:"AIzaSyC9t8agR3tymRQJ2qNhjO0UyieIX455LmE",
+  authDomain:"signinbikegame.firebaseapp.com",
+  projectId:"signinbikegame",
+  storageBucket:"signinbikegame.firebasestorage.app",
+  messagingSenderId:"1051974554669",
+  appId:"1:1051974554669:web:ff2d236115891dcd1a14a4"
+};
+const FB_VERSION='10.12.2';
+const GAME_PAGE='59320599key__3_.html'; // change this to your game's file name (e.g. index.html) if it differs
+
+const $=id=>document.getElementById(id);
+const ls=k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } };
+const num=k=>Math.max(0,parseInt(ls(k)||'0',10)||0);
+
+/* where to go back to: ?return=... (same site only), else the game page */
+function returnUrl(){
+  try{
+    const r=new URLSearchParams(location.search).get('return');
+    if(r){ const u=new URL(r,location.href); if(u.origin===location.origin&&!/signin\.html$/i.test(u.pathname)) return u.href; }
+  }catch(e){}
+  return new URL(GAME_PAGE,location.href).href;
+}
+const goBack=()=>location.replace(returnUrl());
+
+function show(id){ ['vLoad','vAuth','vProfile'].forEach(v=>$(v).classList.toggle('hidden',v!==id)); }
+function setHint(id,t,cls){ const e=$(id); e.textContent=t||''; e.className='hint'+(cls?' '+cls:''); }
+
+/* ---- avatar (picture or default letter) ---- */
+const okPhoto=p=>(typeof p==='string'&&p.startsWith('data:image/jpeg;base64,')&&p.length<20000)?p:null;
+function avatar(p,size){
+  const e=document.createElement('span'); e.className='av'; e.style.width=e.style.height=size+'px'; e.style.fontSize=Math.round(size*.46)+'px';
+  const ph=p&&okPhoto(p.photo);
+  if(ph){ const i=document.createElement('img'); i.src=ph; i.alt=''; e.appendChild(i); }
+  else{ const s=(p&&(p.name||p.handle))||'?', key=(p&&p.handle)||s; let h=0; for(const c of key) h=(h*31+c.charCodeAt(0))%360; e.style.background='hsl('+h+',55%,48%)'; e.textContent=s.trim().charAt(0).toUpperCase()||'?'; }
+  return e;
+}
+
+/* ---- handle / name rules ---- */
+/* ===== swear / abuse filter =====
+   Catches: leetspeak, symbols, spacing/underscores, repeated letters, accents, look-alike letters
+   (cyrillic/greek/fullwidth), zero-width characters, wildcards (f*ck), and common foreign swears.
+   Client-side only, so it can't be perfect. */
+const BF_STRICT=['fuck','fck','fvck','fuq','phuck','fucc','shit','shyt','shiet','sheit','shite','scheisse','scheise','cunt','bitch','biatch','bastard','whore','slut','asshole','arsehole','asswipe','asshat','dickhead','dickwad','dickface','cocksuck','cockhead','wanker','bollock','bugger','jerkoff','jackoff','jerkingoff','blowjob','handjob','rimjob','footjob','titjob','nigger','nigga','niglet','kike','faggot','fagot','phaggot','phagot','motherf','fukk','fuking','tranny','shemale','retard','spastic','mongoloid','wetback','beaner','towelhead','raghead','cameljockey','hitler','heilhitler','siegheil','neonazi','nazism','kkk','xxx','whitepower','whitepride','porn','dildo','jizz','cumshot','cumslut','cumdump','orgasm','erotic','hentai','vagina','penis','pussy','clitoris','nipple','sperm','masturbat','fellatio','cunnilingus','bukkake','gangbang','creampie','threesome','sexting','nsfw','molest','pedophile','paedophile','pedobear','incest','bestiality','zoophil','necrophil','killyourself','selfharm','suicide','arschloch','hurensohn','wichser','fotze','schlampe','ficken','putain','salope','connard','encule','mierda','pendejo','cabron','cazzo','vaffanculo','stronzo','caralho','buceta','filhodaputa','hijodeputa','hijueputa','chingada','chingar','kurwa','pierdol','blyat','blyad','mudak','madarchod','bhenchod','behenchod','chutiya','bhosdi','sharmuta','motherfuck','cocksucker','dumbass','jackass','badass','smartass','hardass','fatass','bigass','lameass','halfass','asswipe','ahole'];
+const BF_TOKEN=['ass','arse','tit','tits','titty','cum','fag','dyke','coon','spic','chink','gook','paki','jap','dick','cock','pecker','tard','homo','sex','sexy','anal','anus','piss','nazi','heil','rape','rapes','rapist','pedo','nude','naked','wank','shag','slag','prick','tosser','milf','clit','boob','boobs','semen','puta','puto','pute','merde','nique','joder','verga','merda','porra','marica','suka','chuj','cyka','gandu','bollocks','kys','lesbo','lez','cuck','whores','sluts','bitches','fuckers','horni','sexi','nsfw','cono','pron','cvnt','twat','twats','phuk','horny','mofo','fuk'];
+const BF_DECOR=['x','real','big','fat','dumb','lil','mr','your','yo','mega','super','pro','king','lord','mini','baby','lady','miss'];
+const BF_EXCLUDE=['scunthorpe','cunthorpe','shiitake','shitake','shiite','shiites','niggard','niggardly','retardant','penistone','sporn','pornography_ok'];
+const BF_HOMO={'а':'a','е':'e','о':'o','р':'p','с':'c','у':'y','х':'x','і':'i','ї':'i','ѕ':'s','к':'k','м':'m','н':'h','т':'t','в':'b','ӏ':'l','ј':'j','ԁ':'d','ɡ':'g','ɑ':'a','ο':'o','α':'a','ε':'e','ι':'i','κ':'k','ν':'v','ρ':'p','τ':'t','υ':'u','χ':'x','η':'n','μ':'u','β':'b','γ':'y','ω':'w','ı':'i','ł':'l','ø':'o','đ':'d','ð':'d','þ':'p','ß':'ss','æ':'ae','œ':'oe','ƒ':'f','ʀ':'r','ɴ':'n','ᴜ':'u','ᴋ':'k','ɪ':'i','ᴄ':'c','ᴛ':'t','ᴀ':'a','ᴇ':'e','ᴏ':'o','ᴅ':'d','ʟ':'l','ᴍ':'m','ʜ':'h','ꜰ':'f','ꜱ':'s','ʙ':'b','ᴘ':'p','ᴡ':'w','ᴠ':'v','ʏ':'y','ɢ':'g','ᴊ':'j','ᴢ':'z','ǝ':'e','ɔ':'c'};
+const BF_LEET={'0':'o','3':'e','4':'a','5':'s','7':'t','8':'b','9':'g','6':'g','2':'z','@':'a','$':'s','€':'e','£':'l','¢':'c','¥':'y','+':'t','(':'c','<':'c','{':'c','[':'c','^':'a','§':'s','#':'h','&':'a','%':'o'};
+const BF_ILS=new Set(['1','!','|','¡','ǀ','l']);
+const bfSq=s=>s.replace(/(.)\1+/g,'$1');
+function bfClean(s){
+  s=String(s||'');
+  try{ s=s.normalize('NFKD'); }catch(e){}
+  s=s.replace(/[\u0300-\u036f\u200b-\u200f\u202a-\u202e\u2060-\u2064\u00ad\ufeff\ufe0f\u034f\u180e]/g,'');
+  let o=''; for(const ch of s.toLowerCase()) o+=(BF_HOMO[ch]!==undefined?BF_HOMO[ch]:ch);
+  return o;
+}
+// leet-decode a string; `ilMode` decides what 1, ! and | turn into (i or l)
+function bfLeet(s,ilMode){
+  let o=''; for(const ch of s){ if(ch==='1'||ch==='!'||ch==='|'||ch==='¡') o+=ilMode; else o+=(BF_LEET[ch]!==undefined?BF_LEET[ch]:ch); }
+  return o;
+}
+
+const bfRep=w=>w.split('').map(c=>c+'+').join('');                    // "fuck" -> f+u+c+k+  (catches fuuuuck)
+const BF_EXC_RE=[...new Set(BF_EXCLUDE.map(w=>w.replace(/[^a-z]/g,'')))].filter(w=>w.length>=4).map(w=>new RegExp(bfRep(w),'g'));
+const BF_STRICT_RE=[...new Set(BF_STRICT)].map(w=>new RegExp(bfRep(w)));
+const BF_DEC='(?:'+BF_DECOR.map(bfRep).join('|')+')*';
+const BF_TOKEN_RE=[...new Set(BF_TOKEN)].map(w=>new RegExp('^'+BF_DEC+bfRep(w)+BF_DEC+'$'));
+function bfStrictHit(letters){
+  let t=letters;
+  for(const re of BF_EXC_RE) t=t.replace(re,'#');                      // real words that merely contain a bad string
+  for(const re of BF_STRICT_RE) if(re.test(t)) return true;
+  return false;
+}
+function bfTokenHit(raw,ilMode){
+  // split on anything that isn't a letter/digit/leet symbol (so underscores, dots and spaces separate words)
+  const toks=raw.split(/[^a-z0-9!|@$+€£¢¥()<>{}\[\]^§#&%¡]+/).filter(Boolean);
+  for(const tk of toks){
+    const cands=new Set();
+    const dec=bfLeet(tk,ilMode).replace(/[^a-z]/g,'');                   // leet-decoded letters
+    const plain=tk.replace(/^[0-9]+|[0-9]+$/g,'').replace(/[^a-z]/g,''); // numbers around the word stripped
+    [dec,plain].forEach(x=>{ if(x) cands.add(x); });
+    for(const c of cands) for(const re of BF_TOKEN_RE) if(re.test(c)) return true;
+  }
+  return false;
+}
+function bfCheckOne(base){
+  for(const il of ['i','l']){
+    const letters=bfLeet(base,il).replace(/[^a-z]/g,'');
+    if(bfStrictHit(letters)) return true;
+    if(bfTokenHit(base,il)) return true;
+  }
+  if(/1488|14\/88/.test(base)) return true;
+  return false;
+}
+function badText(input){
+  const base=bfClean(input);
+  if(!base.trim()) return false;
+  if(bfCheckOne(base)) return true;
+  // camelCase words e.g. "BigAss"
+  const cam=bfClean(String(input).replace(/([a-z0-9])([A-Z])/g,'$1 $2'));
+  if(cam!==base && bfCheckOne(cam)) return true;
+  // wildcards: f*ck, sh#t, b?tch → try every vowel in the wildcard spots (max 4 spots)
+  if(/[*?]/.test(base)){
+    const n=(base.match(/[*?]+/g)||[]).length;
+    if(n<=4){
+      const walk=cur=>{ if(!/[*?]/.test(cur)) return bfCheckOne(cur); for(const v of 'aeiou'){ if(walk(cur.replace(/[*?]+/,v))) return true; } return false; };
+      if(walk(base)) return true;
+    }
+  }
+  // letters split by separators: f.u.c.k / f u c k / f-u-c-k / f_u_c_k
+  const glue=base.replace(/(?<=[a-z0-9])[\s.\-_*,\/\\|~']+(?=[a-z0-9])/g,'');
+  if(glue!==base && bfCheckOne(glue)) return true;
+  return false;
+}
+
+const RESERVED=['admin','moderator','mod','support','system','staff','official','declan','anonymous','guest','null','undefined','bikegame','root','owner','server','bot'];
+function handleProblem(h){
+  if(!/^[a-z0-9_]{4,16}$/.test(h)) return 'use 4 to 16 lowercase letters, numbers or underscores (more than 3 characters)';
+  if(RESERVED.includes(h)||/^(admin|mod|staff|official)_?/.test(h)||badText(h)) return "that handle isn't allowed, please pick another";
+  return '';
+}
+function nameProblem(n){ if(!n) return 'enter a name'; if(n.length>20) return 'max 20 characters'; if(badText(n)) return "that name isn't allowed, please pick another"; return ''; }
+
+/* ---- firebase ---- */
+let fb, auth, db, user=null, working=false;
+try{
+  const base='https://www.gstatic.com/firebasejs/'+FB_VERSION+'/';
+  const [A,B,C]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
+  fb={...B,doc:C.doc,getDoc:C.getDoc,writeBatch:C.writeBatch};
+  const app=A.initializeApp(firebaseConfig);
+  auth=B.getAuth(app); db=C.getFirestore(app);
+}catch(e){
+  console.warn('firebase failed to load',e);
+  show('vLoad'); $('loadMsg').textContent="sign-in is unavailable right now (still loading or blocked). going back to the game…";
+  setTimeout(goBack,2500);
+  throw e;
+}
+
+/* ---- auth view ---- */
+let authMode='in';
+function authErr(t,ok){ setHint('authErr',t,t?(ok?'ok':'err'):''); }
+function authSet(mode){
+  authMode=mode; const up=mode==='up';
+  $('authTitle').textContent=up?'create account':'sign in'; $('authSubmit').textContent=up?'create account':'sign in';
+  $('authToggle').textContent=up?'already have an account? sign in':'new here? create an account';
+  $('authPass').autocomplete=up?'new-password':'current-password'; $('authForgot').classList.toggle('hidden',up); authErr('');
+}
+function authMsg(e){
+  const c=e&&e.code;
+  if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found') return 'wrong email or password';
+  if(c==='auth/email-already-in-use') return 'that email already has an account. Try signing in instead';
+  if(c==='auth/weak-password') return 'password needs at least 6 characters';
+  if(c==='auth/invalid-email') return "that email address doesn't look right";
+  if(c==='auth/too-many-requests') return 'too many tries. Wait a bit and try again';
+  if(c==='auth/network-request-failed') return "couldn't reach the server. Check your connection";
+  if(c==='auth/operation-not-allowed') return "this sign-in method isn't enabled in firebase yet";
+  if(c==='auth/unauthorized-domain') return "this site's domain isn't authorized in firebase yet";
+  if(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request') return '';
+  console.warn(e); return "that didn't work. You can keep playing as a guest.";
+}
+function authBusy(b){ ['authGoogle','authSubmit'].forEach(i=>$(i).disabled=b); }
+async function authGoogle(){
+  authBusy(true);
+  try{ await fb.signInWithPopup(auth,new fb.GoogleAuthProvider()); }
+  catch(e){
+    if(e&&e.code==='auth/popup-blocked'){ try{ await fb.signInWithRedirect(auth,new fb.GoogleAuthProvider()); return; }catch(e2){ authErr('the sign-in popup was blocked. Allow popups and try again.'); } }
+    else authErr(authMsg(e));
+  }finally{ authBusy(false); }
+}
+async function authSubmit(){
+  const email=$('authEmail').value.trim(), pass=$('authPass').value;
+  if(!email||!pass){ authErr('enter your email and password'); return; }
+  authBusy(true);
+  try{
+    if(authMode==='up') await fb.createUserWithEmailAndPassword(auth,email,pass); else await fb.signInWithEmailAndPassword(auth,email,pass);
+    $('authPass').value='';
+  }catch(e){ authErr(authMsg(e)); }finally{ authBusy(false); }
+}
+async function authForgot(){
+  const email=$('authEmail').value.trim(); if(!email){ authErr('type your email above first'); return; }
+  try{ await fb.sendPasswordResetEmail(auth,email); authErr('reset email sent. Check your inbox (and spam).',true); }catch(e){ authErr(authMsg(e)); }
+}
+$('authGoogle').onclick=authGoogle; $('authSubmit').onclick=authSubmit; $('authForgot').onclick=authForgot;
+$('authToggle').onclick=()=>authSet(authMode==='in'?'up':'in');
+$('authGuest').onclick=goBack;
+['authEmail','authPass'].forEach(i=>$(i).addEventListener('keydown',e=>{ if(e.key==='Enter') authSubmit(); }));
+
+/* ---- profile view (first time only: handle + name + picture) ---- */
+let pfPhoto=null, pfCheck=0, pfTimer=null;
+function pfAvatar(){ $('pfAv').replaceChildren(avatar({handle:$('pfHandle').value.trim().toLowerCase(),name:$('pfName').value.trim()||$('pfHandle').value.trim(),photo:pfPhoto},64)); }
+async function pfCheckHandle(){
+  const h=$('pfHandle').value.trim().toLowerCase(), my=++pfCheck;
+  if(!h){ setHint('pfHandleHint','4 to 16 letters, numbers or underscores. Must be unique.'); return; }
+  const bad=handleProblem(h); if(bad){ setHint('pfHandleHint',bad,'err'); return; }
+  setHint('pfHandleHint','checking…');
+  try{
+    const s=await fb.getDoc(fb.doc(db,'handles',h)); if(my!==pfCheck) return;
+    if(s.exists()&&s.data().uid!==(user&&user.uid)) setHint('pfHandleHint','@'+h+' is taken','err'); else setHint('pfHandleHint','@'+h+' is available','ok');
+  }catch(e){ if(my===pfCheck) setHint('pfHandleHint',"couldn't check right now. You can still try saving."); }
+}
+function readPhoto(file){
+  return new Promise((res,rej)=>{
+    if(!file||!/^image\//.test(file.type)) return rej(new Error('not an image'));
+    const u=URL.createObjectURL(file), im=new Image();
+    im.onload=()=>{ const S=96,c=document.createElement('canvas'); c.width=c.height=S; const x=c.getContext('2d'), m=Math.min(im.width,im.height);
+      x.fillStyle='#fff'; x.fillRect(0,0,S,S); x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S); URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg',.8)); };
+    im.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error('bad image')); }; im.src=u;
+  });
+}
+$('pfUpload').onclick=()=>$('pfFile').click();
+$('pfFile').onchange=async e=>{ const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{ pfPhoto=await readPhoto(f); pfAvatar(); setHint('pfNameHint',''); }catch(err){ setHint('pfNameHint',"couldn't use that picture. Try a different image",'err'); } };
+$('pfNoPic').onclick=()=>{ pfPhoto=null; pfAvatar(); };
+$('pfHandle').addEventListener('input',e=>{ e.target.value=e.target.value.toLowerCase().replace(/[^a-z0-9_]/g,''); pfAvatar(); clearTimeout(pfTimer); pfTimer=setTimeout(pfCheckHandle,400); });
+$('pfName').addEventListener('input',pfAvatar);
+['pfHandle','pfName'].forEach(i=>$(i).addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('pfSave').click(); } }));
+$('pfCancel').onclick=async()=>{ try{ await fb.signOut(auth); }catch(e){} pfPhoto=null; $('pfHandle').value=''; $('pfName').value=''; authSet('in'); show('vAuth'); };
+$('pfSave').onclick=async()=>{
+  const h=$('pfHandle').value.trim().toLowerCase(), n=$('pfName').value.trim().replace(/\s+/g,' ');
+  const hp=handleProblem(h), np=nameProblem(n);
+  if(hp){ setHint('pfHandleHint',hp,'err'); return; } if(np){ setHint('pfNameHint',np,'err'); return; }
+  if(!user) return;
+  const btn=$('pfSave'); btn.disabled=true; btn.textContent='saving…';
+  const uid=user.uid, b=fb.writeBatch(db);
+  const d={handle:h,name:n,maxLevel:Math.min(9999,Math.max(1,num('bike_maxLevel'))),bestRun:num('bike_bestRun'),bestPolice:num('bike_bestPolice'),updatedAt:Date.now()};
+  if(pfPhoto) d.photo=pfPhoto;
+  b.set(fb.doc(db,'handles',h),{uid});
+  b.set(fb.doc(db,'leaderboard',uid),d);
+  try{ await b.commit(); goBack(); }
+  catch(e){
+    console.warn(e);
+    setHint('pfHandleHint',e&&e.code==='permission-denied'?'that handle was just taken, or the firestore rules need updating':"couldn't save. Check your connection",'err');
+    btn.disabled=false; btn.textContent='save & play';
+  }
+};
+
+/* ---- decide which view to show ---- */
+async function loadProfile(u){
+  try{ const s=await fb.getDoc(fb.doc(db,'leaderboard',u.uid)); return s.exists()&&s.data().handle?true:false; }
+  catch(e){ console.warn(e); return undefined; }
+}
+authSet('in');
+fb.getRedirectResult(auth).catch(e=>{ authErr(authMsg(e)); });
+fb.onAuthStateChanged(auth,async u=>{
+  user=u;
+  if(!u){ show('vAuth'); return; }
+  show('vLoad'); $('loadMsg').textContent='signing you in…';
+  const has=await loadProfile(u); if(!user||user.uid!==u.uid) return;
+  if(has===undefined){ show('vLoad'); $('loadMsg').textContent="couldn't load your profile. Check your connection and reload."; return; }
+  if(has){ goBack(); return; }          // returning player → straight back to the game
+  pfPhoto=null; $('pfHandle').value=''; $('pfName').value=''; setHint('pfNameHint','');
+  pfAvatar(); pfCheckHandle(); show('vProfile'); $('pfHandle').focus();   // first time → handle, name, picture (or letter)
+});
+</script>
+</body>
+</html>
