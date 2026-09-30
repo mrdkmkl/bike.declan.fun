@@ -210,6 +210,56 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   font-size:12px;letter-spacing:.5px;cursor:pointer;color:#111;transition:transform .15s,background .15s,color .15s;}
 #rocketBtn:hover:not(:disabled){background:#111;color:#fff;transform:translateY(-2px);}
 #rocketBtn:disabled{opacity:.5;cursor:default;}
+
+/* ===== account (google sign-in, optional) ===== */
+#startScreen #accountBox{position:absolute;top:14px;right:16px;display:flex;flex-direction:column;align-items:flex-end;gap:5px;z-index:2;font-family:var(--mono);max-width:70%;}
+.acct-btn{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;font-size:10.5px;border:1.6px solid #d2d2d0;border-radius:999px;background:#fff;color:#444;
+  letter-spacing:1px;cursor:pointer;font-family:var(--mono);transition:background .15s,color .15s,border-color .15s,transform .15s;}
+.acct-btn:hover:not(:disabled){background:#111;border-color:#111;color:#fff;transform:translateY(-1px);}
+.acct-btn:disabled{opacity:.6;cursor:default;}
+.acct-btn svg{width:14px;height:14px;flex:none;}
+#acctUser{display:flex;align-items:center;gap:9px;padding:5px 12px 5px 5px;border:1.6px solid #d2d2d0;border-radius:999px;background:#fff;font-size:10.5px;color:#444;letter-spacing:.8px;max-width:100%;}
+#acctAvatar{width:26px;height:26px;border-radius:50%;object-fit:cover;background:#e8e8e6;flex:none;}
+#acctName{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;}
+#acctStatus{font-size:9px;color:#aaa;letter-spacing:1px;text-align:right;}
+#acctMsg{font-size:9.5px;color:#b3261e;letter-spacing:.6px;text-align:right;max-width:260px;line-height:1.4;}
+#acctOut{border:none;background:none;text-decoration:underline;color:#888;cursor:pointer;font-size:9.5px;letter-spacing:1px;font-family:var(--mono);padding:2px 4px;}
+#acctOut:hover{color:#111;}
+@media (max-width:520px){#startScreen #accountBox{top:10px;right:10px;} #acctName{display:none;} #acctUser{padding:4px;} #acctUser #acctOut{padding:2px 8px 2px 2px;}}
+
+/* ===== modals (changelog + save choice) ===== */
+.modal-back{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:18px;
+  background:rgba(17,17,17,.38);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fadeIn .2s ease;}
+.modal-card{position:relative;width:100%;max-width:440px;max-height:min(80vh,560px);overflow-y:auto;background:#fff;border-radius:18px;
+  padding:26px 26px 22px;box-shadow:var(--shadow-lg);text-align:left;animation:panelIn .25s cubic-bezier(.2,.8,.2,1);
+  font-family:'SF Mono','JetBrains Mono','DM Mono',ui-monospace,Menlo,Consolas,monospace;user-select:text;}
+.modal-card .close-x{top:12px;right:12px;width:34px;height:34px;font-size:15px;box-shadow:none;background:var(--lightgrey);}
+.modal-card h2{font-size:17px;font-weight:700;letter-spacing:-.3px;margin:0 36px 4px 0;}
+.modal-card p{font-size:11.5px;line-height:1.6;color:#666;margin:8px 0;}
+.modal-card p.fine{font-size:10px;color:#aaa;}
+.cl-entry{margin-top:16px;}
+.cl-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
+.cl-ver{font-size:12px;font-weight:700;background:#111;color:#fff;border-radius:999px;padding:3px 10px;letter-spacing:.5px;}
+.cl-date{font-size:10px;color:#aaa;letter-spacing:.8px;}
+.cl-list{margin:0;padding-left:18px;font-size:11.5px;line-height:1.65;color:#444;}
+.cl-list li{margin:3px 0;}
+.choice-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px;}
+.choice-btn{flex:1 1 150px;text-align:left;padding:12px 14px;border:1.6px solid #d2d2d0;border-radius:14px;background:#fff;cursor:pointer;
+  font-family:inherit;color:#111;transition:background .15s,border-color .15s,transform .15s;}
+.choice-btn:hover{border-color:#111;background:#f7f7f6;transform:translateY(-1px);}
+.choice-btn b{display:block;font-size:12px;margin-bottom:4px;}
+.choice-btn span{font-size:10.5px;color:#777;line-height:1.5;}
+/* bigger changelog */
+#changelog .modal-card{max-width:680px;max-height:min(88vh,760px);padding:38px 40px 34px;border-radius:22px;}
+#changelog .modal-card .close-x{top:16px;right:16px;width:42px;height:42px;font-size:18px;}
+#changelog h2{font-size:28px;margin:0 52px 6px 0;}
+#changelog .cl-entry{margin-top:22px;}
+#changelog .cl-head{gap:12px;margin-bottom:10px;}
+#changelog .cl-ver{font-size:16px;padding:5px 14px;}
+#changelog .cl-date{font-size:13px;}
+#changelog .cl-list{font-size:16px;line-height:1.7;padding-left:24px;}
+#changelog .cl-list li{margin:7px 0;}
+@media (max-width:520px){#changelog .modal-card{padding:28px 22px 24px;} #changelog h2{font-size:22px;} #changelog .cl-list{font-size:14.5px;}}
 </style>
 </head>
 <body>
@@ -235,6 +285,19 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 
   <div class="screen" id="startScreen">
     <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+  <div id="accountBox">
+    <button class="acct-btn" id="acctSignIn" type="button">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      <span>sign in with google</span>
+    </button>
+    <div id="acctUser" class="hidden">
+      <img id="acctAvatar" alt="" referrerpolicy="no-referrer">
+      <span id="acctName"></span>
+      <button id="acctOut" type="button">sign out</button>
+    </div>
+    <div id="acctStatus">playing as guest · progress saves on this device</div>
+    <div id="acctMsg" class="hidden"></div>
+  </div>
     <h1 class="title">bike<span class="dot">.</span>declan<span class="dot">.</span>fun</h1>
         <div class="modes" id="modes">
       <button class="mode-btn active" data-mode="easy">easy</button>
@@ -246,7 +309,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="shopBtn">skins</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="gearBtn">shop</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div></div>
     <div class="controls-note">← → or A/D to pedal · space to brake · S to stunt (flip) · W to fire a rocket · score points for airtime</div>
-    <div class="ver">v.0.0.4 (alpha)</div>
+    <div class="ver">v.0.0.5 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -290,6 +353,27 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="start-btn" id="resumeBtn">resume</button>
     <button class="close-btn" id="pauseMenuBtn">menu</button>
     <div class="controls-note">esc to resume</div>
+  </div>
+
+  <div class="modal-back hidden" id="changelog" role="dialog" aria-modal="true" aria-labelledby="clTitle">
+    <div class="modal-card">
+      <button class="close-x" id="closeChangelog" aria-label="close">✕</button>
+      <h2 id="clTitle">what's new</h2>
+      <div id="clBody"></div>
+    </div>
+  </div>
+
+  <div class="modal-back hidden" id="syncChoice" role="dialog" aria-modal="true" aria-labelledby="scTitle">
+    <div class="modal-card">
+      <h2 id="scTitle">which save do you want?</h2>
+      <p>this device already has progress, and your google account has a cloud save too.</p>
+      <div class="choice-row">
+        <button class="choice-btn" id="useCloud" type="button"><b>use cloud save</b><span id="cloudSummary"></span></button>
+        <button class="choice-btn" id="useDevice" type="button"><b>keep this device's</b><span id="deviceSummary"></span></button>
+      </div>
+      <p class="fine">the one you don't pick gets replaced.</p>
+      <button class="text-link" id="syncCancel" type="button">cancel &amp; sign out</button>
+    </div>
   </div>
 </div>
 <script>
@@ -348,8 +432,16 @@ function lsGet(key,fallback){
   catch(e){ return fallback; }
 }
 function lsSet(key,value){
-  try{ localStorage.setItem(key,value); return true; }
-  catch(e){ return false; }
+  if(window.__bikeAdopting) return true; // a cloud save is being loaded in and the page is about to reload: don't overwrite it
+  try{
+    const old=localStorage.getItem(key);
+    localStorage.setItem(key,value);
+    if(old!==value && key!=='bike_check'){
+      localStorage.setItem('bike_updatedAt',String(Date.now()));
+      if(window.__bikeCloud) window.__bikeCloud.dirty();
+    }
+    return true;
+  }catch(e){ return false; }
 }
 function lsGetJSON(key,fallback){
   try{ const v=localStorage.getItem(key); return v===null?fallback:JSON.parse(v); }
@@ -1307,10 +1399,252 @@ document.getElementById('menuBtn').onclick=()=>{
   updateWalletTags();
 };
 
+window.__bikeIsBusy=()=>running; // lets the cloud-sync code wait until you're not mid-run
 updateWalletTags();
 resize(); render(); loop();
 })();
 
+</script>
+
+<script>
+/* ===== changelog =====
+   Add new versions at the TOP of this list. Each one is shown inside the "what's new" popup. */
+(function(){
+"use strict";
+const CHANGELOG=[
+  { v:'0.0.5', date:'Sep 30, 2026', items:[
+    'sign in with google (totally optional) to save your progress to your account',
+    'progress follows you across devices: coins, skins, upgrades, shop items and levels',
+    'you can still just play as a guest, nothing is locked behind a login',
+    'added this changelog'
+  ]}
+];
+// true  = popup shows every time the game loads
+// false = popup only shows once per new version
+const SHOW_EVERY_LOAD=true;
+
+const el=document.getElementById('changelog');
+const body=document.getElementById('clBody');
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+body.innerHTML=CHANGELOG.map(e=>
+  '<div class="cl-entry"><div class="cl-head"><span class="cl-ver">v'+esc(e.v)+'</span><span class="cl-date">'+esc(e.date||'')+'</span></div>'+
+  '<ul class="cl-list">'+e.items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul></div>').join('');
+
+function close(){
+  el.classList.add('hidden');
+  if(!SHOW_EVERY_LOAD){ try{ localStorage.setItem('bike_seenChangelog',CHANGELOG[0].v); }catch(e){} }
+}
+document.getElementById('closeChangelog').onclick=close;
+el.addEventListener('click',e=>{ if(e.target===el) close(); });
+addEventListener('keydown',e=>{
+  if(e.code==='Escape' && !el.classList.contains('hidden')){ e.preventDefault(); e.stopImmediatePropagation(); close(); }
+},true);
+
+let seen=null; try{ seen=localStorage.getItem('bike_seenChangelog'); }catch(e){}
+if(SHOW_EVERY_LOAD || seen!==CHANGELOG[0].v){
+  el.classList.remove('hidden');
+  document.getElementById('closeChangelog').focus({preventScroll:true});
+}
+})();
+</script>
+
+<script type="module">
+/* ===== google sign-in + cloud save (firebase) — fully optional, the game never requires it =====
+   SETUP: paste your own Firebase web-app config below (Firebase console → Project settings → Your apps).
+   Also enable Authentication → Google, create a Firestore database, and add your site's domain under
+   Authentication → Settings → Authorized domains. */
+const firebaseConfig={
+  apiKey:"AIzaSyC9t8agR3tymRQJ2qNhjO0UyieIX455LmE",
+  authDomain:"signinbikegame.firebaseapp.com",
+  projectId:"signinbikegame",
+  storageBucket:"signinbikegame.firebasestorage.app",
+  messagingSenderId:"1051974554669",
+  appId:"1:1051974554669:web:ff2d236115891dcd1a14a4"
+};
+const FB_VERSION='10.12.2';
+const CONFIGURED=!!firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('YOUR_');
+
+const $=id=>document.getElementById(id);
+const META=['bike_check','bike_updatedAt','bike_cloudUid','bike_seenChangelog'];
+const isSaveKey=k=>k&&k.startsWith('bike_')&&!META.includes(k);
+const ls=k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } };
+const lsw=(k,v)=>{ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } };
+
+const btnIn=$('acctSignIn'), userBox=$('acctUser'), avatar=$('acctAvatar'), nameEl=$('acctName'),
+      outBtn=$('acctOut'), statusEl=$('acctStatus'), msgEl=$('acctMsg');
+const saveNote=$('saveNote'); const saveNoteOrig=saveNote?saveNote.textContent:'';
+const GUEST_TEXT='playing as guest · progress saves on this device';
+
+let auth=null, db=null, fb=null, authReady=false;
+let user=null, synced=false, pushing=false, pushAgain=false, pushTimer=null, retryTimer=null, msgTimer=null;
+
+function setStatus(t){ statusEl.textContent=t; }
+function showMsg(t){
+  msgEl.textContent=t; msgEl.classList.remove('hidden');
+  clearTimeout(msgTimer); msgTimer=setTimeout(()=>msgEl.classList.add('hidden'),7000);
+}
+function renderAccount(){
+  if(user){
+    btnIn.classList.add('hidden'); userBox.classList.remove('hidden');
+    nameEl.textContent=user.displayName||user.email||'signed in';
+    if(user.photoURL) avatar.src=user.photoURL; else avatar.removeAttribute('src');
+    if(saveNote) saveNote.textContent='progress syncs to your google account (and saves on this device)';
+  }else{
+    btnIn.classList.remove('hidden'); userBox.classList.add('hidden');
+    setStatus(GUEST_TEXT);
+    if(saveNote) saveNote.textContent=saveNoteOrig;
+  }
+}
+
+/* ---- local save snapshot helpers ---- */
+function snapshot(){
+  const o={};
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(isSaveKey(k)) o[k]=localStorage.getItem(k); } }catch(e){}
+  return o;
+}
+function arr(s,k){ try{ const a=JSON.parse(s[k]||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+function hasProgress(s){
+  return (parseInt(s.bike_wallet||'0',10)||0)>0 || (parseInt(s.bike_level||'1',10)||1)>1 ||
+    arr(s,'bike_owned').length>1 || arr(s,'bike_stuntOwned').length>1 || arr(s,'bike_stylesOwned').length>1 ||
+    arr(s,'bike_petsOwned').length>0 || arr(s,'bike_trailsOwned').length>0 || arr(s,'bike_rockets').some(x=>Number(x)>0);
+}
+function summary(s){ return 'level '+(parseInt(s.bike_level||'1',10)||1)+' · '+(parseInt(s.bike_wallet||'0',10)||0)+' coins'; }
+
+/* load a cloud save into this device, then reload so the game starts from it */
+function adopt(snap,ts,uid){
+  window.__bikeAdopting=true;
+  try{
+    const rm=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(isSaveKey(k)) rm.push(k); }
+    rm.forEach(k=>localStorage.removeItem(k));
+    for(const [k,v] of Object.entries(snap)) if(isSaveKey(k)&&typeof v==='string') localStorage.setItem(k,v);
+    localStorage.setItem('bike_updatedAt',String(ts));
+    localStorage.setItem('bike_cloudUid',uid);
+  }catch(e){ window.__bikeAdopting=false; return false; }
+  location.reload(); return true;
+}
+
+/* ---- pushing local → cloud ---- */
+async function pushNow(){
+  if(!user||!synced||!db) return;
+  if(pushing){ pushAgain=true; return; }
+  pushing=true; const u=user; clearTimeout(retryTimer); setStatus('syncing…');
+  try{
+    const ts=Number(ls('bike_updatedAt'))||Date.now();
+    await fb.setDoc(fb.doc(db,'saves',u.uid),{json:JSON.stringify(snapshot()),updatedAt:ts});
+    if(user&&user.uid===u.uid){ lsw('bike_cloudUid',u.uid); setStatus('synced to your account'); }
+  }catch(e){
+    console.warn('cloud save failed',e);
+    if(user&&user.uid===u.uid){ setStatus("couldn't sync · retrying"); retryTimer=setTimeout(pushNow,30000); }
+  }finally{
+    pushing=false; if(pushAgain){ pushAgain=false; pushNow(); }
+  }
+}
+function scheduleSync(){
+  if(!user||!synced||pushTimer) return;
+  setStatus('unsynced changes…');
+  pushTimer=setTimeout(()=>{ pushTimer=null; pushNow(); },8000);
+}
+function flush(){ if(pushTimer){ clearTimeout(pushTimer); pushTimer=null; } pushNow(); }
+window.__bikeCloud={ dirty:scheduleSync };
+document.addEventListener('visibilitychange',()=>{ if(document.hidden) flush(); });
+addEventListener('pagehide',flush);
+
+/* ---- deciding what to do right after signing in ---- */
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function waitIdle(u){
+  while(window.__bikeIsBusy&&window.__bikeIsBusy()){ await sleep(1000); if(!user||user.uid!==u.uid) return false; }
+  return true;
+}
+function askWhich(cloudSnap,deviceSnap){
+  return new Promise(resolve=>{
+    const m=$('syncChoice');
+    $('cloudSummary').textContent=summary(cloudSnap); $('deviceSummary').textContent=summary(deviceSnap);
+    m.classList.remove('hidden');
+    const done=v=>{ m.classList.add('hidden'); resolve(v); };
+    $('useCloud').onclick=()=>done('cloud');
+    $('useDevice').onclick=()=>done('device');
+    $('syncCancel').onclick=()=>done('cancel');
+  });
+}
+async function runSync(u){
+  synced=false; setStatus('checking your cloud save…');
+  if(!(await waitIdle(u))) return;
+  let cloud=null;
+  try{ const s=await fb.getDoc(fb.doc(db,'saves',u.uid)); if(s.exists()) cloud=s.data(); }
+  catch(e){
+    console.warn('cloud read failed',e);
+    setStatus("couldn't reach cloud save · retrying");
+    retryTimer=setTimeout(()=>{ if(user&&user.uid===u.uid) runSync(u); },20000);
+    return;
+  }
+  if(!user||user.uid!==u.uid) return;
+
+  let cloudSnap=null; try{ cloudSnap=cloud&&JSON.parse(cloud.json); }catch(e){}
+  if(!cloud||!cloudSnap||typeof cloudSnap!=='object'){ synced=true; await pushNow(); return; } // nothing usable in the cloud yet → upload this device
+
+  const cts=Number(cloud.updatedAt)||0, localTs=Number(ls('bike_updatedAt'))||0;
+  const linked=ls('bike_cloudUid')===u.uid;
+  const deviceSnap=snapshot();
+
+  if(linked){ // this device was already syncing with this account: newest wins
+    if(cts>localTs){ if(!adopt(cloudSnap,cts,u.uid)) setStatus('browser storage is blocked'); return; }
+    synced=true; if(localTs>cts) pushNow(); else setStatus('synced to your account');
+    return;
+  }
+  if(!hasProgress(deviceSnap)){ // fresh device → just take the cloud save
+    if(!adopt(cloudSnap,cts,u.uid)) setStatus('browser storage is blocked');
+    return;
+  }
+  const pick=await askWhich(cloudSnap,deviceSnap); // both have progress → let the player choose
+  if(!user||user.uid!==u.uid) return;
+  if(pick==='cloud'){ if(!adopt(cloudSnap,cts,u.uid)) setStatus('browser storage is blocked'); }
+  else if(pick==='device'){ lsw('bike_updatedAt',String(Date.now())); synced=true; pushNow(); }
+  else signOut();
+}
+
+/* ---- sign in / out ---- */
+async function signIn(){
+  if(!CONFIGURED){ showMsg("google sign-in isn't set up yet. The game owner needs to add a firebase config to the file. You can keep playing as a guest."); return; }
+  if(!authReady){ showMsg('sign-in is unavailable right now (couldn’t load). You can keep playing as a guest.'); return; }
+  btnIn.disabled=true;
+  try{
+    await fb.signInWithPopup(auth,new fb.GoogleAuthProvider());
+  }catch(e){
+    const c=e&&e.code;
+    if(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request'){ /* they changed their mind, no message */ }
+    else if(c==='auth/popup-blocked'){ try{ await fb.signInWithRedirect(auth,new fb.GoogleAuthProvider()); return; }catch(e2){ showMsg('the sign-in popup was blocked. Allow popups for this site and try again.'); } }
+    else if(c==='auth/unauthorized-domain') showMsg("this site's domain isn't authorized in firebase yet (Authentication → Settings → Authorized domains).");
+    else if(c==='auth/operation-not-allowed') showMsg('google sign-in is not enabled in the firebase console yet.');
+    else if(c==='auth/network-request-failed') showMsg("couldn't reach google. Check your connection.");
+    else { console.warn(e); showMsg("sign-in didn't work. You can keep playing as a guest."); }
+  }finally{ btnIn.disabled=false; }
+}
+async function signOut(){
+  if(pushTimer){ clearTimeout(pushTimer); pushTimer=null; }
+  try{ if(synced) await pushNow(); }catch(e){}
+  clearTimeout(retryTimer);
+  try{ localStorage.removeItem('bike_cloudUid'); }catch(e){}
+  try{ await fb.signOut(auth); }catch(e){ console.warn(e); }
+}
+btnIn.onclick=signIn;
+outBtn.onclick=signOut;
+
+/* ---- boot (only loads firebase if a config was provided) ---- */
+renderAccount();
+if(CONFIGURED){
+  try{
+    const base='https://www.gstatic.com/firebasejs/'+FB_VERSION+'/';
+    const [A,B,C]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
+    fb={...B,doc:C.doc,getDoc:C.getDoc,setDoc:C.setDoc};
+    const app=A.initializeApp(firebaseConfig);
+    auth=B.getAuth(app); db=C.getFirestore(app); authReady=true;
+    B.getRedirectResult(auth).catch(()=>{});
+    B.onAuthStateChanged(auth,u=>{
+      user=u; synced=false; clearTimeout(retryTimer); renderAccount();
+      if(u) runSync(u);
+    });
+  }catch(e){ console.warn('firebase failed to load',e); }
+}
 </script>
 </body>
 </html>
