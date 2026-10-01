@@ -4,6 +4,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>bike.declan.fun</title>
+<meta name="robots" content="noindex,nofollow">
+<script>
+/* ---- access gate: runs before anything else; no valid key = no game ---- */
+(function(){
+  if(location.protocol==='file:') return;   // running as a local file: gate is skipped
+    function sha256(bytes){
+      var K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+      var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+      var l=bytes.length, n=((l+9+63)>>6)<<6, m=new Uint8Array(n);
+      m.set(bytes); m[l]=0x80;
+      var bits=l*8; m[n-4]=bits>>>24; m[n-3]=bits>>>16; m[n-2]=bits>>>8; m[n-1]=bits;
+      var w=new Int32Array(64);
+      for(var o=0;o<n;o+=64){
+        for(var i=0;i<16;i++) w[i]=(m[o+i*4]<<24)|(m[o+i*4+1]<<16)|(m[o+i*4+2]<<8)|m[o+i*4+3];
+        for(i=16;i<64;i++){
+          var x=w[i-15], y=w[i-2];
+          var s0=((x>>>7)|(x<<25))^((x>>>18)|(x<<14))^(x>>>3);
+          var s1=((y>>>17)|(y<<15))^((y>>>19)|(y<<13))^(y>>>10);
+          w[i]=(w[i-16]+s0+w[i-7]+s1)|0;
+        }
+        var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+        for(i=0;i<64;i++){
+          var S1=((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7));
+          var ch=(e&f)^(~e&g);
+          var t1=(h+S1+ch+K[i]+w[i])|0;
+          var S0=((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10));
+          var mj=(a&b)^(a&c)^(b&c);
+          var t2=(S0+mj)|0;
+          h=g;g=f;f=e;e=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;
+        }
+        H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;
+        H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0;
+      }
+      var out=new Uint8Array(32);
+      for(i=0;i<8;i++){out[i*4]=H[i]>>>24;out[i*4+1]=H[i]>>>16;out[i*4+2]=H[i]>>>8;out[i*4+3]=H[i];}
+      return out;
+    }
+
+  var SECRET=['63dac0a1','a55fd8aa','b0fc912d','01937b12'].join('');
+  function utf8(x){ return new TextEncoder().encode(x); }
+  function hex(u){ return Array.prototype.map.call(u,function(x){return ('0'+x.toString(16)).slice(-2);}).join(''); }
+  function sig(s){ return hex(sha256(utf8(SECRET+s))); }
+  function deny(msg){
+    try{ window.stop(); }catch(e){}
+    document.documentElement.innerHTML=
+      '<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
+      '<title>Access denied</title><style>'+
+      'html,body{height:100%;margin:0;background:#0b0d14;color:#eee7da;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}'+
+      'body{display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}'+
+      '.b{max-width:380px}h1{font-size:20px;font-weight:600;margin:0 0 10px}p{font-size:14px;line-height:1.5;color:#9b9486;margin:0 0 22px}'+
+      'code{color:#e0a458}a{display:inline-block;padding:12px 22px;border-radius:999px;background:#e0a458;color:#14100a;text-decoration:none;font-weight:500;font-size:14px}'+
+      '</style></head><body><div class="b"><h1>Access denied</h1><p>'+msg+'</p><a href="./">Back to the lock page</a></div></body>';
+    throw new Error('Access denied: '+msg.replace(/<[^>]+>/g,''));
+  }
+  var now=Math.floor(Date.now()/1000), key=null;
+  try{ key=new URLSearchParams(location.search).get('key'); }catch(e){}
+  var grant=null; try{ grant=sessionStorage.getItem('bdf_grant'); }catch(e){}
+
+  if(key!==null){
+    if(!/^[0-9a-z]{6}[0-9a-z]{4}[0-9a-f]{10}$/.test(key)) deny('The access key is invalid. It must be the 20-character key issued by the lock page.');
+    var t=key.slice(0,6), n=key.slice(6,10), m=key.slice(10);
+    if(sig('|'+t+'|'+n).slice(0,10)!==m) deny('The access key is invalid.');
+    var age=now-parseInt(t,36);
+    if(age>120||age<-10) deny('This access key has expired. Go back to the lock page and enter the password again.');
+    var used=[]; try{ used=JSON.parse(localStorage.getItem('bdf_used')||'[]'); }catch(e){}
+    if(used.indexOf(key)!==-1) deny('This access key was already used. Go back to the lock page for a new one.');
+    used.push(key); try{ localStorage.setItem('bdf_used',JSON.stringify(used.slice(-50))); }catch(e){}
+    try{ sessionStorage.setItem('bdf_grant', now+'.'+sig('|g|'+now).slice(0,16)); }catch(e){}
+    try{ history.replaceState(null,'',location.pathname); }catch(e){}   // key never stays in the address bar / bookmarks
+    return;
+  }
+  // no key in the URL: only a refresh inside the tab that was already let in is allowed
+  if(grant){
+    var p=grant.split('.');
+    if(p.length===2 && sig('|g|'+p[0]).slice(0,16)===p[1] && now-parseInt(p[0],10)<43200) return;
+  }
+  deny('No access key received. Open this page through the lock page, not by typing the address or using a bookmark.');
+})();
+</script>
+
 <style>
 :root{
   --bg:#ffffff; --fg:#111111; --line:#111111; --grey:#d9d9d9; --lightgrey:#f0f0f0;
@@ -124,6 +204,11 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 #wheelieTag{position:absolute;bottom:40px;right:16px;font-size:11px;font-weight:700;letter-spacing:.6px;color:#555;background:rgba(255,255,255,.85);border:1px solid #ccc;border-radius:14px;padding:4px 12px;pointer-events:none;z-index:3;}
 #wheelieTag.on{color:#fff;background:#2f6fed;border-color:#2f6fed;}
 #wheelieTag.cd{color:#999;}
+#wheelieBar{position:absolute;bottom:84px;left:50%;transform:translateX(-50%);width:min(440px,72vw);pointer-events:none;z-index:3;text-align:center;}
+#wbTrack{position:relative;height:18px;border-radius:9px;border:2px solid #111;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+#wbMark{position:absolute;top:-2px;bottom:-2px;width:4px;margin-left:-2px;background:#fff;border:1px solid #111;border-radius:2px;}
+#wbHint{margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.8px;color:#555;}
+#balanceMsg{position:absolute;top:34%;left:50%;transform:translate(-50%,-50%) rotate(-4deg);font-size:44px;font-weight:900;letter-spacing:2px;color:#d11;text-shadow:0 3px 0 #fff,0 0 18px rgba(255,255,255,.8);pointer-events:none;z-index:4;white-space:nowrap;}
 #modeTag{padding:5px 12px;border:1px solid #ccc;border-radius:14px;font-size:11px;letter-spacing:1px;
   text-transform:uppercase;color:#555;background:rgba(255,255,255,.7);}
 #topTags{position:absolute;top:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;}
@@ -377,6 +462,8 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   <div id="pitTag" class="hidden">⚠ PIT AHEAD · press SPACE to hop</div>
   <div id="stuntTag" class="hidden">S = stunt (tap it each time)</div>
   <div id="wheelieTag" class="hidden"></div>
+  <div id="wheelieBar" class="hidden"><div id="wbTrack"><div id="wbMark"></div></div><div id="wbHint">press SPACE when the marker is in the green</div></div>
+  <div id="balanceMsg" class="hidden">LOST BALANCE!</div>
   <button id="rocketBtn" class="hidden" tabindex="-1">🚀 rockets</button>
   <div id="levelUpBanner" class="hidden"><div id="levelUpText">LEVEL 1</div></div>
 
@@ -414,7 +501,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="start-btn" id="startBtn">play</button>
     <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div></div>
-    <div class="ver">v.0.0.14 (alpha)</div>
+    <div class="ver">v.0.0.15 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -539,11 +626,11 @@ document.getElementById('closeLB').onclick=()=>closePanel('lbPanel');
 
 let mode='easy';
 const modeConfig={
-  easy:{bumpAmp:18,bumpFreq:.008,jumpChance:.10,cliffChance:.08,accel:.24,gravity:.55,speedCap:32},
-  regular:{bumpAmp:26,bumpFreq:.010,jumpChance:.16,cliffChance:.12,accel:.26,gravity:.55,speedCap:38},
-  hard:{bumpAmp:36,bumpFreq:.013,jumpChance:.24,cliffChance:.18,accel:.28,gravity:.58,speedCap:46},
-  chaos:{bumpAmp:50,bumpFreq:.018,jumpChance:.36,cliffChance:.26,accel:.32,gravity:.6,speedCap:56},
-  police:{bumpAmp:26,bumpFreq:.010,jumpChance:.16,cliffChance:.12,accel:.26,gravity:.55,speedCap:38}
+  easy:{bumpAmp:18,bumpFreq:.008,jumpChance:.10,cliffChance:.08,pitChance:.2,accel:.24,gravity:.55,speedCap:32},
+  regular:{bumpAmp:26,bumpFreq:.010,jumpChance:.16,cliffChance:.12,pitChance:.4,accel:.26,gravity:.55,speedCap:38},
+  hard:{bumpAmp:36,bumpFreq:.013,jumpChance:.24,cliffChance:.18,pitChance:.6,accel:.28,gravity:.58,speedCap:46},
+  chaos:{bumpAmp:50,bumpFreq:.018,jumpChance:.36,cliffChance:.26,pitChance:.8,accel:.32,gravity:.6,speedCap:56},
+  police:{bumpAmp:18,bumpFreq:.008,jumpChance:.10,cliffChance:.08,pitChance:.2,accel:.24,gravity:.55,speedCap:32} // police plays like easy
 };
 document.querySelectorAll('.mode-btn').forEach(btn=>btn.addEventListener('click',()=>{
   document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
@@ -620,24 +707,25 @@ function ensureJumps(uptoX,cfg){
     }
   }
 }
+// pits: one possible pit slot every 500m (12px = 1m). each slot rolls once, and the chance goes up with the mode and every level
+let pitFront=0;
 function ensureCliffs(uptoX,cfg){
   while(cliffs.length>1&&cliffs[0].x2<uptoX-4500) cliffs.shift();
-  const last=cliffs.length?cliffs[cliffs.length-1].x2:0;
-  let x=Math.max(last,700);
+  let x=Math.max(pitFront,700);
   while(x<uptoX+1200){
     const lvl=levelScale();
-    x+=1100+Math.random()*1350;                         // fixed spacing between pit attempts
-    const pitMul=0.5+0.1*(lvl-1);                       // level 1 = half as many pits as before, +10% per level (up to level 10)
-    if(Math.random()<cfg.cliffChance*pitMul){
+    x+=6000*(0.88+Math.random()*.24);                   // ~500m between pit slots, so never more than one pit per 500m
+    pitFront=x;
+    if(Math.random()<Math.min(1,cfg.pitChance*(1+0.25*(lvl-1)))){
       const heightMul=1+0.05*(lvl-1);
       const width=140+Math.random()*170,height=(55+Math.random()*95)*heightMul;
-      if(!overlapsAny(jumps,x-250,x+width+250)) cliffs.push({x1:x,x2:x+width,height}); x+=width;
+      if(!overlapsAny(jumps,x-250,x+width+250)){ cliffs.push({x1:x,x2:x+width,height}); x+=width; pitFront=x; }
     }
   }
 }
-// levels: the current level is saved in localStorage. Every 5000m within a level you advance to the
+// levels: the current level is saved in localStorage. Every level is 5000m +2500m per level you advance to the
 // next one: the level is saved, the map is rebuilt (harder) and you are sent back to the start.
-const LEVEL_METERS=5000;
+const levelMeters=l=>5000+2500*(l-1); // level 1 = 5000m, then +2500m every level
 let level=Math.max(1,Math.min(9999,parseInt(lsGet('bike_level','1'),10)||1));
 function levelScale(){ return Math.min(level,10); } // difficulty scaling stops growing at level 10
 // one-time cleanup: drop the old persisted key from earlier versions so it can't cause
@@ -1057,7 +1145,7 @@ function saveGear(){
   saveAbil();
 }
 // abilities: auto jump (hops pits for you) and stunt wheelie (W: 10s of extra coins, 2s cooldown) -- the priciest item
-const AUTOJUMP_PRICE=7500, WHEELIE_PRICE=30000, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=120;
+const AUTOJUMP_PRICE=7500, WHEELIE_PRICE=500, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=120;
 let abil=lsGetJSON('bike_abilities',{}); if(!abil||typeof abil!=='object') abil={};
 abil={autoJump:!!abil.autoJump, autoJumpOn:abil.autoJumpOn!==false, wheelie:!!abil.wheelie};
 let wheelieT=0, wheelieCD=0, wheelieAng=0, wheelieFrac=0;
@@ -1113,7 +1201,7 @@ function renderGear(animate){
         else buy(t.price,()=>{ ownedStyles.push(i); selectedStyle=i; });
       },eq)]);
   });
-  addCard(abil.wheelie,abil.wheelie,'🏍️','Stunt Wheelie','press W · 10s of bonus coins · 2s cooldown',abil.wheelie?'owned':'most expensive',[
+  addCard(abil.wheelie,abil.wheelie,'🏍️','Stunt Wheelie','press W, then hit SPACE in the green · 10c per second up',abil.wheelie?'owned':'skill',[
     mkBtn(abil.wheelie?'owned':WHEELIE_PRICE+'c',abil.wheelie||wallet<WHEELIE_PRICE,()=>buy(WHEELIE_PRICE,()=>{ abil.wheelie=true; }),abil.wheelie)]);
   head('pets');
   byPrice(PET_TIERS).forEach(i=>{
@@ -1206,18 +1294,23 @@ const STEP=1000/60; let simTime=0;
 // personal bests (these feed the online leaderboard)
 let runStartLevel=level;
 function bestSet(key,val){ val=Math.floor(val)||0; if(val>(parseInt(lsGet(key,'0'),10)||0)) lsSet(key,String(val)); }
-function runMeters(){ return Math.max(0,(level-runStartLevel)*LEVEL_METERS+distance); }
+function runMeters(){ let m=distance; for(let l=runStartLevel;l<level;l++) m+=levelMeters(l); return Math.max(0,m); }
 function recordRun(){ bestSet('bike_maxLevel',level); bestSet('bike_bestRun',score); if(mode==='police') bestSet('bike_bestPolice',runMeters()); }
 // police mode: a cop bike chases you from behind; catch-up speed scales with level, plus periodic siren bursts
-const cop={x:0,y:0,vx:0,angle:0,wheel:0,burstT:0,nextBurst:0,grace:0,age:0,boost:0};
+const mkCop=()=>({x:0,y:0,vx:0,angle:0,wheel:0,burstT:0,nextBurst:0,grace:0,age:0,boost:0});
+const cop=mkCop(); let escorts=[]; // lead cop + extra cops that join as you climb levels
+const copCount=()=>Math.min(level,6);
 function initCop(keep){
-  if(!keep){ cop.age=0; cop.boost=0; } // keep the heat when a level rolls over, reset it on a fresh run
-  cop.x=car.x-500; cop.vx=car.vx*.85; cop.angle=0; cop.wheel=0; cop.burstT=0; cop.nextBurst=360+Math.random()*300; cop.grace=75;
-  cop.y=terrainHeight(cop.x,cfg)-33;
+  escorts=[]; for(let i=1;i<copCount();i++) escorts.push(mkCop());
+  [cop,...escorts].forEach((c,i)=>{
+    if(!keep){ c.age=0; c.boost=0; } // keep the heat when a level rolls over, reset it on a fresh run
+    c.x=car.x-500-i*260; c.vx=car.vx*.85; c.angle=0; c.wheel=0; c.burstT=0; c.nextBurst=360+Math.random()*300; c.grace=75+i*20;
+    c.y=terrainHeight(c.x,cfg)-33;
+  });
 }
-function updateCop(){
-  if(cop.grace>0) cop.grace--; else { cop.age++; cop.boost=Math.min(.6,cop.age*(.10/600)); } // +10% speed every 10s, up to +60%
-  const k=.86+.014*Math.min(level,10), gap=car.x-cop.x;
+function stepCop(cop,i){
+  if(cop.grace>0) cop.grace--; else { const fast=currentBike().mph>50; cop.age+=fast?1+(currentBike().mph-50)/12:1; cop.boost=Math.min(fast?1:.6,cop.age*(.10/600)); } // above 50mph the cops ramp up much faster (and past +60%) // +10% speed every 10s, up to +60%
+  const k=.86+.02*Math.min(level,15)-.012*i, gap=car.x-cop.x;
   if(--cop.nextBurst<=0&&cop.burstT<=0){ cop.burstT=150; cop.nextBurst=420+Math.random()*420; }
   const burst=cop.burstT>0?1.22:1; if(cop.burstT>0) cop.burstT--;
   const catchUp=Math.min(.3,Math.max(0,(gap-600)/1500));
@@ -1229,7 +1322,8 @@ function updateCop(){
   cop.angle+=(ta-cop.angle)*.25;
   if(cop.grace<=0&&cop.x>=car.x-30) crash(true);
 }
-function drawCop(){
+function updateCop(){ stepCop(cop,0); escorts.forEach((c,i)=>stepCop(c,i+1)); }
+function drawOneCop(cop){
   const sx=cop.x-camX; if(sx<-100||sx>W+100) return;
   ctx.save(); ctx.translate(sx,cop.y); ctx.rotate(cop.angle); ctx.lineCap='round'; ctx.lineJoin='round';
   drawWheel(-30,17,17,cop.wheel); drawWheel(30,17,17,cop.wheel);
@@ -1243,6 +1337,7 @@ function drawCop(){
   ctx.shadowColor=red?'#ff2a2a':'#2a6bff'; ctx.shadowBlur=16; ctx.fillStyle=red?'#ff2a2a':'#2a6bff'; ctx.fillRect(-38,-24,16,7);
   ctx.restore();
 }
+function drawCop(){ [cop,...escorts].forEach(drawOneCop); }
 function sirenTint(){
   if(mode!=='police'||!running||crashed) return;
   const g=Math.max(0,(car.x-cop.x)/12); if(g>40) return;
@@ -1254,7 +1349,7 @@ function sirenTint(){
 
 // rebuilds the map for the current level and puts the bike back at the start line
 function startLevel(){
-  jumps=[]; cliffs=[]; terrainSeed=Math.random()*1000;
+  jumps=[]; cliffs=[]; pitFront=0; terrainSeed=Math.random()*1000;
   ensureJumps(0,cfg); ensureCliffs(0,cfg);
   camX=0; distance=0; popups=[]; trail=[]; airRotation=0; airTimerOpacity=0;
   car.x=60; car.vy=0; car.angle=0; car.angVel=0;
@@ -1282,20 +1377,43 @@ function fireRocket(){
 }
 document.getElementById('rocketBtn').addEventListener('pointerdown',e=>{ e.preventDefault(); fireRocket(); });
 
+// wheelie skill: W pops the wheelie, then a marker sweeps a timing bar. press SPACE while it is over green/perfect to keep the wheelie going;
+// press anywhere else (or wait too long) and you lose balance. every success makes green/perfect smaller, moves them, and speeds the marker up.
+const WB={c:.5,pw:.05,gw:.14,ow:.28,m:.05,dir:1,n:0,passes:0}; let balanceT=0;
+function wbReset(){ Object.assign(WB,{c:.5,pw:.05,gw:.14,ow:.28,m:.05,dir:1,n:0,passes:0}); }
 function toggleWheelie(){
-  if(!abil.wheelie||!running||crashed||paused) return;
-  if(wheelieT>0){ wheelieT=0; wheelieCD=WHEELIE_CD_FRAMES; }
-  else if(wheelieCD<=0) wheelieT=WHEELIE_FRAMES;
+  if(!abil.wheelie||!running||crashed||paused||balanceT>0) return;
+  if(wheelieT>0){ wheelieT=0; wheelieCD=WHEELIE_CD_FRAMES; }            // W again = land it safely
+  else if(wheelieCD<=0&&car.onGround){ wheelieT=1; wbReset(); }
+}
+function loseBalance(){ if(balanceT>0||crashed) return; balanceT=80; wheelieT=0; wheelieCD=WHEELIE_CD_FRAMES; hopReq=false; }
+function wheelieSpace(){
+  const d=Math.abs(WB.m-WB.c);
+  if(d>WB.gw){ loseBalance(); return; }
+  if(d<=WB.pw){ score+=20; document.getElementById('scoreTag').textContent=score+' coins'; popups.push({x:car.x-camX,y:car.y-60,text:'PERFECT +20',life:1,age:0}); }
+  WB.n++; WB.passes=0;
+  WB.gw=Math.max(.035,WB.gw*.9); WB.pw=Math.max(.012,WB.pw*.88); WB.ow=Math.max(WB.gw+.06,WB.ow*.94);
+  const edge=WB.gw+.02; WB.c=edge+Math.random()*(1-2*edge);          // zone jumps somewhere else on the bar
 }
 function updateWheelieTag(){
   const t=document.getElementById('wheelieTag'); if(!t) return;
+  const bar=document.getElementById('wheelieBar'), msg=document.getElementById('balanceMsg');
+  msg.classList.toggle('hidden',!(balanceT>0&&!crashed));
+  const live=abil.wheelie&&running&&!crashed&&wheelieT>0;
+  bar.classList.toggle('hidden',!live);
+  if(live){
+    const q=v=>(Math.max(0,Math.min(1,v))*100).toFixed(2)+'%', R='#e53935',O='#ff9800',G='#43a047',P='#ffd400';
+    const a=q(WB.c-WB.ow),b=q(WB.c-WB.gw),c1=q(WB.c-WB.pw),c2=q(WB.c+WB.pw),d=q(WB.c+WB.gw),e=q(WB.c+WB.ow);
+    document.getElementById('wbTrack').style.background='linear-gradient(90deg,'+R+' 0,'+R+' '+a+','+O+' '+a+','+O+' '+b+','+G+' '+b+','+G+' '+c1+','+P+' '+c1+','+P+' '+c2+','+G+' '+c2+','+G+' '+d+','+O+' '+d+','+O+' '+e+','+R+' '+e+','+R+' 100%)';
+    document.getElementById('wbMark').style.left=q(WB.m);
+  }
   if(!abil.wheelie||!running||crashed){ t.classList.add('hidden'); return; }
   t.classList.remove('hidden'); t.classList.toggle('on',wheelieT>0); t.classList.toggle('cd',wheelieT<=0&&wheelieCD>0);
-  t.textContent=wheelieT>0?('WHEELIE '+(wheelieT/60).toFixed(1)+'s · W to stop'):(wheelieCD>0?('wheelie cooldown '+(wheelieCD/60).toFixed(1)+'s'):'W = wheelie (ready)');
+  t.textContent=wheelieT>0?('WHEELIE '+(wheelieT/60).toFixed(1)+'s · W to land'):(wheelieCD>0?('wheelie cooldown '+(wheelieCD/60).toFixed(1)+'s'):'W = wheelie (ready)');
 }
 function resetGame(){
-  wheelieT=0; wheelieCD=0; wheelieAng=0; wheelieFrac=0;
-  cfg=modeConfig[mode]; jumps=[]; cliffs=[]; terrainSeed=Math.random()*1000;
+  wheelieT=0; wheelieCD=0; wheelieAng=0; wheelieFrac=0; balanceT=0;
+  cfg=modeConfig[mode]; jumps=[]; cliffs=[]; pitFront=0; terrainSeed=Math.random()*1000;
   ensureJumps(0,cfg); ensureCliffs(0,cfg); initClouds();
   camX=0; distance=0; crashed=false; score=0; savedScore=0; trail=[]; popups=[]; airStart=0; landGrace=0;
   airRotation=0; lastAirTime=0; airTimerOpacity=0; airTimerFlash=0; landSquashT=0;
@@ -1318,8 +1436,8 @@ function resetGame(){
 addEventListener('keydown',e=>{
   if(e.code==='ArrowRight'||e.code==='KeyD') keys.right=true;
   if(e.code==='ArrowLeft'||e.code==='KeyA') keys.left=true;
-  if(e.code==='Space'||e.code==='ArrowDown'){keys.brake=true; if(running) e.preventDefault();}
-  if(e.code==='Space'&&!e.repeat&&running&&!paused&&!crashed&&!hopCliff&&pitAhead()) hopReq=true;   // tap space to hop a pit
+  if(e.code==='Space'||e.code==='ArrowDown'){ if(!(e.code==='Space'&&wheelieT>0)) keys.brake=true; if(running) e.preventDefault(); }
+  if(e.code==='Space'&&!e.repeat&&running&&!paused&&!crashed){ if(wheelieT>0) wheelieSpace(); else if(!hopCliff&&pitAhead()) hopReq=true; }   // tap space to hop a pit
   if(e.code==='KeyS'){ if(running) e.preventDefault(); if(!e.repeat&&running&&!paused&&!crashed&&!car.onGround) stuntBurst=STUNT_BURST_FRAMES; } // must press again for every stunt
   if(e.code==='KeyR'&&crashed&&running&&!e.repeat) startGame();
   if(e.code==='KeyW'){ if(running) e.preventDefault(); if(!e.repeat) toggleWheelie(); }
@@ -1381,15 +1499,21 @@ function update(){
   // above the cap: hard-clamp while boosting, ease back down once the rocket burns out
   if(car.vx>cap) car.vx=rocketT>0?cap:Math.max(cap,car.vx-Math.max(.05,(car.vx-cap)*.05));
 
-  if(abil.autoJump&&abil.autoJumpOn&&car.onGround&&!hopCliff&&!hopReq){ const pc=pitAhead(); if(pc&&pc.x1-car.x<=Math.max(160,Math.abs(car.vx)*12)) hopReq=true; }
+  if(abil.autoJump&&abil.autoJumpOn&&(car.onGround||car.vy>-2)&&!hopCliff&&!hopReq){ const pc=pitAhead(); if(pc&&pc.x1-car.x<=(car.onGround?Math.max(160,Math.abs(car.vx)*12):Math.max(260,Math.abs(car.vx)*20))) hopReq=true; }   // also saves you when a ramp jump is carrying you toward a pit
+  if(balanceT>0){ balanceT--; car.vx*=.95; if(balanceT===0){ crash(false,false,true); return; } }   // lost balance: tip over first, then game over
   if(wheelieT>0){
-    wheelieT--; if(wheelieT===0) wheelieCD=WHEELIE_CD_FRAMES;
-    if(car.onGround&&car.vx>2){ // bonus coins while you ride the wheelie
-      wheelieFrac+=currentStuntValue()*1.2/60*petMult()*(mode==='police'?1.5:1);
-      if(wheelieFrac>=1){ const w=Math.floor(wheelieFrac); wheelieFrac-=w; score+=w; const st=document.getElementById('scoreTag'); st.textContent=score+' coins'; }
+    wheelieT++;
+    const pa=pitAhead();
+    if(pa&&pa.x1-car.x<=pitLook()+250){ wheelieT=0; wheelieCD=WHEELIE_CD_FRAMES; }   // pit coming: the wheelie lands so you can hop it
+    else if(car.onGround&&car.vx>2){
+      wheelieFrac+=10/60;                                                              // 10c for every second up
+      if(wheelieFrac>=1){ const w=Math.floor(wheelieFrac); wheelieFrac-=w; score+=w; document.getElementById('scoreTag').textContent=score+' coins'; }
+      WB.m+=WB.dir*(.011+.0011*WB.n);
+      if(WB.m>=1){ WB.m=1; WB.dir=-1; WB.passes++; } else if(WB.m<=0){ WB.m=0; WB.dir=1; WB.passes++; }
+      if(WB.passes>=3) loseBalance();                                                  // waited too long without pressing space
     }
   } else if(wheelieCD>0) wheelieCD--;
-  wheelieAng+=((wheelieT>0&&car.onGround?0.62:0)-wheelieAng)*.15;
+  wheelieAng+=((balanceT>0?1.6:(wheelieT>0&&car.onGround?0.62:0))-wheelieAng)*(balanceT>0?.1:.15);
   if(hopReq){ hopReq=false; doHop(); }
   if(hopCliff) car.vx=hopVx;                     // while hopping you keep your speed (no braking mid-air)
   const px=car.x;
@@ -1397,7 +1521,7 @@ function update(){
   car.wheelAngle=(car.wheelAngle+car.vx*.12)%(Math.PI*2);
 
   const targetY=terrainHeight(car.x,cfg)-33, targetAngle=groundAngle;
-  if(car.y<targetY-4||hopKick){
+  if(car.y<targetY-4||hopKick||(hopCliff&&car.vy<0&&car.x<hopSafeX)){   // a hop keeps rising even when uphill ground would have snapped you back down (that cancelled hops right before pits)
     if(hopKick){ hopKick=false; car.vy=hopVy; if(wasOnGround){ airStart=simTime; airRotation=0; } }
     else if(wasOnGround){
       // launching off the edge of a ramp: carry real air, kicked off by current speed
@@ -1486,7 +1610,7 @@ function update(){
   }
   updateWheelieTag();
   if(mode==='police'){ updateCop(); if(crashed) return; }
-  if(distance>=LEVEL_METERS) levelUp(); // new level: save it, rebuild a harder map, back to the start
+  if(distance>=levelMeters(level)) levelUp(); // new level: save it, rebuild a harder map, back to the start
 }
 // banks whatever coins the current run has earned into the wallet. Called from every path
 // that can end a run — crashing, or backing out to the menu via pause — so coins are never
@@ -1521,9 +1645,9 @@ function pulseEl(id){
   el.classList.add('pulse');
 }
 
-function crash(busted,pit){
-  crashed=true; wheelieT=0; updateWheelieTag(); updateRocketBtn(); hopCliff=null; hopReq=hopKick=false; pitTagOn=false; document.getElementById('pitTag').classList.add('hidden');
-  document.querySelector('#crash h1').textContent=busted?'busted':(pit?'fell in a pit':'wiped out');
+function crash(busted,pit,balance){
+  crashed=true; wheelieT=0; balanceT=0; updateWheelieTag(); updateRocketBtn(); hopCliff=null; hopReq=hopKick=false; pitTagOn=false; document.getElementById('pitTag').classList.add('hidden');
+  document.querySelector('#crash h1').textContent=balance?'you lost balance':(busted?'busted':(pit?'fell in a pit':'wiped out'));
   const earned=score;
   bankRun();
   document.getElementById('crashStats').textContent='level '+level+'  ·  distance: '+distance+'m  ·  coins: '+earned+'  ·  mode: '+mode+(mode==='police'?'  ·  chased: '+runMeters()+'m':'');
@@ -1884,8 +2008,8 @@ function loop(ts){
       const scaleMax=Math.max(8,Math.ceil(Math.max(reach,shown)/8)*8);
       drawSpeedo(shown/scaleMax,shown);
     }
-    document.getElementById('distTag').textContent=distance+' / '+LEVEL_METERS+' m';
-    { const ct=document.getElementById('copTag'); if(mode==='police'){ const gm=Math.max(0,Math.round((car.x-cop.x)/12)); ct.classList.remove('hidden'); ct.textContent='🚓 '+gm+'m behind'+(cop.boost>=.01?' · +'+Math.round(cop.boost*100)+'%':''); ct.style.color=gm<20?'#d11':''; } else ct.classList.add('hidden'); }
+    document.getElementById('distTag').textContent=distance+' / '+levelMeters(level)+' m';
+    { const ct=document.getElementById('copTag'); if(mode==='police'){ const gm=Math.max(0,Math.round((car.x-Math.max(cop.x,...escorts.map(c=>c.x)))/12)); ct.classList.remove('hidden'); ct.textContent='🚓'+(escorts.length?' ×'+(escorts.length+1):'')+' '+gm+'m behind'+(cop.boost>=.01?' · +'+Math.round(cop.boost*100)+'%':''); ct.style.color=gm<20?'#d11':''; } else ct.classList.add('hidden'); }
     document.getElementById('modeTag').textContent=mode+' · Lv '+level+' · '+currentBike().name+(shieldsLeft>0?' · 🛡️'+shieldsLeft:'');
   } else acc=0;
   requestAnimationFrame(loop);
@@ -1919,6 +2043,13 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
+  { v:'0.0.15', date:'Sep 30, 2026', items:[
+    'pits: at most one every 500m. much rarer on easy, and they get more common with every level and harder mode',
+    'every level is 2500m longer than the last (level 1 is 5000m)',
+    'police mode now plays like easy. every level adds another cop (up to 6) and the cops get faster, and they ramp up much faster if your bike is above 50mph',
+    'stunt wheelie is a skill now and unlocks for 500c: press W, then hit SPACE when the marker is in the green or perfect part of the bar. miss and you lose balance. the safe zone shrinks and moves every time. 10c per second up',
+    'auto jump now also saves you from a pit when you are in the air'
+  ]},
   { v:'0.0.14', date:'Sep 30, 2026', items:[
     'upgrades shop now has 2 pages: use the arrows at the bottom to switch. page 2 has a max speed card, rims, tires, accessories, shocks, weather, time and lights',
     'rims add +1 mph per step and tires add +2 mph per step. accessories add +1 to +6 mph, the pricier ones add more',
