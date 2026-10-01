@@ -121,6 +121,9 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 
 #hud{position:absolute;top:0;left:0;right:0;padding:16px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;}
 #speedo{width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:var(--shadow-sm);}
+#wheelieTag{position:absolute;bottom:40px;right:16px;font-size:11px;font-weight:700;letter-spacing:.6px;color:#555;background:rgba(255,255,255,.85);border:1px solid #ccc;border-radius:14px;padding:4px 12px;pointer-events:none;z-index:3;}
+#wheelieTag.on{color:#fff;background:#2f6fed;border-color:#2f6fed;}
+#wheelieTag.cd{color:#999;}
 #modeTag{padding:5px 12px;border:1px solid #ccc;border-radius:14px;font-size:11px;letter-spacing:1px;
   text-transform:uppercase;color:#555;background:rgba(255,255,255,.7);}
 #topTags{position:absolute;top:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;}
@@ -186,6 +189,73 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 #shopList .bike-card button:not(:disabled):hover{transform:scale(1.06);}
 #shopList.static .bike-card:not(.equipped),#upgradesList.static .bike-card{animation:none;}
 #shopList.static .bike-card.equipped{animation:skinShine 2.8s linear infinite;}
+
+
+/* ===== upgrades lab ===== */
+#bikeLab{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;width:100%;max-width:920px;margin:0 auto;overflow-y:auto;flex:1;padding:14px 20px 20px;align-content:start;align-items:start;}
+.lab-card{position:relative;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:22px;box-shadow:var(--shadow-sm);padding:10px 12px;text-align:left;min-width:0;}
+#bikeLab.enter .lab-card{animation:skinIn .5s cubic-bezier(.2,.8,.2,1) backwards;}
+#bikeLab.enter .lab-card:nth-child(2){animation-delay:.07s}#bikeLab.enter .lab-card:nth-child(3){animation-delay:.14s}
+#bikeLab.enter .lab-card:nth-child(4){animation-delay:.21s}#bikeLab.enter .lab-card:nth-child(5){animation-delay:.28s}
+.lab-label{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#9a9a9a;font-weight:700;margin-bottom:5px;}
+.lab-preview{grid-column:1 / span 3;grid-row:1 / span 2;height:var(--ph,330px);display:flex;flex-direction:column;overflow:hidden;
+  background:radial-gradient(circle at 50% 80%,#e4ebfb 0%,#f6f8fd 55%,#eef1f8 100%);
+  background:radial-gradient(circle at 50% 80%,color-mix(in srgb,var(--bc) 24%,#fff) 0%,#f6f8fd 58%,#eef1f8 100%);}
+.lab-badge{position:absolute;top:14px;right:16px;font-size:9px;letter-spacing:.8px;text-transform:uppercase;font-weight:800;padding:4px 10px;border-radius:10px;background:rgba(255,255,255,.8);color:#777;border:1px solid rgba(0,0,0,.06);}
+.lab-badge.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+.lab-bname{font-size:20px;font-weight:800;letter-spacing:-.4px;}
+.lab-stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;}
+.lab-canvas{width:100%;height:100%;max-width:520px;object-fit:contain;position:relative;z-index:1;animation:labFloat 3.6s ease-in-out infinite;}
+.lab-shadow{position:absolute;bottom:15%;left:50%;width:54%;height:18px;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(0,0,0,.24),rgba(0,0,0,0) 70%);animation:labShadow 3.6s ease-in-out infinite;}
+@keyframes labFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@keyframes labShadow{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(.88);opacity:.75;}}
+.veh-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:42px;border-radius:50%;border:1px solid #d9d9d9;background:rgba(255,255,255,.92);color:#111;font-size:24px;line-height:1;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .15s,color .15s,transform .15s;}
+.veh-btn.l{left:0;} .veh-btn.r{right:0;} .veh-btn:hover{background:#111;color:#fff;transform:translateY(-50%) scale(1.08);}
+.lab-chips{display:flex;gap:6px;flex-wrap:nowrap;overflow:hidden;height:23px;} .chip{flex:none;white-space:nowrap;}
+.chip{font-size:11px;font-weight:700;padding:4px 11px;border-radius:12px;background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.07);color:#444;}
+.lab-stunt{grid-column:4 / span 2;grid-row:1;} .lab-speed{grid-column:4 / span 2;grid-row:2;}
+.lab-cost{grid-column:1 / span 2;grid-row:3;display:flex;flex-direction:column;gap:6px;} .lab-color{grid-column:3 / span 3;grid-row:3;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;}
+#bikeLab.p2 .lab-cost{align-self:stretch;}
+#bikeLab.p2 .lab-preview{grid-row:1 / span 4;} #bikeLab.p2 .lab-cost{grid-row:5 / span 3;}
+#bikeLab.p2 .lab-m-mph{grid-column:4 / span 2;grid-row:1;} #bikeLab.p2 .lab-m-rim{grid-column:4 / span 2;grid-row:2;} #bikeLab.p2 .lab-m-tire{grid-column:4 / span 2;grid-row:3;} #bikeLab.p2 .lab-m-snow{grid-column:4 / span 2;grid-row:4;}
+#bikeLab.p2 .lab-acc{grid-column:3 / span 3;grid-row:5;} #bikeLab.p2 .lab-m-shock{grid-column:3 / span 2;grid-row:6;} #bikeLab.p2 .lab-m-dn{grid-column:5;grid-row:6;}
+#bikeLab.p2 .lab-m-wx{grid-column:3 / span 2;grid-row:7;} #bikeLab.p2 .lab-m-lt{grid-column:5;grid-row:7;}
+.lab-fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;}
+.lab-warnbar{position:absolute;left:0;right:0;bottom:0;padding:5px 10px;border-radius:12px;background:#fff4e5;border:1px solid #f3d9ad;color:#b26a00;font-size:11px;font-weight:700;z-index:2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lab-preview.night{background:radial-gradient(circle at 50% 80%,#34407a 0%,#161c3a 70%)!important;color:#fff;} .lab-preview.night .lab-label{color:#aab4e0;}
+.lab-pager{display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 0 16px;flex-shrink:0;} .lab-pager b{font-size:17px;min-width:20px;text-align:center;}
+.acc-grid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4px;}
+.acc-btn{display:flex;flex-direction:column;align-items:center;padding:4px 0;border-radius:11px;border:1px solid #d9d9d9;background:#fff;color:#111;cursor:pointer;transition:background .15s,transform .15s,border-color .15s;}
+.acc-btn:hover{transform:translateY(-1px);background:var(--lightgrey);} .acc-btn.on{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+.acc-emoji{font-size:22.5px;line-height:1.15;} .acc-price{font-size:8.5px;font-weight:700;color:#777;}
+#bikeLab.enter .lab-card:nth-child(6){animation-delay:.35s}
+.lab-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.lab-big{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1.05;}
+.lab-sub{font-size:11px;color:#8a8a8a;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .lab-sub.warn{color:#b26a00;font-weight:600;}
+.lab-steps{display:flex;flex-direction:column;gap:6px;}
+.step-btn{width:40px;height:30px;border-radius:12px;border:1px solid #d9d9d9;background:#fff;color:#111;font-size:12px;cursor:pointer;transition:background .15s,color .15s,transform .15s;}
+.step-btn:hover:not(:disabled){background:#111;color:#fff;transform:translateY(-1px);}
+.step-btn:disabled{opacity:.28;cursor:default;}
+.pips{display:flex;gap:3px;margin-top:16px;} .pip{flex:1;height:13px;padding:0;border:none;border-radius:3px;background:#e7e9ee;cursor:pointer;transition:background .2s,transform .12s;} .pip:hover{transform:scaleY(1.5);} .pip.on{background:var(--accent);}
+.lab-prices{display:flex;justify-content:space-between;gap:8px;font-size:10.5px;color:#666;margin-top:16px;font-weight:600;} .lab-prices .back{color:#12a150;}
+.lab-delta{font-size:12px;font-weight:800;min-height:15px;} .lab-delta.pay{color:#d11;} .lab-delta.refund{color:#12a150;}
+.lab-note{font-size:10.5px;color:#b26a00;font-weight:600;}
+.lab-apply{margin-top:auto;padding:12px 14px;border:none;border-radius:16px;background:linear-gradient(135deg,#1a1a1a,#000);color:#fff;font-weight:800;font-size:13px;letter-spacing:.4px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s,box-shadow .15s;}
+.lab-apply:hover:not(:disabled){transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.lab-apply.refund{background:linear-gradient(135deg,#12a150,#0b7a3b);}
+.lab-apply:disabled{background:#e6e8ec;color:#9aa0aa;box-shadow:none;cursor:default;}
+.lab-reset{position:absolute;top:9px;right:12px;background:none;border:none;font-size:11px;color:#888;cursor:pointer;text-decoration:underline;padding:2px;}
+.arrow-btn{flex:none;width:46px;height:46px;border-radius:50%;border:1px solid #d9d9d9;background:#fff;color:#111;font-size:22px;line-height:1;cursor:pointer;transition:background .15s,color .15s,transform .15s;}
+.arrow-btn:hover{background:#111;color:#fff;transform:scale(1.07);}
+.swatch-main{display:flex;align-items:center;justify-content:center;gap:12px;flex:1;min-width:0;}
+.swatch-big{width:48px;height:48px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.12),0 8px 16px rgba(0,0,0,.16);transition:background .2s;}
+.dots{display:flex;flex-wrap:nowrap;gap:5px;justify-content:center;margin-top:16px;}
+.cdot{flex:0 1 20px;min-width:8px;aspect-ratio:1;padding:0;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.15);cursor:pointer;transition:transform .12s;}
+.cdot:hover{transform:scale(1.2);} .cdot.sel{box-shadow:0 0 0 2px var(--accent);}
+@media (max-width:640px){
+  #bikeLab{grid-template-columns:1fr;} .lab-preview{height:auto;} #bikeLab.p2 .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;}
+  .lab-preview,.lab-stunt,.lab-speed,.lab-cost,.lab-color,.lab-acc{grid-column:1 / -1;grid-row:auto;}
+}
 
 /* ===== shop (stunts / pets / rockets) ===== */
 .gear-tabs{display:flex;gap:8px;justify-content:center;padding:14px 16px 0;}
@@ -306,6 +376,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   <div id="restartHint" class="hidden">tap / space to pedal · brake to slow</div>
   <div id="pitTag" class="hidden">⚠ PIT AHEAD · press SPACE to hop</div>
   <div id="stuntTag" class="hidden">S = stunt (tap it each time)</div>
+  <div id="wheelieTag" class="hidden"></div>
   <button id="rocketBtn" class="hidden" tabindex="-1">🚀 rockets</button>
   <div id="levelUpBanner" class="hidden"><div id="levelUpText">LEVEL 1</div></div>
 
@@ -341,10 +412,9 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
       <button class="mode-btn" data-mode="police">🚓 police</button>
     </div>
     <button class="start-btn" id="startBtn">play</button>
-    <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="shopBtn">skins</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
+    <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div></div>
-    <div class="controls-note">← → or A/D to pedal · space to brake (tap it to hop pits) · tap S to stunt (flip) · W to fire a rocket · score points for airtime</div>
-    <div class="ver">v.0.0.10 (alpha)</div>
+    <div class="ver">v.0.0.14 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -356,22 +426,14 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="close-btn" id="closeSettings">close</button>
   </div>
 
-  <div class="panel hidden" id="shopPanel">
-    <button class="close-x" id="closeShop" aria-label="close">✕</button>
-    <div class="shop-header">
-      <h2>skins</h2>
-      <div id="walletTag" class="wallet-pill">0c</div>
-    </div>
-    <div id="shopList"></div>
-  </div>
-
   <div class="panel hidden" id="upgradesPanel">
     <button class="close-x" id="closeUpgrades" aria-label="close">✕</button>
     <div class="shop-header">
-      <h2>stunt upgrades</h2>
+      <h2>upgrades</h2>
       <div id="upgradesWalletTag" class="wallet-pill">0c</div>
     </div>
-    <div id="upgradesList"></div>
+    <div id="bikeLab"></div>
+    <div id="labPager" class="lab-pager"></div>
   </div>
 
   <div class="panel hidden" id="gearPanel">
@@ -463,7 +525,7 @@ try{ const sv=JSON.parse(lsGet('bike_settings','{}'))||{}; for(const k of ['grid
 // menu panels: the start screen is hidden while any panel is open (it used to stay active underneath),
 // and comes back when the panel closes
 const startScreenEl=document.getElementById('startScreen');
-const PANEL_IDS=['settingsPanel','shopPanel','upgradesPanel','gearPanel','lbPanel'];
+const PANEL_IDS=['settingsPanel','upgradesPanel','gearPanel','lbPanel'];
 function openPanel(id){ startScreenEl.classList.add('hidden'); document.getElementById(id).classList.remove('hidden'); }
 function closePanel(id){ document.getElementById(id).classList.add('hidden'); startScreenEl.classList.remove('hidden'); }
 function closeOpenPanel(){
@@ -563,9 +625,10 @@ function ensureCliffs(uptoX,cfg){
   const last=cliffs.length?cliffs[cliffs.length-1].x2:0;
   let x=Math.max(last,700);
   while(x<uptoX+1200){
-    const lvl=levelScale(), spacingBonus=lvl===1?450:(lvl-1)*300;
-    x+=650+spacingBonus+Math.random()*(900+spacingBonus);
-    if(Math.random()<cfg.cliffChance){
+    const lvl=levelScale();
+    x+=1100+Math.random()*1350;                         // fixed spacing between pit attempts
+    const pitMul=0.5+0.1*(lvl-1);                       // level 1 = half as many pits as before, +10% per level (up to level 10)
+    if(Math.random()<cfg.cliffChance*pitMul){
       const heightMul=1+0.05*(lvl-1);
       const width=140+Math.random()*170,height=(55+Math.random()*95)*heightMul;
       if(!overlapsAny(jumps,x-250,x+width+250)) cliffs.push({x1:x,x2:x+width,height}); x+=width;
@@ -593,12 +656,13 @@ function hslToHex(h,s,l){
 }
 const NAME_POOL=['Starter','Ember','Cobalt','Meadow','Violet','Blaze','Teal','Gold','Crimson','Azure',
   'Jade','Amber','Storm','Neon','Solar','Frost','Volt','Rogue','Nova','Onyx'];
-const TOTAL_BIKES=20, MPH_STEP=8;
+NAME_POOL.push('Aurora','Basalt','Cinder','Dusk','Echo','Flare','Glacier','Halo','Iris','Jolt','Kinetic','Lumen','Mirage','Nebula','Orbit','Pulse','Quasar','Radiant','Spectre','Titan');
+const TOTAL_BIKES=40, MPH_STEP=8; // page 1 = 20 bikes at +8 mph each, page 2 = 20 more at +5 mph each
 const bikeTiers=[];
 for(let i=0;i<TOTAL_BIKES;i++){
-  const mph=15+i*MPH_STEP;
+  const mph=i<20?15+i*MPH_STEP:15+19*MPH_STEP+(i-19)*5;
   const price=i===0?0:Math.round(i*550+18*i*i);
-  const color=i===0?'#111111':hslToHex((i*137.508)%360,72,46);
+  const color=i===0?'#111111':hslToHex((i*137.508)%360,72,i<20?46:38);
   bikeTiers.push({name:NAME_POOL[i]||('Rig '+i), mph, price, color});
 }
 let wallet=parseInt(lsGet('bike_wallet','0'),10)||0;
@@ -611,17 +675,86 @@ ownedTiers=ownedTiers.filter(n=>Number.isInteger(n)&&n>=0&&n<TOTAL_BIKES);
 if(!ownedTiers.includes(0)) ownedTiers.unshift(0);
 if(!ownedTiers.includes(selectedTier)) selectedTier=0;
 function saveShop(){
+  ownedTiers=[...new Set([0,selectedTier])];
   lsSet('bike_wallet',String(wallet));
   lsSet('bike_owned',JSON.stringify(ownedTiers));
   lsSet('bike_selected',String(selectedTier));
+  lsSet('bike_color',String(selectedColor)); lsSet('bike_acc',JSON.stringify(selectedAcc)); lsSet('bike_mods',JSON.stringify(selMods));
+  lsSet('bike_vehicle',String(selectedVehicle));
   updateWalletTags();
 }
-function currentBike(){ return bikeTiers[selectedTier]||bikeTiers[0]; }
+// bike colours (cosmetic, priced). 'Stock' is the colour that comes with the speed level you own.
+const BIKE_COLORS=[
+  {name:'Stock',price:0,stock:true},
+  {name:'Graphite',hex:'#2b2f36',price:40},{name:'Ocean',hex:'#2f6fed',price:90},{name:'Mint',hex:'#13b38a',price:140},
+  {name:'Sunset',hex:'#ff7a3d',price:200},{name:'Rose',hex:'#ec4a86',price:270},{name:'Violet',hex:'#7c4dff',price:350},
+  {name:'Crimson',hex:'#d62839',price:450},{name:'Gold',hex:'#e6a817',price:600},{name:'Aqua',hex:'#18b8d8',price:800},
+  {name:'Lime',hex:'#7bc618',price:1000},{name:'Midnight',hex:'#1a2a6c',price:1300},
+  // page 2
+  {name:'Sky',hex:'#4a9dff',price:1600},{name:'Coral',hex:'#ff6b6b',price:1950},{name:'Plum',hex:'#8e3b8e',price:2350},
+  {name:'Forest',hex:'#1f7a45',price:2800},{name:'Copper',hex:'#b8693a',price:3300},{name:'Glacier',hex:'#5cc3ee',price:3900},
+  {name:'Hot Pink',hex:'#ff2bd6',price:4600},{name:'Toxic',hex:'#22d46a',price:5400},{name:'Lavender',hex:'#9b86f5',price:6300},
+  {name:'Deep Teal',hex:'#0b6e6e',price:7300},{name:'Ruby',hex:'#a3002b',price:8400},{name:'Steel',hex:'#6c7a92',price:9600}
+];
+// vehicle type: bike (stock speeds), e-bike and e-scooter (+2000c each, 40 mph at the lowest speed level, then up from there)
+const VEHICLES=[{name:'Bike',price:0,boost:0},{name:'E-bike',price:2000,boost:25},{name:'E-scooter',price:2000,boost:25}];
+let selectedVehicle=parseInt(lsGet('bike_vehicle','0'),10); if(!(selectedVehicle>=0&&selectedVehicle<VEHICLES.length)) selectedVehicle=0;
+const VEH_TIERS={};
+function vehTiers(v){ return VEH_TIERS[v]||(VEH_TIERS[v]=bikeTiers.map(t=>Object.assign({},t,{mph:t.mph+VEHICLES[v].boost}))); }
+let selectedColor=parseInt(lsGet('bike_color','0'),10); if(!(selectedColor>=0&&selectedColor<BIKE_COLORS.length)) selectedColor=0;
+function colorHex(ci,tier){ const c=BIKE_COLORS[ci]||BIKE_COLORS[0]; return c.stock?tier.color:c.hex; }
+let _cbKey='', _cbVal=null;
+function currentBike(){
+  const t=vehTiers(selectedVehicle)[selectedTier]||vehTiers(selectedVehicle)[0], k=selectedVehicle+':'+selectedTier+':'+selectedColor+':'+selectedAcc.join()+':'+JSON.stringify(selMods);
+  if(k!==_cbKey){ _cbKey=k; _cbVal=Object.assign({},t,{mph:t.mph+accMph(selectedAcc)+modMph(selMods),color:colorHex(selectedColor,t),veh:selectedVehicle}); }
+  return _cbVal;
+}
+// what your whole build is worth: speed level + stunt level + colour. Going up pays the difference, going down refunds it.
+const ACCS=[{name:'Bell',mph:1,emoji:'🔔',price:150},{name:'Basket',mph:4,emoji:'🧺',price:300},{name:'Flag',mph:2,emoji:'🚩',price:200},{name:'Bottle',mph:3,emoji:'🧴',price:250},{name:'Streamers',mph:5,emoji:'🎊',price:350},{name:'Cargo box',mph:6,emoji:'📦',price:500}];
+let selectedAcc=[]; try{ const a=JSON.parse(lsGet('bike_acc','[]')); if(Array.isArray(a)) selectedAcc=[...new Set(a.filter(n=>Number.isInteger(n)&&n>=0&&n<ACCS.length))].sort((x,y)=>x-y); }catch(e){}
+const accMph=ac=>(ac||[]).reduce((t,i)=>t+ACCS[i].mph,0); // +1 mph for the cheapest accessory up to +6 for the priciest
+const MODS={
+ rim:{label:'rims',opts:[['Stock','⚪',0],['Steel','⚫',200],['Alloy','🔷',500],['Carbon','🟣',1100],['Gold','🟡',2200]]},
+ tire:{label:'tires',opts:[['Stock','⭕',0],['Slick','🏁',300],['Trail','⛰️',700],['Racing','🏎️',1400],['Neon','💚',2800]]},
+ snow:{label:'snow tires',opts:[['Off','➖',0],['Snow tires','⛄',500]]},
+ shock:{label:'shocks',opts:[['Stock','➖',0],['Coil','🌀',400],['Air','💨',1000],['Pro','🛡️',2200]]},
+ wx:{label:'weather',opts:[['Clear','🌤️',0],['Rain','🌧️',0],['Snow','❄️',0],['Fog','🌫️',0]]},
+ dn:{label:'time',opts:[['Day','🌞',0],['Night','🌙',0]]},
+ lt:{label:'lights',opts:[['None','🚫',0],['Beam','💡',120],['Neon','💜',250],['Party','🎆',400]]}
+};
+const MOD_KEYS=Object.keys(MODS);
+let selMods={rim:0,tire:0,snow:0,shock:0,wx:0,dn:0,lt:0};
+try{ const m=JSON.parse(lsGet('bike_mods','{}')); for(const k of MOD_KEYS) if(Number.isInteger(m[k])&&m[k]>=0&&m[k]<MODS[k].opts.length) selMods[k]=m[k]; }catch(e){}
+const modCost=g=>MOD_KEYS.reduce((t,k)=>t+MODS[k].opts[g[k]][2],0);
+const wxPenalty=g=>g.wx===1?(g.tire<2?10:0):g.wx===2?(g.tire<2&&!g.snow?10:0):0; // rain: -10 mph until Trail tires or better; snow: same unless you have snow tires
+const modMph=g=>g.rim*1+g.tire*2-wxPenalty(g); // each rim step +1 mph, each tire step +2 mph
+const jumpMul=()=>1+.04*selMods.shock; // shocks: slightly higher jumps
+const RIM_LOOK=[['#fff','#111'],['#e3e6ea','#555'],['#dfeaff','#2f6fed'],['#3a3d44','#c8ccd4'],['#fff3c4','#e6a817']];
+const TIRE_LOOK=[['#111',1],['#111',1.35],['#5a3d1e',1.5],['#c0392b',1.3],['#13b38a',1.35]];
+function wheelLook(g){ g=g||selMods; const r=RIM_LOOK[g.rim], t=TIRE_LOOK[g.tire]; return {fill:r[0],spoke:r[1],tire:g.snow?'#5fb4ee':t[0],tw:g.snow?Math.max(t[1],1.4):t[1]}; }
+const accCost=ac=>(ac||[]).reduce((t,i)=>t+ACCS[i].price,0);
+function buildCost(sp,st,co,ve,ac,g){ return bikeTiers[sp].price+stuntTiers[st].price+BIKE_COLORS[co].price+VEHICLES[ve||0].price+accCost(ac)+(g?modCost(g):0); }
+// accessories fit all 3 vehicles: A = {bar, seat, tube, rear:{x,y,r}} anchor points for the vehicle being drawn
+function drawAcc(c,set,A){
+  if(!set||!set.length) return;
+  c.save(); c.lineCap='round'; c.lineJoin='round';
+  const at=(p,fn)=>{ c.save(); c.translate(p.x,p.y); fn(); c.restore(); };
+  if(set.includes(5)) at(A.rear,()=>{ const r=A.rear.r; c.strokeStyle='#111'; c.lineWidth=1.8; c.beginPath(); c.moveTo(-r*.9,-r-1.5); c.lineTo(r*.5,-r-1.5); c.stroke();
+    c.fillStyle='#3a3f4a'; c.fillRect(-r*.9,-r-11.5,r*1.4,10); c.fillStyle='#ffd24d'; c.fillRect(-r*.9,-r-7,r*1.4,2); });
+  if(set.includes(3)) at(A.tube,()=>{ c.fillStyle='#2f6fed'; c.fillRect(-2.6,-7,5.2,10); c.fillStyle='#fff'; c.fillRect(-1.8,-9.4,3.6,2.4); c.fillStyle='rgba(255,255,255,.55)'; c.fillRect(-2.6,-3,5.2,2); });
+  if(set.includes(2)) at(A.seat,()=>{ c.strokeStyle='#555'; c.lineWidth=1.6; c.beginPath(); c.moveTo(0,0); c.lineTo(0,-26); c.stroke();
+    c.fillStyle='#e53935'; c.beginPath(); c.moveTo(0,-26); c.lineTo(-15,-22); c.lineTo(0,-18); c.closePath(); c.fill(); });
+  if(set.includes(4)) at(A.bar,()=>{ ['#ff2bd6','#2bffe0','#ffd24d'].forEach((col,i)=>{ c.strokeStyle=col; c.lineWidth=1.8; c.beginPath(); c.moveTo(-10,0); c.quadraticCurveTo(-14-i*3,8,-10-i*4,16+i*2); c.stroke(); }); });
+  if(set.includes(1)) at(A.bar,()=>{ c.fillStyle='#c8913c'; c.strokeStyle='#7a5520'; c.lineWidth=1.4; c.beginPath(); c.moveTo(4,1); c.lineTo(22,1); c.lineTo(19,13); c.lineTo(7,13); c.closePath(); c.fill(); c.stroke();
+    c.beginPath(); c.moveTo(5.5,7); c.lineTo(20.5,7); c.moveTo(13,1); c.lineTo(13,13); c.stroke(); });
+  if(set.includes(0)) at(A.bar,()=>{ c.fillStyle='#e6a817'; c.strokeStyle='#8a6200'; c.lineWidth=1; c.beginPath(); c.arc(4,-5,3.2,0,Math.PI*2); c.fill(); c.stroke(); });
+  c.restore();
+}
 
 // stunt upgrades: a separate progression that raises how many coins a stunt (airtime +
 // flips) pays out. Lives in its own shop so it never gets mixed up with bike tiers.
 // Base payout is a flat 15 coins; each tier bought raises it further.
-const STUNT_BASE=15, STUNT_STEP=8, TOTAL_STUNT_TIERS=10;
+const STUNT_BASE=15, STUNT_STEP=8, TOTAL_STUNT_TIERS=20;
 const stuntTiers=[];
 for(let i=0;i<TOTAL_STUNT_TIERS;i++){
   const value=STUNT_BASE+i*STUNT_STEP;
@@ -634,7 +767,16 @@ let selectedStuntTier=parseInt(lsGet('bike_stuntSelected','0'),10)||0;
 ownedStuntTiers=ownedStuntTiers.filter(n=>Number.isInteger(n)&&n>=0&&n<TOTAL_STUNT_TIERS);
 if(!ownedStuntTiers.includes(0)) ownedStuntTiers.unshift(0);
 if(!ownedStuntTiers.includes(selectedStuntTier)) selectedStuntTier=0;
+// one-time move to the merged upgrades shop: you now own exactly one speed level and one stunt level, so anything
+// you had bought but weren't using is refunded
+if(lsGet('bike_shopV2','')!=='1'){
+  for(const t of ownedTiers) if(t!==0&&t!==selectedTier) wallet+=bikeTiers[t].price;
+  for(const t of ownedStuntTiers) if(t!==0&&t!==selectedStuntTier) wallet+=stuntTiers[t].price;
+  ownedTiers=[...new Set([0,selectedTier])]; ownedStuntTiers=[...new Set([0,selectedStuntTier])];
+  lsSet('bike_wallet',String(wallet)); lsSet('bike_owned',JSON.stringify(ownedTiers)); lsSet('bike_stuntOwned',JSON.stringify(ownedStuntTiers)); lsSet('bike_shopV2','1');
+}
 function saveStunts(){
+  ownedStuntTiers=[...new Set([0,selectedStuntTier])];
   lsSet('bike_stuntOwned',JSON.stringify(ownedStuntTiers));
   lsSet('bike_stuntSelected',String(selectedStuntTier));
 }
@@ -642,22 +784,40 @@ function currentStuntValue(){ return (stuntTiers[selectedStuntTier]||stuntTiers[
 
 // simplified static bike drawing used both for the shop preview icons and (scaled up)
 // could be reused elsewhere; kept separate from the animated in-game drawBike().
-function paintBikeIcon(c,w,h,color){
+function paintBikeIcon(c,w,h,color,veh,ac,g){
+  const L=wheelLook(g);
   c.clearRect(0,0,w,h);
   c.save();
-  c.translate(w/2,h*0.66);
-  const scale=Math.min(w/100,h/62);
+  c.translate(w/2,h*0.74);
+  const scale=Math.min(w/100,h/84); // roomy enough for the flag and bell on every ride
   c.scale(scale,scale);
   const wheelR=15, backX=-26, frontX=26, wheelY=0;
   function wheel(x){
     c.beginPath(); c.arc(x,wheelY,wheelR,0,Math.PI*2);
-    c.fillStyle='#fff'; c.fill(); c.lineWidth=2.6; c.strokeStyle='#111'; c.stroke();
+    c.fillStyle=L.fill; c.fill(); c.lineWidth=2.6*L.tw; c.strokeStyle=L.tire; c.stroke(); c.strokeStyle=L.spoke; c.lineWidth=2.6;
     c.beginPath(); c.moveTo(x-wheelR*0.62,wheelY-wheelR*0.62); c.lineTo(x+wheelR*0.62,wheelY+wheelR*0.62); c.stroke();
     c.beginPath(); c.moveTo(x-wheelR*0.62,wheelY+wheelR*0.62); c.lineTo(x+wheelR*0.62,wheelY-wheelR*0.62); c.stroke();
     c.fillStyle='#111'; c.beginPath(); c.arc(x,wheelY,2,0,Math.PI*2); c.fill();
   }
   const BB={x:-4,y:-2}, ST={x:-17,y:-25}, HTt={x:15,y:-27}, HTb={x:12,y:-11}, barC={x:24,y:-35};
   c.lineCap='round'; c.lineJoin='round';
+  if(veh===2){ // e-scooter
+    c.scale(.8,.8); // scaled down so the tall handlebar fits inside the preview
+    const wr=10, wy=5, bx=-27, fx=27;
+    const sw=x=>{ c.beginPath(); c.arc(x,wy,wr,0,Math.PI*2); c.fillStyle=L.fill; c.fill(); c.lineWidth=2.6*L.tw; c.strokeStyle=L.tire; c.stroke(); c.strokeStyle=L.spoke; c.lineWidth=2.6;
+      c.lineWidth=1.4; for(let k=0;k<4;k++){ const a=k*Math.PI/4; c.beginPath(); c.moveTo(x+Math.cos(a)*wr*.8,wy+Math.sin(a)*wr*.8); c.lineTo(x-Math.cos(a)*wr*.8,wy-Math.sin(a)*wr*.8); c.stroke(); }
+      c.fillStyle='#111'; c.beginPath(); c.arc(x,wy,1.8,0,Math.PI*2); c.fill(); };
+    c.strokeStyle=color; c.lineWidth=3; c.beginPath(); c.arc(bx,wy,wr+2.5,Math.PI*1.08,Math.PI*1.88); c.stroke();   // rear fender
+    c.lineWidth=6.5; c.beginPath(); c.moveTo(bx+7,-5); c.lineTo(fx-2,-5); c.stroke();                                // deck
+    c.fillStyle='#222'; c.fillRect(-12,-2,26,5.5); c.fillStyle='#ffd24d'; c.fillRect(-12,0,26,1.4);                  // battery
+    c.strokeStyle=color; c.lineWidth=3.6; c.beginPath(); c.moveTo(fx,wy); c.lineTo(fx-12,-38); c.stroke();          // stem
+    c.lineWidth=3; c.beginPath(); c.moveTo(fx-19,-40); c.lineTo(fx-6,-41.5); c.stroke();                            // handlebar
+    c.fillStyle='#111'; c.beginPath(); c.arc(fx-19,-40,2.4,0,Math.PI*2); c.fill(); c.beginPath(); c.arc(fx-6,-41.5,2.4,0,Math.PI*2); c.fill();
+    c.fillStyle='#ffd24d'; c.beginPath(); c.arc(fx-3,-30,2.8,0,Math.PI*2); c.fill();                                // headlight
+    sw(bx); sw(fx);
+    drawAcc(c,ac,{bar:{x:14.5,y:-41},seat:{x:-19,y:-5},tube:{x:17,y:-14},rear:{x:bx,y:wy,r:wr}});
+    c.restore(); return;
+  }
   c.strokeStyle=color; c.fillStyle=color;
   c.lineWidth=3.6;
   function line(a,b){ c.beginPath(); c.moveTo(a.x,a.y); c.lineTo(b.x,b.y); c.stroke(); }
@@ -670,94 +830,165 @@ function paintBikeIcon(c,w,h,color){
   c.beginPath(); c.moveTo(ST.x,ST.y); c.lineTo(ST.x-2,ST.y-7); c.stroke();
   c.lineWidth=3.6;
   c.beginPath(); c.moveTo(ST.x-8,ST.y-9); c.lineTo(ST.x+4,ST.y-8); c.stroke();
+  if(veh===1){ // e-bike: battery on the down tube, motor hub on the rear wheel, little display on the bars
+    c.strokeStyle='#222'; c.lineWidth=7; c.beginPath(); c.moveTo(BB.x+(HTb.x-BB.x)*.22,BB.y+(HTb.y-BB.y)*.22); c.lineTo(BB.x+(HTb.x-BB.x)*.78,BB.y+(HTb.y-BB.y)*.78); c.stroke();
+    c.strokeStyle='#ffd24d'; c.lineWidth=1.8; c.beginPath(); c.moveTo(BB.x+(HTb.x-BB.x)*.3,BB.y+(HTb.y-BB.y)*.3); c.lineTo(BB.x+(HTb.x-BB.x)*.7,BB.y+(HTb.y-BB.y)*.7); c.stroke();
+  }
   wheel(backX); wheel(frontX);
+  if(veh===1){
+    c.fillStyle='#222'; c.beginPath(); c.arc(backX,wheelY,6.5,0,Math.PI*2); c.fill();
+    c.strokeStyle='#ffd24d'; c.lineWidth=1.8; c.beginPath(); c.arc(backX,wheelY,4,0,Math.PI*2); c.stroke();
+    c.fillStyle='#222'; c.fillRect(barC.x-3,barC.y-8,7,4.5);
+  }
+  drawAcc(c,ac,{bar:barC,seat:{x:ST.x-6,y:ST.y-9},tube:{x:(BB.x+ST.x)/2,y:(BB.y+ST.y)/2},rear:{x:backX,y:wheelY,r:wheelR}});
   c.restore();
 }
-function renderShop(animate){
-  document.getElementById('walletTag').textContent=wallet+'c';
-  const list=document.getElementById('shopList');
-  const keepScroll=list.scrollTop; list.classList.toggle('static',animate===false);
-  list.innerHTML='';
-  bikeTiers.forEach((t,i)=>{
-    const owned=ownedTiers.includes(i), equipped=selectedTier===i;
-    const card=document.createElement('div');
-    card.className='bike-card'+(equipped?' equipped':owned?' owned':'');
-    card.style.animationDelay=Math.min(i*16,260)+'ms';
-    if(equipped){
-      const badge=document.createElement('div');
-      badge.className='badge'; badge.textContent='equipped';
-      card.appendChild(badge);
-    }
-    const iconCanvas=document.createElement('canvas');
-    iconCanvas.className='bike-icon';
-    const iconW=260,iconH=140;
-    iconCanvas.width=iconW; iconCanvas.height=iconH;
-    const ictx=iconCanvas.getContext('2d');
-    paintBikeIcon(ictx,iconW,iconH,t.color);
-    const name=document.createElement('div');
-    name.className='bname'; name.textContent=t.name;
-    const mph=document.createElement('div');
-    mph.className='bmph'; mph.textContent=t.mph+' mph';
-    const btn=document.createElement('button');
-    btn.className='mode-btn'+(equipped?' active':'');
-    btn.style.cssText='font-size:12px;padding:6px 10px;white-space:nowrap;';
-    btn.textContent=equipped?'equipped':(owned?'equip':t.price+'c');
-    btn.disabled=(!owned && !equipped && wallet<t.price);
-    btn.onclick=()=>{
-      if(equipped) return;
-      if(owned){ selectedTier=i; }
-      else if(wallet>=t.price){ wallet-=t.price; ownedTiers.push(i); selectedTier=i; pulseEl('walletTag'); level=1; lsSet('bike_level','1'); }
-      else return;
-      saveShop(); renderShop(false);
-    };
-    card.appendChild(iconCanvas); card.appendChild(name); card.appendChild(mph); card.appendChild(btn);
-    list.appendChild(card);
-  });
-  list.scrollTop=keepScroll;
+// ---- upgrades: one shop for speed, stunts and colour (bike preview / stunt level / max speed / cost / colours) ----
+const lab={sp:0,st:0,co:0,ve:0,ac:[],g:Object.assign({},selMods),page:0,pg:{sp:0,st:0,co:0}};
+const PER={sp:20,st:10,co:12}; // items per page (2 pages each)
+function stepKey(key,d){ // move one level/colour; the page flips by itself when you cross the edge
+  const total={sp:TOTAL_BIKES,st:TOTAL_STUNT_TIERS,co:BIKE_COLORS.length}[key];
+  let v=lab[key]+d;
+  if(key==='co') v=(v+total)%total; else if(v<0||v>=total) return false;
+  lab[key]=v; lab.pg[key]=Math.floor(v/PER[key]);
+  renderUpgrades(false); pulseEl('labCost'); return true;
 }
-document.getElementById('shopBtn').onclick=()=>{ renderShop(true); openPanel('shopPanel'); };
-document.getElementById('closeShop').onclick=()=>closePanel('shopPanel');
-
+{ // hold an arrow to keep stepping (so reaching the far end isn't 40 clicks)
+  const root=document.getElementById('bikeLab'); let tm=null, iv=null;
+  const stop=()=>{ clearTimeout(tm); clearInterval(iv); tm=iv=null; };
+  root.addEventListener('pointerdown',e=>{
+    const b=e.target.closest&&e.target.closest('[data-key]'); if(!b||b.disabled) return;
+    e.preventDefault(); stop();
+    const key=b.dataset.key, d=Number(b.dataset.dir);
+    if(!stepKey(key,d)) return;
+    tm=setTimeout(()=>{ iv=setInterval(()=>{ if(!stepKey(key,d)) stop(); },70); },380);
+  });
+  ['pointerup','pointercancel'].forEach(t=>addEventListener(t,stop));
+  addEventListener('blur',stop);
+}
+function labReset(){
+  lab.sp=selectedTier; lab.st=selectedStuntTier; lab.co=selectedColor; lab.ve=selectedVehicle; lab.ac=selectedAcc.slice(); lab.g=Object.assign({},selMods);
+  lab.pg={sp:Math.floor(selectedTier/PER.sp),st:Math.floor(selectedStuntTier/PER.st),co:Math.floor(selectedColor/PER.co)};
+}
+const fmtC=n=>Number(n).toLocaleString('en-US')+'c';
 function renderUpgrades(animate){
   document.getElementById('upgradesWalletTag').textContent=wallet+'c';
-  const list=document.getElementById('upgradesList');
-  const keepScroll=list.scrollTop; list.classList.toggle('static',animate===false);
-  list.innerHTML='';
-  stuntTiers.forEach((t,i)=>{
-    const owned=ownedStuntTiers.includes(i), equipped=selectedStuntTier===i;
-    const card=document.createElement('div');
-    card.className='bike-card'+(equipped?' equipped':owned?' owned':'');
-    card.style.animationDelay=Math.min(i*16,260)+'ms';
-    if(equipped){
-      const badge=document.createElement('div');
-      badge.className='badge'; badge.textContent='active';
-      card.appendChild(badge);
+  const root=document.getElementById('bikeLab'), keep=root.scrollTop;
+  root.classList.toggle('enter',animate!==false); root.classList.toggle('p2',!!lab.page); root.innerHTML='';
+  const el=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
+  const rerender=()=>{ renderUpgrades(false); pulseEl('labCost'); };
+  { const pgEl=document.getElementById('labPager'); pgEl.innerHTML='';
+    const pb=(t,d,l)=>{ const b=el('button','arrow-btn',t); b.setAttribute('aria-label',l); b.disabled=lab.page+d<0||lab.page+d>1; b.style.opacity=b.disabled?'.3':''; b.onclick=()=>{ lab.page+=d; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; }; return b; };
+    pgEl.appendChild(pb('‹',-1,'previous page')); pgEl.appendChild(el('b','',String(lab.page+1))); pgEl.appendChild(pb('›',1,'next page')); }
+  const am=accMph(lab.ac)+modMph(lab.g), vtiers=vehTiers(lab.ve).map(t=>Object.assign({},t,{mph:t.mph+am})), tier=vtiers[lab.sp], hex=colorHex(lab.co,tier);
+  const dirty=lab.sp!==selectedTier||lab.st!==selectedStuntTier||lab.co!==selectedColor||lab.ve!==selectedVehicle||lab.ac.join()!==selectedAcc.join()||JSON.stringify(lab.g)!==JSON.stringify(selMods);
+  const cost=buildCost(lab.sp,lab.st,lab.co,lab.ve,lab.ac,lab.g), delta=cost-buildCost(selectedTier,selectedStuntTier,selectedColor,selectedVehicle,selectedAcc,selMods);
+  const faster=tier.mph>currentBike().mph;
+
+  // bike preview
+  const pv=el('div','lab-card lab-preview'+(lab.g.dn?' night':'')); pv.style.setProperty('--bc',hex);
+  pv.appendChild(el('div','lab-label','bike preview'));
+  pv.appendChild(el('div','lab-badge'+(dirty?'':' on'),dirty?'preview':'equipped'));
+  pv.appendChild(el('div','lab-bname',VEHICLES[lab.ve].name+' · '+tier.name));
+  const stage=el('div','lab-stage'); stage.appendChild(el('div','lab-shadow'));
+  const cv=el('canvas','lab-canvas'); cv.width=620; cv.height=330; paintBikeIcon(cv.getContext('2d'),620,330,hex,lab.ve,lab.ac,lab.g); stage.appendChild(cv); const fx=el('canvas','lab-fx'); stage.appendChild(fx);
+  const vb=(cls,txt,d,label)=>{ const b=el('button','veh-btn '+cls,txt); b.setAttribute('aria-label',label); b.onclick=()=>{ lab.ve=(lab.ve+d+VEHICLES.length)%VEHICLES.length; rerender(); }; stage.appendChild(b); };
+  vb('l','‹',-1,'previous vehicle'); vb('r','›',1,'next vehicle');
+  pv.appendChild(stage);
+  { const pen=wxPenalty(lab.g); if(pen) stage.appendChild(el('div','lab-warnbar','⚠️ '+MODS.wx.opts[lab.g.wx][0].toLowerCase()+' slows you by '+pen+' mph. '+(lab.g.wx===1?'Trail tires or better':'snow tires or Trail tires')+' fix it')); }
+  const chips=el('div','lab-chips');
+  [VEHICLES[lab.ve].name+(VEHICLES[lab.ve].price?' +'+fmtC(VEHICLES[lab.ve].price):''),tier.mph+' mph','stunt Lv '+(lab.st+1),BIKE_COLORS[lab.co].name].concat(lab.ac.length?[lab.ac.length+' accessor'+(lab.ac.length>1?'ies':'y')]:[]).concat(MOD_KEYS.filter(k=>lab.g[k]).map(k=>MODS[k].opts[lab.g[k]][1]+' '+MODS[k].opts[lab.g[k]][0])).forEach(t=>chips.appendChild(el('span','chip',t)));
+  pv.appendChild(chips); root.appendChild(pv);
+
+  // up/down stat card
+  const stat=(cls,key,label,big,sub,tiers,v,set,total)=>{
+    const c=el('div','lab-card '+cls); c.appendChild(el('div','lab-label',label));
+    const row=el('div','lab-row'), left=el('div');
+    left.appendChild(el('div','lab-big',big)); left.appendChild(el('div','lab-sub',sub)); row.appendChild(left);
+    const steps=el('div','lab-steps');
+    const up=el('button','step-btn','▲'), down=el('button','step-btn','▼');
+    up.setAttribute('aria-label','raise '+label); down.setAttribute('aria-label','lower '+label);
+    up.disabled=v>=total-1; down.disabled=v<=0;
+    up.dataset.key=down.dataset.key=key; up.dataset.dir='1'; down.dataset.dir='-1';
+    up.onclick=e=>{ if(!e.detail) stepKey(key,1); }; down.onclick=e=>{ if(!e.detail) stepKey(key,-1); }; // mouse/touch go through press-and-hold; this is the keyboard path
+    steps.appendChild(up); steps.appendChild(down); row.appendChild(steps); c.appendChild(row);
+    const per=PER[key], pg=Math.max(0,Math.min(Math.ceil(total/per)-1,lab.pg[key])), pips=el('div','pips');
+    for(let i=pg*per;i<Math.min(total,(pg+1)*per);i++){
+      const p=el('button','pip'+(i<=v?' on':'')), t=tiers[i].mph!==undefined?tiers[i].mph+' mph':'Lv '+(i+1);
+      p.title=t; p.setAttribute('aria-label',t); p.onclick=()=>{ set(i); lab.pg[key]=pg; rerender(); }; pips.appendChild(p);
     }
-    const valueEl=document.createElement('div');
-    valueEl.style.cssText='font-size:26px;font-weight:800;margin:10px 0 2px;';
-    valueEl.textContent=t.value+'c';
-    const name=document.createElement('div');
-    name.className='bname'; name.textContent=t.name;
-    const per=document.createElement('div');
-    per.className='bmph'; per.textContent='per stunt';
-    const btn=document.createElement('button');
-    btn.className='mode-btn'+(equipped?' active':'');
-    btn.style.cssText='font-size:12px;padding:6px 10px;white-space:nowrap;';
-    btn.textContent=equipped?'active':(owned?'use':t.price+'c');
-    btn.disabled=(!owned && !equipped && wallet<t.price);
-    btn.onclick=()=>{
-      if(equipped) return;
-      if(owned){ selectedStuntTier=i; }
-      else if(wallet>=t.price){ wallet-=t.price; ownedStuntTiers.push(i); selectedStuntTier=i; saveShop(); pulseEl('upgradesWalletTag'); }
-      else return;
-      saveStunts(); renderUpgrades(false);
-    };
-    card.appendChild(valueEl); card.appendChild(name); card.appendChild(per); card.appendChild(btn);
-    list.appendChild(card);
+    c.appendChild(pips);
+    const pr=el('div','lab-prices');
+    pr.appendChild(el('span','',v<total-1?'▲ +'+fmtC(tiers[v+1].price-tiers[v].price):'max level'));
+    const back=el('span','back',v>0?'▼ refunds '+fmtC(tiers[v].price-tiers[v-1].price):'lowest'); pr.appendChild(back);
+    c.appendChild(pr); root.appendChild(c);
+  };
+  if(!lab.page){ stat('lab-stunt','st','stunt level','Lv '+(lab.st+1),'pays '+stuntTiers[lab.st].value+'c per stunt',stuntTiers,lab.st,v=>{ lab.st=v; },TOTAL_STUNT_TIERS);
+  stat('lab-speed','sp','max speed',tier.mph+' mph','tier '+(lab.sp+1)+' of '+TOTAL_BIKES+' · '+tier.name,vtiers,lab.sp,v=>{ lab.sp=v; },TOTAL_BIKES); }
+
+  // cost
+  const cc=el('div','lab-card lab-cost'); cc.appendChild(el('div','lab-label','cost'));
+  const big=el('div','lab-big',fmtC(cost)); big.id='labCost'; cc.appendChild(big);
+  cc.appendChild(el('div','lab-sub'+(faster?' warn':''),faster?'a faster ride restarts you at level 1':'total value of this build'));
+  cc.appendChild(el('div','lab-delta '+(delta>0?'pay':delta<0?'refund':''),delta>0?'you pay '+fmtC(delta):delta<0?'you get back '+fmtC(-delta):(dirty?'no change in price':'')));
+  const ap=el('button','lab-apply'+(delta<0?' refund':''));
+  const short=delta>wallet;
+  ap.textContent=!dirty?'equipped':(short?'need '+fmtC(delta-wallet)+' more':(delta>0?'buy · '+fmtC(delta):(delta<0?'sell back · +'+fmtC(-delta):'apply')));
+  ap.disabled=!dirty||short;
+  ap.onclick=()=>{
+    if(!dirty||delta>wallet) return;
+    wallet-=delta;
+    if(faster){ level=1; lsSet('bike_level','1'); }
+    selectedTier=lab.sp; selectedStuntTier=lab.st; selectedColor=lab.co; selectedVehicle=lab.ve; selectedAcc=lab.ac.slice(); selMods=Object.assign({},lab.g);
+    saveShop(); saveStunts(); updateWalletTags(); pulseEl('upgradesWalletTag'); rerender();
+  };
+  cc.appendChild(ap);
+  if(dirty){ const rs=el('button','lab-reset','undo'); rs.onclick=()=>{ labReset(); rerender(); }; cc.appendChild(rs); }
+  root.appendChild(cc);
+
+  // colours (page 1)
+  if(!lab.page){
+  const col=el('div','lab-card lab-color'); col.appendChild(el('div','lab-label','colors'));
+  const row=el('div','lab-row'), n=BIKE_COLORS.length;
+  const prev=el('button','arrow-btn','‹'), next=el('button','arrow-btn','›');
+  prev.setAttribute('aria-label','previous colour'); next.setAttribute('aria-label','next colour');
+  prev.dataset.key=next.dataset.key='co'; prev.dataset.dir='-1'; next.dataset.dir='1';
+  prev.onclick=e=>{ if(!e.detail) stepKey('co',-1); }; next.onclick=e=>{ if(!e.detail) stepKey('co',1); };
+  const mid=el('div','swatch-main'), sw=el('div','swatch-big'); sw.style.background=hex; mid.appendChild(sw);
+  const txt=el('div','swatch-text'); txt.appendChild(el('div','lab-bname',BIKE_COLORS[lab.co].name));
+  txt.appendChild(el('div','lab-sub',BIKE_COLORS[lab.co].price?'+'+fmtC(BIKE_COLORS[lab.co].price):'free')); mid.appendChild(txt);
+  row.appendChild(prev); row.appendChild(mid); row.appendChild(next); col.appendChild(row);
+  const dots=el('div','dots');
+  const cpg=Math.max(0,Math.min(Math.ceil(n/PER.co)-1,lab.pg.co));
+  BIKE_COLORS.forEach((c,i)=>{ if(Math.floor(i/PER.co)!==cpg) return; const d=el('button','cdot'+(i===lab.co?' sel':'')); d.style.background=colorHex(i,tier); d.title=c.name; d.setAttribute('aria-label',c.name); d.onclick=()=>{ lab.co=i; rerender(); }; dots.appendChild(d); });
+  col.appendChild(dots); root.appendChild(col);
+  }
+
+  // page 2: accessories + rims, tires, shocks, weather, time, lights
+  if(lab.page){
+  const ac=el('div','lab-card lab-acc'); ac.appendChild(el('div','lab-label','accessories'));
+  const ag=el('div','acc-grid'); ag.style.setProperty('--n',ACCS.length);
+  ACCS.forEach((a,i)=>{
+    const on=lab.ac.includes(i), b=el('button','acc-btn'+(on?' on':'')); b.title=a.name; b.setAttribute('aria-label',a.name); b.setAttribute('aria-pressed',on);
+    b.appendChild(el('span','acc-emoji',a.emoji));
+    b.onclick=()=>{ lab.ac=on?lab.ac.filter(x=>x!==i):lab.ac.concat(i).sort((x,y)=>x-y); rerender(); };
+    ag.appendChild(b);
   });
-  list.scrollTop=keepScroll;
+  ac.appendChild(ag); root.appendChild(ac);
+  { const mc=el('div','lab-card lab-m lab-m-mph'); mc.appendChild(el('div','lab-label','max speed')); mc.appendChild(el('div','lab-big',tier.mph+' mph'));
+    mc.appendChild(el('div','lab-sub','rims +'+lab.g.rim+' · tires +'+lab.g.tire*2+' · extras +'+accMph(lab.ac)+(wxPenalty(lab.g)?' · weather −10':''))); root.appendChild(mc); }
+  MOD_KEYS.forEach(k=>{
+    const M=MODS[k], c=el('div','lab-card lab-m lab-m-'+k); c.appendChild(el('div','lab-label',M.label));
+    const gr=el('div','acc-grid'); gr.style.setProperty('--n',M.opts.length);
+    M.opts.forEach((o,i)=>{ const on=lab.g[k]===i, b=el('button','acc-btn'+(on?' on':'')); b.title=o[0]; b.setAttribute('aria-label',o[0]); b.setAttribute('aria-pressed',on);
+      b.appendChild(el('span','acc-emoji',o[1])); b.onclick=()=>{ lab.g[k]=i; rerender(); }; gr.appendChild(b); });
+    c.appendChild(gr); root.appendChild(c);
+  });
+  }
+  previewFx(fx,cv,lab.g,hex);
+  root.scrollTop=keep;
 }
-document.getElementById('upgradesBtn').onclick=()=>{ renderUpgrades(true); openPanel('upgradesPanel'); };
+document.getElementById('upgradesBtn').onclick=()=>{ labReset(); lab.page=0; renderUpgrades(true); openPanel('upgradesPanel'); };
 document.getElementById('closeUpgrades').onclick=()=>closePanel('upgradesPanel');
 
 
@@ -823,7 +1054,14 @@ function saveGear(){
   lsSet('bike_stylesOwned',JSON.stringify(ownedStyles)); lsSet('bike_styleSelected',String(selectedStyle));
   lsSet('bike_petsOwned',JSON.stringify(ownedPets));     lsSet('bike_petSelected',String(selectedPet));
   lsSet('bike_rockets',JSON.stringify(rockets));         lsSet('bike_rocketSel',String(selectedRocket));
+  saveAbil();
 }
+// abilities: auto jump (hops pits for you) and stunt wheelie (W: 10s of extra coins, 2s cooldown) -- the priciest item
+const AUTOJUMP_PRICE=7500, WHEELIE_PRICE=30000, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=120;
+let abil=lsGetJSON('bike_abilities',{}); if(!abil||typeof abil!=='object') abil={};
+abil={autoJump:!!abil.autoJump, autoJumpOn:abil.autoJumpOn!==false, wheelie:!!abil.wheelie};
+let wheelieT=0, wheelieCD=0, wheelieAng=0, wheelieFrac=0;
+function saveAbil(){ lsSet('bike_abilities',JSON.stringify(abil)); }
 function currentStyle(){ return STYLE_TIERS[selectedStyle]||STYLE_TIERS[0]; }
 function petMult(){ return selectedPet>=0?1+PET_TIERS[selectedPet].bonus:1; }
 // the rocket used when you fire: your selected type if you still have one, otherwise the best type you own
@@ -875,6 +1113,8 @@ function renderGear(animate){
         else buy(t.price,()=>{ ownedStyles.push(i); selectedStyle=i; });
       },eq)]);
   });
+  addCard(abil.wheelie,abil.wheelie,'🏍️','Stunt Wheelie','press W · 10s of bonus coins · 2s cooldown',abil.wheelie?'owned':'most expensive',[
+    mkBtn(abil.wheelie?'owned':WHEELIE_PRICE+'c',abil.wheelie||wallet<WHEELIE_PRICE,()=>buy(WHEELIE_PRICE,()=>{ abil.wheelie=true; }),abil.wheelie)]);
   head('pets');
   byPrice(PET_TIERS).forEach(i=>{
     const t=PET_TIERS[i], owned=ownedPets.includes(i), eq=selectedPet===i;
@@ -902,6 +1142,12 @@ function renderGear(animate){
       mkBtn('+1 · '+t.price+'c',wallet<t.price||rockets[i]>=999,()=>buy(t.price,()=>{ rockets[i]++; }),false),
       mkBtn(inUse?'in use':'use',inUse,()=>{ selectedRocket=i; saveGear(); renderGear(false); },inUse)]);
   });
+  head('abilities');
+  addCard(abil.autoJump&&abil.autoJumpOn,abil.autoJump,'🦘','Auto Jump','hops pits for you automatically',abil.autoJump?(abil.autoJumpOn?'on':'off'):'',[
+    mkBtn(abil.autoJump?(abil.autoJumpOn?'turn off':'turn on'):AUTOJUMP_PRICE+'c',!abil.autoJump&&wallet<AUTOJUMP_PRICE,()=>{
+      if(abil.autoJump){ abil.autoJumpOn=!abil.autoJumpOn; saveAbil(); renderGear(false); }
+      else buy(AUTOJUMP_PRICE,()=>{ abil.autoJump=true; abil.autoJumpOn=true; });
+    },abil.autoJump&&abil.autoJumpOn)]);
   list.scrollTop=keepScroll;
 }
 document.getElementById('gearBtn').onclick=()=>{ renderGear(true); openPanel('gearPanel'); };
@@ -916,6 +1162,7 @@ function initClouds(){
 let running=false,paused=false,cfg=modeConfig.easy,camX=0,camY=0,distance=0,crashed=false,score=0;
 const car={x:0,y:0,vx:0,vy:0,angle:0,angVel:0,wheelBase:46,onGround:true,wheelAngle:0};
 let keys={left:false,right:false,brake:false,stunt:false};
+let shieldsLeft=0;
 let hopReq=false, hopKick=false, hopCliff=null, hopVx=0, hopVy=0, hopSafeX=0, pitTagOn=false; // pit hop state
 function pitLook(){ return Math.max(400,Math.abs(car.vx)*30); }
 // the next pit that is still ahead of the bike and close enough to hop over
@@ -932,7 +1179,7 @@ function doHop(){
   const w=c.x2-c.x1, landX=c.x2+w*.15+40+hopVx*12;                // land well past the far edge
   hopSafeX=c.x1+w*.82+30;
   const T=Math.max(6,(landX-car.x)/hopVx);
-  hopVy=-Math.max(7,cfg.gravity*(T+1)/2);                          // arc that comes back down past the pit (always a visible hop)
+  hopVy=-Math.max(7,cfg.gravity*(T+1)/2)*jumpMul();                          // arc that comes back down past the pit (always a visible hop)
   hopKick=true;
 }
 // true if the bike fell into (or rolled across) a pit this frame
@@ -1023,7 +1270,7 @@ function updateRocketBtn(){
   const btn=document.getElementById('rocketBtn'); if(!btn) return;
   btn.classList.toggle('hidden',!(running&&!crashed));
   const idx=pickRocket();
-  btn.textContent=idx>=0?(ROCKET_TIERS[idx].emoji+' '+ROCKET_TIERS[idx].name+' ×'+rockets[idx]+' · W'):'🚀 no rockets · buy in shop';
+  btn.textContent=idx>=0?(ROCKET_TIERS[idx].emoji+' '+ROCKET_TIERS[idx].name+' ×'+rockets[idx]+' · E'):'🚀 no rockets · buy in shop';
   btn.disabled=idx<0||rocketT>0;
 }
 function fireRocket(){
@@ -1035,7 +1282,19 @@ function fireRocket(){
 }
 document.getElementById('rocketBtn').addEventListener('pointerdown',e=>{ e.preventDefault(); fireRocket(); });
 
+function toggleWheelie(){
+  if(!abil.wheelie||!running||crashed||paused) return;
+  if(wheelieT>0){ wheelieT=0; wheelieCD=WHEELIE_CD_FRAMES; }
+  else if(wheelieCD<=0) wheelieT=WHEELIE_FRAMES;
+}
+function updateWheelieTag(){
+  const t=document.getElementById('wheelieTag'); if(!t) return;
+  if(!abil.wheelie||!running||crashed){ t.classList.add('hidden'); return; }
+  t.classList.remove('hidden'); t.classList.toggle('on',wheelieT>0); t.classList.toggle('cd',wheelieT<=0&&wheelieCD>0);
+  t.textContent=wheelieT>0?('WHEELIE '+(wheelieT/60).toFixed(1)+'s · W to stop'):(wheelieCD>0?('wheelie cooldown '+(wheelieCD/60).toFixed(1)+'s'):'W = wheelie (ready)');
+}
 function resetGame(){
+  wheelieT=0; wheelieCD=0; wheelieAng=0; wheelieFrac=0;
   cfg=modeConfig[mode]; jumps=[]; cliffs=[]; terrainSeed=Math.random()*1000;
   ensureJumps(0,cfg); ensureCliffs(0,cfg); initClouds();
   camX=0; distance=0; crashed=false; score=0; savedScore=0; trail=[]; popups=[]; airStart=0; landGrace=0;
@@ -1043,9 +1302,9 @@ function resetGame(){
   car.x=60; car.vx=0; car.vy=0; car.angle=0; car.angVel=0; car.wheelAngle=0;
   car.y=terrainHeight(car.x,cfg)-33; wasOnGround=true; paused=false; hopReq=hopKick=false; hopCliff=null;
   camY=Math.max(0,car.y-H*0.6);
-  rocketT=0; pet.x=car.x-70; pet.y=terrainHeight(pet.x,cfg)-16; initCop(); runStartLevel=level;
+  rocketT=0; pet.x=car.x-70; pet.y=terrainHeight(pet.x,cfg)-16; initCop(); runStartLevel=level; shieldsLeft=selMods.shock;
   document.getElementById('pauseScreen').classList.add('hidden');
-  document.getElementById('modeTag').textContent=mode+' · Lv '+level+' · '+currentBike().name;
+  document.getElementById('modeTag').textContent=mode+' · Lv '+level+' · '+currentBike().name+(shieldsLeft>0?' · 🛡️'+shieldsLeft:'');
   document.getElementById('crash').style.display='none';
   document.getElementById('restartHint').classList.remove('hidden');
   document.getElementById('stuntTag').classList.remove('hidden');
@@ -1053,7 +1312,7 @@ function resetGame(){
   const lb=document.getElementById('levelUpBanner'); lb.classList.add('hidden');
   document.getElementById('levelUpText').classList.remove('show');
   clearTimeout(levelUpTimer1); clearTimeout(levelUpTimer2);
-  drawSpeedo(0,0);
+  drawSpeedo(0,0); updateWheelieTag();
 }
 
 addEventListener('keydown',e=>{
@@ -1063,7 +1322,8 @@ addEventListener('keydown',e=>{
   if(e.code==='Space'&&!e.repeat&&running&&!paused&&!crashed&&!hopCliff&&pitAhead()) hopReq=true;   // tap space to hop a pit
   if(e.code==='KeyS'){ if(running) e.preventDefault(); if(!e.repeat&&running&&!paused&&!crashed&&!car.onGround) stuntBurst=STUNT_BURST_FRAMES; } // must press again for every stunt
   if(e.code==='KeyR'&&crashed&&running&&!e.repeat) startGame();
-  if(e.code==='KeyW'||e.code==='ArrowUp'||e.code==='KeyE'){ if(running) e.preventDefault(); if(!e.repeat) fireRocket(); }
+  if(e.code==='KeyW'){ if(running) e.preventDefault(); if(!e.repeat) toggleWheelie(); }
+  if(e.code==='ArrowUp'||e.code==='KeyE'){ if(running) e.preventDefault(); if(!e.repeat) fireRocket(); }
   if(e.code==='Escape'){ e.preventDefault(); if(!e.repeat && !closeOpenPanel()) togglePause(); }
 });
 function togglePause(){
@@ -1111,7 +1371,7 @@ function update(){
   let cap=bikeCap;
   if(rocketT>0){
     const rk=ROCKET_TIERS[rocketActive];
-    cap=Math.min(230,bikeCap+rk.extra); car.vx+=rk.thrust; rocketT--;
+    cap=Math.min(340,bikeCap+rk.extra); car.vx+=rk.thrust; rocketT--;
     if(rocketT===0) updateRocketBtn();
   }
   if(keys.right) car.vx+=cfg.accel;
@@ -1121,6 +1381,15 @@ function update(){
   // above the cap: hard-clamp while boosting, ease back down once the rocket burns out
   if(car.vx>cap) car.vx=rocketT>0?cap:Math.max(cap,car.vx-Math.max(.05,(car.vx-cap)*.05));
 
+  if(abil.autoJump&&abil.autoJumpOn&&car.onGround&&!hopCliff&&!hopReq){ const pc=pitAhead(); if(pc&&pc.x1-car.x<=Math.max(160,Math.abs(car.vx)*12)) hopReq=true; }
+  if(wheelieT>0){
+    wheelieT--; if(wheelieT===0) wheelieCD=WHEELIE_CD_FRAMES;
+    if(car.onGround&&car.vx>2){ // bonus coins while you ride the wheelie
+      wheelieFrac+=currentStuntValue()*1.2/60*petMult()*(mode==='police'?1.5:1);
+      if(wheelieFrac>=1){ const w=Math.floor(wheelieFrac); wheelieFrac-=w; score+=w; const st=document.getElementById('scoreTag'); st.textContent=score+' coins'; }
+    }
+  } else if(wheelieCD>0) wheelieCD--;
+  wheelieAng+=((wheelieT>0&&car.onGround?0.62:0)-wheelieAng)*.15;
   if(hopReq){ hopReq=false; doHop(); }
   if(hopCliff) car.vx=hopVx;                     // while hopping you keep your speed (no braking mid-air)
   const px=car.x;
@@ -1132,7 +1401,7 @@ function update(){
     if(hopKick){ hopKick=false; car.vy=hopVy; if(wasOnGround){ airStart=simTime; airRotation=0; } }
     else if(wasOnGround){
       // launching off the edge of a ramp: carry real air, kicked off by current speed
-      car.vy=-(2+Math.min(Math.abs(car.vx),70)*0.4);
+      car.vy=-(2+Math.min(Math.abs(car.vx),70)*0.4)*jumpMul();
       airStart=simTime; airRotation=0;
     }
     car.vy+=cfg.gravity; if(rocketT>0) car.vy-=cfg.gravity*0.5;
@@ -1179,8 +1448,12 @@ function update(){
       landGrace=14;
     }
   }
-  if(pitCheck(px)){ crash(false,true); return; }   // fell in a pit
-  { const on=!hopCliff&&!!pitAhead(); if(on!==pitTagOn){ pitTagOn=on; document.getElementById('pitTag').classList.toggle('hidden',!on); } }
+  if(pitCheck(px)){   // fell in a pit: a shock shield saves you once per shield
+    const pc=shieldsLeft>0&&cliffs.find(c=>car.x>=c.x1&&px<=c.x1+(c.x2-c.x1)*.82);
+    if(pc){ shieldsLeft--; car.x=pc.x2+40; car.y=terrainHeight(car.x,cfg)-33; car.vy=0; car.onGround=true; car.angle=0; car.angVel=0; hopCliff=null; shakeT=10; }
+    else { crash(false,true); return; }
+  }
+  { const on=!hopCliff&&!!pitAhead()&&!(abil.autoJump&&abil.autoJumpOn); if(on!==pitTagOn){ pitTagOn=on; document.getElementById('pitTag').classList.toggle('hidden',!on); } }
   wasOnGround=car.onGround;
   if(landGrace>0) landGrace--;
 
@@ -1193,12 +1466,17 @@ function update(){
 
   distance=Math.max(distance,Math.floor(car.x/12));
   airTimerFlash=Math.max(0,airTimerFlash-0.05);
-  camX+=(car.x-W*0.32-camX)*.12;
+  { // camera: feed-forward by the bike's own motion (no speed-dependent lag) + gentle correction + a little look-ahead at speed
+    const sp=Math.min(1,Math.abs(car.vx)/Math.max(30,currentBike().mph));
+    const want=car.x-W*(0.30+0.10*sp);
+    camX+=car.vx; camX+=(want-camX)*.18;
+  }
   if(selectedTrail>=0&&car.vx>2){ trail.push({x:car.x-30,y:car.y+17}); if(trail.length>40) trail.shift(); } else if(trail.length) trail.shift();
   { // follow the bike up as well as down; the clamp guarantees it never leaves the frame
-    const tgt=Math.min(Math.max(0,car.y-H*0.6),car.y-H*0.32);
-    camY+=(tgt-camY)*(tgt<camY?.2:.1);
-    camY=Math.max(car.y-H*0.85,Math.min(car.y-H*0.15,camY));
+    const look=car.onGround?0:Math.max(-120,Math.min(180,car.vy*6)); // look where the bike is heading (fast falls now)
+    const tgt=Math.min(Math.max(0,car.y-H*0.6),car.y-H*0.32)+look;
+    camY+=(tgt-camY)*.2;
+    camY=Math.max(car.y-H*0.82,Math.min(car.y-H*0.18,camY));
   }
   if(selectedPet>=0){
     const pt=PET_TIERS[selectedPet];
@@ -1206,6 +1484,7 @@ function update(){
     const ty=pt.fly?car.y-34+Math.sin(simTime*.008)*5:terrainHeight(pet.x,cfg)-16;
     pet.y+=(ty-pet.y)*.25;
   }
+  updateWheelieTag();
   if(mode==='police'){ updateCop(); if(crashed) return; }
   if(distance>=LEVEL_METERS) levelUp(); // new level: save it, rebuild a harder map, back to the start
 }
@@ -1243,7 +1522,7 @@ function pulseEl(id){
 }
 
 function crash(busted,pit){
-  crashed=true; updateRocketBtn(); hopCliff=null; hopReq=hopKick=false; pitTagOn=false; document.getElementById('pitTag').classList.add('hidden');
+  crashed=true; wheelieT=0; updateWheelieTag(); updateRocketBtn(); hopCliff=null; hopReq=hopKick=false; pitTagOn=false; document.getElementById('pitTag').classList.add('hidden');
   document.querySelector('#crash h1').textContent=busted?'busted':(pit?'fell in a pit':'wiped out');
   const earned=score;
   bankRun();
@@ -1358,10 +1637,10 @@ function drawAirTimer(){
 function drawWheel(x,y,r,rotation){
   r=r||16; rotation=rotation||0;
   ctx.save(); ctx.translate(x,y);
-  ctx.fillStyle='#fff'; ctx.strokeStyle='#111'; ctx.lineWidth=3;
+  const L=wheelLook(); ctx.fillStyle=L.fill; ctx.strokeStyle=L.tire; ctx.lineWidth=3*L.tw;
   ctx.beginPath(); ctx.arc(0,0,r,0,Math.PI*2); ctx.fill(); ctx.stroke();
   ctx.rotate(rotation);
-  ctx.strokeStyle='#111'; ctx.lineWidth=1;
+  ctx.strokeStyle=L.spoke; ctx.lineWidth=1;
   for(let a=0;a<Math.PI*2;a+=Math.PI/7){
     ctx.beginPath();
     ctx.moveTo(Math.cos(a)*2,Math.sin(a)*2);
@@ -1392,6 +1671,7 @@ function drawBike(){
   const chainringR=8, cogR=4.5, crankLen=10;
 
   ctx.save(); ctx.translate(sx,car.y); ctx.rotate(car.angle);
+  if(wheelieAng>0.001){ ctx.translate(backX,wheelY); ctx.rotate(-wheelieAng); ctx.translate(-backX,-wheelY); } // pivot on the rear wheel
   if(landSquashT>0.02){
     // squash-and-stretch: briefly flatten+widen on landing, then springs back to normal
     ctx.scale(1+landSquashT*0.13, 1-landSquashT*0.22);
@@ -1405,6 +1685,18 @@ function drawBike(){
   ctx.lineCap='round'; ctx.lineJoin='round';
   ctx.strokeStyle=bikeColor; ctx.fillStyle=bikeColor;
 
+  if(selectedVehicle===2){ // e-scooter (same ground contact as the bike: small wheels sit lower)
+    const wr=11, wy=34-wr;
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    ctx.lineWidth=3; ctx.beginPath(); ctx.arc(backX,wy,wr+3,Math.PI*1.08,Math.PI*1.88); ctx.stroke();               // rear fender
+    ctx.lineWidth=7.5; ctx.beginPath(); ctx.moveTo(backX+7,wy-12); ctx.lineTo(frontX-4,wy-12); ctx.stroke();        // deck
+    ctx.fillStyle='#222'; ctx.fillRect(-14,wy-9,30,6); ctx.fillStyle='#ffd24d'; ctx.fillRect(-14,wy-7,30,1.6);      // battery
+    ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(frontX,wy); ctx.lineTo(frontX-14,wy-47); ctx.stroke();             // stem
+    ctx.lineWidth=3.2; ctx.beginPath(); ctx.moveTo(frontX-22,wy-49); ctx.lineTo(frontX-7,wy-51); ctx.stroke();      // handlebar
+    ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(frontX-22,wy-49,2.7,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(frontX-7,wy-51,2.7,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#ffd24d'; ctx.beginPath(); ctx.arc(frontX-4,wy-36,3.2,0,Math.PI*2); ctx.fill();                  // headlight
+    drawWheel(backX,wy,wr,car.wheelAngle); drawWheel(frontX,wy,wr,car.wheelAngle);
+  } else {
   ctx.save(); ctx.translate(backX,wheelY); ctx.rotate(car.wheelAngle);
   ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(0,0,cogR,0,Math.PI*2); ctx.stroke();
   ctx.restore();
@@ -1460,8 +1752,20 @@ function drawBike(){
   ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(0,0,2,0,Math.PI*2); ctx.fill();
   ctx.restore();
 
+  if(selectedVehicle===1){ // e-bike battery on the down tube
+    ctx.strokeStyle='#222'; ctx.lineWidth=7.5; ctx.beginPath(); ctx.moveTo(BB.x+(HTb.x-BB.x)*.22,BB.y+(HTb.y-BB.y)*.22); ctx.lineTo(BB.x+(HTb.x-BB.x)*.78,BB.y+(HTb.y-BB.y)*.78); ctx.stroke();
+    ctx.strokeStyle='#ffd24d'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(BB.x+(HTb.x-BB.x)*.3,BB.y+(HTb.y-BB.y)*.3); ctx.lineTo(BB.x+(HTb.x-BB.x)*.7,BB.y+(HTb.y-BB.y)*.7); ctx.stroke();
+  }
   drawWheel(backX,wheelY,wheelR,car.wheelAngle);
   drawWheel(frontX,wheelY,wheelR,car.wheelAngle);
+  if(selectedVehicle===1){ // motor hub + display
+    ctx.fillStyle='#222'; ctx.beginPath(); ctx.arc(backX,wheelY,7,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#ffd24d'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(backX,wheelY,4.3,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle='#222'; ctx.fillRect(barC.x-3,barC.y-9,8,5);
+  }
+  }
+  { const wy2=23, wr2=11; // accessories, same anchors idea as the preview
+    drawAcc(ctx,selectedAcc,selectedVehicle===2?{bar:{x:frontX-14.5,y:wy2-50},seat:{x:backX+11,y:wy2-12},tube:{x:frontX-10,y:wy2-20},rear:{x:backX,y:wy2,r:wr2}}:{bar:barC,seat:{x:ST.x-6,y:ST.y-9},tube:{x:(BB.x+ST.x)/2,y:(BB.y+ST.y)/2},rear:{x:backX,y:wheelY,r:wheelR}}); }
   if(rocketT>0){ // rocket exhaust behind the rear wheel
     const fl=20+Math.random()*16;
     ctx.fillStyle='#ff6a1f'; ctx.beginPath(); ctx.moveTo(-40,wheelY-9); ctx.lineTo(-40-fl,wheelY); ctx.lineTo(-40,wheelY+9); ctx.closePath(); ctx.fill();
@@ -1490,6 +1794,7 @@ function render(){
   drawAirTimer();
   ctx.restore();
   ctx.restore();
+  drawEnv();
   sirenTint();
 }
 
@@ -1533,6 +1838,38 @@ function drawSpeedo(speedRatio,mph){
 }
 
 let lastTs=0, acc=0;
+function drawWeather(c,w,h,t,wx){
+  if(wx===1){ c.fillStyle='rgba(110,125,150,.12)'; c.fillRect(0,0,w,h); c.strokeStyle='rgba(90,125,190,.6)'; c.lineWidth=1.2; c.beginPath();
+    for(let i=0;i<90;i++){ const x=(i*97.3+t*140)%(w+100)-50, y=(i*53.7+t*900)%(h+40)-20; c.moveTo(x,y); c.lineTo(x-6,y+16); } c.stroke(); }
+  if(wx===2){ c.fillStyle='#fff'; c.strokeStyle='rgba(120,150,190,.7)'; c.lineWidth=1;
+    for(let i=0;i<70;i++){ const x=(i*83.1+Math.sin(t+i)*20+t*30)%w, y=(i*47.3+t*70*(.6+(i%3)*.3))%h; c.beginPath(); c.arc(x,y,1.6+(i%3)*.6,0,Math.PI*2); c.fill(); c.stroke(); } }
+  if(wx===3){ c.fillStyle='rgba(205,212,222,.5)'; c.fillRect(0,0,w,h); }
+}
+function drawLights(c,lt,bx,by,u,t,color){ // u = size of the vehicle relative to the game
+  if(!lt) return; c.save();
+  if(lt===1){ const g=c.createLinearGradient(bx+30*u,0,bx+380*u,0); g.addColorStop(0,'rgba(255,236,150,.55)'); g.addColorStop(1,'rgba(255,236,150,0)'); c.fillStyle=g;
+    c.beginPath(); c.moveTo(bx+34*u,by-22*u); c.lineTo(bx+380*u,by-100*u); c.lineTo(bx+380*u,by+60*u); c.closePath(); c.fill(); }
+  else { const col=lt===2?color:'hsl('+((t*120)%360)+',90%,55%)', g=c.createRadialGradient(bx,by+14*u,4*u,bx,by+14*u,95*u);
+    g.addColorStop(0,col); g.addColorStop(1,'rgba(255,255,255,0)'); c.globalAlpha=.4; c.fillStyle=g; c.fillRect(bx-100*u,by-80*u,200*u,200*u); }
+  c.restore();
+}
+function drawEnv(){
+  const m=selMods; if(!m.wx&&!m.dn&&!m.lt) return;
+  const t=performance.now()/1000, bx=car.x-camX, by=car.y-camY;
+  if(m.dn){ ctx.save(); const g=ctx.createRadialGradient(bx,by,60,bx,by,Math.max(W,H)*.75); g.addColorStop(0,'rgba(8,12,36,0)'); g.addColorStop(1,'rgba(8,12,36,.78)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); ctx.restore(); }
+  drawWeather(ctx,W,H,t,m.wx); drawLights(ctx,m.lt,bx,by,1,t,currentBike().color);
+}
+// live weather + lights on the upgrades preview
+let fxRaf=0;
+function previewFx(fx,cv,g,color){
+  cancelAnimationFrame(fxRaf); if(!g.wx&&!g.lt) return;
+  const c=fx.getContext('2d');
+  const tick=()=>{ if(!fx.isConnected||!fx.clientWidth) return;
+    const w=fx.width=fx.clientWidth, h=fx.height=fx.clientHeight, t=performance.now()/1000, sc=Math.min(cv.clientWidth/620,cv.clientHeight/330), k=sc*3.93;
+    drawWeather(c,w,h,t,g.wx); drawLights(c,g.lt,cv.offsetLeft+cv.clientWidth/2,cv.offsetTop+(cv.clientHeight-330*sc)/2+330*sc*.74-15*k,k*.9,t,color);
+    fxRaf=requestAnimationFrame(tick); };
+  tick();
+}
 function loop(ts){
   ts=ts||performance.now();
   const dt=Math.max(0,Math.min(100,ts-(lastTs||ts))); lastTs=ts;
@@ -1541,11 +1878,15 @@ function loop(ts){
     while(acc>=STEP && n<6){ update(); acc-=STEP; n++; }
     if(n===6) acc=0;
     render();
-    const ratio=Math.max(0,Math.min(1,car.vx/currentBike().mph));
-    drawSpeedo(ratio,Math.max(0,Math.round(car.vx)));
+    { // the dial is scaled to the speed you can really reach right now (bike top speed, or the rocket's boosted cap), in whole-mph steps, so the needle never pins at full and always agrees with the number
+      const shown=Math.max(0,Math.round(car.vx)), top=currentBike().mph;
+      const reach=rocketT>0?Math.min(340,top+ROCKET_TIERS[rocketActive].extra):top;
+      const scaleMax=Math.max(8,Math.ceil(Math.max(reach,shown)/8)*8);
+      drawSpeedo(shown/scaleMax,shown);
+    }
     document.getElementById('distTag').textContent=distance+' / '+LEVEL_METERS+' m';
     { const ct=document.getElementById('copTag'); if(mode==='police'){ const gm=Math.max(0,Math.round((car.x-cop.x)/12)); ct.classList.remove('hidden'); ct.textContent='🚓 '+gm+'m behind'+(cop.boost>=.01?' · +'+Math.round(cop.boost*100)+'%':''); ct.style.color=gm<20?'#d11':''; } else ct.classList.add('hidden'); }
-    document.getElementById('modeTag').textContent=mode+' · Lv '+level+' · '+currentBike().name;
+    document.getElementById('modeTag').textContent=mode+' · Lv '+level+' · '+currentBike().name+(shieldsLeft>0?' · 🛡️'+shieldsLeft:'');
   } else acc=0;
   requestAnimationFrame(loop);
 }
@@ -1578,6 +1919,27 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
+  { v:'0.0.14', date:'Sep 30, 2026', items:[
+    'upgrades shop now has 2 pages: use the arrows at the bottom to switch. page 2 has a max speed card, rims, tires, accessories, shocks, weather, time and lights',
+    'rims add +1 mph per step and tires add +2 mph per step. accessories add +1 to +6 mph, the pricier ones add more',
+    'shocks give pit shields (saves you from a pit once per shield) and slightly higher jumps',
+    'rain and snow slow you down by 10 mph until you have the right tires (Trail or better, or separate snow tires for snow), with a warning in the preview. weather and time are free',
+    'the preview now shows your weather, night, lights, rims, tires and accessories',
+    'accessories: bell, basket, flag, bottle, streamers and cargo box, on all 3 rides',
+    'stunt wheelie moved into the stunt styles section of the shop'
+  ]},
+  { v:'0.0.13', date:'Sep 30, 2026', items:[
+    'new rides in the upgrades bike preview: switch left and right between bike, e-bike (+2000c) and e-scooter (+2000c)',
+    'e-bikes and e-scooters start at 40 mph and go up from there'
+  ]},
+  { v:'0.0.11', date:'Sep 30, 2026', items:[
+    'skins and upgrades are now one shop called upgrades: bike preview, stunt level, max speed and colors. Prices add up as you build, and lowering a level refunds you',
+    'fewer pits at level 1, with more of them each level',
+    'speedometer is more accurate: the needle no longer pins during boosts and always matches the number',
+    'new shop items: Auto Jump (hops pits for you) and Stunt Wheelie (press W for 10s of bonus coins, 2s cooldown)',
+    'rockets are now on E / up arrow because W is the wheelie',
+    'camera follows the bike at any speed'
+  ]},
   { v:'0.0.10', date:'Sep 30, 2026', items:[
     'pits are deadly now: press space when a pit is coming up to hop over it, or you fall in and lose',
     'stunt and jump coins are worth half as much',
