@@ -176,7 +176,7 @@
   <div class="modal-card" id="eaCard">
     <h2 id="eaTitle">early access</h2>
     <p>enter today's password</p>
-    <input id="eaInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" placeholder="••••••">
+    <input id="eaInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="••••••••">
     <div class="modal-err" id="eaErr"></div>
     <div class="modal-row">
       <button class="ea-btn" id="eaCancel" type="button">cancel</button>
@@ -334,14 +334,25 @@
     function cat(a,b){ var r=new Uint8Array(a.length+b.length); r.set(a); r.set(b,a.length); return r; }
     function hex(u){ return Array.prototype.map.call(u,function(x){return ('0'+x.toString(16)).slice(-2);}).join(''); }
 
+
+    // 20-char access token: 6 (time) + 4 (random) + 10 (signature). The game checks it on arrival.
+    var SECRET=['63dac0a1','a55fd8aa','b0fc912d','01937b12'].join('');
+    function makeToken(){
+      var t=Math.floor(Date.now()/1000).toString(36); while(t.length<6) t='0'+t;
+      var r=new Uint8Array(4); (window.crypto||window.msCrypto).getRandomValues(r);
+      var n=''; for(var i=0;i<4;i++) n+=(r[i]%36).toString(36);
+      var sig=hex(sha256(utf8(SECRET+'|'+t+'|'+n))).slice(0,10);
+      return t+n+sig;
+    }
+
     var ITER=20000;
-    var TABLE=[{s:'bdf13',v:'9a475331a41f07764aadd667531bd7334427562aa82d5b70e9b98aaa7a0228aa',e:'d30b50e218c4f48fb6fbf76d56490c9b'},
-      {s:'bdf7932',v:'0d6a98ce02acd7e9c4269839c6253280601566f64350ca06dc6c5f58264fcd49',e:'b79d8c5282170d7bc2088cfb79a017a0'},
-      {s:'bdf15851',v:'19fb8a716124b7a54b2934ffb3ff0cd47ab6bc18c9691232690f80a7386a9a53',e:'d1abf398b9504ebce702ac4d8658b7a6'},
-      {s:'bdf23770',v:'85cd1f775fe5f5c18f49419419a6effaef0d7d73667da000ae861271822b11e1',e:'d76e40ff326efbdd77bae5307a883e91'},
-      {s:'bdf31689',v:'a4b9b13b88e1414018270f1e1f49d2742198e48707de107c76d3618336646d4b',e:'0d6964f130c159cc2dc1cc83767736e4'},
-      {s:'bdf39608',v:'e01e9a15ba71126cbccf74fea98dc59066d586a89e3df0868c1abb6fc5f2ce42',e:'993b3aeac9c52470c0798fbddf5c5606'},
-      {s:'bdf47527',v:'bee4b287cf07520c964bf63717ecdd9e472bd6d28a90c2990d791d72b7fc6859',e:'87228ba8c53d80da2c1146ef13bb88b8'}]; // Sun..Sat
+    var TABLE=[{s:'bdf13',v:'2bbedb488b9da23c60f6aa966234d8b73fe3af5b7c81a3588f2f2e5e91c335f1',e:'a578f32e91d6ac96be78b93e3f58d93c'},
+      {s:'bdf7932',v:'7c9d49f21b04798319bef8d65ef6f7e65cd5890fdf6916d9448cbcb547b860c6',e:'0a40c7d11c21cb6306b6bb2de017ddcf'},
+      {s:'bdf15851',v:'db5ad4a36fdb95e9ff10a1b3908f05afa3a8c5e3ddd3706a71448f4e04964590',e:'52bcef9c72e09bfc5f3ef1af32585e7e'},
+      {s:'bdf23770',v:'69375b763cd4ea8cdad1a35cda3764ad1aae0131648f6f9c45f4b393b84b5aa5',e:'a26bf528a679140174b154eeccf75ca8'},
+      {s:'bdf31689',v:'20939f655f78abb36d4ff9bf4aa73d0f9618e4fead624cf91107b6b6835961a8',e:'a0a7d61605a7f7193506d904cad4d756'},
+      {s:'bdf39608',v:'079de20b5737c256333b4631aa0fcf574876fb8d175f5e5bb469996788d4f205',e:'2b19d11bbd72d9ce55b7e58e28bed348'},
+      {s:'bdf47527',v:'bfb46aed15e5ff879273955e9295d8bb276bc6cb0112e2004fbdf2461f40bfe8',e:'dd068021fc682959183411f8e00c6566'}]; // Sun..Sat
 
     function tryUnlock(pw){
       var r=TABLE[new Date().getDay()];
@@ -360,11 +371,11 @@
     function close(){ modal.classList.remove('open'); document.body.classList.remove('lock'); input.blur(); }
     function submit(){
       var pw=input.value.replace(/\D/g,'');
-      if(pw.length!==6){ fail(); return; }
+      if(pw.length!==8){ fail(); return; }
       go.disabled=true; err.textContent='checking…';
       setTimeout(function(){
         var url=tryUnlock(pw); go.disabled=false;
-        if(url){ window.location.href=url; } else fail();
+        if(url){ window.location.href=url+'?key='+makeToken(); } else fail();
       },20);
     }
     function fail(){
