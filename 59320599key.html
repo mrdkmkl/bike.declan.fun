@@ -1786,7 +1786,7 @@ function updateWheelieTag(){
   t.textContent=wheelieT>0?(skillName(skillId).toUpperCase()+' '+(wheelieT/60).toFixed(1)+'s · W to land'):(wheelieCD>0?('skill cooldown '+(wheelieCD/60).toFixed(1)+'s'):('W = '+skillName(nm).toLowerCase()+' (ready)'));
 }
 function resetGame(){
-  wheelieT=0; wheelieCD=0; wheelieAng=0; wheelieFrac=0; balanceT=0; skillId=null; skillReset();
+  wheelieT=0; wheelieCD=0; wheelieAng=0; wheelieFrac=0; balanceT=0; skillId=null; skillReset(); balRed=0;
   cfg=modeConfig[mode]; jumps=[]; cliffs=[]; pitFront=0; terrainSeed=Math.random()*1000;
   ensureJumps(0,cfg); ensureCliffs(0,cfg); initClouds();
   camX=0; distance=0; crashed=false; score=0; savedScore=0; trail=[]; popups=[]; airStart=0; landGrace=0;
@@ -2387,6 +2387,26 @@ function drawBike(){
 }
 
 // the closer the mode is to chaos, the redder the whole screen gets (a wash plus a darker red vignette at the edges)
+// balance warning: once the marker leaves the green and reaches the yellow zone of the skill bar the screen flushes red,
+// stronger the closer you get to the red edge where you fall. it eases in and out so it never pops
+let balRed=0;
+function balanceTint(){
+  const live=running&&!crashed&&!paused&&wheelieT>0&&balanceT<=0;
+  let target=0;
+  if(live){
+    const d=Math.abs(SK.b-.5), warn=.2, fall=.5-BAL_FALL;   // yellow starts 20% from the middle, the fall is at 10% from either edge
+    if(d>=warn) target=.08+.18*Math.min(1,(d-warn)/(fall-warn));
+  }
+  balRed+=(target-balRed)*(target>balRed?.2:.1);
+  if(balRed<.004) return;
+  const a=balRed*(.9+.1*Math.sin(performance.now()/120));   // slight throb to wake you up
+  ctx.save();
+  ctx.fillStyle='rgba(220,20,20,'+(a*.55).toFixed(3)+')'; ctx.fillRect(0,0,W,H);
+  const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.2,W/2,H/2,Math.max(W,H)*.7);
+  g.addColorStop(0,'rgba(200,0,0,0)'); g.addColorStop(1,'rgba(200,0,0,'+Math.min(.6,a*1.8).toFixed(3)+')');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.restore();
+}
 function modeTint(){
   const a=trainMode?0:(MODE_RED[mode]||0); if(!a) return;
   ctx.save();
@@ -2419,6 +2439,7 @@ function render(){
   drawEnv();
   modeTint();
   sirenTint();
+  balanceTint();
 }
 
 const speedoCanvas=document.getElementById('speedo');
@@ -2546,9 +2567,10 @@ resize(); render(); loop();
 "use strict";
 const CHANGELOG=[
   { v:'0.0.20', date:'Oct 1, 2026', items:[
-    'profiles: every player has a page at /@handle with their stats and bio. follow people, check your own with the new profile button, and tap anyone on the leaderboard to open theirs',
+    'profiles: every player has a page you can share a link to, with their stats and bio. follow people, check your own with the new profile button, and tap anyone on the leaderboard to open theirs',
     'you can edit your bio on your profile (160 characters, swearing is blocked)',
     'skill levels have no cap anymore, keep training as long as you like',
+    'while balancing a wheelie or stand up, the screen flushes red when you drift into the yellow zone, so you know to correct',
     'the game now saves to your device every 2 seconds and syncs to your account within a few seconds of any change'
   ]},
   { v:'0.0.19', date:'Oct 1, 2026', items:[
@@ -2844,7 +2866,7 @@ async function runSync(u){
 function openAuth(){
   if(!CONFIGURED){ showMsg("sign-in isn't set up yet. The game owner needs to add a firebase config. You can keep playing as a guest."); return; }
   try{ flush(); }catch(e){}
-  location.href='signin.html?return='+encodeURIComponent(location.pathname+location.search);
+  location.href=BASE_PATH.replace(/[^\/]*$/,'')+'signin.html?return='+encodeURIComponent(BASE_PATH+location.search);   // absolute, so it still works while the address bar shows a profile link
 }
 async function signOut(){
   if(pushTimer){ clearTimeout(pushTimer); pushTimer=null; }
@@ -2991,8 +3013,9 @@ window.__bikeLB={open:lbOpen};
 
 /* ===== profiles: /@handle (also works as ?u=handle or #@handle) =====
    a path like /@handle needs one rewrite on your host that serves this page for any /@* address.
-   no rewrite yet? set PROFILE_PATHS to false and links use ?u=handle instead. */
-const PROFILE_PATHS=true, BIO_MAX=160;
+   no rewrite yet? set PROFILE_PATHS to false and links use ?u=handle instead.
+   PROFILE_PREFIX is the folder in front of the handle: links look like https://bike.declan.fun/59320599key/@handle */
+const PROFILE_PATHS=true, BIO_MAX=160, PROFILE_PREFIX='/59320599key';
 const SKILL_LABEL={stand:'Stand Up',wheelie:'Wheelie'};
 const cleanHandle=h=>String(h||'').toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,16);
 const BASE_PATH=/\/@[^\/]*\/?$/.test(location.pathname)?'/':location.pathname;
@@ -3006,8 +3029,8 @@ function urlTarget(){
 }
 function takeGoto(){ try{ const j=JSON.parse(localStorage.getItem('bdf_goto')||'null'); localStorage.removeItem('bdf_goto'); if(j&&j.u&&Date.now()-j.t<600000) return cleanHandle(j.u); }catch(e){} return ''; }
 const bootProfile=urlTarget()||takeGoto();
-function setProfUrl(h){ if(location.protocol==='file:') return; try{ history.replaceState(null,'',h?(PROFILE_PATHS?'/@'+h:BASE_PATH+'?u='+h):BASE_PATH); }catch(e){} }
-function shareUrl(h){ return location.protocol==='file:'?location.href.split(/[?#]/)[0]+'?u='+h:location.origin+(PROFILE_PATHS?'/@'+h:BASE_PATH+'?u='+h); }
+function setProfUrl(h){ if(location.protocol==='file:') return; try{ history.replaceState(null,'',h?(PROFILE_PATHS?PROFILE_PREFIX+'/@'+h:BASE_PATH+'?u='+h):BASE_PATH); }catch(e){} }
+function shareUrl(h){ return location.protocol==='file:'?location.href.split(/[?#]/)[0]+'?u='+h:location.origin+(PROFILE_PATHS?PROFILE_PREFIX+'/@'+h:BASE_PATH+'?u='+h); }
 // bios are long, so the name filter can't run on the whole text (it glues words together and would flag things like "this hit").
 // check every word on its own, plus runs of single letters like "f u c k"
 function bioBad(t){
