@@ -727,7 +727,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="acct-btn" id="profileBtn" type="button">profile</button>
     <button class="acct-btn" id="acctSignIn" type="button">
       <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      <span>sign in with google</span>
+      <span>sign in</span>
     </button>
     <div id="acctUser" class="hidden">
       <span id="acctAvatar"></span>
@@ -750,7 +750,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="start-btn" id="startBtn">play</button>
     <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="stuntsBtn">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div><div class="level-pill" id="menuHoursTag">0s played</div></div>
-    <div class="ver">v.0.0.27 (alpha)</div>
+    <div class="ver">v.0.0.28 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -3714,19 +3714,16 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
+  { v:'0.0.28', date:'Oct 11, 2026', items:[
+    'the sign-in page has a new look. it just says sign in, and an email with no account yet gets one made for you automatically (no create account button)',
+    'profile pictures: use an emoji, a gradient or a solid color, or upload a photo and drag and resize it to fit. edit yours from the edit button on the menu',
+    'you can change your handle 2 times every 30 days (the first one you pick is free)',
+    'if something goes wrong, the error now shows contact@declan.fun'
+  ]},
   { v:'0.0.27', date:'Oct 8, 2026', items:[
     'the rocket bike has 20 extra speed levels (41 to 60) and 20 extra stunt levels (21 to 40) in the upgrades shop. other rides keep their normal levels, and switching away from the rocket bike moves you back down to the top normal level',
     'the sales tax on the rocket bike is 20% (everything else stays at 15%). the upgrades pay page shows the rate it is using',
     'new Jet Bike for 750,000c: a filler between the motorcycle and the rocket bike carrying the rocket from the rocket bike, 35% smaller. it runs 150 to 270 mph'
-  ]},
-  { v:'0.0.26', date:'Oct 8, 2026', items:[
-    'pit pins: every pit near you gets a red pin with its distance. when a pit is right under you the pin follows you inside the pit so you never miss it, and pits still off screen get a pin on the right edge',
-    'special stunts bug fixes: a pit ending your skill no longer burns the 2s cooldown, W in the air or on cooldown tells you why, W while holding A / D no longer cancels arrow-key driving, and a pit shield respawn no longer jolts the rider',
-    'special stunts have realistic rider animations now: crouch then push up to stand, hunch forward then drag the hips back for the wheelie, and small body corrections while you hold it',
-    '5 new special stunts that all use A / D to balance: No Hands, Seat Stand, Feet Up, Superman and Bar Stand. each pays more and is harder to balance than the last',
-    'bug sweep: special stunts that are off or locked tell you why, every skill but the wheelie can carry through a hop, and the skill list and prices now follow each skill',
-    'the special stunts card in the stunts menu now only shows your average skill level and the open train menu button',
-    'skill levels are 5 seconds easier on every level (never less than 5 seconds)'
   ]},
 ];
 // keep only the newest 2 updates in this list (delete the oldest when you add a new one)
@@ -3791,8 +3788,8 @@ let user=null, synced=false, pushing=false, pushAgain=false, pushTimer=null, ret
 
 function setStatus(t){ statusEl.textContent=t; }
 function showMsg(t){
-  msgEl.textContent=t; msgEl.classList.remove('hidden');
-  clearTimeout(msgTimer); msgTimer=setTimeout(()=>msgEl.classList.add('hidden'),7000);
+  msgEl.textContent=t+' · need help? contact '; const a=document.createElement('a'); a.href='mailto:contact@declan.fun'; a.textContent='contact@declan.fun'; a.style.color='inherit'; a.style.pointerEvents='auto'; msgEl.appendChild(a); msgEl.classList.remove('hidden');
+  clearTimeout(msgTimer); msgTimer=setTimeout(()=>msgEl.classList.add('hidden'),12000);
 }
 /* ---- profile helpers ---- */
 const okPhoto=p=>(typeof p==='string'&&p.startsWith('data:image/jpeg;base64,')&&p.length<20000)?p:null;
@@ -4082,7 +4079,10 @@ $('pfSave').onclick=async()=>{
   catch(e){ console.warn(e); setHint('pfHandleHint',e&&e.code==='permission-denied'?'that handle was just taken, or the firestore rules need updating':"couldn't save. Check your connection",'err'); }
   finally{ btn.disabled=false; btn.textContent='save'; }
 };
-$('acctEdit').onclick=async()=>{ const p=await profileFlow(profile); if(p){ profile=Object.assign({},profile,p); lbLastPushed=''; renderAccount(); pushBoard(true); } };
+$('acctEdit').onclick=()=>{   // editing happens on the sign-in page (picture editor + handle change limit), then it sends you back here
+  try{ flush(); }catch(e){}
+  location.href=BASE_PATH.replace(/[^\/]*$/,'')+'signin.html?edit=1&return='+encodeURIComponent(BASE_PATH+location.search);
+};
 async function loadProfile(u){
   try{ const s=await fb.getDoc(fb.doc(db,'leaderboard',u.uid)); const d=s.exists()?s.data():null;
     return d&&d.handle?{handle:d.handle,name:d.name||d.handle,photo:okPhoto(d.photo),bio:typeof d.bio==='string'?d.bio:''}:null; }
@@ -4332,7 +4332,7 @@ function openMine(){
   if(!CONFIGURED){ showMsg("profiles aren't set up yet."); return; }
   if(!user||!profile){   // no profile of your own yet: still open the page so you can search for players
     prTok++; prCur=''; prData=null; profOpenPanel();
-    prMsg(user?'finish setting up your profile to get your own page. You can still search for players above.':'sign in with google to get your own profile. You can still search for players above.');
+    prMsg(user?'finish setting up your profile to get your own page. You can still search for players above.':'sign in to get your own profile. You can still search for players above.');
     return;
   }
   openProfile(profile.handle);
