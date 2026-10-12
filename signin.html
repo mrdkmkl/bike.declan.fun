@@ -5,72 +5,146 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>sign in · bike.declan.fun</title>
 <style>
-:root{--fg:#111;--shadow-lg:0 16px 40px rgba(17,17,17,.14);--mono:'SF Mono','JetBrains Mono','DM Mono',ui-monospace,Menlo,Consolas,monospace;}
+:root{--fg:#111;--mut:#777;--line:#d2d2d0;--accent:#2f6fed;--shadow-lg:0 24px 60px rgba(17,17,17,.14);--mono:'SF Mono','JetBrains Mono','DM Mono',ui-monospace,Menlo,Consolas,monospace;}
 *{box-sizing:border-box;}
-html,body{min-height:100%;margin:0;color:var(--fg);font-family:var(--mono);
-  background:radial-gradient(circle at 20% 0%,#ffffff 0%,#f4f5f7 55%,#eceef2 100%);}
-body{display:flex;align-items:center;justify-content:center;padding:18px;min-height:100vh;}
-.card{width:100%;max-width:440px;background:#fff;border-radius:18px;padding:30px 28px 24px;box-shadow:var(--shadow-lg);}
-.brand{font-size:12px;letter-spacing:1px;color:#999;margin:0 0 14px;}
-h1{font-size:20px;font-weight:700;letter-spacing:-.3px;margin:0 0 6px;}
-p{font-size:11.5px;line-height:1.6;color:#666;margin:8px 0;}
+html,body{min-height:100%;margin:0;color:var(--fg);font-family:var(--mono);background:#f0f0ef;}
+body{display:flex;align-items:center;justify-content:center;padding:22px 16px;min-height:100vh;position:relative;overflow-x:hidden;}
+.cloud{position:fixed;background:#e8e8e6;border-radius:999px;pointer-events:none;animation:drift 14s ease-in-out infinite alternate;z-index:0;}
+.c1{width:240px;height:80px;left:8%;top:30px;animation-duration:16s;}
+.c2{width:346px;height:91px;left:44%;top:-24px;animation-duration:20s;animation-delay:-6s;}
+.c3{width:186px;height:64px;right:6%;bottom:50px;animation-duration:13s;animation-delay:-3s;}
+@keyframes drift{from{transform:translateX(-18px);}to{transform:translateX(18px);}}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.985);}to{opacity:1;transform:none;}}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+.card{position:relative;z-index:1;width:100%;max-width:460px;background:#fff;border-radius:24px;padding:30px 30px 24px;box-shadow:var(--shadow-lg);animation:rise .5s cubic-bezier(.2,.8,.2,1);}
+.brand{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1.4px;color:#9a9a9a;margin:0 0 20px;}
+.brand i{width:9px;height:9px;border-radius:50%;background:var(--fg);display:block;}
+.view{animation:fade .3s ease;}
+h1{font-size:26px;font-weight:700;letter-spacing:-.8px;margin:0 0 8px;}
+p{font-size:11.5px;line-height:1.65;color:#666;margin:8px 0;}
 .hidden{display:none !important;}
 button{font-family:inherit;}
-.g-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px 14px;font-size:12px;border:1.6px solid #d2d2d0;border-radius:999px;background:#fff;color:#444;letter-spacing:1px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
-.g-btn:hover:not(:disabled){background:#111;border-color:#111;color:#fff;}
+a{color:inherit;}
+.g-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:12px 14px;font-size:12px;border:1.6px solid var(--line);border-radius:999px;background:#fff;color:#444;letter-spacing:1px;cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .15s;margin-top:16px;}
+.g-btn:hover:not(:disabled){background:#111;border-color:#111;color:#fff;transform:translateY(-1px);}
 .g-btn:disabled{opacity:.6;cursor:default;}
-.g-btn svg{width:14px;height:14px;flex:none;}
-.or{text-align:center;font-size:10px;color:#aaa;margin:14px 0;letter-spacing:1px;}
-input:not([type=file]){width:100%;padding:11px 14px;border:1.6px solid #d2d2d0;border-radius:12px;font-size:13px;font-family:inherit;margin-bottom:8px;outline:none;background:#fff;color:#111;}
-input:focus{border-color:#111;}
-.main-btn{width:100%;padding:12px;border:none;border-radius:999px;background:#111;color:#fff;font-size:12px;letter-spacing:1.5px;cursor:pointer;margin-top:6px;}
-.main-btn:disabled{opacity:.6;cursor:default;}
-.hint{font-size:10.5px;color:#888;min-height:14px;margin:-2px 2px 8px;line-height:1.4;}
+.g-btn svg{width:15px;height:15px;flex:none;}
+.or{display:flex;align-items:center;gap:12px;font-size:10px;color:#aaa;margin:16px 0;letter-spacing:1.2px;}
+.or::before,.or::after{content:'';flex:1;height:1px;background:#ececea;}
+input:not([type=file]):not([type=range]):not([type=color]){width:100%;padding:12px 15px;border:1.6px solid var(--line);border-radius:14px;font-size:13px;font-family:inherit;margin-bottom:8px;outline:none;background:#fff;color:#111;transition:border-color .15s,box-shadow .15s;}
+input:not([type=file]):not([type=range]):not([type=color]):focus{border-color:#111;box-shadow:0 0 0 4px rgba(17,17,17,.06);}
+input[readonly]{background:#f6f6f5;color:#999;cursor:not-allowed;}
+.main-btn{width:100%;padding:13px;border:none;border-radius:999px;background:#111;color:#fff;font-size:12px;letter-spacing:1.8px;cursor:pointer;margin-top:6px;box-shadow:0 10px 24px rgba(17,17,17,.2);transition:transform .15s,box-shadow .15s;}
+.main-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 28px rgba(17,17,17,.24);}
+.main-btn:disabled{opacity:.6;cursor:default;transform:none;}
+.hint{font-size:10.5px;color:#888;min-height:14px;margin:-2px 2px 8px;line-height:1.5;}
 .hint.err{color:#b3261e;} .hint.ok{color:#1b7f3b;}
-.label{display:block;font-size:10px;color:#999;letter-spacing:1px;margin:10px 2px 5px;}
+.hint a,#loadMsg a{color:inherit;font-weight:700;} #loadMsg.err{color:#b3261e;}
+.label{display:block;font-size:10px;color:#999;letter-spacing:1.2px;margin:12px 2px 6px;}
 .links{display:flex;justify-content:space-between;gap:10px;margin-top:12px;}
 .links.center{justify-content:center;}
 .link{border:none;background:none;text-decoration:underline;color:#888;cursor:pointer;font-size:10.5px;letter-spacing:.6px;padding:2px 4px;}
 .link:hover{color:#111;}
-.row{position:relative;} .at{position:absolute;left:14px;top:11px;font-size:13px;color:#888;} #pfHandle{padding-left:30px !important;}
-.pic{display:flex;align-items:center;gap:14px;margin:16px 0 4px;}
-.pic .link{display:block;margin-top:6px;padding-left:0;}
-.up-btn{padding:7px 14px;font-size:10.5px;border:1.6px solid #d2d2d0;border-radius:999px;background:#fff;color:#444;letter-spacing:1px;cursor:pointer;}
-.up-btn:hover{background:#111;border-color:#111;color:#fff;}
+.note{font-size:10.5px;color:#999;line-height:1.55;margin:2px 2px 10px;}
+.row{position:relative;} .at{position:absolute;left:15px;top:12px;font-size:13px;color:#888;} #pfHandle{padding-left:32px !important;}
+.foot{margin-top:18px;padding-top:14px;border-top:1px solid #f0f0ee;text-align:center;font-size:10px;color:#aaa;letter-spacing:.4px;}
 .av{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;color:#fff;font-weight:700;flex:none;background:#999;}
 .av img{width:100%;height:100%;object-fit:cover;}
+
+/* ---- picture editor ---- */
+.avtop{display:flex;align-items:center;gap:16px;margin:16px 0 4px;}
+.avprev{width:96px;height:96px;flex:none;border-radius:50%;box-shadow:0 0 0 4px #fff,0 0 0 5px #e4e4e2,0 10px 24px rgba(17,17,17,.12);overflow:hidden;display:flex;}
+.avprev canvas{width:96px;height:96px;display:block;border-radius:50%;}
+.avprev .av{width:96px !important;height:96px !important;}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;}
+.tab{padding:7px 12px;font-size:10.5px;letter-spacing:.8px;border:1.6px solid var(--line);border-radius:999px;background:#fff;color:#555;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
+.tab:hover{background:#f2f2f0;} .tab.on{background:#111;border-color:#111;color:#fff;}
+.avpanel{margin:12px 0 4px;padding:14px;border-radius:16px;background:#f7f7f6;animation:fade .25s ease;}
+.avpanel p{margin:0 0 8px;font-size:10.5px;color:#888;}
+.up-btn{padding:8px 16px;font-size:10.5px;border:1.6px solid var(--line);border-radius:999px;background:#fff;color:#444;letter-spacing:1px;cursor:pointer;transition:background .15s,color .15s;}
+.up-btn:hover{background:#111;border-color:#111;color:#fff;}
+.crop{margin:12px auto 0;width:240px;max-width:100%;}
+#cropCv{width:100%;aspect-ratio:1;border-radius:14px;touch-action:none;cursor:grab;display:block;background:#eee;}
+#cropCv:active{cursor:grabbing;}
+.zoomrow{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:10px;color:#999;letter-spacing:1px;}
+input[type=range]{flex:1;accent-color:#111;}
+.grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;}
+.emo{aspect-ratio:1;font-size:20px;line-height:1;border:1.6px solid transparent;border-radius:10px;background:#fff;cursor:pointer;padding:0;transition:transform .12s,border-color .12s;}
+.emo:hover{transform:scale(1.12);} .emo.on{border-color:#111;}
+.swrow{display:flex;flex-wrap:wrap;gap:7px;}
+.sw{width:28px;height:28px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.18);cursor:pointer;padding:0;transition:transform .12s;}
+.sw:hover{transform:scale(1.15);} .sw.on{box-shadow:0 0 0 2px #111;}
+.custom{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:10px;color:#999;letter-spacing:1px;}
+input[type=color]{width:38px;height:30px;padding:0;border:1.6px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;}
+.sub{font-size:10px;color:#999;letter-spacing:1.2px;margin:12px 0 7px;}
+.lock{display:flex;gap:8px;align-items:flex-start;font-size:10.5px;line-height:1.5;color:#b26a00;background:#fff4e5;border:1px solid #f3d9ad;border-radius:12px;padding:8px 11px;margin:0 0 8px;}
+@media (max-width:460px){.card{padding:26px 20px 20px;} h1{font-size:23px;} .grid{grid-template-columns:repeat(6,1fr);}}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="brand">bike.declan.fun</div>
+<div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+<main class="card">
+  <div class="brand"><i></i>bike.declan.fun</div>
 
   <!-- loading -->
-  <div id="vLoad"><h1>one sec…</h1><p id="loadMsg">connecting</p></div>
+  <div id="vLoad" class="view"><h1>one sec…</h1><p id="loadMsg">connecting</p></div>
 
-  <!-- sign in / create account -->
-  <div id="vAuth" class="hidden">
-    <h1 id="authTitle">sign in</h1>
+  <!-- sign in (new emails get an account automatically) -->
+  <div id="vAuth" class="view hidden">
+    <h1>sign in</h1>
     <p>save your progress and get on the leaderboard. totally optional, you can always play as a guest.</p>
     <button class="g-btn" id="authGoogle" type="button"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>continue with google</span></button>
-    <div class="or">or use email</div>
+    <div class="or">OR</div>
     <input id="authEmail" type="email" placeholder="email" autocomplete="email" autocapitalize="off">
     <input id="authPass" type="password" placeholder="password (6+ characters)" autocomplete="current-password">
     <div id="authErr" class="hint"></div>
-    <button class="main-btn" id="authSubmit" type="button">sign in</button>
-    <div class="links"><button class="link" id="authToggle" type="button"></button><button class="link" id="authForgot" type="button">forgot password?</button></div>
-    <div class="links center"><button class="link" id="authGuest" type="button">continue as guest</button></div>
+    <button class="main-btn" id="authSubmit" type="button">continue</button>
+    <p class="note" style="text-align:center;margin-top:12px">new here? just type an email and a password and we'll make your account for you.</p>
+    <div class="links"><button class="link" id="authForgot" type="button">forgot password?</button><button class="link" id="authGuest" type="button">continue as guest</button></div>
   </div>
 
-  <!-- first-time profile setup -->
-  <div id="vProfile" class="hidden">
-    <h1>set up your profile</h1>
-    <p>pick a unique handle and a name for the leaderboard. your google name and photo are never used.</p>
-    <div class="pic"><span id="pfAv"></span>
-      <div><button class="up-btn" id="pfUpload" type="button">upload picture</button><button class="link" id="pfNoPic" type="button">use a letter instead</button></div>
-      <input type="file" id="pfFile" accept="image/*" hidden>
+  <!-- profile: first-time setup and editing -->
+  <div id="vProfile" class="view hidden">
+    <h1 id="pfTitle">set up your profile</h1>
+    <p id="pfLead">pick a unique handle and a name for the leaderboard. your google name and photo are never used.</p>
+
+    <div class="avtop">
+      <div class="avprev" id="pfAv"></div>
+      <div class="tabs" id="avTabs">
+        <button class="tab" type="button" data-t="photo">photo</button>
+        <button class="tab" type="button" data-t="emoji">emoji</button>
+        <button class="tab" type="button" data-t="gradient">gradient</button>
+        <button class="tab" type="button" data-t="solid">color</button>
+        <button class="tab" type="button" data-t="letter">letter</button>
+      </div>
     </div>
+
+    <div class="avpanel hidden" id="pPhoto">
+      <p>upload a picture, then drag it to move and use the slider to resize.</p>
+      <button class="up-btn" id="pfUpload" type="button">choose picture</button>
+      <input type="file" id="pfFile" accept="image/*" hidden>
+      <div class="crop hidden" id="cropBox">
+        <canvas id="cropCv" width="240" height="240"></canvas>
+        <div class="zoomrow"><span>SMALLER</span><input type="range" id="zoom" min="100" max="400" value="100" aria-label="resize picture"><span>BIGGER</span></div>
+      </div>
+    </div>
+    <div class="avpanel hidden" id="pEmoji">
+      <div class="grid" id="emojiGrid"></div>
+      <div class="sub">BACKGROUND</div>
+      <div class="swrow" id="emojiBg"></div>
+    </div>
+    <div class="avpanel hidden" id="pGrad">
+      <div class="swrow" id="gradGrid"></div>
+      <div class="custom"><span>CUSTOM</span><input type="color" id="g1" value="#2f6fed" aria-label="first color"><input type="color" id="g2" value="#7c4dff" aria-label="second color"></div>
+    </div>
+    <div class="avpanel hidden" id="pSolid">
+      <div class="swrow" id="solidGrid"></div>
+      <div class="custom"><span>CUSTOM</span><input type="color" id="sc" value="#2f6fed" aria-label="custom color"></div>
+    </div>
+    <div class="avpanel hidden" id="pLetter"><p style="margin:0">a colored circle with the first letter of your name.</p></div>
+
     <label class="label" for="pfHandle">HANDLE (unique)</label>
+    <div id="pfLock" class="lock hidden"></div>
     <div class="row"><span class="at">@</span><input id="pfHandle" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your_handle"></div>
     <div class="hint" id="pfHandleHint"></div>
     <label class="label" for="pfName">NAME</label>
@@ -79,7 +153,9 @@ input:focus{border-color:#111;}
     <button class="main-btn" id="pfSave" type="button">save &amp; play</button>
     <div class="links center"><button class="link" id="pfCancel" type="button">cancel &amp; sign out</button></div>
   </div>
-</div>
+
+  <div class="foot">trouble? <a href="mailto:contact@declan.fun">contact@declan.fun</a></div>
+</main>
 
 <script type="module">
 /* same firebase project as the game, so signing in here also signs you in there */
@@ -93,10 +169,13 @@ const firebaseConfig={
 };
 const FB_VERSION='10.12.2';
 const GAME_PAGE='59320599key__3_.html'; // change this to your game's file name (e.g. index.html) if it differs
+const CONTACT='contact@declan.fun';
+const HANDLE_CHANGES=2, HANDLE_WINDOW=30*86400000;   // a handle can be changed 2 times in any 30 days (the first handle you pick is free)
 
 const $=id=>document.getElementById(id);
 const ls=k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } };
 const num=k=>Math.max(0,parseInt(ls(k)||'0',10)||0);
+const EDIT=new URLSearchParams(location.search).get('edit')==='1';   // opened from the game's "edit" button
 
 /* where to go back to: ?return=... (same site only), else the game page */
 function returnUrl(){
@@ -109,7 +188,11 @@ function returnUrl(){
 const goBack=()=>location.replace(returnUrl());
 
 function show(id){ ['vLoad','vAuth','vProfile'].forEach(v=>$(v).classList.toggle('hidden',v!==id)); }
-function setHint(id,t,cls){ const e=$(id); e.textContent=t||''; e.className='hint'+(cls?' '+cls:''); }
+/* every real error carries the contact email; plain "fix this field" messages don't */
+function setHint(id,t,cls,contact){
+  const e=$(id); e.textContent=t||''; e.className=(id==='loadMsg'?'':'hint')+(cls?' '+cls:'');
+  if(t&&contact){ e.appendChild(document.createTextNode(' · need help? contact ')); const a=document.createElement('a'); a.href='mailto:'+CONTACT; a.textContent=CONTACT; e.appendChild(a); }
+}
 
 /* ---- avatar (picture or default letter) ---- */
 const okPhoto=p=>(typeof p==='string'&&p.startsWith('data:image/jpeg;base64,')&&p.length<20000)?p:null;
@@ -209,134 +292,278 @@ function handleProblem(h){
 function nameProblem(n){ if(!n) return 'enter a name'; if(n.length>20) return 'max 20 characters'; if(badText(n)) return "that name isn't allowed, please pick another"; return ''; }
 
 /* ---- firebase ---- */
-let fb, auth, db, user=null, working=false;
+let fb, auth, db, user=null, justCreated=false;
 try{
   const base='https://www.gstatic.com/firebasejs/'+FB_VERSION+'/';
   const [A,B,C]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
-  fb={...B,doc:C.doc,getDoc:C.getDoc,writeBatch:C.writeBatch};
+  fb={...B,doc:C.doc,getDoc:C.getDoc,setDoc:C.setDoc,writeBatch:C.writeBatch,deleteField:C.deleteField};
   const app=A.initializeApp(firebaseConfig);
   auth=B.getAuth(app); db=C.getFirestore(app);
 }catch(e){
   console.warn('firebase failed to load',e);
-  show('vLoad'); $('loadMsg').textContent="sign-in is unavailable right now (still loading or blocked). going back to the game…";
-  setTimeout(goBack,2500);
+  show('vLoad'); setHint('loadMsg',"sign-in is unavailable right now (still loading or blocked). going back to the game…",'err',true);
+  setTimeout(goBack,3500);
   throw e;
 }
 
-/* ---- auth view ---- */
-let authMode='in';
-function authErr(t,ok){ setHint('authErr',t,t?(ok?'ok':'err'):''); }
-function authSet(mode){
-  authMode=mode; const up=mode==='up';
-  $('authTitle').textContent=up?'create account':'sign in'; $('authSubmit').textContent=up?'create account':'sign in';
-  $('authToggle').textContent=up?'already have an account? sign in':'new here? create an account';
-  $('authPass').autocomplete=up?'new-password':'current-password'; $('authForgot').classList.toggle('hidden',up); authErr('');
-}
+/* ---- sign in: an email that has no account yet gets one automatically ---- */
+function authErr(t,ok,contact){ setHint('authErr',t,t?(ok?'ok':'err'):'',!!t&&!ok&&!!contact); }
 function authMsg(e){
   const c=e&&e.code;
   if(c==='auth/invalid-credential'||c==='auth/wrong-password'||c==='auth/user-not-found') return 'wrong email or password';
-  if(c==='auth/email-already-in-use') return 'that email already has an account. Try signing in instead';
+  if(c==='auth/email-already-in-use') return "that email already has an account and the password didn't match. Try again, or use forgot password";
   if(c==='auth/weak-password') return 'password needs at least 6 characters';
   if(c==='auth/invalid-email') return "that email address doesn't look right";
   if(c==='auth/too-many-requests') return 'too many tries. Wait a bit and try again';
   if(c==='auth/network-request-failed') return "couldn't reach the server. Check your connection";
-  if(c==='auth/operation-not-allowed') return "this sign-in method isn't enabled in firebase yet";
-  if(c==='auth/unauthorized-domain') return "this site's domain isn't authorized in firebase yet";
+  if(c==='auth/operation-not-allowed') return "this sign-in method isn't enabled yet";
+  if(c==='auth/unauthorized-domain') return "this site's domain isn't authorized yet";
   if(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request') return '';
   console.warn(e); return "that didn't work. You can keep playing as a guest.";
 }
 function authBusy(b){ ['authGoogle','authSubmit'].forEach(i=>$(i).disabled=b); }
 async function authGoogle(){
-  authBusy(true);
+  authBusy(true); authErr('');
   try{ await fb.signInWithPopup(auth,new fb.GoogleAuthProvider()); }
   catch(e){
-    if(e&&e.code==='auth/popup-blocked'){ try{ await fb.signInWithRedirect(auth,new fb.GoogleAuthProvider()); return; }catch(e2){ authErr('the sign-in popup was blocked. Allow popups and try again.'); } }
-    else authErr(authMsg(e));
+    if(e&&e.code==='auth/popup-blocked'){ try{ await fb.signInWithRedirect(auth,new fb.GoogleAuthProvider()); return; }catch(e2){ authErr('the sign-in popup was blocked. Allow popups and try again.',false,true); } }
+    else authErr(authMsg(e),false,true);
   }finally{ authBusy(false); }
 }
 async function authSubmit(){
   const email=$('authEmail').value.trim(), pass=$('authPass').value;
   if(!email||!pass){ authErr('enter your email and password'); return; }
-  authBusy(true);
+  authBusy(true); authErr('');
   try{
-    if(authMode==='up') await fb.createUserWithEmailAndPassword(auth,email,pass); else await fb.signInWithEmailAndPassword(auth,email,pass);
+    try{ await fb.signInWithEmailAndPassword(auth,email,pass); }
+    catch(e){
+      const c=e&&e.code;
+      if(c==='auth/user-not-found'||c==='auth/invalid-credential'){
+        // no account for this email yet (or a wrong password): try to make one. if the email is taken, it was just a wrong password
+        justCreated=true;
+        try{ await fb.createUserWithEmailAndPassword(auth,email,pass); }
+        catch(e2){ justCreated=false; throw e2; }
+      } else throw e;
+    }
     $('authPass').value='';
-  }catch(e){ authErr(authMsg(e)); }finally{ authBusy(false); }
+  }catch(e){ authErr(authMsg(e),false,true); }finally{ authBusy(false); }
 }
 async function authForgot(){
   const email=$('authEmail').value.trim(); if(!email){ authErr('type your email above first'); return; }
-  try{ await fb.sendPasswordResetEmail(auth,email); authErr('reset email sent. Check your inbox (and spam).',true); }catch(e){ authErr(authMsg(e)); }
+  try{ await fb.sendPasswordResetEmail(auth,email); authErr('reset email sent. Check your inbox (and spam).',true); }catch(e){ authErr(authMsg(e),false,true); }
 }
 $('authGoogle').onclick=authGoogle; $('authSubmit').onclick=authSubmit; $('authForgot').onclick=authForgot;
-$('authToggle').onclick=()=>authSet(authMode==='in'?'up':'in');
 $('authGuest').onclick=goBack;
 ['authEmail','authPass'].forEach(i=>$(i).addEventListener('keydown',e=>{ if(e.key==='Enter') authSubmit(); }));
 
-/* ---- profile view (first time only: handle + name + picture) ---- */
-let pfPhoto=null, pfCheck=0, pfTimer=null;
-function pfAvatar(){ $('pfAv').replaceChildren(avatar({handle:$('pfHandle').value.trim().toLowerCase(),name:$('pfName').value.trim()||$('pfHandle').value.trim(),photo:pfPhoto},64)); }
-async function pfCheckHandle(){
-  const h=$('pfHandle').value.trim().toLowerCase(), my=++pfCheck;
-  if(!h){ setHint('pfHandleHint','4 to 16 letters, numbers or underscores. Must be unique.'); return; }
-  const bad=handleProblem(h); if(bad){ setHint('pfHandleHint',bad,'err'); return; }
-  setHint('pfHandleHint','checking…');
-  try{
-    const s=await fb.getDoc(fb.doc(db,'handles',h)); if(my!==pfCheck) return;
-    if(s.exists()&&s.data().uid!==(user&&user.uid)) setHint('pfHandleHint','@'+h+' is taken','err'); else setHint('pfHandleHint','@'+h+' is available','ok');
-  }catch(e){ if(my===pfCheck) setHint('pfHandleHint',"couldn't check right now. You can still try saving."); }
+/* ---- handle change limit: 2 changes per 30 days. the history is kept on the account (leaderboard doc: handleLog) and on this device ---- */
+const hlKey=uid=>'bdf_hlog_'+uid;
+function hlLocal(uid){ try{ const a=JSON.parse(localStorage.getItem(hlKey(uid))||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+function hlRecent(list){ const now=Date.now(); return [...new Set((list||[]).map(Number).filter(t=>isFinite(t)&&t>now-HANDLE_WINDOW&&t<=now+3600000))].sort((a,b)=>a-b); }
+const fmtDate=t=>new Date(t).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+let editing=false, old=null, hl=[];
+const hlLeft=()=>Math.max(0,HANDLE_CHANGES-hl.length);
+const hlNext=()=>hl.length>=HANDLE_CHANGES?hl[hl.length-HANDLE_CHANGES]+HANDLE_WINDOW:0;
+function applyLock(){
+  const locked=editing&&hlLeft()===0, box=$('pfLock'), inp=$('pfHandle');
+  inp.readOnly=locked; box.classList.toggle('hidden',!locked);
+  if(locked){ box.textContent='🔒 you already changed your handle '+HANDLE_CHANGES+' times in the last 30 days. you can change it again on '+fmtDate(hlNext())+'.'; inp.value=old.handle; }
 }
-function readPhoto(file){
+
+/* ---- profile picture editor: photo (move + resize), emoji, gradient, solid color, letter ---- */
+const CROP=240;
+const GRADS=[['#ff9a9e','#fad0c4'],['#f6d365','#fda085'],['#84fab0','#8fd3f4'],['#a18cd1','#fbc2eb'],['#2f6fed','#7c4dff'],['#ff512f','#dd2476'],['#11998e','#38ef7d'],['#fc4a1a','#f7b733'],['#00c6ff','#0072ff'],['#232526','#6b6e75'],['#ee0979','#ff6a00'],['#667eea','#764ba2']];
+const SOLIDS=['#111111','#6b6e75','#d62839','#ff7a3d','#e6a817','#7bc618','#1f9d55','#13b38a','#18b8d8','#2f6fed','#7c4dff','#ec4a86','#f6d2b0','#ffffff'];
+const EMOJIS=['😀','😎','🤠','🥳','😈','👻','🤖','👽','🐶','🐱','🦊','🐼','🐸','🦁','🐯','🐵','🦄','🐲','🦖','🐙','🦋','🐝','🐢','🦈','🔥','⚡','🌟','🌈','🍕','🍔','🍩','🍉','🍓','🚲','🏍️','🚀','🛴','🎮','🎸','🏆','💎','👑','🎯','⚽','🏀','🎃','🌵','🌊'];
+const EBGS=SOLIDS.slice(0,13).map(c=>[c]).concat(GRADS);
+const S={type:'letter',current:null,img:null,zoom:1,ox:0,oy:0,emoji:'😀',eb:GRADS[4],g:GRADS[4].slice(),s:'#2f6fed'};
+const bgCss=cols=>cols.length>1?'linear-gradient(135deg,'+cols[0]+','+cols[1]+')':cols[0];
+
+function fillBg(c,size,cols){
+  if(cols.length>1){ const g=c.createLinearGradient(0,0,size,size); g.addColorStop(0,cols[0]); g.addColorStop(1,cols[1]); c.fillStyle=g; } else c.fillStyle=cols[0];
+  c.fillRect(0,0,size,size);
+}
+function clampPhoto(){
+  if(!S.img) return;
+  const sc=CROP/Math.min(S.img.width,S.img.height)*S.zoom, mx=Math.max(0,(S.img.width*sc-CROP)/2), my=Math.max(0,(S.img.height*sc-CROP)/2);
+  S.ox=Math.max(-mx,Math.min(mx,S.ox)); S.oy=Math.max(-my,Math.min(my,S.oy));
+}
+function drawPhoto(c,size){
+  if(!S.img) return;
+  const k=size/CROP, w=S.img.width, h=S.img.height, sc=CROP/Math.min(w,h)*S.zoom;
+  c.drawImage(S.img,(CROP/2+S.ox-w*sc/2)*k,(CROP/2+S.oy-h*sc/2)*k,w*sc*k,h*sc*k);
+}
+function paintAvatar(c,size){
+  c.clearRect(0,0,size,size);
+  if(S.type==='gradient') fillBg(c,size,S.g);
+  else if(S.type==='solid') fillBg(c,size,[S.s]);
+  else if(S.type==='emoji'){
+    fillBg(c,size,S.eb);
+    c.font=Math.round(size*.58)+'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillStyle='#000';
+    c.fillText(S.emoji,size/2,size*.54);
+  }
+  else if(S.type==='photo'){ c.fillStyle='#fff'; c.fillRect(0,0,size,size); drawPhoto(c,size); }
+}
+function drawCrop(){
+  if(!S.img) return;
+  const c=$('cropCv').getContext('2d'); c.clearRect(0,0,CROP,CROP); c.fillStyle='#fff'; c.fillRect(0,0,CROP,CROP); drawPhoto(c,CROP);
+  c.fillStyle='rgba(0,0,0,.5)'; c.beginPath(); c.rect(0,0,CROP,CROP); c.arc(CROP/2,CROP/2,CROP/2-3,0,Math.PI*2,true); c.fill('evenodd');
+  c.strokeStyle='#fff'; c.lineWidth=2; c.beginPath(); c.arc(CROP/2,CROP/2,CROP/2-3,0,Math.PI*2); c.stroke();
+}
+function pfAvatar(){
+  const holder=$('pfAv'), t=S.type;
+  if(t==='letter'||t==='current'){ holder.replaceChildren(avatar({handle:$('pfHandle').value.trim().toLowerCase(),name:$('pfName').value.trim()||$('pfHandle').value.trim(),photo:t==='current'?S.current:null},96)); return; }
+  let cv=holder.querySelector('canvas');
+  if(!cv){ holder.replaceChildren(); cv=document.createElement('canvas'); cv.width=cv.height=192; holder.appendChild(cv); }
+  paintAvatar(cv.getContext('2d'),192);
+}
+function refreshAv(){ pfAvatar(); if(S.type==='photo') drawCrop(); }
+/* the saved picture is always a small jpeg, so it works everywhere the old uploaded pictures did */
+function exportPhoto(){
+  if(S.type==='letter') return null;
+  if(S.type==='current') return S.current;
+  const cv=document.createElement('canvas'); cv.width=cv.height=96; paintAvatar(cv.getContext('2d'),96);
+  let q=.85, out=cv.toDataURL('image/jpeg',q);
+  while(out.length>19000&&q>.3){ q-=.1; out=cv.toDataURL('image/jpeg',q); }
+  return out;
+}
+const PANELS={photo:'pPhoto',emoji:'pEmoji',gradient:'pGrad',solid:'pSolid',letter:'pLetter'};
+function showTab(t){
+  document.querySelectorAll('#avTabs .tab').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  for(const k in PANELS) $(PANELS[k]).classList.toggle('hidden',k!==t);
+  if(t==='letter') S.type='letter';
+  else if(t==='photo'){ if(S.img) S.type='photo'; }
+  else S.type=t;
+  refreshAv();
+}
+document.querySelectorAll('#avTabs .tab').forEach(b=>b.onclick=()=>showTab(b.dataset.t));
+function swatches(box,list,isOn,pick){
+  box.textContent='';
+  list.forEach(cols=>{ const b=document.createElement('button'); b.type='button'; b.className='sw'+(isOn(cols)?' on':''); b.style.background=bgCss(cols); b.setAttribute('aria-label','color'); b.onclick=()=>{ pick(cols); box.querySelectorAll('.sw').forEach(x=>x.classList.toggle('on',x===b)); refreshAv(); }; box.appendChild(b); });
+}
+const same=(a,b)=>a.length===b.length&&a.every((x,i)=>x===b[i]);
+$('emojiGrid').replaceChildren(...EMOJIS.map(e=>{ const b=document.createElement('button'); b.type='button'; b.className='emo'+(e===S.emoji?' on':''); b.textContent=e; b.setAttribute('aria-label','emoji '+e);
+  b.onclick=()=>{ S.emoji=e; S.type='emoji'; $('emojiGrid').querySelectorAll('.emo').forEach(x=>x.classList.toggle('on',x===b)); refreshAv(); }; return b; }));
+swatches($('emojiBg'),EBGS,c=>same(c,S.eb),c=>{ S.eb=c; S.type='emoji'; });
+swatches($('gradGrid'),GRADS,c=>same(c,S.g),c=>{ S.g=c.slice(); S.type='gradient'; $('g1').value=c[0]; $('g2').value=c[1]; });
+swatches($('solidGrid'),SOLIDS.map(c=>[c]),c=>c[0]===S.s,c=>{ S.s=c[0]; S.type='solid'; $('sc').value=c[0]; });
+$('g1').oninput=$('g2').oninput=()=>{ S.g=[$('g1').value,$('g2').value]; S.type='gradient'; $('gradGrid').querySelectorAll('.sw').forEach(x=>x.classList.remove('on')); refreshAv(); };
+$('sc').oninput=()=>{ S.s=$('sc').value; S.type='solid'; $('solidGrid').querySelectorAll('.sw').forEach(x=>x.classList.remove('on')); refreshAv(); };
+
+/* photo: pick a file, drag to move, slider / wheel to resize */
+function loadImage(file){
   return new Promise((res,rej)=>{
     if(!file||!/^image\//.test(file.type)) return rej(new Error('not an image'));
     const u=URL.createObjectURL(file), im=new Image();
-    im.onload=()=>{ const S=96,c=document.createElement('canvas'); c.width=c.height=S; const x=c.getContext('2d'), m=Math.min(im.width,im.height);
-      x.fillStyle='#fff'; x.fillRect(0,0,S,S); x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S); URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg',.8)); };
+    im.onload=()=>{ URL.revokeObjectURL(u); res(im); };
     im.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error('bad image')); }; im.src=u;
   });
 }
 $('pfUpload').onclick=()=>$('pfFile').click();
-$('pfFile').onchange=async e=>{ const f=e.target.files[0]; e.target.value=''; if(!f) return;
-  try{ pfPhoto=await readPhoto(f); pfAvatar(); setHint('pfNameHint',''); }catch(err){ setHint('pfNameHint',"couldn't use that picture. Try a different image",'err'); } };
-$('pfNoPic').onclick=()=>{ pfPhoto=null; pfAvatar(); };
+$('pfFile').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    S.img=await loadImage(f); S.zoom=1; S.ox=S.oy=0; S.type='photo'; $('zoom').value=100; $('cropBox').classList.remove('hidden'); setHint('pfNameHint',''); refreshAv();
+  }catch(err){ setHint('pfNameHint',"couldn't use that picture. Try a different image.",'err',true); }
+};
+$('zoom').oninput=()=>{ S.zoom=$('zoom').value/100; clampPhoto(); refreshAv(); };
+{ const cv=$('cropCv'); let drag=null;
+  cv.addEventListener('pointerdown',e=>{ if(!S.img) return; drag={x:e.clientX,y:e.clientY,ox:S.ox,oy:S.oy}; try{ cv.setPointerCapture(e.pointerId); }catch(x){} });
+  cv.addEventListener('pointermove',e=>{ if(!drag) return; const k=CROP/cv.getBoundingClientRect().width; S.ox=drag.ox+(e.clientX-drag.x)*k; S.oy=drag.oy+(e.clientY-drag.y)*k; clampPhoto(); refreshAv(); });
+  ['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,()=>{ drag=null; }));
+  cv.addEventListener('wheel',e=>{ if(!S.img) return; e.preventDefault(); const z=Math.max(100,Math.min(400,Number($('zoom').value)-Math.sign(e.deltaY)*8)); $('zoom').value=z; S.zoom=z/100; clampPhoto(); refreshAv(); },{passive:false});
+}
+
+/* ---- profile view: handle + name + picture (first time and editing) ---- */
+let pfCheck=0, pfTimer=null;
+async function pfCheckHandle(){
+  const h=$('pfHandle').value.trim().toLowerCase(), my=++pfCheck;
+  if(editing&&hlLeft()===0&&h===old.handle){ setHint('pfHandleHint',''); return; }
+  if(!h){ setHint('pfHandleHint','4 to 16 letters, numbers or underscores. Must be unique.'); return; }
+  const bad=handleProblem(h); if(bad){ setHint('pfHandleHint',bad,'err'); return; }
+  if(editing&&old.handle===h){ setHint('pfHandleHint','this is your current handle · '+hlLeft()+' of '+HANDLE_CHANGES+' changes left this month','ok'); return; }
+  setHint('pfHandleHint','checking…');
+  try{
+    const s=await fb.getDoc(fb.doc(db,'handles',h)); if(my!==pfCheck) return;
+    const use=editing?' · uses 1 of your '+hlLeft()+' handle change'+(hlLeft()===1?'':'s')+' left (resets 30 days after each change)':'';
+    if(s.exists()&&s.data().uid!==(user&&user.uid)) setHint('pfHandleHint','@'+h+' is taken','err'); else setHint('pfHandleHint','@'+h+' is available'+use,'ok');
+  }catch(e){ if(my===pfCheck) setHint('pfHandleHint',"couldn't check right now. You can still try saving."); }
+}
 $('pfHandle').addEventListener('input',e=>{ e.target.value=e.target.value.toLowerCase().replace(/[^a-z0-9_]/g,''); pfAvatar(); clearTimeout(pfTimer); pfTimer=setTimeout(pfCheckHandle,400); });
 $('pfName').addEventListener('input',pfAvatar);
 ['pfHandle','pfName'].forEach(i=>$(i).addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('pfSave').click(); } }));
-$('pfCancel').onclick=async()=>{ try{ await fb.signOut(auth); }catch(e){} pfPhoto=null; $('pfHandle').value=''; $('pfName').value=''; authSet('in'); show('vAuth'); };
+$('pfCancel').onclick=async()=>{
+  if(editing){ goBack(); return; }
+  try{ await fb.signOut(auth); }catch(e){}
+  $('pfHandle').value=''; $('pfName').value=''; show('vAuth');
+};
+function openProfileView(prof){
+  editing=!!prof; old=prof||null;
+  hl=editing?hlRecent([...(prof.handleLog||[]),...hlLocal(user.uid)]):[];
+  $('pfTitle').textContent=editing?'edit profile':'set up your profile';
+  $('pfLead').textContent=editing?'change your picture, name or handle. you can change your handle '+HANDLE_CHANGES+' times every 30 days.'
+    :(justCreated?'account created ✓ ':'')+'pick a unique handle and a name for the leaderboard. after this you can change your handle '+HANDLE_CHANGES+' times every 30 days.';
+  $('pfSave').textContent=editing?'save':'save & play'; $('pfCancel').textContent=editing?'cancel':'cancel & sign out';
+  $('pfHandle').value=editing?old.handle:''; $('pfName').value=editing?old.name:''; setHint('pfNameHint','');
+  S.img=null; S.zoom=1; S.ox=S.oy=0; $('cropBox').classList.add('hidden');
+  if(editing&&okPhoto(old.photo)){ S.type='current'; S.current=old.photo; } else { S.type='letter'; S.current=null; }
+  document.querySelectorAll('#avTabs .tab').forEach(b=>b.classList.remove('on')); for(const k in PANELS) $(PANELS[k]).classList.add('hidden');
+  if(S.type==='letter') showTab('letter'); else pfAvatar();
+  applyLock(); show('vProfile'); pfCheckHandle(); $(editing?'pfName':'pfHandle').focus();
+}
 $('pfSave').onclick=async()=>{
   const h=$('pfHandle').value.trim().toLowerCase(), n=$('pfName').value.trim().replace(/\s+/g,' ');
   const hp=handleProblem(h), np=nameProblem(n);
   if(hp){ setHint('pfHandleHint',hp,'err'); return; } if(np){ setHint('pfNameHint',np,'err'); return; }
   if(!user) return;
-  const btn=$('pfSave'); btn.disabled=true; btn.textContent='saving…';
-  const uid=user.uid, b=fb.writeBatch(db);
-  const d={handle:h,name:n,maxLevel:Math.min(9999,Math.max(1,num('bike_maxLevel'))),bestRun:num('bike_bestRun'),bestPolice:num('bike_bestPolice'),updatedAt:Date.now()};
-  if(pfPhoto) d.photo=pfPhoto;
-  b.set(fb.doc(db,'handles',h),{uid});
-  b.set(fb.doc(db,'leaderboard',uid),d);
-  try{ await b.commit(); goBack(); }
-  catch(e){
+  const btn=$('pfSave'), label=btn.textContent; btn.disabled=true; btn.textContent='saving…';
+  const uid=user.uid, lbRef=fb.doc(db,'leaderboard',uid), changed=editing&&h!==old.handle;
+  const done=()=>{ btn.disabled=false; btn.textContent=label; };
+  let fresh=hl;
+  if(changed){   // re-check the limit against the account right now, so two tabs can't sneak an extra change in
+    try{ const s=await fb.getDoc(lbRef); fresh=hlRecent([...(s.exists()&&Array.isArray(s.data().handleLog)?s.data().handleLog:[]),...hlLocal(uid)]); }
+    catch(e){ fresh=hlRecent([...hl,...hlLocal(uid)]); }
+    if(fresh.length>=HANDLE_CHANGES){ hl=fresh; applyLock(); done(); return; }
+  }
+  try{
+    const photo=exportPhoto(), b=fb.writeBatch(db);
+    if(editing){
+      if(changed){ b.delete(fb.doc(db,'handles',old.handle)); b.set(fb.doc(db,'handles',h),{uid}); }
+      b.set(lbRef,{handle:h,name:n,photo:photo||fb.deleteField(),updatedAt:Date.now()},{merge:true});   // merge keeps the bio, stats and handle history
+    } else {
+      const d={handle:h,name:n,maxLevel:Math.min(9999,Math.max(1,num('bike_maxLevel'))),bestRun:num('bike_bestRun'),bestPolice:num('bike_bestPolice'),updatedAt:Date.now()};
+      if(photo) d.photo=photo;
+      b.set(fb.doc(db,'handles',h),{uid}); b.set(lbRef,d);
+    }
+    await b.commit();
+    if(changed){   // remember this change (on this device always, on the account if the rules allow the field)
+      const log=[...fresh,Date.now()];
+      try{ localStorage.setItem(hlKey(uid),JSON.stringify(log)); }catch(e){}
+      try{ await fb.setDoc(lbRef,{handleLog:log},{merge:true}); }catch(e){ console.warn('handle history not saved to the account',e); }
+    }
+    goBack();
+  }catch(e){
     console.warn(e);
-    setHint('pfHandleHint',e&&e.code==='permission-denied'?'that handle was just taken, or the firestore rules need updating':"couldn't save. Check your connection",'err');
-    btn.disabled=false; btn.textContent='save & play';
+    setHint('pfHandleHint',e&&e.code==='permission-denied'?'that handle was just taken, or the rules need updating':"couldn't save. Check your connection",'err',true);
+    done();
   }
 };
 
 /* ---- decide which view to show ---- */
-async function loadProfile(u){
-  try{ const s=await fb.getDoc(fb.doc(db,'leaderboard',u.uid)); return s.exists()&&s.data().handle?true:false; }
+async function loadProfile(u){   // -> {handle,name,photo,handleLog} | null (no profile yet) | undefined (couldn't load)
+  try{ const s=await fb.getDoc(fb.doc(db,'leaderboard',u.uid)); const d=s.exists()?s.data():null;
+    return d&&d.handle?{handle:d.handle,name:d.name||d.handle,photo:okPhoto(d.photo),handleLog:Array.isArray(d.handleLog)?d.handleLog:[]}:null; }
   catch(e){ console.warn(e); return undefined; }
 }
-authSet('in');
-fb.getRedirectResult(auth).catch(e=>{ authErr(authMsg(e)); });
+fb.getRedirectResult(auth).catch(e=>{ authErr(authMsg(e),false,true); });
 fb.onAuthStateChanged(auth,async u=>{
   user=u;
   if(!u){ show('vAuth'); return; }
-  show('vLoad'); $('loadMsg').textContent='signing you in…';
-  const has=await loadProfile(u); if(!user||user.uid!==u.uid) return;
-  if(has===undefined){ show('vLoad'); $('loadMsg').textContent="couldn't load your profile. Check your connection and reload."; return; }
-  if(has){ goBack(); return; }          // returning player → straight back to the game
-  pfPhoto=null; $('pfHandle').value=''; $('pfName').value=''; setHint('pfNameHint','');
-  pfAvatar(); pfCheckHandle(); show('vProfile'); $('pfHandle').focus();   // first time → handle, name, picture (or letter)
+  show('vLoad'); setHint('loadMsg','signing you in…');
+  const prof=await loadProfile(u); if(!user||user.uid!==u.uid) return;
+  if(prof===undefined){ setHint('loadMsg',"couldn't load your profile. Check your connection and reload.",'err',true); return; }
+  if(prof&&!EDIT){ goBack(); return; }   // returning player → straight back to the game
+  openProfileView(prof);                 // first time → handle, name, picture · from the game's "edit" → change them
 });
 </script>
 </body>
