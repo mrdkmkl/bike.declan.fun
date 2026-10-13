@@ -536,6 +536,21 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 .lb-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:12px;margin-bottom:8px;box-shadow:var(--shadow-sm);font-size:13px;text-align:left;}
 .lb-row.me{background:var(--accent-soft);outline:1.5px solid var(--accent);}
 .lb-rank{width:28px;font-weight:800;color:#999;flex:none;}
+.lb-row{position:relative;overflow:hidden;}
+.lb-row.top{padding:14px 16px;gap:14px;font-size:15px;border:2px solid transparent;}
+.lb-row.top .lb-rank{width:46px;display:flex;flex-direction:column;align-items:center;line-height:1.1;font-size:11px;letter-spacing:.6px;}
+.lb-row.top .lb-val{font-size:16px;}
+.lb-row.top .lb-who span{color:rgba(0,0,0,.55);}
+.lb-medal{font-size:28px;line-height:1;}
+.lb-row.r1{background:linear-gradient(120deg,#fff4c2,#ffe07a 55%,#ffd24d);border-color:#e0a800;box-shadow:0 8px 22px rgba(224,168,0,.38);padding-top:19px;padding-bottom:19px;font-size:16px;}
+.lb-row.r1 .lb-rank{color:#9a6b00;} .lb-row.r1 .lb-medal{font-size:36px;}
+.lb-row.r1::after{content:'';position:absolute;top:0;bottom:0;width:60px;left:-90px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);animation:lbShine 3.6s ease-in-out infinite;pointer-events:none;}
+@keyframes lbShine{0%,55%{left:-90px;}100%{left:110%;}}
+.lb-row.r2{background:linear-gradient(120deg,#f8f9fb,#dfe3e9 55%,#cfd5dd);border-color:#a9b1bd;box-shadow:0 6px 16px rgba(120,130,145,.32);padding-top:16px;padding-bottom:16px;}
+.lb-row.r2 .lb-rank{color:#5d6672;}
+.lb-row.r3{background:linear-gradient(120deg,#ffeedd,#f0c093 55%,#e3a46c);border-color:#c07a3f;box-shadow:0 6px 16px rgba(192,122,63,.3);}
+.lb-row.r3 .lb-rank{color:#8a4e1c;}
+.lb-row.top.me{outline:2.5px solid var(--accent);outline-offset:2px;}
 .lb-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .lb-val{font-weight:800;flex:none;}
 .lb-empty{padding:30px 10px;color:#888;font-size:13px;text-align:center;}
@@ -589,6 +604,20 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 @media (max-width:520px){#changelog .modal-card{padding:28px 22px 24px;} #changelog h2{font-size:22px;} #changelog .cl-list{font-size:14.5px;}}
 
 /* ---- stunts + train panels (the stunts menu uses the same look as the upgrades shop) ---- */
+#trainTopBtn{padding:7px 16px;font-weight:800;border-radius:18px;background:#111;color:#fff;border-color:#111;} #trainTopBtn:hover{background:#2f6fed;border-color:#2f6fed;}
+#trainPick{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(15,18,28,.45);backdrop-filter:blur(3px);animation:panelIn .2s ease;}
+#trainPick .tp-box{background:#fff;color:#111;border-radius:22px;padding:18px 18px 16px;width:min(430px,92vw);max-height:82vh;display:flex;flex-direction:column;gap:10px;box-shadow:0 24px 70px rgba(0,0,0,.35);}
+#trainPick .tp-top{display:flex;align-items:center;justify-content:space-between;gap:10px;} #trainPick h3{margin:0;font-size:19px;letter-spacing:-.3px;}
+#trainPick .tp-x{width:32px;height:32px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:15px;line-height:1;}
+#trainPick .tp-sub{font-size:12px;color:#777;margin-top:-6px;}
+#trainPick .tp-list{display:flex;flex-direction:column;gap:7px;overflow-y:auto;padding:2px;}
+#trainPick .tp-row{display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;border:1.5px solid #e4e6eb;border-radius:14px;background:#fafbfc;cursor:pointer;font:inherit;color:inherit;transition:transform .12s,border-color .15s,box-shadow .15s;}
+#trainPick .tp-row:hover{transform:translateY(-1px);border-color:#2f6fed;box-shadow:0 4px 14px rgba(47,111,237,.18);}
+#trainPick .tp-emo{font-size:26px;flex:none;width:34px;text-align:center;} #trainPick .tp-mid{flex:1;min-width:0;} #trainPick .tp-name{font-weight:800;font-size:14px;}
+#trainPick .tp-lv{font-size:12px;color:#666;font-weight:700;margin-top:1px;} #trainPick .tp-bar{height:5px;border-radius:3px;background:#e7e9ee;margin-top:5px;overflow:hidden;} #trainPick .tp-bar i{display:block;height:100%;background:#2f6fed;}
+#trainPick .tp-go{flex:none;font-size:11px;font-weight:800;color:#2f6fed;letter-spacing:.4px;}
+#trainPick .tp-empty{font-size:13px;color:#666;padding:10px 4px;text-align:center;}
+#trainPick .tp-buy{align-self:stretch;}
 #stuntsPanel,#trainPanel{align-items:stretch;justify-content:flex-start;padding:0;gap:0;}
 #trainPanel{overflow-y:auto;}
 #stuntsPanel .shop-header,#trainPanel .shop-header{animation:headerDrop .45s .05s cubic-bezier(.2,.8,.2,1) backwards;}
@@ -750,7 +779,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="start-btn" id="startBtn">play</button>
     <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="stuntsBtn">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div><div class="level-pill" id="menuHoursTag">0s played</div></div>
-    <div class="ver">v.0.0.28 (alpha)</div>
+    <div class="ver">v.0.0.29 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -787,6 +816,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <div class="shop-header">
       <h2>stunts</h2>
       <div id="stuntsWalletTag" class="wallet-pill">0c</div>
+      <button class="action-btn" id="trainTopBtn" type="button">🏋️ train</button>
     </div>
     <div id="stuntLab"></div>
     <div id="stuntPager" class="lab-pager"></div>
@@ -909,6 +939,7 @@ function closePanel(id){
 }
 window.__bikePanels={open:openPanel,close:closePanel};
 function closeOpenPanel(){
+  if(document.getElementById('trainPick')){ document.getElementById('trainPick').remove(); return true; }   // the train pop-up closes first
   if(!document.getElementById('upgradesPanel').classList.contains('hidden')&&lab.pay){ lab.pay=false; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; return true; }   // back from the pay page goes to the upgrades page first
   if(!document.getElementById('stuntsPanel').classList.contains('hidden')&&stPay){ stPay=false; renderStunts(true); document.getElementById('stuntLab').scrollTop=0; return true; }   // back from the stunts pay page goes to the stunts page first
   if(!document.getElementById('gearPanel').classList.contains('hidden')&&shPay){ shPay=false; shGone=false; renderGear(true); document.getElementById('shopLab').scrollTop=0; return true; }   // back from the shop pay page goes to the shop first
@@ -934,7 +965,7 @@ const modeConfig={
 const MODE_PAY={easy:1,regular:1.25,hard:1.5,chaos:2,police:1};
 const MODE_RED={easy:0,regular:.28,hard:.6,chaos:1,police:0};   // how strong the menu's red tint is for each mode (fades in and out slowly)
 function setMenuTint(){ const t=document.getElementById('menuTint'), l=document.getElementById('menuLights'); if(t) t.style.opacity=String(MODE_RED[mode]||0); if(l) l.classList.toggle('on',mode==='police'); }
-const payMul=()=>trainMode?1:(MODE_PAY[mode]||1);
+const payMul=()=>trainMode?1:(MODE_PAY[mode]||1)*abilCoinMul();   // harder modes, Coin Magnet and rebirths all pay more
 document.querySelectorAll('.mode-btn').forEach(btn=>btn.addEventListener('click',()=>{
   document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active'); mode=btn.dataset.mode; lsSet('bike_mode',mode); setMenuTint();
@@ -1590,21 +1621,36 @@ document.getElementById('closeUpgrades').onclick=()=>closePanel('upgradesPanel')
 
 
 // ---- shop: stunt styles, pets (passive coin bonus), rockets (consumable speed boost) ----
-const STYLE_TIERS=[   // page 1 = the first 7, page 2 = the next 7. every stunt has its own spin, preview animation, effects and colour
+const STYLE_TIERS=[   // 28 stunts, one page. every stunt has its own spin, preview animation, effects and colour
   {name:'Frontflip',unit:'flip',    emoji:'🤸',dir: 1,torque:.055,flipMult:1,   price:0,   anim:'flipF',  col:'#2f6fed',desc:'nose-down flip · 1× flips'},
-  {name:'Backflip', unit:'backflip',emoji:'🔄',dir:-1,torque:.055,flipMult:1.25,price:500, anim:'flipB',  col:'#13b38a',desc:'nose-up flip · 1.25× flips'},
-  {name:'Slow Roll',unit:'roll',    emoji:'🌀',dir: 1,torque:.03, flipMult:1.6, price:1400,anim:'roll',   col:'#7bc618',desc:'slow spin · 1.6× flips'},
-  {name:'Hyper Flip',unit:'hyperflip',emoji:'⚡',dir:-1,torque:.09,flipMult:1.3, price:3200,anim:'hyper',  col:'#e6a817',desc:'lightning spin · 1.3× flips'},
-  {name:'Twist',      unit:'twist',   emoji:'🌪️',dir: 1,torque:.07, flipMult:1.8,price:5500, anim:'twist',  col:'#7c4dff',desc:'tight twist · 1.8× flips'},
-  {name:'Barrel Roll',unit:'barrel',  emoji:'🛢️',dir:-1,torque:.04, flipMult:2.2,price:9000, anim:'barrel', col:'#b8693a',desc:'big roll · 2.2× flips'},
-  {name:'Cyclone',    unit:'cyclone', emoji:'💫',dir: 1,torque:.11, flipMult:2.6,price:15000,anim:'cyclone',col:'#ff2bd6',desc:'max spin · 2.6× flips'},
-  {name:'Tailwhip',   unit:'tailwhip',emoji:'🎡',dir: 1,torque:.075,flipMult:2.9,price:22000,anim:'whip',   col:'#18b8d8',desc:'frame whips around the bars · 2.9× flips'},
-  {name:'Superman',   unit:'superman',units:'supermen',emoji:'🦸',dir:-1,torque:.014,flipMult:1,airMult:1.8,price:30000,anim:'super',col:'#d62839',desc:'fly flat with a cape · 1.8× air time'},
-  {name:'No-Hander',  unit:'no-hander',emoji:'🙌',dir: 1,torque:.05, flipMult:1.5,airMult:1.4,price:42000,anim:'nohand',col:'#ff7a3d',desc:'hands off the bars · 1.5× flips · 1.4× air time'},
-  {name:'Helicopter', unit:'helicopter',emoji:'🚁',dir: 1,torque:.085,flipMult:3.2,price:58000,anim:'heli', col:'#4a9dff',desc:'spin flat like a rotor · 3.2× flips'},
-  {name:'Corkscrew',  unit:'corkscrew',emoji:'🔩',dir:-1,torque:.095,flipMult:3.7,price:80000,anim:'cork',  col:'#ec4a86',desc:'flip and roll at once · 3.7× flips'},
-  {name:'Double Back',unit:'double back',emoji:'🔁',dir:-1,torque:.14,flipMult:4.3,price:110000,anim:'double',col:'#22d46a',desc:'two backflips in one jump · 4.3× flips'},
-  {name:'Supernova',  unit:'supernova',emoji:'🌟',dir: 1,torque:.17, flipMult:5.2,airMult:1.5,price:160000,anim:'nova',col:'#ffd24d',desc:'max spin and sparks · 5.2× flips · 1.5× air time'}
+  {name:'Backflip', unit:'backflip',emoji:'🔄',dir:-1,torque:.055,flipMult:1.25,price:750, anim:'flipB',  col:'#13b38a',desc:'nose-up flip · 1.25× flips'},
+  {name:'Slow Roll',unit:'roll',    emoji:'🌀',dir: 1,torque:.03, flipMult:1.6, price:1700,anim:'roll',   col:'#7bc618',desc:'slow spin · 1.6× flips'},
+  {name:'Hyper Flip',unit:'hyperflip',emoji:'⚡',dir:-1,torque:.09,flipMult:1.3, price:5700,anim:'hyper',  col:'#e6a817',desc:'lightning spin · 1.3× flips'},
+  {name:'Twist',      unit:'twist',   emoji:'🌪️',dir: 1,torque:.07, flipMult:1.8,price:13000, anim:'twist',  col:'#7c4dff',desc:'tight twist · 1.8× flips'},
+  {name:'Barrel Roll',unit:'barrel',  emoji:'🛢️',dir:-1,torque:.04, flipMult:2.2,price:29000, anim:'barrel', col:'#b8693a',desc:'big roll · 2.2× flips'},
+  {name:'Cyclone',    unit:'cyclone', emoji:'💫',dir: 1,torque:.11, flipMult:2.6,price:65000,anim:'cyclone',col:'#ff2bd6',desc:'max spin · 2.6× flips'},
+  {name:'Tailwhip',   unit:'tailwhip',emoji:'🎡',dir: 1,torque:.075,flipMult:2.9,price:150000,anim:'whip',   col:'#18b8d8',desc:'frame whips around the bars · 2.9× flips'},
+  {name:'Superman',   unit:'superman',units:'supermen',emoji:'🦸',dir:-1,torque:.014,flipMult:1,airMult:1.8,price:330000,anim:'super',col:'#d62839',desc:'fly flat with a cape · 1.8× air time'},
+  {name:'No-Hander',  unit:'no-hander',emoji:'🙌',dir: 1,torque:.05, flipMult:1.5,airMult:1.4,price:740000,anim:'nohand',col:'#ff7a3d',desc:'hands off the bars · 1.5× flips · 1.4× air time'},
+  {name:'Helicopter', unit:'helicopter',emoji:'🚁',dir: 1,torque:.085,flipMult:3.2,price:1700000,anim:'heli', col:'#4a9dff',desc:'spin flat like a rotor · 3.2× flips'},
+  {name:'Corkscrew',  unit:'corkscrew',emoji:'🔩',dir:-1,torque:.095,flipMult:3.7,price:3700000,anim:'cork',  col:'#ec4a86',desc:'flip and roll at once · 3.7× flips'},
+  {name:'Double Back',unit:'double back',emoji:'🔁',dir:-1,torque:.14,flipMult:4.3,price:8400000,anim:'double',col:'#22d46a',desc:'two backflips in one jump · 4.3× flips'},
+  {name:'Supernova',  unit:'supernova',emoji:'🌟',dir: 1,torque:.17, flipMult:5.2,airMult:1.5,price:19000000,anim:'nova',col:'#ffd24d',desc:'max spin and sparks · 5.2× flips · 1.5× air time'},
+  // ---- 14 more stunts that fill the gaps between the prices above (28 in total, all on one page; the shop sorts them cheapest first) ----
+  {name:'Lazy Flip',  unit:'lazy flip',emoji:'😴',dir: 1,torque:.04, flipMult:1.1,price:500,   anim:'lazy',  col:'#8e9aaf',desc:'slow floaty flip · 1.1× flips'},
+  {name:'Rocker',     unit:'rocker',  emoji:'🪑',dir: 1,torque:.03, flipMult:1.2,price:1100,   anim:'wobble', col:'#ff9f1c',desc:'rock the bike side to side · 1.2× flips'},
+  {name:'Pogo',       unit:'pogo',    emoji:'🏀',dir:-1,torque:.035,flipMult:1.3,price:2500,  anim:'bounce', col:'#00b4d8',desc:'bounce like a pogo stick · 1.3× flips'},
+  {name:'Tuck Ball',  unit:'tuck',    emoji:'🔴',dir: 1,torque:.06, flipMult:1.5,price:3800,  anim:'tuck',   col:'#e63946',desc:'curl into a ball · 1.5× flips'},
+  {name:'Reverse Roll',unit:'reverse roll',emoji:'🔃',dir:-1,torque:.035,flipMult:1.8,price:8500,anim:'rollback',col:'#2a9d8f',desc:'slow roll the other way · 1.8× flips'},
+  {name:'Upside Down',unit:'upside down',emoji:'🙃',dir: 1,torque:.045,flipMult:2.0,airMult:1.3,price:19000,anim:'invert',col:'#6a4c93',desc:'flip over and hang there · 2× flips · 1.3× air time'},
+  {name:'Hurricane',  unit:'hurricane',emoji:'🌊',dir:-1,torque:.1,  flipMult:2.9,price:43000, anim:'storm',col:'#118ab2',desc:'spinning storm · 2.9× flips'},
+  {name:'Spiral',     unit:'spiral',  emoji:'🐚',dir: 1,torque:.08, flipMult:3.0,price:97000, anim:'spiral', col:'#f4a261',desc:'flip with a twist · 3× flips'},
+  {name:'Whiplash',   unit:'whiplash',emoji:'💥',dir:-1,torque:.08, flipMult:3.3,price:220000, anim:'whiplash',   col:'#ef476f',desc:'frame whips the other way · 3.3× flips'},
+  {name:'Phantom',    unit:'phantom', emoji:'👻',dir:-1,torque:.12, flipMult:3.8,price:490000, anim:'phantom',  col:'#8d99ae',desc:'ghost trails · 3.8× flips'},
+  {name:'Meteor',     unit:'meteor',  emoji:'☄️',dir: 1,torque:.13, flipMult:4.4,price:1100000, anim:'meteor',   col:'#ff6b35',desc:'blazing spin · 4.4× flips'},
+  {name:'Windmill',   unit:'windmill',emoji:'🌬️',dir:-1,torque:.09, flipMult:3.5,airMult:1.2,price:2500000,anim:'windmill',col:'#06d6a0',desc:'rotor spin the other way · 3.5× flips · 1.2× air time'},
+  {name:'Mega Barrel',unit:'mega barrel',emoji:'🥁',dir: 1,torque:.05,flipMult:4.7,price:5600000,anim:'megabarrel',col:'#9c6644',desc:'huge roll · 4.7× flips'},
+  {name:'Galaxy',     unit:'galaxy',  emoji:'🌌',dir: 1,torque:.19, flipMult:5.8,airMult:1.6,price:13000000,anim:'galaxy',  col:'#5e60ce',desc:'max spin and stars · 5.8× flips · 1.6× air time'}
 ];
 const PET_TIERS=[
   {name:'Dog',   emoji:'🐶',bonus:.10,price:300, fly:false},
@@ -1613,7 +1659,14 @@ const PET_TIERS=[
   {name:'Dragon',emoji:'🐉',bonus:.60,price:6000,fly:true},
   {name:'Fox',   emoji:'🦊',bonus:.28,price:1500,fly:false},
   {name:'Owl',   emoji:'🦉',bonus:.45,price:3800,fly:true},
-  {name:'Unicorn',emoji:'🦄',bonus:.85,price:9000,fly:false}
+  {name:'Unicorn',emoji:'🦄',bonus:.85,price:9000,fly:false},
+  {name:'Wolf',   emoji:'🐺',bonus:.50,price:4500, fly:false},
+  {name:'Boar',   emoji:'🐗',bonus:.62,price:7500, fly:false},
+  {name:'Bear',   emoji:'🐻',bonus:.78,price:13000,fly:false},
+  {name:'Eagle',  emoji:'🦅',bonus:.88,price:20000,fly:true},
+  {name:'Gorilla',emoji:'🦍',bonus:1.00,price:32000,fly:false},
+  {name:'Lion',   emoji:'🦁',bonus:1.15,price:50000,fly:false},
+  {name:'Seal',   emoji:'🦭',bonus:1.40,price:80000,fly:false}   // the best pet in the shop
 ];
 const ROCKET_TIERS=[
   {name:'Firework',emoji:'🎆',thrust:.5, extra:10,dur:60, price:150},
@@ -1622,7 +1675,14 @@ const ROCKET_TIERS=[
   {name:'Mega',    emoji:'☄️',thrust:1.8,extra:48,dur:200,price:2500},
   {name:'Sparkler',emoji:'✨',thrust:.3,extra:6, dur:45, price:60},
   {name:'Nitro',   emoji:'🔥',thrust:1.0,extra:22,dur:120,price:700},
-  {name:'Warp',    emoji:'🌌',thrust:2.4,extra:70,dur:240,price:5500}
+  {name:'Warp',    emoji:'🌌',thrust:2.4,extra:70,dur:240,price:5500},
+  {name:'Bottle Rocket',emoji:'🍾',thrust:.4, extra:8,  dur:50, price:100},
+  {name:'Dynamite',emoji:'🧨',thrust:.65,extra:14, dur:80, price:300},
+  {name:'Turbo',   emoji:'🌀',thrust:1.1, extra:26, dur:135,price:900},
+  {name:'Comet',   emoji:'🌠',thrust:1.5, extra:38, dur:170,price:1800},
+  {name:'Inferno', emoji:'🌋',thrust:2.0, extra:56, dur:220,price:3500},
+  {name:'Plasma',  emoji:'💠',thrust:2.8, extra:90, dur:260,price:8000},
+  {name:'Hyperdrive',emoji:'🛸',thrust:3.4,extra:120,dur:300,price:15000}
 ];
 function cleanIdxList(v,max,keepZero){
   let a=Array.isArray(v)?v.filter(n=>Number.isInteger(n)&&n>=0&&n<max):[];
@@ -1642,7 +1702,12 @@ const TRAIL_TIERS=[
   {name:'Ember',  colors:['#ff6a1f','#ffd24d'],price:1200,desc:'fiery sparks'},
   {name:'Frost',  colors:['#7cc7ff','#e6f6ff'],price:2600,desc:'icy shimmer'},
   {name:'Neon',   colors:['#ff2bd6','#2bffe0'],price:5200,desc:'neon streak'},
-  {name:'Rainbow',colors:null,                 price:9000,desc:'full spectrum'}
+  {name:'Rainbow',colors:null,                 price:9000,desc:'full spectrum'},   // still the most expensive trail
+  {name:'Slime',  colors:['#7bc618','#c6f36b'],price:700, desc:'toxic green ooze'},
+  {name:'Gold',   colors:['#e6a817','#ffe27a'],price:3400,desc:'glittering gold dust'},
+  {name:'Lightning',colors:['#4a9dff','#fff6a8','#ffffff'],price:4300,desc:'crackling bolts'},
+  {name:'Sunset', colors:['#ff7a3d','#ec4a86','#7c4dff'],price:6800,desc:'orange fading to purple'},
+  {name:'Galaxy', colors:['#7c4dff','#2f6fed','#ff2bd6','#ffffff'],price:8000,desc:'swirling starlight'}
 ];
 let ownedTrails=cleanIdxList(lsGetJSON('bike_trailsOwned',[]),TRAIL_TIERS.length,false);
 let selectedTrail=parseInt(lsGet('bike_trailSel','-1'),10); if(!ownedTrails.includes(selectedTrail)) selectedTrail=-1;
@@ -1661,9 +1726,20 @@ function saveGear(){
   saveAbil();
 }
 // abilities: auto jump (hops pits for you) and stunt wheelie (W: 10s of extra coins, 2s cooldown) -- the priciest item
-const AUTOJUMP_PRICE=500000, WHEELIE_PRICE=500, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=120;
+const AUTOJUMP_PRICE=500000, WHEELIE_PRICE=500, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=0;   // no cooldown
 let abil=lsGetJSON('bike_abilities',{}); if(!abil||typeof abil!=='object') abil={};
-abil={autoJump:!!abil.autoJump, autoJumpOn:abil.autoJumpOn!==false, wheelie:!!abil.wheelie};
+abil={autoJump:!!abil.autoJump, autoJumpOn:abil.autoJumpOn!==false, wheelie:!!abil.wheelie,
+  hang:!!abil.hang, hangOn:abil.hangOn!==false, spin:!!abil.spin, spinOn:abil.spinOn!==false,
+  launch:!!abil.launch, launchOn:abil.launchOn!==false, magnet:!!abil.magnet, magnetOn:abil.magnetOn!==false,
+  wind:!!abil.wind, windOn:abil.windOn!==false,
+  rebirths:Math.max(0,Math.min(999,Math.floor(Number(abil.rebirths))||0))};
+// rebirth: costs 60,000,000 coins every time and stacks. each one makes ALL your coins x1.5 and your top speed x1.2
+const REBIRTH_PRICE=60000000, REBIRTH_COIN=1.5, REBIRTH_SPEED=1.2;
+const abilOn=k=>!!(abil[k]&&abil[k+'On']);
+const rebirthCoinMul=()=>Math.pow(REBIRTH_COIN,abil.rebirths), rebirthSpeedMul=()=>Math.pow(REBIRTH_SPEED,abil.rebirths);
+const spdMul=()=>trainMode?1:Math.pow(REBIRTH_SPEED,abil.rebirths);   // top speed in a real run (practice stays normal)
+const abilCoinMul=()=>rebirthCoinMul()*(abilOn('magnet')?1.25:1);
+const fmtX=x=>String(Math.round(x*100)/100);
 let wheelieT=0, wheelieCD=0, wheelieAng=0, wheelieFrac=0;
 function saveAbil(){ lsSet('bike_abilities',JSON.stringify(abil)); }
 function currentStyle(){ return STYLE_TIERS[selectedStyle]||STYLE_TIERS[0]; }
@@ -1688,17 +1764,25 @@ const SHOP_CATS=[
   {label:'rockets',one:'rocket',emoji:'🚀',col:'#ff6a1f'},
   {label:'abilities',one:'ability',emoji:'⚡',col:'#13b38a'}
 ];
-const ABILITY_LIST=[{name:'Auto Jump',emoji:'🦘',price:AUTOJUMP_PRICE,desc:'hops pits for you automatically and stops you rolling back into one'}];
+const ABILITY_LIST=[
+  {key:'autoJump',name:'Auto Jump',emoji:'🦘',price:AUTOJUMP_PRICE,desc:'hops pits for you automatically and stops you rolling back into one',fx:'auto-hops pits'},
+  {key:'hang',name:'Hang Time',emoji:'🪂',price:250000,desc:'gravity is lighter on ramp jumps, so you float longer and earn more air time',fx:'+28% air time'},
+  {key:'spin',name:'Spin Master',emoji:'🌀',price:400000,desc:'every stunt press spins 40% harder, so you land more flips per jump',fx:'+40% stunt spin'},
+  {key:'launch',name:'Launch Boost',emoji:'🛫',price:750000,desc:'every run starts with a free 2 second booster burn',fx:'free boost each run'},
+  {key:'magnet',name:'Coin Magnet',emoji:'🧲',price:1500000,desc:'pulls in extra coins from everything you do',fx:'+25% coins'},
+  {key:'wind',name:'Second Wind',emoji:'💨',price:2500000,desc:'survive one wipe-out or pit fall every run: you are set back upright and keep riding',fx:'1 free save per run'},
+  {key:'rebirth',name:'Rebirth',emoji:'♻️',price:REBIRTH_PRICE,repeat:true,desc:'buy it again and again. every rebirth makes all your coins ×'+REBIRTH_COIN+' and your top speed ×'+REBIRTH_SPEED+' for good',fx:'×'+REBIRTH_COIN+' coins · ×'+REBIRTH_SPEED+' speed each'}
+];
 const shList=c=>c===0?PET_TIERS:c===1?TRAIL_TIERS:c===2?ROCKET_TIERS:ABILITY_LIST;
 const shOrder=c=>{ const L=shList(c); return L.map((_,i)=>i).sort((a,b)=>L[a].price-L[b].price||a-b); };
-const shOwned=(c,i)=>c===0?ownedPets.includes(i):c===1?ownedTrails.includes(i):c===2?rockets[i]>0:!!abil.autoJump;
-const shEq=(c,i)=>c===0?selectedPet===i:c===1?selectedTrail===i:c===2?selectedRocket===i:!!(abil.autoJump&&abil.autoJumpOn);
+const shOwned=(c,i)=>c===0?ownedPets.includes(i):c===1?ownedTrails.includes(i):c===2?rockets[i]>0:(!ABILITY_LIST[i].repeat&&!!abil[ABILITY_LIST[i].key]);   // rebirth can be bought again and again, so it never counts as owned
+const shEq=(c,i)=>c===0?selectedPet===i:c===1?selectedTrail===i:c===2?selectedRocket===i:(!ABILITY_LIST[i].repeat&&abilOn(ABILITY_LIST[i].key));
 const shIcon=t=>t.emoji||'✨';
 let shCat=0, shView=[0,0,0,0], shPay=false, shQty=1, shGone=false, shSwap='';
-function shEffect(c,t){ return c===0?'+'+Math.round(t.bonus*100)+'% stunt coins':c===1?t.desc:c===2?'+'+t.extra+' mph · '+(t.dur/60).toFixed(1)+'s boost':'auto-hops pits'; }
+function shEffect(c,t){ return c===0?'+'+Math.round(t.bonus*100)+'% stunt coins':c===1?t.desc:c===2?'+'+t.extra+' mph · '+(t.dur/60).toFixed(1)+'s boost':t.fx; }
 function shSub(c,t){ return c===0?(t.fly?'flies alongside you':'runs alongside you'):c===1?'streams behind your bike':c===2?'one-use boost · pick which one fires':t.desc; }
 function shFocus(){ const f=[selectedPet,selectedTrail,selectedRocket,0]; for(let c=0;c<4;c++) shView[c]=Math.max(0,shOrder(c).indexOf(f[c])); }
-function shCount(c){ return c===0?ownedPets.length+' of '+PET_TIERS.length+' owned':c===1?ownedTrails.length+' of '+TRAIL_TIERS.length+' owned':c===2?rockets.reduce((a,b)=>a+b,0)+' rockets in stock':(abil.autoJump?1:0)+' of '+ABILITY_LIST.length+' owned'; }
+function shCount(c){ return c===0?ownedPets.length+' of '+PET_TIERS.length+' owned':c===1?ownedTrails.length+' of '+TRAIL_TIERS.length+' owned':c===2?rockets.reduce((a,b)=>a+b,0)+' rockets in stock':ABILITY_LIST.filter(a=>!a.repeat&&abil[a.key]).length+' of '+(ABILITY_LIST.length-1)+' owned · '+abil.rebirths+' rebirth'+(abil.rebirths===1?'':'s'); }
 
 function renderShPay(root){
   const el=stEl, c=shCat, ord=shOrder(c), i=ord[Math.min(shView[c],ord.length-1)], t=shList(c)[i], owned=shOwned(c,i);
@@ -1757,7 +1841,8 @@ function renderShPay(root){
     if(c===0){ ownedPets.push(k); selectedPet=k; }
     else if(c===1){ ownedTrails.push(k); selectedTrail=k; }
     else if(c===2){ rockets[k]+=q; }
-    else { abil.autoJump=true; abil.autoJumpOn=true; }
+    else if(tk.repeat){ abil.rebirths=Math.min(999,abil.rebirths+1); }
+    else { abil[tk.key]=true; abil[tk.key+'On']=true; }
     saveShop(); saveGear(); updateWalletTags(); pulseEl('gearWalletTag');
     shPay=false; shGone=false; shQty=1; redo(true); stConfetti('gearPanel');
   };
@@ -1771,16 +1856,16 @@ function renderGear(animate){
   root.classList.toggle('enter',animate!==false); root.classList.toggle('checkout',!!shPay); root.innerHTML='';
   if(shPay){ renderShPay(root); return; }
   const c=shCat, ord=shOrder(c), n=ord.length, vi=Math.min(shView[c],n-1), i=ord[vi], t=shList(c)[i], cat=SHOP_CATS[c];
-  const owned=shOwned(c,i), eq=shEq(c,i), stock=c===2?rockets[i]:0;
+  const owned=shOwned(c,i), eq=shEq(c,i), stock=c===2?rockets[i]:0, rb=c===3&&!!t.repeat;
 
   // preview
   const pv=stEl('div','lab-card lab-preview'); pv.style.setProperty('--bc',(c===1&&t.colors)?t.colors[0]:cat.col);
   pv.appendChild(stEl('div','lab-label','shop preview · '+cat.label));
-  pv.appendChild(stEl('div','lab-badge'+((c===2?stock>0:eq)?' on':''),c===2?(stock>0?'owned ×'+stock:'preview'):(eq?'equipped':owned?'owned':'preview')));
+  pv.appendChild(stEl('div','lab-badge'+((c===2?stock>0:rb?abil.rebirths>0:eq)?' on':''),c===2?(stock>0?'owned ×'+stock:'preview'):rb?(abil.rebirths>0?'rebirths ×'+abil.rebirths:'preview'):(eq?'equipped':owned?'owned':'preview')));
   { const nm=stEl('div','lab-bname'); nm.appendChild(stEl('span','st-emo',shIcon(t))); nm.appendChild(document.createTextNode(' '+t.name)); pv.appendChild(nm); }
   const stage=stEl('div','lab-stage'); const cv=stEl('canvas','st-cv'); cv.id='shopPreview'; cv.width=620; cv.height=330; stage.appendChild(cv); pv.appendChild(stage);
   const chips=stEl('div','lab-chips');
-  [shEffect(c,t),c===2?'owned: '+stock:(eq?'equipped':owned?'owned':'not owned')].forEach(x=>chips.appendChild(stEl('span','chip',x)));
+  [shEffect(c,t),c===2?'owned: '+stock:rb?'rebirths: '+abil.rebirths:(eq?'equipped':owned?'owned':'not owned')].forEach(x=>chips.appendChild(stEl('span','chip',x)));
   pv.appendChild(chips); root.appendChild(pv);
 
   // item selector (left / right, same card as the stunt type)
@@ -1792,7 +1877,7 @@ function renderGear(animate){
   const pips=stEl('div','pips');
   for(let idx=0;idx<n;idx++){ const k=ord[idx]; const p=stEl('button','pip'+(idx===vi?' on':shOwned(c,k)?' own':'')); p.type='button'; p.title=shList(c)[k].name; p.setAttribute('aria-label',shList(c)[k].name); p.onclick=()=>{ shSwap=idx>vi?'swapR':'swapL'; shView[c]=idx; shQty=1; renderGear(false); }; pips.appendChild(p); }
   ty.appendChild(pips);
-  const pr=stEl('div','lab-prices'); pr.appendChild(stEl('span','',(vi+1)+' of '+n)); pr.appendChild(stEl('span',(c!==2&&owned)?'back':'',c===2?fmtC(t.price)+' each':owned?'owned':'costs '+fmtC(t.price))); ty.appendChild(pr);
+  const pr=stEl('div','lab-prices'); pr.appendChild(stEl('span','',(vi+1)+' of '+n)); pr.appendChild(stEl('span',(c!==2&&owned)?'back':'',c===2?fmtC(t.price)+' each':rb?fmtC(t.price)+' per rebirth':owned?'owned':'costs '+fmtC(t.price))); ty.appendChild(pr);
   root.appendChild(ty);
 
   // category (pets / trails / rockets / abilities)
@@ -1817,8 +1902,9 @@ function renderGear(animate){
   const toPay=()=>{ shPay=true; shGone=false; renderGear(true); document.getElementById('shopLab').scrollTop=0; };
   if(c===2){ ap.textContent='proceed to pay'; ap.disabled=rockets[i]>=999; ap.onclick=toPay; }
   else if(c===3){
-    ap.textContent=owned?(abil.autoJumpOn?'turn off':'turn on'):'proceed to pay';
-    ap.onclick=()=>{ if(owned){ abil.autoJumpOn=!abil.autoJumpOn; saveGear(); renderGear(false); pulseEl('shCost'); } else toPay(); };
+    const kk=t.key;
+    ap.textContent=owned?(abil[kk+'On']?'turn off':'turn on'):'proceed to pay';
+    ap.onclick=()=>{ if(owned){ abil[kk+'On']=!abil[kk+'On']; saveGear(); renderGear(false); pulseEl('shCost'); } else toPay(); };
   } else {
     ap.textContent=owned?(eq?'unequip':'equip'):'proceed to pay';
     ap.onclick=()=>{ if(!owned){ toPay(); return; } if(c===0) selectedPet=eq?-1:i; else selectedTrail=eq?-1:i; saveGear(); renderGear(false); pulseEl('shCost'); };
@@ -1833,7 +1919,7 @@ function renderGear(animate){
     dt.appendChild(stEl('div','st-skill-line','in stock: '+stock));
     const ub=stEl('button','lab-apply',selectedRocket===i?'in use':'use this rocket'); ub.type='button'; ub.disabled=selectedRocket===i; ub.onclick=()=>{ selectedRocket=i; saveGear(); renderGear(false); }; dt.appendChild(ub);
   } else if(c===0){ dt.appendChild(stEl('div','st-skill-line','bonus applies to every stunt payout')); }
-  else if(c===3){ dt.appendChild(stEl('div','st-skill-line',owned?(abil.autoJumpOn?'currently on':'currently off'):'one-time purchase')); }
+  else if(c===3){ dt.appendChild(stEl('div','st-skill-line',rb?('you have '+abil.rebirths+' rebirth'+(abil.rebirths===1?'':'s')+' · coins ×'+fmtX(rebirthCoinMul())+' · speed ×'+fmtX(rebirthSpeedMul())+' · next: coins ×'+fmtX(rebirthCoinMul()*REBIRTH_COIN)+', speed ×'+fmtX(rebirthSpeedMul()*REBIRTH_SPEED)):owned?(abil[t.key+'On']?'currently on':'currently off'):'one-time purchase')); }
   root.appendChild(dt);
   root.scrollTop=keep; shSwap='';
 }
@@ -1847,14 +1933,14 @@ function drawShopPreview(ts){
   g.clearRect(0,0,w,h);
   g.fillStyle='rgba(255,255,255,.7)';
   for(let k=0;k<3;k++){ const cx0=(((k*260-ts*.012*(k+1))%(w+200))+(w+200))%(w+200)-100; g.beginPath(); g.ellipse(cx0,50+k*34,54-k*8,16,0,0,TAU2); g.fill(); }
-  const pit=c===3;
+  const pit=c===3&&t.key==='autoJump';
   g.strokeStyle='#d9d9d9'; g.lineWidth=2; g.beginPath();
   if(pit){ g.moveTo(0,groundY); g.lineTo(w*.45,groundY); g.moveTo(w*.6,groundY); g.lineTo(w,groundY); } else { g.moveTo(0,groundY); g.lineTo(w,groundY); }
   g.stroke();
   if(pit){ g.fillStyle='rgba(0,0,0,.08)'; g.fillRect(w*.45,groundY,w*.15,70); }
   g.strokeStyle='#e6e6e6'; for(let x=-((ts*.18)%60);x<w;x+=60){ if(pit&&x>w*.42&&x<w*.62) continue; g.beginPath(); g.moveTo(x,groundY+12); g.lineTo(x+28,groundY+12); g.stroke(); }
-  const bike=(x,lift)=>{ g.fillStyle='rgba(0,0,0,'+(.16*Math.max(0,1-lift/120)).toFixed(3)+')'; g.beginPath(); g.ellipse(x,groundY+3,60,6,0,0,TAU2); g.fill();
-    g.save(); g.translate(x,by-lift); g.scale(SC,SC); miniFrame(g,ts*.012); miniRider(g,{}); g.restore(); };
+  const bike=(x,lift,rot)=>{ g.fillStyle='rgba(0,0,0,'+(.16*Math.max(0,1-lift/120)).toFixed(3)+')'; g.beginPath(); g.ellipse(x,groundY+3,60,6,0,0,TAU2); g.fill();
+    g.save(); g.translate(x,by-lift); g.rotate(rot||0); g.scale(SC,SC); miniFrame(g,ts*.012); miniRider(g,{}); g.restore(); };
   if(c===0){
     const bx=w*.64; bike(bx,0);
     const bob=t.fly?Math.sin(ts*.006)*8+44:Math.abs(Math.sin(ts*.012))*16, px=w*.36+Math.sin(ts*.003)*10, py=groundY-26-bob;
@@ -1876,11 +1962,26 @@ function drawShopPreview(ts){
     g.fillStyle='#ffd24d'; g.beginPath(); g.moveTo(x0,y0-4); g.lineTo(x0-fl*.55,y0); g.lineTo(x0,y0+4); g.closePath(); g.fill();
     g.font='56px '+EMO; g.textAlign='center'; g.textBaseline='middle'; g.fillText(t.emoji,w*.86,70+Math.sin(ts*.004)*6);
     const f=(ts%1500)/1500; g.globalAlpha=1-f; g.fillStyle='#ff6a1f'; g.font='800 24px -apple-system,Segoe UI,sans-serif'; g.textBaseline='alphabetic'; g.fillText('+'+t.extra+' mph',bx+20,by-90-f*30); g.globalAlpha=1;
-  } else {
+  } else if(t.key==='autoJump'){
     const q=(ts%3200)/3200, bx=w*(.12+.76*q), a=w*.38, b=w*.68; let lift=0;
     if(bx>a&&bx<b) lift=Math.sin(Math.PI*(bx-a)/(b-a))*80;
     bike(bx,lift);
     if(lift>20){ g.fillStyle='#13b38a'; g.font='800 22px -apple-system,Segoe UI,sans-serif'; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText('auto hop!',bx,by-lift-90); }
+  } else {
+    const key=t.key, q=(ts%3200)/3200, a=w*.34, b=w*.7; let bx=w*(.12+.76*q), lift=0, rot=0;
+    const hi=key==='hang'?135:78;
+    if(bx>a&&bx<b){ const f=(bx-a)/(b-a); lift=Math.sin(Math.PI*f)*hi; if(key==='spin') rot=f*Math.PI*4; }
+    if(key==='launch'||key==='wind') lift=Math.sin(ts*.004)*4;
+    if(key==='rebirth'||key==='magnet') bx=w*.5;
+    g.strokeStyle='rgba(0,0,0,.1)'; g.lineWidth=2;
+    if(key==='launch'){ for(let k=0;k<7;k++){ const x=w-((ts*(.9+k*.12)+k*97)%w), y=60+k*28; g.beginPath(); g.moveTo(x,y); g.lineTo(x+60,y); g.stroke(); } bx=w*.55; }
+    if(key==='rebirth'){ for(let k=0;k<3;k++){ const f=((ts*.0006+k/3)%1); g.globalAlpha=(1-f)*.8; g.strokeStyle=['#7c4dff','#e6a817','#ff2bd6'][k]; g.lineWidth=4; g.beginPath(); g.arc(bx,by-lift,40+f*150,0,TAU2); g.stroke(); } g.globalAlpha=1; }
+    bike(bx,lift,rot);
+    if(key==='launch'){ const fl=(30+Math.random()*26)*(.6+.4*Math.abs(Math.sin(ts*.006))), x0=bx-46*SC, y0=by-lift+17*SC; g.fillStyle='#ff6a1f'; g.beginPath(); g.moveTo(x0,y0-9); g.lineTo(x0-fl,y0); g.lineTo(x0,y0+9); g.closePath(); g.fill(); g.fillStyle='#ffd24d'; g.beginPath(); g.moveTo(x0,y0-4); g.lineTo(x0-fl*.55,y0); g.lineTo(x0,y0+4); g.closePath(); g.fill(); }
+    if(key==='wind'){ const pulse=1+.05*Math.sin(ts*.008); g.fillStyle='rgba(19,179,138,.12)'; g.strokeStyle='#13b38a'; g.lineWidth=3; g.beginPath(); g.ellipse(bx,by-lift-6,92*pulse,84*pulse,0,0,TAU2); g.fill(); g.stroke(); }
+    if(key==='magnet'){ g.font='34px '+EMO; g.textAlign='center'; g.textBaseline='middle'; for(let k=0;k<6;k++){ const f=((ts*.0007+k/6)%1), ang=k*1.05+1, R=210*(1-f)+30; g.globalAlpha=Math.min(1,f*3)*(f>.9?(1-f)*10:1); g.fillText('🪙',bx+Math.cos(ang)*R,by-lift-10+Math.sin(ang)*R*.6); } g.globalAlpha=1; }
+    g.fillStyle=t.emoji?'#13b38a':'#13b38a'; g.font='56px '+EMO; g.textAlign='center'; g.textBaseline='middle'; g.fillText(t.emoji,w*.86,70+Math.sin(ts*.004)*6);
+    g.fillStyle='#13b38a'; g.font='800 22px -apple-system,Segoe UI,sans-serif'; g.textBaseline='alphabetic'; g.fillText(t.fx,w*.5,40);
   }
 }
 function shopLoop(ts){
@@ -1893,16 +1994,30 @@ document.getElementById('closeGear').onclick=()=>closePanel('gearPanel');
 
 // ---- stunts panel: stunt types, special-stunt switch, train menu (skills) ----
 const SKILLS=[
-  {id:'stand',  name:'Stand Up', emoji:'🧍', desc:'stand up on the pedals (on the scooter you stand on the handlebars)'},
-  {id:'wheelie',name:'Wheelie',  emoji:'🏍️', desc:'pop the front wheel up and ride it'},
-  {id:'nohands', name:'No Hands',   emoji:'🙌', desc:'let go of the bars and ride with your arms out', base:12, hard:1.1},
-  {id:'seatstand',name:'Seat Stand',emoji:'🧎', desc:'stand up on the saddle (on the scooter: a deep crouch)', base:14, hard:1.25},
-  {id:'feetup',  name:'Feet Up',    emoji:'🦵', desc:'lean back and put both feet up on the handlebars', base:16, hard:1.35},
-  {id:'superman',name:'Superman',   emoji:'🦸', desc:'lie flat over the bike, arms forward, legs stretched out behind', base:18, hard:1.5},
-  {id:'barstand',name:'Bar Stand',  emoji:'🤸', desc:'stand on the handlebars with your arms out', base:20, hard:1.7}
+  {id:'stand',  name:'Stand Up', emoji:'🧍', desc:'stand up on the pedals (on the scooter you stand on the handlebars)', price:3000},
+  {id:'wheelie',name:'Wheelie',  emoji:'🏍️', desc:'pop the front wheel up and ride it', price:1000},
+  {id:'nohands', name:'No Hands',   emoji:'🙌', desc:'let go of the bars and ride with your arms out', base:12, hard:1.1, price:1500},
+  {id:'seatstand',name:'Seat Stand',emoji:'🧎', desc:'stand up on the saddle (on the scooter: a deep crouch)', base:14, hard:1.25, price:2000},
+  {id:'feetup',  name:'Feet Up',    emoji:'🦵', desc:'lean back and put both feet up on the handlebars', base:16, hard:1.35, price:1500},
+  {id:'superman',name:'Superman',   emoji:'🦸', desc:'lie flat over the bike, arms forward, legs stretched out behind', base:18, hard:1.5, price:3000},
+  {id:'barstand',name:'Bar Stand',  emoji:'🤸', desc:'stand on the handlebars with your arms out', base:20, hard:1.7, price:1000},
+  {id:'handwheelie',name:'No-Hands Wheelie',emoji:'🖐️', desc:'wheelie with no hands on the bars, one hand dragging on the ground · HARD: the red zone is much bigger', base:30, hard:1.9, fall:.22, price:3000},
+  {id:'onefoot',name:'One Foot',emoji:'🦶',desc:'one foot on the pedal, the other leg kicked out straight behind', base:22, hard:1.5, price:3500},
+  {id:'rearpeg',name:'Rear Peg',emoji:'🔙',desc:'stand on the back axle behind the seat with both hands on the bars', base:26, hard:1.7, fall:.12, price:4000},
+  {id:'frontpeg',name:'Front Peg',emoji:'🔜',desc:'stand on the front axle over the front wheel', base:28, hard:1.8, fall:.13, price:4500},
+  {id:'barsit',name:'Bar Sit',emoji:'🪑',desc:'sit on the handlebars with your arms out', base:30, hard:1.9, fall:.15, price:5000},
+  {id:'seatkneel',name:'Seat Kneel',emoji:'🛐',desc:'kneel on the saddle with your legs folded behind', base:32, hard:2.0, fall:.15, price:5500},
+  {id:'lowcrouch',name:'Low Crouch',emoji:'🥷',desc:'drop into a super low racing tuck over the bars', base:24, hard:1.4, price:6000},
+  {id:'splitkick',name:'Split Kick',emoji:'🤺',desc:'one foot up on the bars, the other kicked up behind · HARD', base:38, hard:2.2, fall:.18, price:7000},
+  {id:'layback',name:'Lay Back',emoji:'😎',desc:'lie all the way back on the rear with your knees up · HARD', base:40, hard:2.4, fall:.2, price:8000},
+  {id:'handstand',name:'Handstand',emoji:'🙃', desc:'upside down on the handlebars, legs in the air · HARD: very twitchy, big red zone', base:34, hard:2.2, fall:.20, price:3000}
 ];
+SKILLS.sort((a,b)=>a.price-b.price);   // shop order: cheapest to most expensive (stable, so ties keep their order)
+function skillPrice(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.price)||1000; }
+function skillFall(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.fall)||BAL_FALL; }   // how close to the edge you fall: the hard skills have a bigger red zone
+const isWheelieType=id=>id==='wheelie'||id==='handwheelie';   // these two need the ground and pull the front wheel up
 const SKILL_BASE=10, SKILL_STEP=2, SKILL_MAXLV=Infinity; // 10c per second, +2c per second for every skill level. no level cap
-const SKILL_PRICE=1000;                                 // flat price to unlock each skill. training itself is free
+const SKILL_PRICE=1000;                                 // base price (each skill now has its own price in SKILLS). training itself is free
 const SPECIAL_MIN_LEVEL=5;                              // game level you need to use special stunts in a run
 let skillLv=Object.fromEntries(SKILLS.map(k=>[k.id,0])), skillOwn=Object.fromEntries(SKILLS.map(k=>[k.id,false])), skillXp=Object.fromEntries(SKILLS.map(k=>[k.id,0]));
 try{ const o=lsGetJSON('bike_skills',{}); for(const k of Object.keys(skillLv)){ const n=o&&o[k]; if(Number.isInteger(n)) skillLv[k]=Math.max(0,Math.min(SKILL_MAXLV,n)); } }catch(e){}
@@ -1915,14 +2030,15 @@ function skillBase(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.base)||S
 function skillDiff(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.hard)||1; }   // how twitchy the balance bar is
 function skillRate(id){ return skillBase(id)+SKILL_STEP*(skillLv[id]||0); }
 function skillName(id){ const k=SKILLS.find(x=>x.id===id); return k?k.name:''; }
-function trainNeed(lv){ return Math.max(5,15+5*lv); }   // 5 seconds easier than before on every level (never below 5s)               // seconds of balancing on the practice map to reach the next level
+function trainNeed(lv){ return 5+lv; }   // seconds of balancing on the practice map to reach the next level: 5s for the first, then 1 second more for every level
 function skillOwned(id){ return !!skillOwn[id]; }
 function activeSkill(){ if(skillOwned(skillSel)) return skillSel; const o=SKILLS.find(k=>skillOwned(k.id)); return o?o.id:null; }
 function specialReady(){ return specialOn&&level>=SPECIAL_MIN_LEVEL&&activeSkill()!==null; }
+window.__bikeEquipped=()=>{ const a=activeSkill(); return a?{id:a,lv:skillLv[a]||0}:null; };   // the leaderboard reads this: the equipped skill's level is your skill score
 function saveSkills(){ lsSet('bike_skills',JSON.stringify(skillLv)); lsSet('bike_skillOwn',JSON.stringify(skillOwn)); lsSet('bike_skillXp',JSON.stringify(skillXp)); lsSet('bike_skillSel',skillSel); lsSet('bike_specialOn',specialOn?'1':'0'); }
 
 const STYLE_ORDER=STYLE_TIERS.map((_,i)=>i).sort((a,b)=>STYLE_TIERS[a].price-STYLE_TIERS[b].price||a-b);
-const STYLE_PER=7;   // stunts per page (2 pages)
+const STYLE_PER=STYLE_TIERS.length;   // every stunt type is on ONE page now (no second page)
 let stView=Math.max(0,STYLE_ORDER.indexOf(selectedStyle)), stPay=false, stSwap='';
 function stEl(tag,cls,txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; }
 const stPage=()=>Math.floor(stView/STYLE_PER), stPages=()=>Math.ceil(STYLE_ORDER.length/STYLE_PER);
@@ -2004,16 +2120,13 @@ function renderStunts(animate){
   document.getElementById('stuntsWalletTag').textContent=fmtC(wallet);
   const root=document.getElementById('stuntLab'), keep=root.scrollTop, pager=document.getElementById('stuntPager');
   root.classList.toggle('enter',animate!==false); root.classList.toggle('checkout',!!stPay); root.innerHTML='';
-  pager.style.display=stPay?'none':'';
+  pager.style.display='none';   // no second page any more
   if(stPay){ renderStPay(root); return; }
   const i=STYLE_ORDER[stView], t=STYLE_TIERS[i], owned=ownedStyles.includes(i), eq=selectedStyle===i, dirty=!eq;
   const act=activeSkill(), mySel=Math.max(0,STYLE_ORDER.indexOf(selectedStyle));
 
   // page arrows (same pager as upgrades)
   pager.innerHTML='';
-  { const pb=(txt,d,label)=>{ const b=stEl('button','arrow-btn',txt); b.type='button'; b.setAttribute('aria-label',label); b.disabled=stPage()+d<0||stPage()+d>=stPages(); b.style.opacity=b.disabled?'.3':'';
-      b.onclick=()=>{ const np=stPage()+d, off=stView%STYLE_PER; stSwap=d>0?'swapR':'swapL'; stView=Math.min(STYLE_ORDER.length-1,np*STYLE_PER+off); renderStunts(true); document.getElementById('stuntLab').scrollTop=0; }; return b; };
-    pager.appendChild(pb('‹',-1,'previous page')); pager.appendChild(stEl('b','',String(stPage()+1))); pager.appendChild(pb('›',1,'next page')); }
 
   // stunt animation preview
   const pv=stEl('div','lab-card lab-preview'); pv.style.setProperty('--bc',t.col||'#2f6fed');
@@ -2025,7 +2138,7 @@ function renderStunts(animate){
   [t.desc.split(' · ').slice(1).join(' · ')||t.name, eq?'equipped':owned?'owned':'not owned', act?('special: '+skillName(act)+' Lv '+(skillLv[act]||0)):'no special stunt yet'].forEach(x=>chips.appendChild(stEl('span','chip',x)));
   pv.appendChild(chips); root.appendChild(pv);
 
-  // stunt type (left / right, walks across both pages)
+  // stunt type (left / right, all 28 on one page: '7 of 28' like the upgrades shop)
   const ty=stEl('div','lab-card lab-sp-type'); ty.appendChild(stEl('div','lab-label','stunt type'));
   const row=stEl('div','st-type-row');
   const arrow=(txt,d,label)=>{ const b=stEl('button','arrow-btn',txt); b.type='button'; b.setAttribute('aria-label',label); b.onclick=()=>stMove(d); return b; };
@@ -2034,14 +2147,14 @@ function renderStunts(animate){
   const pips=stEl('div','pips'), p0=stPage()*STYLE_PER, p1=Math.min(STYLE_ORDER.length,p0+STYLE_PER);
   for(let idx=p0;idx<p1;idx++){ const si=STYLE_ORDER[idx]; const p=stEl('button','pip'+(idx===stView?' on':ownedStyles.includes(si)?' own':'')); p.type='button'; p.title=STYLE_TIERS[si].name; p.setAttribute('aria-label',STYLE_TIERS[si].name); p.onclick=()=>stGoto(idx); pips.appendChild(p); }
   ty.appendChild(pips);
-  const pr=stEl('div','lab-prices'); pr.appendChild(stEl('span','',(stView-p0+1)+' of '+(p1-p0)+' · page '+(stPage()+1))); pr.appendChild(stEl('span',owned?'back':'',owned?'owned':'costs '+fmtC(t.price))); ty.appendChild(pr);
+  const pr=stEl('div','lab-prices'); pr.appendChild(stEl('span','',(stView+1)+' of '+STYLE_ORDER.length)); pr.appendChild(stEl('span',owned?'back':'',owned?'owned':'costs '+fmtC(t.price))); ty.appendChild(pr);
   root.appendChild(ty);
 
   // special stunt on / off
   const sp=stEl('div','lab-card lab-sp-special'); sp.appendChild(stEl('div','lab-label','special stunt'));
   const sr=stEl('div','st-sw-row'), sl=stEl('div'); sl.appendChild(stEl('div','lab-big',specialOn?'on':'off'));
   const locked=level<SPECIAL_MIN_LEVEL;
-  sl.appendChild(stEl('div','lab-sub'+((locked||!act)?' warn':''),!act?'buy a skill in the train menu':(locked?'🔒 needs level '+SPECIAL_MIN_LEVEL+' · you are level '+level:(specialOn?'W starts '+skillName(act).toLowerCase()+' · A / D balance':'special stunts are off'))));
+  sl.appendChild(stEl('div','lab-sub'+((locked||!act)?' warn':''),!act?'buy a special stunt first (below)':(locked?'🔒 needs level '+SPECIAL_MIN_LEVEL+' · you are level '+level:(specialOn?'W starts '+skillName(act).toLowerCase()+' (on the ground or in the air) · A / D balance':'special stunts are off'))));
   sr.appendChild(sl);
   const sw=stEl('div','switch'+(specialOn?' on':'')); sw.setAttribute('role','switch'); sw.tabIndex=0; sw.setAttribute('aria-checked',String(specialOn));
   const flip=()=>{ specialOn=!specialOn; if(!specialOn&&wheelieT>0){ wheelieT=0; skillId=null; } saveSkills(); renderStunts(false); };
@@ -2066,12 +2179,11 @@ function renderStunts(animate){
   if(dirty){ const rs=stEl('button','lab-reset','undo'); rs.type='button'; rs.onclick=()=>{ stView=mySel; stSwap=''; renderStunts(false); }; cc.appendChild(rs); }
   root.appendChild(cc);
 
-  // train menu button
-  const tr=stEl('div','lab-card lab-sp-train'); tr.appendChild(stEl('div','lab-label','train menu'));
-  tr.appendChild(stEl('div','lab-big','special stunts'));
-  { const ownedLv=SKILLS.filter(k=>skillOwned(k.id)).map(k=>skillLv[k.id]||0), avg=ownedLv.length?ownedLv.reduce((a,b)=>a+b,0)/ownedLv.length:0;
-    tr.appendChild(stEl('div','st-skill-line','average skill level · '+(Math.round(avg*100)/100))); }
-  const tb=stEl('button','lab-apply','open train menu ›'); tb.type='button'; tb.onclick=trainOpen; tr.appendChild(tb);
+  // special stunts shortcuts (buy / equip + leaderboard)
+  const tr=stEl('div','lab-card lab-sp-train'); tr.appendChild(stEl('div','lab-label','special stunts'));
+  tr.appendChild(stEl('div','lab-big',act?skillName(act):'none yet'));
+  tr.appendChild(stEl('div','st-skill-line',act?('equipped · level '+(skillLv[act]||0)+' · this is the level the skill leaderboard uses'):'buy one to start training (the train button is at the top)'));
+  const tb=stEl('button','lab-apply','buy / equip special stunts ›'); tb.type='button'; tb.onclick=trainOpen; tr.appendChild(tb);
   const lbb=stEl('button','lab-reset','skill leaderboard ›'); lbb.type='button';
   lbb.onclick=()=>{ document.getElementById('stuntsPanel').classList.add('hidden'); openPanel('lbPanel'); if(window.__bikeLB) window.__bikeLB.open('skillAvg'); };
   tr.appendChild(lbb);
@@ -2079,12 +2191,12 @@ function renderStunts(animate){
   root.scrollTop=keep; stSwap='';
 }
 
-// train menu: only reachable from the stunts panel. skills cost a flat 1,000c each. training them is free (flat practice map)
+// train menu: only reachable from the stunts panel. every skill has its own price (1,000c - 3,000c). training them is free (flat practice map)
 function renderTrain(){
   document.getElementById('trainWalletTag').textContent=fmtC(wallet);
   const list=document.getElementById('trainList'); list.innerHTML='';
   const note=stEl('div','shop-section'); note.style.gridColumn='1/-1';
-  note.textContent='skills cost '+fmtC(SKILL_PRICE)+' each + '+TAX_PCT+'% sales tax ('+fmtC(taxOn(SKILL_PRICE))+') · training is free on a flat practice map · you need level '+SPECIAL_MIN_LEVEL+' to use them in a run';
+  note.textContent='skills cost '+fmtC(1000)+' to '+fmtC(3000)+' + '+TAX_PCT+'% sales tax · listed cheapest to most expensive · training is free on a flat practice map · you need level '+SPECIAL_MIN_LEVEL+' to use them in a run · they work in the air too (pays double up there, the wheelie needs the ground)';
   list.appendChild(note);
   SKILLS.forEach(k=>{
     const lv=skillLv[k.id]||0, own=skillOwned(k.id), maxed=lv>=SKILL_MAXLV, sel=activeSkill()===k.id;
@@ -2102,18 +2214,49 @@ function renderTrain(){
     const row=stEl('div','gear-row');
     const mk=(txt,dis,fn,act)=>{ const b=stEl('button','mode-btn'+(act?' active':''),txt); b.type='button'; b.style.cssText='font-size:12px;padding:6px 10px;white-space:nowrap;'; b.disabled=!!dis; b.onclick=fn; return b; };
     if(!own){
-      row.appendChild(mk('buy · '+fmtC(withTax(SKILL_PRICE)),wallet<withTax(SKILL_PRICE),()=>{
-        if(wallet<withTax(SKILL_PRICE)||skillOwned(k.id)) return;
-        wallet-=withTax(SKILL_PRICE); skillOwn[k.id]=true; if(!SKILLS.some(x=>x.id!==k.id&&skillOwned(x.id))) skillSel=k.id;
+      row.appendChild(mk('buy · '+fmtC(withTax(k.price)),wallet<withTax(k.price),()=>{
+        if(wallet<withTax(k.price)||skillOwned(k.id)) return;
+        wallet-=withTax(k.price); skillOwn[k.id]=true; if(!SKILLS.some(x=>x.id!==k.id&&skillOwned(x.id))) skillSel=k.id;
         saveShop(); saveSkills(); pulseEl('trainWalletTag'); updateWalletTags(); renderTrain();
       },false));
     } else {
-      row.appendChild(mk(maxed?'max level':'train · free',maxed,()=>startTraining(k.id),false));
+      row.appendChild(mk(maxed?'max level':'train · free',maxed,()=>startTraining(k.id),false));   // (the train pop-up at the top of the stunts shop does the same)
       row.appendChild(mk(sel?'in use':'use',sel,()=>{ skillSel=k.id; saveSkills(); renderTrain(); },sel));
     }
     card.appendChild(row); list.appendChild(card);
   });
 }
+// the train button at the top of the stunts shop: a pop-up with the special stunts you own, lowest skill level first. tap one to practise it
+function closeTrainPick(){ const p=document.getElementById('trainPick'); if(p) p.remove(); }
+function openTrainPick(){
+  closeTrainPick();
+  const host=document.getElementById('stuntsPanel'), ov=stEl('div'); ov.id='trainPick';
+  ov.onclick=e=>{ if(e.target===ov) closeTrainPick(); };
+  const box=stEl('div','tp-box'), top=stEl('div','tp-top');
+  top.appendChild(stEl('h3','','train which stunt?'));
+  const x=stEl('button','tp-x','✕'); x.type='button'; x.setAttribute('aria-label','close'); x.onclick=closeTrainPick; top.appendChild(x);
+  box.appendChild(top);
+  const owned=SKILLS.filter(k=>skillOwned(k.id)).map(k=>({k,lv:skillLv[k.id]||0})).sort((a,b)=>a.lv-b.lv||SKILLS.indexOf(a.k)-SKILLS.indexOf(b.k));   // lowest level on top
+  const list=stEl('div','tp-list');
+  if(!owned.length){ box.appendChild(stEl('div','tp-empty','you do not own any special stunts yet. buy one first, then you can train it here.')); }
+  else {
+    box.appendChild(stEl('div','tp-sub','your special stunts · the lowest level is first · training is free'));
+    owned.forEach(({k,lv})=>{
+      const row=stEl('button','tp-row'); row.type='button';
+      row.appendChild(stEl('div','tp-emo',k.emoji));
+      const mid=stEl('div','tp-mid'); mid.appendChild(stEl('div','tp-name',k.name));
+      mid.appendChild(stEl('div','tp-lv','level '+lv+' · '+skillRate(k.id)+'c per second'));
+      const need=trainNeed(lv), have=Math.min(need,skillXp[k.id]||0), bar=stEl('div','tp-bar'), fill=stEl('i'); fill.style.width=(have/need*100).toFixed(1)+'%'; bar.appendChild(fill); mid.appendChild(bar);
+      row.appendChild(mid); row.appendChild(stEl('div','tp-go','TRAIN ›'));
+      row.onclick=()=>{ closeTrainPick(); startTraining(k.id); };
+      list.appendChild(row);
+    });
+    box.appendChild(list);
+  }
+  const buy=stEl('button','lab-reset tp-buy','buy / equip special stunts ›'); buy.type='button'; buy.onclick=()=>{ closeTrainPick(); trainOpen(); }; box.appendChild(buy);
+  ov.appendChild(box); host.appendChild(ov);
+}
+document.getElementById('trainTopBtn').onclick=openTrainPick;
 function trainOpen(){ document.getElementById('stuntsPanel').classList.add('hidden'); startScreenEl.classList.add('hidden'); renderTrain(); document.getElementById('trainPanel').classList.remove('hidden'); }
 function trainBack(){ document.getElementById('trainPanel').classList.add('hidden'); renderStunts(false); document.getElementById('stuntsPanel').classList.remove('hidden'); startStuntLoop(); }
 function startTraining(id){
@@ -2169,6 +2312,20 @@ function stPose(t,u){
     case 'cork': P.rot=d*e*TAU; P.sy=stSq(e*TAU*2); break;
     case 'double': P.rot=d*e*TAU*2; P.liftMul=1.35; P.ghosts=4; break;
     case 'nova': P.rot=d*e*TAU*3; P.ps=1+.18*sn; P.ghosts=3; P.liftMul=1.2; break;
+    case 'wobble': P.rot=d*Math.sin(e*TAU*2)*.55; P.dy=-3*sn; break;
+    case 'bounce': { const b=Math.abs(Math.sin(e*TAU*2)); P.sy=1-.18*b; P.sx=1+.1*b; P.dy=-12*b; P.rot=d*sn*.2; break; }
+    case 'tuck': P.rot=d*e*TAU; P.ps=1-.28*sn; break;
+    case 'invert': P.rot=d*Math.PI*Math.min(1,sn*1.7); P.dy=-6*sn; break;
+    case 'spiral': P.rot=d*e*TAU; P.sx=stSq(e*TAU*2); P.ghosts=2; break;
+    case 'lazy': P.rot=d*e*TAU; P.dy=-10*sn; P.ps=1+.06*sn; P.liftMul=1.15; break;                      // floats up slowly
+    case 'rollback': P.sy=stSq(-e*TAU*1.5); P.sx=1+.1*sn; P.rot=d*sn*.35; break;                        // rolls over the other way
+    case 'storm': P.rot=d*e*TAU*3; P.dx=Math.sin(e*TAU*3)*18; P.ghosts=2; break;                       // spins and gets blown sideways
+    case 'whiplash': P.whip=d*e*TAU*3; P.rot=-d*sn*.2; P.sx=1+.08*sn; break;                           // frame whips one and a half times
+    case 'phantom': P.rot=d*e*TAU*2; P.ghosts=6; P.dx=Math.sin(e*TAU*4)*8; break;                      // flickers with a long ghost trail
+    case 'meteor': P.rot=d*e*TAU*2; P.ps=1+.2*sn; P.dy=-8*sn; P.ghosts=4; P.liftMul=1.3; break;        // fireball
+    case 'windmill': P.sx=stSq(e*TAU*2); P.rot=d*sn*.4; P.liftMul=1.2; break;                          // rotor spins the other way
+    case 'megabarrel': P.sy=stSq(e*TAU*3); P.dx=d*sn*36; P.ps=1+.15*sn; P.rot=d*sn*.2; break;          // three big rolls, drifts forward
+    case 'galaxy': P.rot=d*e*TAU*4; P.ps=1+.22*sn; P.ghosts=5; P.liftMul=1.4; break;                   // four spins in a cloud of stars
   }
   return P;
 }
@@ -2178,7 +2335,7 @@ function stDrawBike(g,t,P,x,y,SC,alpha,ts,sqx,sqy){
   if(P.whip){ g.save(); g.translate(30,17); g.rotate(P.whip); g.translate(-30,-17); miniFrame(g,ts*.012); g.restore(); }
   else miniFrame(g,ts*.012);
   miniRider(g,P);
-  if(P.rotor&&t.anim==='heli'){ g.strokeStyle=t.col; g.lineWidth=4; g.beginPath(); g.moveTo(4,-80); g.lineTo(4,-97); g.stroke(); const bl=50*Math.cos(ts*.07); g.beginPath(); g.moveTo(4-bl,-97); g.lineTo(4+bl,-97); g.stroke(); }
+  if(P.rotor&&(t.anim==='heli'||t.anim==='windmill')){ g.strokeStyle=t.col; g.lineWidth=4; g.beginPath(); g.moveTo(4,-80); g.lineTo(4,-97); g.stroke(); const bl=50*Math.cos(ts*.07); g.beginPath(); g.moveTo(4-bl,-97); g.lineTo(4+bl,-97); g.stroke(); }
   g.restore();
 }
 // particles: dust at takeoff and landing, plus each stunt's own effect while it is in the air
@@ -2187,14 +2344,22 @@ function stEmit(o){ if(stFx.parts.length<180) stFx.parts.push(Object.assign({k:'
 function stAirFx(t,x,y,ts,dt){
   const c=t.col, rnd=(a,b)=>a+Math.random()*(b-a), n=dt/16;
   switch(t.anim){
-    case 'flipF': case 'flipB': case 'nohand': if(Math.random()<.5*n) stEmit({x:x+rnd(-20,20),y:y+rnd(-20,20),vx:rnd(-.6,.6),vy:rnd(-.6,.6),r:rnd(2,4),c,max:520}); break;
-    case 'roll': if(Math.random()<.06*n) stEmit({k:'ring',x,y,r:10,grow:70,c,max:700}); break;
+    case 'flipF': case 'flipB': case 'nohand': case 'wobble': case 'tuck': if(Math.random()<.5*n) stEmit({x:x+rnd(-20,20),y:y+rnd(-20,20),vx:rnd(-.6,.6),vy:rnd(-.6,.6),r:rnd(2,4),c,max:520}); break;
+    case 'roll': case 'bounce': if(Math.random()<.06*n) stEmit({k:'ring',x,y,r:10,grow:70,c,max:700}); break;
     case 'hyper': case 'double': if(Math.random()<.9*n) stEmit({k:'streak',x:x-30,y:y+rnd(-40,40),vx:-5,len:rnd(22,50),c,max:380}); break;
-    case 'twist': case 'cork': case 'cyclone': { const a=ts*.012+Math.random()*TAU, R=rnd(70,95); if(Math.random()<.9*n) stEmit({x:x+Math.cos(a)*R,y:y+Math.sin(a)*R*.7,vx:Math.cos(a+1.57)*1.4,vy:Math.sin(a+1.57)*1.0,r:rnd(2,4),c,max:480}); break; }
+    case 'twist': case 'cork': case 'cyclone': case 'spiral': case 'invert': { const a=ts*.012+Math.random()*TAU, R=rnd(70,95); if(Math.random()<.9*n) stEmit({x:x+Math.cos(a)*R,y:y+Math.sin(a)*R*.7,vx:Math.cos(a+1.57)*1.4,vy:Math.sin(a+1.57)*1.0,r:rnd(2,4),c,max:480}); break; }
     case 'barrel': if(Math.random()<.35*n) stEmit({x:x+rnd(-30,30),y:y+30,vy:.5,vx:rnd(-.4,.4),r:rnd(4,8),c:'#c9b79c',max:650,a:.5}); break;
     case 'whip': if(Math.random()<.5*n) stEmit({x:x+30*1.55,y:y+17*1.55,vx:rnd(-1,1),vy:rnd(-1,1),r:rnd(2,4),c,max:420}); break;
     case 'super': if(Math.random()<.9*n) stEmit({k:'streak',x:x-40,y:y+rnd(-45,45),vx:-6,len:rnd(30,70),c:'#fff',max:360}); break;
-    case 'heli': if(Math.random()<.2*n) stEmit({k:'ring',x,y:y-110,r:20,grow:60,c,max:600}); break;
+    case 'heli': case 'windmill': if(Math.random()<.2*n) stEmit({k:'ring',x,y:y-110,r:20,grow:60,c,max:600}); break;
+    case 'lazy': if(Math.random()<.12*n) stEmit({k:'ring',x:x+rnd(-24,24),y:y+rnd(-10,24),vy:-.3,r:6,grow:30,c,max:900}); break;
+    case 'rollback': if(Math.random()<.5*n){ const a=ts*.01+Math.random()*TAU; stEmit({x:x+Math.cos(a)*60,y:y+Math.sin(a)*30,vx:-Math.cos(a)*.8,vy:-Math.sin(a)*.8,r:rnd(2,4),c,max:520}); } break;
+    case 'storm': { const a=ts*.014+Math.random()*TAU, R=rnd(80,115); if(Math.random()<1.1*n) stEmit({x:x+Math.cos(a)*R,y:y+Math.sin(a)*R*.6,vx:Math.cos(a+1.57)*2,vy:Math.sin(a+1.57)*1.2,r:rnd(2,5),c,max:520}); if(Math.random()<.3*n) stEmit({k:'streak',x:x-60,y:y+rnd(-40,40),vx:-6,len:rnd(30,60),c,max:360}); break; }
+    case 'whiplash': if(Math.random()<.8*n) stEmit({k:'streak',x:x+rnd(-10,50),y:y+rnd(-5,35),vx:-4,len:rnd(18,40),c,max:300}); break;
+    case 'phantom': if(Math.random()<.7*n) stEmit({x:x+rnd(-34,34),y:y+rnd(-34,34),r:rnd(6,11),c,max:720,a:.35}); break;
+    case 'meteor': if(Math.random()<1.2*n) stEmit({k:'streak',x:x-34,y:y+rnd(-30,30),vx:-5,len:rnd(30,70),c:Math.random()<.5?c:'#ffd24d',max:420}); if(Math.random()<.6*n) stEmit({x:x-30,y:y+rnd(-20,20),vx:-2,vy:rnd(-.4,.4),r:rnd(4,8),c:'#ff9d1c',max:520,a:.8}); break;
+    case 'megabarrel': if(Math.random()<.5*n) stEmit({x:x+rnd(-40,40),y:y+34,vy:.6,vx:rnd(-.6,.6),r:rnd(6,12),c:'#c9b79c',max:750,a:.55}); break;
+    case 'galaxy': { const cols=['#5e60ce','#80ffdb','#ffd24d','#ff6bd6']; if(Math.random()<1.1*n){ const a=Math.random()*TAU; stEmit({k:'star',x,y,vx:Math.cos(a)*2.4,vy:Math.sin(a)*2.4,r:rnd(4,9),c:cols[Math.floor(Math.random()*4)],max:700}); } if(Math.random()<.15*n) stEmit({k:'ring',x,y,r:14,grow:90,c,max:700}); break; }
     case 'nova': if(Math.random()<.8*n){ const a=Math.random()*TAU; stEmit({k:'star',x,y,vx:Math.cos(a)*2.2,vy:Math.sin(a)*2.2,r:rnd(4,8),c,max:650}); } break;
   }
 }
@@ -2252,7 +2417,7 @@ function stuntLoop(ts){
 }
 function startStuntLoop(){ if(!stuntRaf) stuntRaf=requestAnimationFrame(stuntLoop); }
 document.getElementById('stuntsBtn').onclick=()=>{ stView=Math.max(0,STYLE_ORDER.indexOf(selectedStyle)); stPay=false; stSwap=''; renderStunts(true); openPanel('stuntsPanel'); startStuntLoop(); };
-document.getElementById('closeStunts').onclick=()=>closePanel('stuntsPanel');
+document.getElementById('closeStunts').onclick=()=>{ closeTrainPick(); closePanel('stuntsPanel'); };
 
 // ---- daily rewards: one claim per day (your local date), and the streak can go on forever. miss a day and your streak resets, then you wait one day before you can start again.
 // the reward is a surprise (the game never says what it is before you claim): most days are coins that grow slowly, and every 7th day is a speed boost worth one speed tier ----
@@ -2373,6 +2538,8 @@ function pitCheck(px){
   return false;
 }
 let stuntBurst=0; // frames of spin left from the last S press (tap = one burst, holding does nothing)
+let windUsed=false;
+const SA={hang:0,last:-99999};   // SA.hang eases up for a moment after each S press: Superman and No-Hander use it to hold their pose
 const STUNT_BURST_FRAMES=8;
 const STUNT_PAY=0.5; // stunt and air-time coins are paid at half value
 let wasOnGround=true, airStart=0, popups=[], landGrace=0, shakeT=0;
@@ -2405,7 +2572,7 @@ function stepCop(cop,i){
   if(--cop.nextBurst<=0&&cop.burstT<=0){ cop.burstT=150; cop.nextBurst=420+Math.random()*420; }
   const burst=cop.burstT>0?1.22:1; if(cop.burstT>0) cop.burstT--;
   const catchUp=Math.min(.3,Math.max(0,(gap-600)/1500));
-  const target=cop.grace>0?0:currentBike().mph*k*burst*(1+catchUp)*(1+cop.boost);
+  const target=cop.grace>0?0:currentBike().mph*spdMul()*k*burst*(1+catchUp)*(1+cop.boost);
   cop.vx+=Math.max(-.6,Math.min(cfg.accel*.85,target-cop.vx));
   cop.x+=cop.vx; cop.wheel=(cop.wheel+cop.vx*.12)%(Math.PI*2);
   cop.y=terrainHeight(cop.x,cfg)-33;
@@ -2462,10 +2629,10 @@ function updateRocketBtn(){
   btn.classList.toggle('hidden',!(running&&!crashed));
   const idx=pickRocket();
   btn.textContent=idx>=0?(ROCKET_TIERS[idx].emoji+' '+ROCKET_TIERS[idx].name+' ×'+rockets[idx]+' · E'):'🚀 no rockets · buy in shop';
-  btn.disabled=idx<0||rocketT>0;
+  btn.disabled=idx<0;
 }
 function fireRocket(){
-  if(!running||crashed||paused||rocketT>0) return;
+  if(!running||crashed||paused) return;
   const idx=pickRocket(); if(idx<0) return;
   rockets[idx]--; saveGear();
   rocketActive=idx; rocketT=ROCKET_TIERS[idx].dur;
@@ -2479,14 +2646,20 @@ const SK={b:.5,v:0,t:0}; let balanceT=0, skillId=null; const BAL_FALL=.10;
 function skillReset(){ SK.b=.5; SK.v=(Math.random()-.5)*.012; SK.t=0; }
 function modeLabel(){
   return trainMode?('training · '+skillName(trainSkill)+' Lv '+(skillLv[trainSkill]||0)+' · '+currentBike().name)
-    :(mode+(payMul()>1?' ('+payMul()+'x coins)':'')+' · Lv '+level+' · '+currentBike().name+(shieldsLeft>0?' · 🛡️'+shieldsLeft:'')+(boostMph()>0?' · ⚡ boost':''));
+    :(mode+(!trainMode&&MODE_PAY[mode]>1?' ('+MODE_PAY[mode]+'x coins)':'')+(!trainMode&&abil.rebirths>0?' · ♻️ rebirth '+abil.rebirths:'')+' · Lv '+level+' · '+currentBike().name+(shieldsLeft>0?' · 🛡️'+shieldsLeft:'')+(boostMph()>0?' · ⚡ boost':''));
 }
 function toggleWheelie(){            // W: start the chosen skill / land it safely
   if(!running||crashed||paused||balanceT>0) return;
   if(!trainMode&&!specialReady()){ if(!specialOn) popups.push({x:car.x-camX,y:car.y-70,text:'special stunts are off',life:1,age:0}); else if(level<SPECIAL_MIN_LEVEL) popups.push({x:car.x-camX,y:car.y-70,text:'special stunts unlock at level '+SPECIAL_MIN_LEVEL,life:1,age:0}); return; }             // special stunts need level 5 and an unlocked skill (the practice map is always open)
   if(wheelieT>0){ wheelieT=0; skillId=null; wheelieCD=WHEELIE_CD_FRAMES; }
   else if(wheelieCD>0){ popups.push({x:car.x-camX,y:car.y-70,text:'skill cooling down',life:1,age:0}); }
-  else if(!car.onGround){ popups.push({x:car.x-camX,y:car.y-70,text:'land first',life:1,age:0}); }
+  else if(!car.onGround){   // special stunts work in the air too (pays double up there). a wheelie needs the ground, so it swaps to another skill you own
+    let id=trainMode?trainSkill:activeSkill();
+    if(isWheelieType(id)){ const o=SKILLS.find(k=>!isWheelieType(k.id)&&skillOwned(k.id)); if(!o){ popups.push({x:car.x-camX,y:car.y-70,text:'a wheelie needs the ground',life:1,age:0}); return; } id=o.id; }
+    wheelieT=1; skillId=id; skillReset();
+    popups.push({x:car.x-camX,y:car.y-70,text:'air '+skillName(id).toLowerCase()+'! x2 coins',life:1,age:0});
+    if(keys.dDown&&!keys.arrR) keys.right=false; if(keys.aDown&&!keys.arrL) keys.left=false;
+  }
   else if(wheelieCD<=0&&car.onGround){
     const pa=pitAhead();
     if(pa&&pa.x1-car.x<=pitLook()+250){ popups.push({x:car.x-camX,y:car.y-70,text:'pit ahead, hop it first',life:1,age:0}); return; }   // used to start and get cancelled the very next frame, burning the cooldown
@@ -2501,10 +2674,10 @@ function toggleWheelie(){            // W: start the chosen skill / land it safe
 const RA={w:0,v:0,id:null,bob:0,bv:0,py:0,pvy:0,air:0,pwa:0,dir:1,t:0};
 function riderAnimReset(){ RA.w=RA.v=0; RA.id=null; RA.bob=RA.bv=0; RA.py=car.y; RA.pvy=0; RA.air=0; RA.pwa=0; rag.on=false; rag.pts=null; balFall.kind=''; balFall.id=null; }
 function riderAnimStep(){
-  const live=wheelieT>0&&balanceT<=0&&!!skillId;
-  if(live) RA.id=skillId;
+  const live=wheelieT>0&&balanceT<=0&&!!skillId, as=airStyleSkill();
+  if(live) RA.id=skillId; else if(as) RA.id=as;
   if(car.onGround) RA.air=0; else RA.air++;
-  const want=(live&&(skillId!=='wheelie'||RA.air<6))?1:0;     // you can stand on the pedals in the air, but a wheelie needs the ground
+  const want=((live&&(!isWheelieType(skillId)||RA.air<6))||!!as)?1:0;     // you can stand on the pedals in the air, but a wheelie needs the ground
   if(want!==(RA.dir>0?1:0)&&Math.abs(RA.w-want)>.02) RA.dir=want?1:-1; RA.t++;
   const k=want?.075:.1, d=want?.3:.4;                          // coming in: a little follow-through. going out: calm
   RA.v+=(want-RA.w)*k; RA.v*=(1-d); RA.w+=RA.v;
@@ -2517,6 +2690,38 @@ function riderAnimStep(){
 }
 // a fall off the bike: the rider turns into a little verlet ragdoll that tumbles and slides along the real terrain
 const rag={on:false,pts:null,t:0}, balFall={kind:'',id:null}, DRAWN={RP:null};
+// bike physics for a lost balance: kind 'back' = the front wheel keeps going up and the bike flips over backwards, grinding along the road on its back (sparks).
+// kind 'front' = the front wheel slams down and the bike nose-dives over its front wheel. fall.a is the extra tilt, av its speed.
+const fall={on:false,kind:'',id:'',a:0,av:0,max:0,hit:false};
+let sparks=[];
+function addSpark(x,y,vx,vy){ sparks.push({x,y,vx,vy,life:18+Math.random()*14}); if(sparks.length>160) sparks.shift(); }
+function stepSparks(){ for(const s of sparks){ s.x+=s.vx; s.y+=s.vy; s.vy+=.35; s.life--; } sparks=sparks.filter(s=>s.life>0); }
+function drawSparks(){ ctx.save(); ctx.translate(-camX,0); ctx.fillStyle='#ff9d1c'; for(const s of sparks){ ctx.globalAlpha=Math.min(1,s.life/14); ctx.fillRect(s.x-1.2,s.y-1.2,2.6,2.6); } ctx.restore(); }
+function fallStart(kind,id){
+  fall.on=true; fall.kind=kind; fall.id=id; fall.a=0; fall.av=0; fall.hit=false;
+  fall.max=kind==='back'?(isWheelieType(id)?2.45:1.1):(isWheelieType(id)?1.05:.85);
+}
+function fallStep(){
+  if(!fall.on) return;
+  const gy=terrainHeight(car.x,cfg);
+  if(fall.kind==='back'){
+    // wheelie: the weight is past the rear wheel, so it keeps rotating (faster and faster) until the bike lands on its back
+    fall.av+=isWheelieType(fall.id)?.0042:.0028; wheelieAng+=fall.av*(wheelieAng>1.4?1:.8); fall.av*=.992;
+    if(wheelieAng>=fall.max){ wheelieAng=fall.max; if(!fall.hit){ fall.hit=true; shakeT=Math.max(shakeT,9); } fall.av=0; }
+    if(wheelieAng>1.0){   // the back of the bike scrapes along the ground
+      if(wheelieAng>1.5) car.vx*=.955;
+      const p=bikeToWorld(-26,-6), y=Math.min(p.y,gy-2);
+      if(Math.abs(car.vx)>.8) for(let i=0;i<2;i++) addSpark(p.x+(Math.random()-.5)*8,y,-car.vx*.2-Math.random()*1.5,-1-Math.random()*2.6);
+    }
+  } else {
+    // nose-dive: the front wheel is pinned, the back of the bike swings up and over
+    fall.av+=.0048; fall.a+=fall.av;
+    if(fall.a>=fall.max){ fall.a=fall.max; if(!fall.hit){ fall.hit=true; shakeT=Math.max(shakeT,9); } fall.av=0; }
+    car.vx*=.965;
+    if(Math.abs(car.vx)>1.2&&fall.a>.2) addSpark(car.x+32,gy-2,car.vx*.1+Math.random()*1.4,-1-Math.random()*2.2);
+  }
+}
+
 const RAG_LINKS=[['sh','head',19],['sh','hip',34],['sh','elA',23],['elA','haA',23],['sh','elB',23],['elB','haB',23],['hip','knA',29.5],['knA','anA',29.5],['anA','ftA',7.3],['hip','knB',29.5],['knB','anB',29.5],['anB','ftB',7.3]];
 const RAG_MINS=[['head','hip',38],['hip','anA',22],['hip','anB',22],['sh','haA',14],['sh','haB',14],['sh','knA',18],['sh','knB',18]];
 function bikeToWorld(x,y){      // a point in the bike's own drawing space -> world, mirroring the transforms drawBike() applies
@@ -2563,8 +2768,8 @@ function loseBalance(){
   const hi=SK.b>=.5, id=skillId||RA.id;
   const kind=id==='wheelie'?(hi?'back':'front'):(hi?'front':'back');
   balFall.kind=kind; balFall.id=id;
-  balanceT=80; wheelieT=0; skillId=null; wheelieCD=WHEELIE_CD_FRAMES; hopReq=false;
-  startRag(kind);
+  balanceT=55; wheelieT=0; skillId=null; wheelieCD=WHEELIE_CD_FRAMES; hopReq=false;
+  startRag(kind); fallStart(kind,id);
 }
 // practice map: every second you keep your balance counts toward the next level of the skill (free, no coins)
 function trainTick(){
@@ -2575,19 +2780,20 @@ function trainTick(){
 }
 function updateWheelieTag(){
   const t=document.getElementById('wheelieTag'); if(!t) return;
+  if(crashed&&!dying){ hideSkillHud(); return; }   // death screen: nothing from the skill HUD is allowed to show
   const bar=document.getElementById('wheelieBar'), msg=document.getElementById('balanceMsg');
-  msg.classList.toggle('hidden',!(balanceT>0&&!crashed));
+  msg.classList.toggle('hidden',!((balanceT>0&&!crashed)||(dying&&dying.balance)));
   const ready=trainMode||specialReady();
   const live=ready&&running&&!crashed&&wheelieT>0;
   bar.classList.toggle('hidden',!live);
   if(live){
-    const R='#e53935',O='#ff9800',G='#43a047', f=BAL_FALL*100, o=30, p=70;
+    const R='#e53935',O='#ff9800',G='#43a047', f=skillFall(skillId)*100, o=Math.max(30,f+6), p=100-o;
     document.getElementById('wbTrack').style.background='linear-gradient(90deg,'+R+' 0,'+R+' '+f+'%,'+O+' '+f+'%,'+O+' '+o+'%,'+G+' '+o+'%,'+G+' '+p+'%,'+O+' '+p+'%,'+O+' '+(100-f)+'%,'+R+' '+(100-f)+'%,'+R+' 100%)';
     document.getElementById('wbMark').style.left=(Math.max(0,Math.min(1,SK.b))*100).toFixed(2)+'%';
     const lv=skillLv[skillId]||0;
     document.getElementById('wbHint').textContent=trainMode
       ?('A / D to balance · '+skillName(skillId).toLowerCase()+' Lv '+lv+' · '+(lv>=SKILL_MAXLV?'max level':Math.floor(skillXp[skillId]||0)+' / '+trainNeed(lv)+'s to next level'))
-      :('A / D to balance · '+skillName(skillId).toLowerCase()+' +'+Math.round(skillRate(skillId)*payMul())+'c per second');
+      :('A / D to balance · '+skillName(skillId).toLowerCase()+' +'+Math.round(skillRate(skillId)*payMul()*(car.onGround?1:2))+'c per second'+(car.onGround?'':' (x2 in the air)'));
   }
   if(!running||crashed){ t.classList.add('hidden'); return; }
   if(!ready){
@@ -2601,6 +2807,7 @@ function updateWheelieTag(){
 }
 function resetGame(){
   wheelieT=0; wheelieCD=0; wheelieAng=0; wheelieFrac=0; balanceT=0; skillId=null; skillReset(); balRed=0; riderAnimReset();
+  dying=null; fall.on=false; fall.a=0; fall.av=0; sparks=[];
   cfg=modeConfig[mode]; jumps=[]; cliffs=[]; pitFront=0; terrainSeed=Math.random()*1000;
   ensureJumps(0,cfg); ensureCliffs(0,cfg); initClouds();
   camX=0; distance=0; crashed=false; score=0; savedScore=0; trail=[]; popups=[]; airStart=0; landGrace=0;
@@ -2609,6 +2816,9 @@ function resetGame(){
   car.y=terrainHeight(car.x,cfg)-33; wasOnGround=true; paused=false; hopReq=hopKick=false; hopCliff=null;
   camY=Math.max(0,car.y-H*0.6);
   rocketT=0; pet.x=car.x-70; pet.y=terrainHeight(pet.x,cfg)-16; initCop(); runStartLevel=level; shieldsLeft=selMods.shock;
+  windUsed=false; SA.hang=0; SA.last=-99999; stFx.parts.length=0;
+  if(abilOn('launch')&&!trainMode){ rocketActive=1; rocketT=120; }   // Launch Boost: a free 2 second booster burn at the start of every run
+  updateRocketBtn();
   document.getElementById('pauseScreen').classList.add('hidden');
   document.getElementById('modeTag').textContent=modeLabel();
   document.getElementById('crash').style.display='none';
@@ -2629,8 +2839,8 @@ addEventListener('keydown',e=>{
   if(e.code==='ArrowLeft'||(e.code==='KeyA'&&wheelieT<=0)) keys.left=true;
   if(e.code==='Space'||e.code==='ArrowDown'){ keys.brake=true; if(running) e.preventDefault(); }
   if(e.code==='Space'&&!e.repeat&&running&&!paused&&!crashed){ if(!hopCliff&&pitAhead()) hopReq=true; }   // tap space to hop a pit
-  if(e.code==='KeyS'){ if(running) e.preventDefault(); if(!e.repeat&&running&&!paused&&!crashed&&!car.onGround) stuntBurst=STUNT_BURST_FRAMES; } // must press again for every stunt
-  if(e.code==='KeyR'&&crashed&&running&&!e.repeat) startGame();
+  if(e.code==='KeyS'){ if(running) e.preventDefault(); if(!e.repeat&&running&&!paused&&!crashed&&!car.onGround){ stuntBurst=STUNT_BURST_FRAMES; SA.last=simTime; } } // must press again for every stunt
+  if(e.code==='KeyR'&&crashed&&!dying&&running&&!e.repeat) startGame();
   if(e.code==='KeyW'){ if(running) e.preventDefault(); if(!e.repeat) toggleWheelie(); }
   if(e.code==='ArrowUp'||e.code==='KeyE'){ if(running) e.preventDefault(); if(!e.repeat) fireRocket(); }
   if(e.code==='Escape'){ e.preventDefault(); if(!e.repeat && !closeOpenPanel()) togglePause(); }
@@ -2674,13 +2884,14 @@ function handleTouch(e){
 }
 
 function update(){
+  if(dying){ stepDying(); return; }
   if(crashed){ if(rag.on) stepRag(); return; }
   simTime+=STEP;
   ensureJumps(car.x+1500,cfg); ensureCliffs(car.x+1500,cfg);
   const groundY=terrainHeight(car.x,cfg), aheadY=terrainHeight(car.x+car.wheelBase,cfg);
   const groundAngle=Math.atan2(aheadY-groundY,car.wheelBase);
 
-  const bikeCap=currentBike().mph+boostMph();   // daily speed boost: +1 speed tier while it lasts
+  const bikeCap=(currentBike().mph+boostMph())*spdMul();   // daily speed boost: +1 speed tier while it lasts, and every rebirth is x1.2
   let cap=bikeCap;
   if(rocketT>0){
     const rk=ROCKET_TIERS[rocketActive];
@@ -2689,7 +2900,7 @@ function update(){
   }
   const preVx=car.vx;
   const ctl=balanceT<=0;   // no steering the bike while its rider is falling off
-  if(ctl&&(keys.right||(keys.dDown&&wheelieT<=0))) car.vx+=cfg.accel;   // D still drives you once a skill ends (it used to stay dead until you tapped it again)
+  if(ctl&&(keys.right||(keys.dDown&&wheelieT<=0))) car.vx+=cfg.accel*spdMul();   // D still drives you once a skill ends (it used to stay dead until you tapped it again)
   if(ctl&&keys.brake) car.vx-=cfg.accel*1.4;
   if(!keys.right&&!keys.brake&&!(wheelieT>0)) car.vx*=.985;      // a skill holds your speed
   car.vx=Math.max(-bikeCap*.4,car.vx);
@@ -2705,28 +2916,29 @@ function update(){
   if(abil.autoJump&&abil.autoJumpOn&&car.vx<0&&!hopCliff){
     for(const c of cliffs){ const edge=c.x1+(c.x2-c.x1)*.82+12; if(car.x>=edge&&car.x+car.vx<edge){ car.vx=Math.min(0,edge-car.x); break; } }
   }
-  if(balanceT>0){ balanceT--; car.vx*=.95; stepRag(); if(balanceT===0){ crash(false,false,true); return; } }   // lost balance: tip over first, then game over
+  if(balanceT>0){ balanceT--; car.vx*=(fall.on&&fall.kind==='back'?.985:.95); stepRag(); stepSparks(); if(balanceT===0){ crash(false,false,true); return; } }   // lost balance: tip over first, then game over
   if(wheelieT>0){
     wheelieT++;
     const pa=pitAhead();
-    if(pa&&pa.x1-car.x<=pitLook()+250){ wheelieT=0; skillId=null; wheelieCD=0; popups.push({x:car.x-camX,y:car.y-70,text:'pit ahead - skill ended, hop it!',life:1,age:0}); }   // pit coming: the skill ends so you can hop it (no cooldown penalty for that)
-    else if(car.onGround&&car.vx>2){
+    if(car.onGround&&pa&&pa.x1-car.x<=pitLook()+250){ wheelieT=0; skillId=null; wheelieCD=0; popups.push({x:car.x-camX,y:car.y-70,text:'pit ahead - skill ended, hop it!',life:1,age:0}); }   // pit coming: the skill ends so you can hop it (no cooldown penalty for that)
+    else if((car.onGround&&car.vx>2)||(!car.onGround&&skillId&&!isWheelieType(skillId))){   // on the ground, or showing off in the air (not the wheelie)
       if(trainMode) trainTick();                                                       // practice map: skill levels, no coins
-      else{ wheelieFrac+=skillRate(skillId)*payMul()/60;                                        // 10c per second + 2c per train level
+      else{ wheelieFrac+=skillRate(skillId)*payMul()*(car.onGround?1:2)/60;                                        // 10c per second + 2c per train level
         if(wheelieFrac>=1){ const w=Math.floor(wheelieFrac); wheelieFrac-=w; score+=w; document.getElementById('scoreTag').textContent=score+' coins'; } }
       SK.t+=1/60;
       const hard=(1+Math.min(SK.t,60)*.03)*skillDiff(skillId);                                              // gets a little twitchier the longer you hold it
       SK.v+=(SK.b-.5)*.0006*hard+(Math.random()-.5)*.0006*hard;
       if(keys.aDown) SK.v-=.0009; if(keys.dDown) SK.v+=.0009;
       SK.v*=.94; SK.b+=SK.v;
-      if(SK.b<=BAL_FALL||SK.b>=1-BAL_FALL) loseBalance();                              // within 10% of either edge = you fall off
+      if(SK.b<=skillFall(skillId)||SK.b>=1-skillFall(skillId)) loseBalance();                              // within 10% of either edge = you fall off
     }
   } else if(wheelieCD>0) wheelieCD--;
   { // the front wheel: a wheelie pulls it up around the rear axle; a loop-out throws it up past vertical, then the riderless bike drops back down
     let wTarget=0;
-    if(balanceT>0) wTarget=(balFall.id==='wheelie'&&balFall.kind==='back'&&80-balanceT<16)?1.2:0;
-    else if(wheelieT>0&&skillId==='wheelie'&&car.onGround) wTarget=0.62+(SK.b-.5)*.9;
-    wheelieAng+=(wTarget-wheelieAng)*(balanceT>0?(wTarget>0?.16:.09):.15); }
+    if(balanceT>0) wTarget=0;
+    else if(wheelieT>0&&isWheelieType(skillId)&&car.onGround) wTarget=0.62+(SK.b-.5)*.9;
+    wheelieAng+=(wTarget-wheelieAng)*(balanceT>0?(wTarget>0?.16:.09):.15);
+    if(fall.on) fallStep(); }   // a lost balance is real bike physics now (flip back and scrape, or nose-dive)
   if(hopReq){ hopReq=false; doHop(); }
   if(hopCliff) car.vx=hopVx;                     // while hopping you keep your speed (no braking mid-air)
   const px=car.x;
@@ -2742,19 +2954,20 @@ function update(){
       car.vy=-(2+Math.min(Math.abs(car.vx),70)*0.4)*jumpMul();
       airStart=simTime; airRotation=0;
     }
-    car.vy+=cfg.gravity; if(rocketT>0) car.vy-=cfg.gravity*0.5;
+    car.vy+=cfg.gravity*((abilOn('hang')&&!hopCliff)?.78:1); if(rocketT>0) car.vy-=cfg.gravity*0.5;   // Hang Time: lighter gravity on ramp jumps
     // a hop never comes down inside the pit: if the ground would catch you early, glide just above it until you're past
     if(hopCliff&&car.x<hopSafeX&&car.vy>0){ const maxY=targetY-8; if(car.y+car.vy>maxY) car.vy=Math.max(0,maxY-car.y); }
     if(hopCliff&&car.vy>0){ const gy=hopGuardY(px); if(gy!==null&&car.y+car.vy>gy) car.vy=Math.max(0,gy-car.y); }   // never come down inside any pit during a hop
     car.y+=car.vy; car.onGround=false;
     // stunts are manual: each S press gives one short burst of spin, never automatic and never from holding
-    if(stuntBurst>0){ car.angVel+=currentStyle().dir*currentStyle().torque; stuntBurst--; }
+    if(stuntBurst>0){ car.angVel+=currentStyle().dir*currentStyle().torque*(abilOn('spin')?1.4:1); stuntBurst--; }
     const deltaAngle=car.angVel;
     car.angle+=deltaAngle; airRotation+=deltaAngle; car.angVel*=.96;
     lastAirTime=(simTime-airStart)/1000;
     airTimerOpacity=Math.min(1,airTimerOpacity+0.15);
+    SA.hang+=(((simTime-SA.last)<1100?1:0)-SA.hang)*.12;
   } else {
-    car.y=targetY; car.vy=0; car.onGround=true; stuntBurst=0;
+    car.y=targetY; car.vy=0; car.onGround=true; stuntBurst=0; SA.hang=0;
     car.angle+=(targetAngle-car.angle)*.25; car.angVel=0;
     airTimerOpacity=Math.max(0,airTimerOpacity-0.05);
 
@@ -2865,9 +3078,83 @@ function pulseEl(id){
   el.classList.add('pulse');
 }
 
+// deaths are no longer instant: crash() starts a short death scene, finishCrash() shows the screen about a second later
+let dying=null;
+const DEATH_HOLD=60;   // 1 second at 60 steps per second
+function startDeath(busted,pit,balance){
+  crashed=true; wheelieT=0; balanceT=0; skillId=null; stuntBurst=0; hopCliff=null; hopReq=hopKick=false; pitTagOn=false; document.getElementById('pitTag').classList.add('hidden');
+  updateWheelieTag(); updateRocketBtn();
+  const kind=busted?'bust':pit?'pit':balance?'balance':'wipe';
+  dying={kind,busted:!!busted,pit:!!pit,balance:!!balance,t:0,stuck:0};
+  if(kind==='bust'){        // caught: you stop dead, even in the air, then ease down to the road
+    car.vx=0; car.angVel=0; dying.y0=car.y; dying.a0=car.angle; realDX=0;
+    [cop,...escorts].forEach(c=>{ c.vx=0; });
+  } else if(kind==='pit'){  // falls onto the spikes
+    car.vx*=.45; car.angVel=0; dying.vy=Math.max(0,car.vy); dying.landed=false;
+  } else if(kind==='wipe'){ // tumbled: the rider is thrown off and the bike slides to a stop
+    startRag(car.angle>0?'front':'back'); car.vx*=.7; car.angVel=0;
+  }
+}
+function stepDying(){
+  const D=dying; D.t++; simTime+=STEP;
+  popups.forEach(p=>{p.y-=0.6; p.life-=0.02; p.age++;}); popups=popups.filter(p=>p.life>0);
+  shakeT*=.85; landSquashT*=.82; stepSparks();
+  if(rag.on) stepRag();
+  if(fall.on) fallStep();
+  let done=false;
+  if(D.kind==='bust'){
+    const k=Math.min(1,D.t/DEATH_HOLD), e=k*k*(3-2*k), gy=terrainHeight(car.x,cfg)-33;
+    car.y=D.y0+(gy-D.y0)*e;                                          // smooth drop, one second
+    const ta=Math.atan2(terrainHeight(car.x+car.wheelBase,cfg)-terrainHeight(car.x,cfg),car.wheelBase);
+    car.angle=D.a0+(ta-D.a0)*e; car.vx=0; car.vy=0; wheelieAng*=.85; car.onGround=(k>=1);
+    done=D.t>=DEATH_HOLD;
+  } else if(D.kind==='pit'){
+    const c=cliffs.find(p=>car.x>=p.x1-40&&car.x<=p.x2+40);
+    if(c){ const [a,b]=pitSpikeRange(c); car.x+=(Math.max(a+16,Math.min(car.x,b-16))-car.x)*.2; }   // the spikes are where you land
+    car.x+=car.vx; car.vx*=.9;
+    const floor=terrainHeight(car.x,cfg)-33+11;                       // wheels sink onto the points
+    if(!D.landed){
+      D.vy+=cfg.gravity; car.y+=D.vy; car.angle+=(.5-car.angle)*.05;
+      if(car.y>=floor){ car.y=floor; D.landed=true; D.vy=0; car.vx=0; shakeT=Math.max(shakeT,12); landSquashT=1; for(let i=0;i<10;i++) addSpark(car.x+(Math.random()-.5)*40,floor+30,(Math.random()-.5)*4,-1-Math.random()*3); }
+    } else { car.y=floor; car.angle+=(.52-car.angle)*.15; D.stuck++; }
+    done=D.landed&&D.stuck>=DEATH_HOLD||D.t>300;
+  } else {   // wipe / lost balance: slide to a stop (gravity still works if the bike is up in the air)
+    car.vx*=.9; car.x+=car.vx;
+    const gy=terrainHeight(car.x,cfg)-33;
+    if(car.y<gy-1){ car.vy+=cfg.gravity; car.y=Math.min(gy,car.y+car.vy); car.angle+=car.angVel; } else { car.y=gy; car.vy=0; car.onGround=true; }
+    done=D.t>=DEATH_HOLD;
+  }
+  riderAnimStep();
+  { // camera keeps following the bike
+    const sp=Math.min(1,Math.abs(car.vx)/Math.max(30,currentBike().mph)), want=car.x-W*(0.30+0.10*sp);
+    camX+=car.vx; camX+=(want-camX)*.18;
+    const tgt=Math.min(Math.max(0,car.y-H*0.6),car.y-H*0.32);
+    camY+=(tgt-camY)*.2; camY=Math.max(car.y-H*0.82,Math.min(car.y-H*0.18,camY));
+  }
+  updateWheelieTag();
+  if(done){ dying=null; finishCrash(D.busted,D.pit,D.balance); }
+}
 function crash(busted,pit,balance){
-  if(crashed) return;   // a second crash in the same frame (tilt + cop catch) used to overwrite the message and bank the run twice
-  crashed=true; wheelieT=0; balanceT=0; updateWheelieTag(); updateRocketBtn(); hopCliff=null; hopReq=hopKick=false; pitTagOn=false; document.getElementById('pitTag').classList.add('hidden');
+  if(crashed) return;
+  if(abilOn('wind')&&!windUsed&&!trainMode&&!busted&&!balance){   // Second Wind: one free save per run (wipe-outs and pit falls)
+    let ok=true;
+    if(pit){ const pc=cliffs.find(c=>car.x>=c.x1-60&&car.x<=c.x2+20); if(pc){ car.x=pc.x2+40; } else ok=false; }
+    if(ok){
+      windUsed=true; car.y=terrainHeight(car.x,cfg)-33; car.vy=0; car.onGround=true; car.angle=0; car.angVel=0; car.vx=Math.max(car.vx,6); wasOnGround=true; landGrace=40; hopCliff=null; hopReq=hopKick=false;
+      wheelieT=0; skillId=null; wheelieAng=0; shakeT=10; RA.py=car.y; RA.pvy=0; RA.bob=RA.bv=0; SA.hang=0;
+      popups.push({x:car.x-camX,y:car.y-80,text:'💨 second wind!',life:1,age:0});
+      return;
+    }
+  }   // a second crash in the same frame (tilt + cop catch) used to overwrite the message and bank the run twice
+  startDeath(busted,pit,balance);
+}
+// the balance bar, the skill tag, the LOST BALANCE text and the level banner must never be visible once the crash screen is up
+function hideSkillHud(){
+  ['wheelieBar','wheelieTag','balanceMsg','pitTag'].forEach(id=>{ const e=document.getElementById(id); if(e) e.classList.add('hidden'); });
+  clearLevelBanner();
+}
+function finishCrash(busted,pit,balance){
+  crashed=true; wheelieT=0; balanceT=0; skillId=null; updateWheelieTag(); hideSkillHud();
   document.querySelector('#crash h1').textContent=balance?'you lost balance':(busted?'busted':(pit?'fell in a pit':'wiped out'));
   const earned=score;
   bankRun();
@@ -2926,6 +3213,7 @@ function drawTerrain(){
   }
   ctx.strokeStyle='#111111'; ctx.lineWidth=2.4; ctx.stroke();
 
+  drawSpikes();
   ctx.setLineDash([6,10]); ctx.strokeStyle='rgba(0,0,0,0.18)'; ctx.lineWidth=1.2;
   ctx.beginPath(); started=false;
   for(let sx=-50;sx<=W+50;sx+=step){
@@ -2935,6 +3223,23 @@ function drawTerrain(){
   ctx.stroke(); ctx.setLineDash([]);
 }
 
+// every pit has spikes on its floor. the stretch the bike can fall onto is x1 + 12% .. x2 - 18% of the pit
+function pitSpikeRange(c){ const w=c.x2-c.x1; return [c.x1+w*.14,c.x2-w*.2]; }
+function drawSpikeRow(c,x0,x1){
+  const [a,b]=pitSpikeRange(c), lo=Math.max(a,x0), hi=Math.min(b,x1), gap=13;
+  if(hi<=lo) return;
+  ctx.beginPath();
+  for(let x=Math.ceil(lo/gap)*gap; x<=hi; x+=gap){ const y=terrainHeight(x,cfg); ctx.moveTo(x-5.5-camX,y+1); ctx.lineTo(x-camX,y-19); ctx.lineTo(x+5.5-camX,y+1); ctx.closePath(); }
+  ctx.fillStyle='#8d949c'; ctx.fill(); ctx.strokeStyle='#111'; ctx.lineWidth=1.4; ctx.lineJoin='round'; ctx.stroke();
+  ctx.beginPath();   // little highlight on each tip so they read as metal
+  for(let x=Math.ceil(lo/gap)*gap; x<=hi; x+=gap){ const y=terrainHeight(x,cfg); ctx.moveTo(x-camX,y-19); ctx.lineTo(x-camX+1.2,y-9); }
+  ctx.strokeStyle='#fff'; ctx.lineWidth=1.1; ctx.stroke();
+}
+function drawSpikes(){ for(const c of cliffs){ if(c.x2<camX-80||c.x1>camX+W+80) continue; drawSpikeRow(c,camX-80,camX+W+80); } }
+function drawSpikesFront(){   // when you are stuck in the spikes, the points in front of the wheels are drawn over the bike so you really are impaled
+  if(!dying||dying.kind!=='pit') return;
+  for(const c of cliffs){ if(car.x<c.x1||car.x>c.x2) continue; drawSpikeRow(c,car.x-16,car.x+16); }
+}
 function drawPopups(){
   popups.forEach(p=>{
     // pop in with a slight overshoot, then drift/fade as before
@@ -3041,6 +3346,16 @@ function riderPose(scooter,g,skill,bal,an){
         a2={x:g.BB.x+r-5,y:g.BB.y-4}; b2={x:g.BB.x-r-5,y:g.BB.y-4}; l2=0.5+sway*0.35;
       }
       headTurn=-sway*.12;
+    } else if(sid==='handwheelie'){   // wheelie with no hands: sat way back, one hand trailing on the road
+      const gw=Math.cos(wa), gs=Math.sin(wa), gx=-22, gy=17;   // the road behind the rear wheel, turned into the bike's tilted drawing space
+      const grd={x:-30+gx*gw-gy*gs, y:17+gx*gs+gy*gw};
+      if(scooter){ h2={x:-30,y:-14}; l2=-.7; }
+      else { h2={x:g.ST.x-16,y:g.ST.y+15+bob*.3}; l2=-.9-bb*.3; }
+      hd2=grd; a2=ankA; b2=ankB; armsOut=0; headTurn=-wa*.2+.3;
+    } else if(sid==='handstand'){   // upside down: hands on the bars, hips high, legs straight up
+      if(scooter){ h2={x:22+sway*10,y:-100}; hd2={x:22,y:-28}; a2={x:h2.x-6,y:h2.y-58}; b2={x:h2.x+8,y:h2.y-55}; }
+      else { h2={x:g.barC.x-4+sway*12,y:g.barC.y-62+bob*.4}; hd2={x:g.barC.x+4,y:g.barC.y-1}; a2={x:h2.x-6,y:h2.y-58}; b2={x:h2.x+8,y:h2.y-55}; }
+      l2=Math.PI-.05+sway*.3; armsOut=0; headTurn=Math.PI/2;
     } else if(sid!=='wheelie'){   // the five A / D balance skills
       const sc=scooter, cp=o=>({x:o.x,y:o.y});
       if(sid==='nohands'){ h2=cp(hip); hd2=hand; a2=ankA; b2=ankB; l2=(sc?.3:.12)+sway*.45; armsOut=1; armsDy=-16; spread=1; headTurn=-sway*.1; }
@@ -3056,6 +3371,38 @@ function riderPose(scooter,g,skill,bal,an){
         if(sc){ h2={x:-4,y:-28}; a2={x:-52,y:-30}; b2={x:-46,y:-22}; }
         else { h2={x:g.ST.x-6+sway*6,y:g.ST.y-11+bob*.4}; a2={x:h2.x-54,y:h2.y-8}; b2={x:h2.x-48,y:h2.y-1}; }
         hd2=hand; l2=1.3+sway*.3; armsOut=1; armsDy=-4; spread=1; headTurn=-.5;
+      } else if(sid==='onefoot'){
+        if(sc){ h2={x:-6+sway*8,y:-26}; hd2=hand; a2=ankA; b2={x:-52,y:-10}; l2=.7+sway*.3; }
+        else { h2=cp(hip); hd2=hand; a2=ankA; b2={x:g.ST.x-56,y:g.ST.y-12}; l2=.55+sway*.3; }
+        headTurn=-sway*.1;
+      } else if(sid==='rearpeg'){
+        if(sc){ h2={x:-6+sway*8,y:-26}; hd2=hand; a2=ankA; b2=ankB; l2=.8+sway*.3; }
+        else { h2={x:-30+sway*10,y:-39+bob*.5}; hd2=hand; a2={x:-34,y:15}; b2={x:-25,y:15}; l2=.9+sway*.3; }
+        headTurn=-sway*.12;
+      } else if(sid==='frontpeg'){
+        if(sc){ h2={x:-6+sway*8,y:-26}; hd2=hand; a2=ankA; b2=ankB; l2=.8+sway*.3; }
+        else { h2={x:19+sway*10,y:-38+bob*.5}; hd2=hand; a2={x:27,y:15}; b2={x:36,y:15}; l2=.15+sway*.3; }
+        headTurn=-sway*.12;
+      } else if(sid==='barsit'){
+        if(sc){ h2={x:13+sway*10,y:-60}; hd2={x:22,y:-30}; a2={x:9,y:-27}; b2={x:23,y:-29}; l2=-.1+sway*.3; armsOut=1; spread=1; }
+        else { h2={x:g.barC.x-7+sway*8,y:g.barC.y-9}; hd2=hand; a2={x:26,y:6}; b2={x:35,y:8}; l2=-.2+sway*.35; armsOut=1; armsDy=-2; spread=1; }
+        headTurn=.05;
+      } else if(sid==='seatkneel'){
+        if(sc){ h2={x:-6+sway*8,y:-22}; hd2=hand; a2=ankA; b2=ankB; l2=.8+sway*.3; }
+        else { h2={x:g.ST.x-6+sway*8,y:g.ST.y-22+bob*.4}; hd2=hand; a2={x:g.ST.x-34,y:g.ST.y-4}; b2={x:g.ST.x-40,y:g.ST.y-2}; l2=.5+sway*.35; }
+        headTurn=-sway*.1;
+      } else if(sid==='lowcrouch'){
+        if(sc){ h2={x:-6+sway*8,y:-20}; hd2=hand; a2=ankA; b2=ankB; l2=1.1+sway*.3; }
+        else { h2={x:g.ST.x+4+sway*8,y:g.ST.y-5+bob*.3}; hd2=hand; a2=ankA; b2=ankB; l2=1.25+sway*.2; }
+        headTurn=.15;
+      } else if(sid==='splitkick'){
+        if(sc){ h2={x:-6+sway*8,y:-28}; hd2=hand; a2={x:22,y:-30}; b2={x:-40,y:-30}; l2=.2+sway*.3; armsOut=1; spread=1; }
+        else { h2={x:g.ST.x-3,y:g.ST.y-13+bob*.4}; hd2=hand; a2={x:g.barC.x+4,y:g.barC.y-3}; b2={x:g.ST.x-56,y:g.ST.y-22}; l2=.1+sway*.4; armsOut=1; armsDy=-6; spread=1; }
+        headTurn=-sway*.1;
+      } else if(sid==='layback'){
+        if(sc){ h2={x:-14,y:-18}; hd2=hand; a2={x:6,y:-24}; b2={x:14,y:-22}; l2=-1.1+sway*.3; armsOut=1; spread=1; }
+        else { h2={x:g.ST.x-16,y:g.ST.y-5}; hd2=hand; a2={x:6,y:-26}; b2={x:14,y:-24}; l2=-1.25+sway*.35; armsOut=1; armsDy=-8; spread=1; }
+        headTurn=-.2;
       } else {   // barstand
         if(sc){ h2={x:13+sway*12,y:-68+Math.abs(sway)*3}; hd2={x:22,y:-30}; a2={x:9,y:-27}; b2={x:23,y:-29}; l2=.25+sway*.35; }
         else { h2={x:g.barC.x-8+sway*12,y:g.barC.y-55+bob*.6}; hd2=hand; a2={x:g.barC.x-2,y:g.barC.y-5}; b2={x:g.barC.x-9,y:g.barC.y-5}; l2=.05+sway*.4; }
@@ -3073,13 +3420,13 @@ function riderPose(scooter,g,skill,bal,an){
     const p=Math.max(0,Math.min(1,w)), din=an.dir>=0, dip=Math.sin(Math.PI*p);
     const standy=sid==='stand'||sid==='seatstand'||sid==='barstand';
     if(standy){ hip.y+=dip*(din?11:6); hip.x-=dip*(din?2.5:0); lean+=dip*(din?.2:.1); }
-    else if(sid!=='wheelie'){ hip.y+=dip*3; lean+=dip*(din?.08:.04); }
+    else if(!isWheelieType(sid)){ hip.y+=dip*3; lean+=dip*(din?.08:.04); }
     else { const ld=dip*(1-p)*2; hip.x+=din?ld*4:-dip*3; lean+=din?ld*.22:-dip*.06; }   // wheelie: hunch forward over the bars, then drag the hips back as the front wheel lifts
     if(p>.9&&an.t!=null){ const ph=an.t*.09, a=Math.min(1,Math.abs(bb)*3+.25);   // holding the stunt: constant little corrections
-      if(sid!=='wheelie'){ hip.x+=Math.sin(ph)*1.2*a; hip.y+=Math.sin(ph*2)*.8*a; } else { hip.x+=Math.sin(ph)*.9*a; lean+=Math.sin(ph*1.3)*.015*a; } }
+      if(!isWheelieType(sid)){ hip.x+=Math.sin(ph)*1.2*a; hip.y+=Math.sin(ph*2)*.8*a; } else { hip.x+=Math.sin(ph)*.9*a; lean+=Math.sin(ph*1.3)*.015*a; } }
   }
   let sh={x:hip.x+Math.sin(lean)*TORSO, y:hip.y-Math.cos(lean)*TORSO};
-  if(sid&&w>.05&&!armsOut){   // arms are never stretched past their reach: lean in until the hands hold the bars
+  if(sid&&w>.05&&!armsOut&&sid!=='handstand'&&sid!=='handwheelie'){   // arms are never stretched past their reach: lean in until the hands hold the bars
     for(let i=0;i<10&&Math.hypot(hand.x-sh.x,hand.y-sh.y)>UARM+FARM-1.2;i++){ lean+=.035; sh={x:hip.x+Math.sin(lean)*TORSO, y:hip.y-Math.cos(lean)*TORSO}; }
   }
   let handB=null;
@@ -3322,6 +3669,42 @@ function riderOverlay(c,veh,g){
   drawRiderPart(P,true,c,g); drawRiderPart(P,false,c,g);
   c.restore();
 }
+// what the bike looks like in the air: every stunt style does its own animation (barrel roll squashes sideways, tailwhip whips the frame, helicopter spins flat...)
+function airStyleSkill(){
+  if(car.onGround||crashed||balanceT>0||SA.hang<.08) return null;
+  const a=currentStyle().anim; return a==='super'?'superman':a==='nohand'?'nohands':null;
+}
+function airPoseNow(){
+  if(car.onGround||crashed||balanceT>0) return null;
+  const st=currentStyle(), a=st.anim, d=st.dir, f=(Math.abs(airRotation)/TAU)%1;   // f = how far through the current turn of the stunt
+  const A={ang:car.angle,dx:0,dy:0,ps:1,rot:0,sx:1,sy:1,whip:0,cape:0,rotor:false,col:st.col}, sn=Math.sin(Math.PI*f);
+  switch(a){
+    case 'nova': A.ps=1+.12*sn; break;                                                           // real spin + a pulse
+    case 'cork': A.sy=stSq(f*TAU*2); break;                                                      // flip and roll at once
+    case 'roll': A.ang=car.angle-airRotation; A.sy=stSq(f*TAU); A.rot=d*sn*.3; break;           // rolls over sideways
+    case 'twist': A.ang=car.angle-airRotation; A.sx=stSq(f*TAU); A.rot=d*Math.sin(f*TAU)*.4; A.dy=-6*sn; break;
+    case 'barrel': A.ang=car.angle-airRotation; A.sy=stSq(f*TAU*2); A.dx=d*sn*24; A.rot=d*sn*.25; break;
+    case 'whip': A.ang=car.angle-airRotation; A.whip=d*f*TAU*2; A.rot=-d*sn*.12; break;         // the frame whips around the bars
+    case 'heli': A.ang=car.angle-airRotation; A.sx=stSq(f*TAU*3); A.rotor=true; break;
+    case 'super': { const h=Math.min(1,SA.hang); A.ang=car.angle-airRotation; A.rot=.3*h; A.sx=1+.1*h; A.cape=h; break; }
+    case 'nohand': { const h=Math.min(1,SA.hang); A.ang=car.angle-airRotation; A.rot=Math.sin(simTime*.02)*.06*h; A.dy=-4*h; break; }
+    case 'wobble': A.rot=d*Math.sin(f*TAU*2)*.5; break;
+    case 'bounce': { const b=Math.abs(Math.sin(f*TAU*2)); A.sy=1-.18*b; A.sx=1+.1*b; A.dy=-10*b; break; }
+    case 'tuck': A.ps=1-.28*sn; break;
+    case 'invert': A.rot=d*Math.PI*Math.min(1,sn*1.7)*.8; break;
+    case 'spiral': A.sx=stSq(f*TAU*2); break;
+    case 'lazy': A.dy=-8*sn; A.ps=1+.06*sn; break;
+    case 'rollback': A.ang=car.angle-airRotation; A.sy=stSq(-f*TAU*1.5); A.sx=1+.1*sn; A.rot=d*sn*.35; break;
+    case 'storm': A.dx=Math.sin(f*TAU*3)*14; break;
+    case 'whiplash': A.ang=car.angle-airRotation; A.whip=d*f*TAU*3; A.rot=-d*sn*.2; break;
+    case 'phantom': A.dx=Math.sin(f*TAU*4)*8; break;
+    case 'meteor': A.ps=1+.2*sn; A.dy=-8*sn; break;
+    case 'windmill': A.ang=car.angle-airRotation; A.sx=stSq(f*TAU*2); A.rotor=true; break;
+    case 'megabarrel': A.ang=car.angle-airRotation; A.sy=stSq(f*TAU*3); A.dx=d*sn*30; A.ps=1+.12*sn; break;
+    case 'galaxy': A.ps=1+.2*sn; break;
+  }
+  return A;
+}
 function drawBike(){
   const sx=car.x-camX, wheelR=17, backX=-30, frontX=30, wheelY=17;
   // real diamond-frame geometry: every tube meets at an actual joint, dropouts sit at the wheel axles
@@ -3330,10 +3713,13 @@ function drawBike(){
   const HTt={x:18,y:wheelY-30};               // head tube top
   const HTb={x:14,y:wheelY-14};               // head tube bottom
   const barC={x:29,y:wheelY-41};              // handlebar center
-  const pedalAngle=((wheelieT>0&&skillId&&skillId!=='wheelie')||selectedVehicle===3?0:car.wheelAngle*0.21)%(Math.PI*2);   // pedals level while standing
+  const pedalAngle=((wheelieT>0&&skillId&&!isWheelieType(skillId))||selectedVehicle===3?0:car.wheelAngle*0.21)%(Math.PI*2);   // pedals level while standing
   const chainringR=8, cogR=4.5, crankLen=10;
 
-  ctx.save(); ctx.translate(sx,car.y); ctx.rotate(car.angle);
+  const AP=airPoseNow();
+  ctx.save(); ctx.translate(sx,car.y); ctx.rotate(AP?AP.ang:car.angle);
+  if(AP){ ctx.translate(AP.dx,AP.dy); ctx.scale(AP.ps,AP.ps); ctx.rotate(AP.rot); ctx.scale(AP.sx,AP.sy); }
+  if(fall.on&&fall.kind==='front'&&fall.a>0.001){ ctx.translate(frontX,wheelY); ctx.rotate(fall.a); ctx.translate(-frontX,-wheelY); } // nose-dive: pivot on the front wheel
   if(wheelieAng>0.001){ ctx.translate(backX,wheelY); ctx.rotate(-wheelieAng); ctx.translate(-backX,-wheelY); } // pivot on the rear wheel
   if(landSquashT>0.02){
     // squash-and-stretch: briefly flatten+widen on landing, then springs back to normal
@@ -3346,7 +3732,12 @@ function drawBike(){
 
   const RP=riderPose(isScoot(selectedVehicle),{ST,BB,barC,pa:pedalAngle,crank:crankLen},null,SK.b,{w:RA.w,id:RA.id,bob:RA.bob,ang:wheelieAng,dir:RA.dir,t:RA.t});
   DRAWN.RP=RP;
+  if(AP&&AP.cape>.02){   // superman's cape
+    const sh=RP.sh, fl=Math.sin(simTime*.03)*6; ctx.fillStyle=AP.col; ctx.globalAlpha=.85; ctx.beginPath(); ctx.moveTo(sh.x,sh.y-4); ctx.lineTo(sh.x-34-30*AP.cape,sh.y+6+fl); ctx.lineTo(sh.x-28-26*AP.cape,sh.y+28+fl*.5); ctx.lineTo(sh.x-6,sh.y+16); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1;
+  }
+  const WH=AP?AP.whip:0;
   if(!rag.on) drawRiderPart(RP,true);   // far leg + far arm, behind the frame
+  if(WH){ ctx.save(); ctx.translate(30,17); ctx.rotate(WH); ctx.translate(-30,-17); }   // tailwhip: only the bike turns, the rider stays
   const bikeColor=currentBike().color;
   ctx.lineCap='round'; ctx.lineJoin='round';
   ctx.strokeStyle=bikeColor; ctx.fillStyle=bikeColor;
@@ -3456,7 +3847,9 @@ function drawBike(){
     ctx.fillStyle='#222'; ctx.fillRect(barC.x-3,barC.y-9,8,5);
   }
   }
+  if(WH) ctx.restore();
   if(!rag.on) drawRiderPart(RP,false);  // near leg, torso, near arm, head, in front of the frame
+  if(AP&&AP.rotor&&RP.head){ const h=RP.head; ctx.strokeStyle=AP.col; ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(h.x,h.y-14); ctx.lineTo(h.x,h.y-30); ctx.stroke(); const bl=50*Math.cos(simTime*.07); ctx.beginPath(); ctx.moveTo(h.x-bl,h.y-30); ctx.lineTo(h.x+bl,h.y-30); ctx.stroke(); }   // helicopter rotor
   { const wy2=23, wr2=11; // accessories, same anchors idea as the preview
     drawAcc(ctx,selectedAcc,isScoot(selectedVehicle)?{bar:{x:frontX-14.5,y:wy2-50},seat:{x:backX+11,y:wy2-12},tube:{x:frontX-10,y:wy2-20},rear:{x:backX,y:wy2,r:wr2}}:{bar:barC,seat:{x:ST.x-6,y:ST.y-9},tube:{x:(BB.x+ST.x)/2,y:(BB.y+ST.y)/2},rear:{x:backX,y:wheelY,r:wheelR}}); }
   if(rocketT>0){ // rocket exhaust behind the rear wheel
@@ -3475,7 +3868,7 @@ function balanceTint(){
   const live=running&&!crashed&&!paused&&wheelieT>0&&balanceT<=0;
   let target=0;
   if(live){
-    const d=Math.abs(SK.b-.5), warn=.2, fall=.5-BAL_FALL;   // yellow starts 20% from the middle, the fall is at 10% from either edge
+    const d=Math.abs(SK.b-.5), warn=Math.min(.2,.5-skillFall(skillId)-.06), fall=.5-skillFall(skillId);   // yellow starts 20% from the middle, the fall is at 10% from either edge
     if(d>=warn) target=.08+.18*Math.min(1,(d-warn)/(fall-warn));
   }
   balRed+=(target-balRed)*(target>balRed?.2:.1);
@@ -3553,7 +3946,9 @@ function render(){
   drawPet();
   if(mode==='police') drawCop();
   drawBike();
+  drawSpikesFront();
   drawRag();
+  drawSparks();
   drawAirTimer();
   ctx.restore();
   ctx.restore();
@@ -3645,9 +4040,10 @@ function loop(ts){
     acc+=dt; let n=0;
     while(acc>=STEP && n<6){ update(); acc-=STEP; n++; }
     if(n===6) acc=0;
+    if(crashed&&!dying) hideSkillHud();   // safety net: a late update can never bring the bar back on the death screen
     render();
     { // the dial is scaled to the speed you can really reach right now (bike top speed, or the rocket's boosted cap), in half-mph steps (17, 17.5, 18), so the needle never pins at full and always agrees with the number
-      const shown=Math.max(0,Math.round(realDX)), top=currentBike().mph+boostMph();   // whole mph only (15, 16, 17), no decimals on the dial
+      const shown=Math.max(0,Math.round(realDX)), top=(currentBike().mph+boostMph())*spdMul();   // whole mph only (15, 16, 17), no decimals on the dial
       const reach=rocketT>0?Math.min(Math.max(340,top),top+ROCKET_TIERS[rocketActive].extra):top;
       const scaleMax=Math.max(8,Math.ceil(Math.max(reach,shown)/8)*8);
       drawSpeedo(shown/scaleMax,shown);
@@ -3714,16 +4110,28 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
-  { v:'0.0.28', date:'Oct 11, 2026', items:[
-    'the sign-in page has a new look. it just says sign in, and an email with no account yet gets one made for you automatically (no create account button)',
-    'profile pictures: use an emoji, a gradient or a solid color, or upload a photo and drag and resize it to fit. edit yours from the edit button on the menu',
-    'you can change your handle 2 times every 30 days (the first one you pick is free)',
-    'if something goes wrong, the error now shows contact@declan.fun'
+  { v:'0.0.30', date:'Oct 12, 2026', items:[
+    'stunt types now get way more expensive as you go: the first few are cheap, then every stunt costs about 50% more than the one before it, all the way up to millions',
+    '9 new stunt animations: Lazy Flip floats up, Reverse Roll rolls the other way, Hurricane gets blown sideways, Whiplash whips the frame 1.5 times, Phantom leaves a long ghost trail, Meteor is a fireball, Windmill has its own rotor, Mega Barrel rolls three times and Galaxy spins in a cloud of stars',
+    'every one of the new animations also has its own effects in the preview (streaks, rings, fire and stars), and shows in the air while you ride',
+    'the changelog now lists everything from the last updates'
   ]},
-  { v:'0.0.27', date:'Oct 8, 2026', items:[
-    'the rocket bike has 20 extra speed levels (41 to 60) and 20 extra stunt levels (21 to 40) in the upgrades shop. other rides keep their normal levels, and switching away from the rocket bike moves you back down to the top normal level',
-    'the sales tax on the rocket bike is 20% (everything else stays at 15%). the upgrades pay page shows the rate it is using',
-    'new Jet Bike for 750,000c: a filler between the motorcycle and the rocket bike carrying the rocket from the rocket bike, 35% smaller. it runs 150 to 270 mph'
+  { v:'0.0.29', date:'Oct 12, 2026', items:
+    ['deaths are no longer instant: you get about a second before the crash screen. falling in a pit now drops you onto spikes and you sit there stuck for 1 second',
+    'getting caught by the police stops you dead, even in the air, then you drop smoothly to the road for 1 second',
+    'losing balance is real bike physics now: pull a wheelie too far and the bike flips over backwards and scrapes along the ground with sparks, lean too far forward and it nose-dives over the front wheel',
+    'every special stunt now has its own price, listed cheapest to most expensive. wheelie and bar stand 1,000c, no hands and feet up 1,500c, seat stand 2,000c, stand up and superman 3,000c',
+    '10 new special stunts: no-hands wheelie (one hand drags on the ground) and handstand are hard with a bigger red zone, plus one foot, rear peg, front peg, bar sit, seat kneel, low crouch, split kick and lay back',
+    'the train button is now at the top of the stunts shop. it opens a pop-up with the special stunts you own, lowest level first, and you tap the one to train',
+    'stunt types are all on one page (7 of 28, like the upgrades shop) and 14 new ones fill the gaps',
+    'the stunt skills leaderboard now saves the level of your equipped special stunt instead of an average',
+    'fixed the skill bar and level banner sometimes showing on the death screen',
+    'the leaderboard shows the top 15, and #1, #2 and #3 now have gold, silver and bronze medals',
+    'new in the shop: 7 rockets, 7 pets (the seal is the best pet), 5 trails (rainbow is still the top one) and 5 abilities',
+    'new ability: rebirth. 60,000,000 coins each time, makes your coins x1.5 and your speed x1.2 every time you buy it',
+    'stunts now really animate in the air: barrel roll, tailwhip, helicopter, superman and the rest each have their own look (no sparks or trails)',
+    'special stunts (W) work in the air too and pay double up there',
+    'skill levels are faster to train: 5 seconds for the first level, then 1 second more for each level after'
   ]},
 ];
 // keep only the newest 2 updates in this list (delete the oldest when you add a new one)
@@ -4090,7 +4498,7 @@ async function loadProfile(u){
 }
 
 /* ---- leaderboard ---- */
-const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['bestPolice','police chase'],['skillAvg','stunt skills'],['playSecs','hours played']];
+const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['bestPolice','police chase'],['skillAvg','equipped skill'],['playSecs','hours played']];
 const fmtPlayM=sec=>{ sec=Math.max(0,Math.floor(sec)); const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h>0?h+'h '+m+'m':m+'m'; };   // hours played, for profiles
 let lbTab='maxLevel', lbToken=0, lbLastPushed='', skillFieldBlocked=false;
 const num=k=>Math.max(0,parseInt(ls(k)||'0',10)||0);
@@ -4102,14 +4510,13 @@ function skillLevels(){   // per-skill levels for the profile page (trained skil
   try{ const lv=JSON.parse(ls('bike_skills')||'{}'); for(const k of Object.keys(lv)){ const n=Math.floor(Number(lv[k])); if(/^[a-z]{1,16}$/.test(k)&&isFinite(n)&&n>0) o[k]=n; } }catch(e){}
   return o;
 }
-function skillAvgStat(){
+function skillAvgStat(){   // (field name kept as skillAvg so the firestore rules keep working) = the level of the stunt skill you have EQUIPPED right now
   try{
+    if(window.__bikeEquipped){ const q=window.__bikeEquipped(); return q&&q.lv>0?Math.floor(q.lv):0; }
+    const sel=ls('bike_skillSel'), ownO=JSON.parse(ls('bike_skillOwn')||'{}'), lvO=JSON.parse(ls('bike_skills')||'{}');
+    if(sel&&ownO&&ownO[sel]) return Math.max(0,Math.floor(Number(lvO[sel])||0));
     const jo=k=>{ try{ const o=JSON.parse(ls(k)||'{}'); return o&&typeof o==='object'&&!Array.isArray(o)?o:{}; }catch(e){ return {}; } };
-    const lv=jo('bike_skills'), own=jo('bike_skillOwn'), xp=jo('bike_skillXp');
-    const trained=Object.keys(lv).filter(id=>{ const n=Number(lv[id])||0; return n>0||(!!own[id]&&(Number(xp[id])||0)>0); })
-      .map(id=>Math.max(0,Math.floor(Number(lv[id])||0)));   // no upper limit
-    if(!trained.length) return 0;
-    return Math.round(trained.reduce((a,b)=>a+b,0)/trained.length*100)/100;
+    return 0;
   }catch(e){ return 0; }
 }
 let lookBlocked=false, lookSig='';
@@ -4150,17 +4557,18 @@ async function lbLoad(){
   const tok=++lbToken; lbMsg('loading…');
   if(!CONFIGURED||!db){ lbMsg(!CONFIGURED?"the leaderboard isn't set up yet.":'loading…'); if(CONFIGURED) setTimeout(()=>{ if(tok===lbToken&&!$('lbPanel').classList.contains('hidden')) lbLoad(); },1500); return; }
   try{
-    const snap=await fb.getDocs(fb.query(fb.collection(db,'leaderboard'),fb.orderBy(lbTab,'desc'),fb.limit(20)));
+    const snap=await fb.getDocs(fb.query(fb.collection(db,'leaderboard'),fb.orderBy(lbTab,'desc'),fb.limit(15)));
     if(tok!==lbToken) return;
     const l=$('lbList'); l.textContent=''; let n=0;
     snap.forEach(s=>{
       const d=s.data(), v=Number(d[lbTab])||0; if(v<=0||!d.handle||badText(d.handle)||badText(d.name||'')) return; n++;
-      const r=document.createElement('div'); r.className='lb-row'+(user&&s.id===user.uid?' me':''); r.dataset.h=String(d.handle); r.title='view profile'; r.onclick=()=>openProfile(d.handle);
-      const a=document.createElement('span'); a.className='lb-rank'; a.textContent='#'+n;
+      const r=document.createElement('div'); r.className='lb-row'+(n<=3?' top r'+n:'')+(user&&s.id===user.uid?' me':''); r.dataset.h=String(d.handle); r.title='view profile'; r.onclick=()=>openProfile(d.handle);
+      const a=document.createElement('span'); a.className='lb-rank';
+      if(n<=3){ const m=document.createElement('span'); m.className='lb-medal'; m.textContent=['🥇','🥈','🥉'][n-1]; const nn=document.createElement('span'); nn.textContent='#'+n; a.append(m,nn); } else a.textContent='#'+n;
       const w=document.createElement('span'); w.className='lb-who'; const hb=document.createElement('b'); hb.textContent='@'+String(d.handle).slice(0,16);
       const nm=document.createElement('span'); nm.textContent=String(d.name||'').slice(0,20); w.append(hb,nm);
-      const vl=document.createElement('span'); vl.className='lb-val'; vl.textContent=lbTab==='maxLevel'?'lvl '+v:lbTab==='skillAvg'?'skill lv '+(Math.round(v*100)/100):lbTab==='playSecs'?(v/3600).toFixed(1)+' h':v.toLocaleString()+(lbTab==='bestPolice'?'m':' coins');
-      const go=document.createElement('span'); go.className='lb-go'; go.textContent='›'; r.append(a,avatar({handle:d.handle,name:d.name,photo:d.photo},30),w,vl,go); l.appendChild(r);
+      const vl=document.createElement('span'); vl.className='lb-val'; vl.textContent=lbTab==='maxLevel'?'lvl '+v:lbTab==='skillAvg'?'skill lv '+Math.floor(v):lbTab==='playSecs'?(v/3600).toFixed(1)+' h':v.toLocaleString()+(lbTab==='bestPolice'?'m':' coins');
+      const go=document.createElement('span'); go.className='lb-go'; go.textContent='›'; r.append(a,avatar({handle:d.handle,name:d.name,photo:d.photo},n<=3?44:30),w,vl,go); l.appendChild(r);
     });
     if(!n) lbMsg(lbTab==='skillAvg'&&skillFieldBlocked?"the stunt skills board needs a firestore rules update before it can save scores.":'no scores yet. Be the first!');
   }catch(e){ console.warn(e); if(tok===lbToken) lbMsg("couldn't load the leaderboard. Check your Firestore rules and connection."); }
@@ -4179,7 +4587,7 @@ window.__bikeLB={open:lbOpen};
    no rewrite yet? set PROFILE_PATHS to false and links use ?u=handle instead.
    PROFILE_PREFIX is the folder in front of the handle: links look like https://bike.declan.fun/59320599key/@handle */
 const PROFILE_PATHS=true, BIO_MAX=160, PROFILE_PREFIX='/59320599key';
-const SKILL_LABEL={stand:'Stand Up',wheelie:'Wheelie'};
+const SKILL_LABEL={stand:'Stand Up',wheelie:'Wheelie',nohands:'No Hands',seatstand:'Seat Stand',feetup:'Feet Up',superman:'Superman',barstand:'Bar Stand',handwheelie:'No-Hands Wheelie',handstand:'Handstand',onefoot:'One Foot',rearpeg:'Rear Peg',frontpeg:'Front Peg',barsit:'Bar Sit',seatkneel:'Seat Kneel',lowcrouch:'Low Crouch',splitkick:'Split Kick',layback:'Lay Back'};
 const cleanHandle=h=>String(h||'').toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,16);
 const BASE_PATH=location.pathname.replace(/\/@[^\/]*\/?$/,'/');   // the page's own folder, even when it was opened from a /@handle link
 function urlTarget(){
@@ -4286,7 +4694,7 @@ function renderProfile(){
   card('best run',n(d.bestRun)?n(d.bestRun).toLocaleString()+' coins':'—');
   card('police chase',n(d.bestPolice)?n(d.bestPolice).toLocaleString()+'m':'—');
   card('hours played',n(d.playSecs)>=60?fmtPlayM(n(d.playSecs)):'—');
-  card('stunt skill average',n(d.skillAvg)?String(Math.round(n(d.skillAvg)*100)/100):'—');
+  card('equipped skill level',n(d.skillAvg)?'lv '+Math.floor(n(d.skillAvg)):'—');
   if(d.skills&&typeof d.skills==='object') Object.keys(d.skills).filter(k=>/^[a-z]{1,16}$/.test(k)&&n(d.skills[k])>0).sort().forEach(k=>card((SKILL_LABEL[k]||k)+' skill','lv '+Math.floor(n(d.skills[k]))));
   b.appendChild(st);
   { const rc=mk('div','pr-ride'), cvr=document.createElement('canvas'); cvr.width=620; cvr.height=330; rc.appendChild(cvr);
