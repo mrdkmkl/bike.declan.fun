@@ -619,13 +619,18 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 #trainPick .tp-empty{font-size:13px;color:#666;padding:10px 4px;text-align:center;}
 #trainPick .tp-buy{align-self:stretch;}
 #stuntsPanel,#trainPanel{align-items:stretch;justify-content:flex-start;padding:0;gap:0;}
-#trainPanel{overflow-y:auto;}
+#trainPanel{overflow:hidden;}
 #stuntsPanel .shop-header,#trainPanel .shop-header{animation:headerDrop .45s .05s cubic-bezier(.2,.8,.2,1) backwards;}
 #stuntLab{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;width:100%;max-width:920px;margin:0 auto;overflow-y:auto;flex:1;padding:14px 20px 20px;align-content:start;align-items:start;}
+#skillLab{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;width:100%;max-width:920px;margin:0 auto;overflow-y:auto;flex:1;padding:14px 20px 20px;align-content:start;align-items:start;}
 #stuntLab.enter .lab-card{animation:skinIn .5s cubic-bezier(.2,.8,.2,1) backwards;}
+#skillLab.enter .lab-card{animation:skinIn .5s cubic-bezier(.2,.8,.2,1) backwards;}
 #stuntLab.enter .lab-card:nth-child(2){animation-delay:.07s}#stuntLab.enter .lab-card:nth-child(3){animation-delay:.14s}
+#skillLab.enter .lab-card:nth-child(2){animation-delay:.07s}#skillLab.enter .lab-card:nth-child(3){animation-delay:.14s}
 #stuntLab.enter .lab-card:nth-child(4){animation-delay:.21s}#stuntLab.enter .lab-card:nth-child(5){animation-delay:.28s}
+#skillLab.enter .lab-card:nth-child(4){animation-delay:.21s}#skillLab.enter .lab-card:nth-child(5){animation-delay:.28s}
 #stuntLab .st-cv{width:100%;height:100%;max-width:520px;object-fit:contain;position:relative;z-index:1;}
+#skillLab .st-cv{width:100%;height:100%;max-width:520px;object-fit:contain;position:relative;z-index:1;}
 .lab-sp-type{grid-column:4 / span 2;grid-row:1;} .lab-sp-special{grid-column:4 / span 2;grid-row:2;}
 .lab-sp-train{grid-column:3 / span 3;grid-row:3;align-self:stretch;display:flex;flex-direction:column;gap:6px;}
 .st-type-row{display:flex;align-items:center;justify-content:space-between;gap:6px;}
@@ -637,30 +642,39 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 .st-sw-row .switch{flex:none;}
 .lab-sp-train .lab-sub{white-space:normal;}
 .st-skill-line{font-size:12px;font-weight:700;color:#444;margin-top:2px;} .st-skill-line span{color:#8a8a8a;font-weight:600;}
-#trainList{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;width:100%;max-width:760px;margin:0 auto;padding:18px 20px 30px;}
 .xp{height:8px;border-radius:5px;background:#e7e9ee;overflow:hidden;margin:6px 0 2px;} .xp>i{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .3s;}
 @media (max-width:640px){
   #stuntLab{grid-template-columns:1fr;} #stuntLab .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;} #stuntLab .lab-stage{min-height:190px;}
+  #skillLab{grid-template-columns:1fr;} #skillLab .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;} #skillLab .lab-stage{min-height:190px;}
 }
 
 /* ===== stunts: pay page (same look as the upgrades pay page) + extra animations ===== */
 #stuntLab.checkout{grid-template-columns:minmax(0,1fr);max-width:560px;}
+#skillLab.checkout{grid-template-columns:minmax(0,1fr);max-width:560px;}
 #stuntLab.checkout .lab-card{grid-column:1 / -1;grid-row:auto;display:flex;flex-direction:column;gap:6px;}
+#skillLab.checkout .lab-card{grid-column:1 / -1;grid-row:auto;display:flex;flex-direction:column;gap:6px;}
 @keyframes stSwapR{from{opacity:0;transform:translateX(28px) scale(.96);}to{opacity:1;transform:none;}}
 @keyframes stSwapL{from{opacity:0;transform:translateX(-28px) scale(.96);}to{opacity:1;transform:none;}}
 .st-type-mid.swapR .lab-big,.st-type-mid.swapR .lab-sub{animation:stSwapR .34s cubic-bezier(.2,.8,.2,1);}
 .st-type-mid.swapL .lab-big,.st-type-mid.swapL .lab-sub{animation:stSwapL .34s cubic-bezier(.2,.8,.2,1);}
 @keyframes stGlow{0%,100%{box-shadow:inset 0 0 0 0 rgba(47,111,237,0);}50%{box-shadow:inset 0 0 38px 0 rgba(47,111,237,.16);}}
 #stuntLab .lab-preview::after{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;animation:stGlow 3.4s ease-in-out infinite;}
+#skillLab .lab-preview::after{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;animation:stGlow 3.4s ease-in-out infinite;}
 .lab-bname .st-emo{display:inline-block;animation:skinBob 1.6s ease-in-out infinite;}
 @keyframes pipPop{0%{transform:scaleY(.6);}60%{transform:scaleY(1.6);}100%{transform:scaleY(1);}}
 #stuntLab .pip.on{animation:pipPop .35s ease;}
+#skillLab .pip.on{animation:pipPop .35s ease;}
 @keyframes stBadge{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
 #stuntLab .lab-badge.on{animation:stBadge 2s ease-in-out infinite;}
+#skillLab .lab-badge.on{animation:stBadge 2s ease-in-out infinite;}
 #stuntLab .lab-card:not(.lab-preview){transition:transform .18s ease,box-shadow .18s ease;}
+#skillLab .lab-card:not(.lab-preview){transition:transform .18s ease,box-shadow .18s ease;}
 #stuntLab .lab-card:not(.lab-preview):hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+#skillLab .lab-card:not(.lab-preview):hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
 #stuntLab .arrow-btn:active{transform:scale(.9);}
+#skillLab .arrow-btn:active{transform:scale(.9);}
 #stuntLab .pip{transition:background .2s,transform .12s;}
+#skillLab .pip{transition:background .2s,transform .12s;}
 .st-conf{position:absolute;z-index:30;font-size:22px;pointer-events:none;animation:stConf 1.1s cubic-bezier(.2,.7,.3,1) forwards;}
 @keyframes stConf{0%{opacity:1;transform:translate(0,0) rotate(0) scale(.6);}70%{opacity:1;}100%{opacity:0;transform:translate(var(--dx),calc(var(--dy) + 260px)) rotate(var(--rot)) scale(1);}}
 
@@ -720,6 +734,22 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 .pr-ride{position:relative;margin-top:14px;padding:14px 14px 10px;border-radius:22px;text-align:center;background:radial-gradient(circle at 50% 80%,#e4ebfb 0%,#f6f8fd 58%,#eef1f8 100%);box-shadow:var(--shadow-sm);}
 .pr-ride canvas{display:block;width:100%;max-width:420px;height:auto;margin:0 auto;}
 .pr-ridecap{font-size:11px;color:#8a8a8a;letter-spacing:.6px;margin-top:2px;}
+
+/* ===== bug sweep: layering + small-screen layout ===== */
+.screen,.panel{z-index:10;}
+#crash{z-index:8;}
+#startScreen{overflow-y:auto;justify-content:safe center;}
+#modeTag{max-width:min(46vw,460px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#topTags{max-width:44vw;flex-wrap:wrap;justify-content:center;}
+#rocketBtn{max-width:44vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+@media (max-width:700px){
+  #topTags{top:104px;max-width:92vw;}
+  #restartHint{bottom:64px;font-size:10px;white-space:nowrap;}
+  #stuntTag{max-width:52vw;text-align:right;font-size:10px;}
+  #pitTag{bottom:96px;}
+  #wheelieBar{bottom:120px;}
+  #startScreen{padding-top:64px;}
+}
 </style>
 </head>
 <body>
@@ -779,7 +809,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="start-btn" id="startBtn">play</button>
     <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="stuntsBtn">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div><div class="level-pill" id="menuHoursTag">0s played</div></div>
-    <div class="ver">v.0.0.29 (alpha)</div>
+    <div class="ver">v.0.0.33 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -816,7 +846,6 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <div class="shop-header">
       <h2>stunts</h2>
       <div id="stuntsWalletTag" class="wallet-pill">0c</div>
-      <button class="action-btn" id="trainTopBtn" type="button">🏋️ train</button>
     </div>
     <div id="stuntLab"></div>
     <div id="stuntPager" class="lab-pager"></div>
@@ -825,10 +854,11 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   <div class="panel hidden" id="trainPanel">
     <button class="close-x" id="closeTrain" aria-label="back to stunts">✕</button>
     <div class="shop-header">
-      <h2>train</h2>
+      <h2>special stunts</h2>
       <div id="trainWalletTag" class="wallet-pill">0c</div>
+      <button class="action-btn" id="trainTopBtn" type="button">🏋️ train</button>
     </div>
-    <div id="trainList"></div>
+    <div id="skillLab"></div>
   </div>
 
   <div class="panel hidden" id="lbPanel">
@@ -943,6 +973,7 @@ function closeOpenPanel(){
   if(!document.getElementById('upgradesPanel').classList.contains('hidden')&&lab.pay){ lab.pay=false; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; return true; }   // back from the pay page goes to the upgrades page first
   if(!document.getElementById('stuntsPanel').classList.contains('hidden')&&stPay){ stPay=false; renderStunts(true); document.getElementById('stuntLab').scrollTop=0; return true; }   // back from the stunts pay page goes to the stunts page first
   if(!document.getElementById('gearPanel').classList.contains('hidden')&&shPay){ shPay=false; shGone=false; renderGear(true); document.getElementById('shopLab').scrollTop=0; return true; }   // back from the shop pay page goes to the shop first
+  if(!document.getElementById('trainPanel').classList.contains('hidden')&&skPay){ skPay=false; renderTrain(true); document.getElementById('skillLab').scrollTop=0; return true; }   // back from the special stunts pay page goes to the menu first
   if(!document.getElementById('trainPanel').classList.contains('hidden')){ trainBack(); return true; }   // train menu sits on top of the stunts panel
   for(const id of PANEL_IDS){ if(!document.getElementById(id).classList.contains('hidden')){ closePanel(id); return true; } }
   return false;
@@ -1621,7 +1652,7 @@ document.getElementById('closeUpgrades').onclick=()=>closePanel('upgradesPanel')
 
 
 // ---- shop: stunt styles, pets (passive coin bonus), rockets (consumable speed boost) ----
-const STYLE_TIERS=[   // 28 stunts, one page. every stunt has its own spin, preview animation, effects and colour
+const STYLE_TIERS=[   // 18 stunts, one page. every stunt has its own spin, preview animation, effects and colour
   {name:'Frontflip',unit:'flip',    emoji:'🤸',dir: 1,torque:.055,flipMult:1,   price:0,   anim:'flipF',  col:'#2f6fed',desc:'nose-down flip · 1× flips'},
   {name:'Backflip', unit:'backflip',emoji:'🔄',dir:-1,torque:.055,flipMult:1.25,price:750, anim:'flipB',  col:'#13b38a',desc:'nose-up flip · 1.25× flips'},
   {name:'Slow Roll',unit:'roll',    emoji:'🌀',dir: 1,torque:.03, flipMult:1.6, price:1700,anim:'roll',   col:'#7bc618',desc:'slow spin · 1.6× flips'},
@@ -1636,20 +1667,10 @@ const STYLE_TIERS=[   // 28 stunts, one page. every stunt has its own spin, prev
   {name:'Corkscrew',  unit:'corkscrew',emoji:'🔩',dir:-1,torque:.095,flipMult:3.7,price:3700000,anim:'cork',  col:'#ec4a86',desc:'flip and roll at once · 3.7× flips'},
   {name:'Double Back',unit:'double back',emoji:'🔁',dir:-1,torque:.14,flipMult:4.3,price:8400000,anim:'double',col:'#22d46a',desc:'two backflips in one jump · 4.3× flips'},
   {name:'Supernova',  unit:'supernova',emoji:'🌟',dir: 1,torque:.17, flipMult:5.2,airMult:1.5,price:19000000,anim:'nova',col:'#ffd24d',desc:'max spin and sparks · 5.2× flips · 1.5× air time'},
-  // ---- 14 more stunts that fill the gaps between the prices above (28 in total, all on one page; the shop sorts them cheapest first) ----
-  {name:'Lazy Flip',  unit:'lazy flip',emoji:'😴',dir: 1,torque:.04, flipMult:1.1,price:500,   anim:'lazy',  col:'#8e9aaf',desc:'slow floaty flip · 1.1× flips'},
-  {name:'Rocker',     unit:'rocker',  emoji:'🪑',dir: 1,torque:.03, flipMult:1.2,price:1100,   anim:'wobble', col:'#ff9f1c',desc:'rock the bike side to side · 1.2× flips'},
-  {name:'Pogo',       unit:'pogo',    emoji:'🏀',dir:-1,torque:.035,flipMult:1.3,price:2500,  anim:'bounce', col:'#00b4d8',desc:'bounce like a pogo stick · 1.3× flips'},
-  {name:'Tuck Ball',  unit:'tuck',    emoji:'🔴',dir: 1,torque:.06, flipMult:1.5,price:3800,  anim:'tuck',   col:'#e63946',desc:'curl into a ball · 1.5× flips'},
-  {name:'Reverse Roll',unit:'reverse roll',emoji:'🔃',dir:-1,torque:.035,flipMult:1.8,price:8500,anim:'rollback',col:'#2a9d8f',desc:'slow roll the other way · 1.8× flips'},
+  // ---- 4 more stunts between the prices above (18 in total, all on one page; the shop sorts them cheapest first) ----
   {name:'Upside Down',unit:'upside down',emoji:'🙃',dir: 1,torque:.045,flipMult:2.0,airMult:1.3,price:19000,anim:'invert',col:'#6a4c93',desc:'flip over and hang there · 2× flips · 1.3× air time'},
-  {name:'Hurricane',  unit:'hurricane',emoji:'🌊',dir:-1,torque:.1,  flipMult:2.9,price:43000, anim:'storm',col:'#118ab2',desc:'spinning storm · 2.9× flips'},
-  {name:'Spiral',     unit:'spiral',  emoji:'🐚',dir: 1,torque:.08, flipMult:3.0,price:97000, anim:'spiral', col:'#f4a261',desc:'flip with a twist · 3× flips'},
   {name:'Whiplash',   unit:'whiplash',emoji:'💥',dir:-1,torque:.08, flipMult:3.3,price:220000, anim:'whiplash',   col:'#ef476f',desc:'frame whips the other way · 3.3× flips'},
-  {name:'Phantom',    unit:'phantom', emoji:'👻',dir:-1,torque:.12, flipMult:3.8,price:490000, anim:'phantom',  col:'#8d99ae',desc:'ghost trails · 3.8× flips'},
   {name:'Meteor',     unit:'meteor',  emoji:'☄️',dir: 1,torque:.13, flipMult:4.4,price:1100000, anim:'meteor',   col:'#ff6b35',desc:'blazing spin · 4.4× flips'},
-  {name:'Windmill',   unit:'windmill',emoji:'🌬️',dir:-1,torque:.09, flipMult:3.5,airMult:1.2,price:2500000,anim:'windmill',col:'#06d6a0',desc:'rotor spin the other way · 3.5× flips · 1.2× air time'},
-  {name:'Mega Barrel',unit:'mega barrel',emoji:'🥁',dir: 1,torque:.05,flipMult:4.7,price:5600000,anim:'megabarrel',col:'#9c6644',desc:'huge roll · 4.7× flips'},
   {name:'Galaxy',     unit:'galaxy',  emoji:'🌌',dir: 1,torque:.19, flipMult:5.8,airMult:1.6,price:13000000,anim:'galaxy',  col:'#5e60ce',desc:'max spin and stars · 5.8× flips · 1.6× air time'}
 ];
 const PET_TIERS=[
@@ -1689,6 +1710,19 @@ function cleanIdxList(v,max,keepZero){
   a=a.filter((n,i)=>a.indexOf(n)===i);
   if(keepZero&&!a.includes(0)) a.unshift(0);
   return a;
+}
+// 10 stunt types were removed. saved stunt numbers from the old 28-stunt list are moved onto the new list by name, and any removed stunt you owned is refunded
+const LEGACY_STYLE_NAMES=['Frontflip','Backflip','Slow Roll','Hyper Flip','Twist','Barrel Roll','Cyclone','Tailwhip','Superman','No-Hander','Helicopter','Corkscrew','Double Back','Supernova','Lazy Flip','Rocker','Pogo','Tuck Ball','Reverse Roll','Upside Down','Hurricane','Spiral','Whiplash','Phantom','Meteor','Windmill','Mega Barrel','Galaxy'];
+const REMOVED_STYLE_PRICE={'Lazy Flip':500,'Rocker':1100,'Pogo':2500,'Tuck Ball':3800,'Reverse Roll':8500,'Hurricane':43000,'Spiral':97000,'Phantom':490000,'Windmill':2500000,'Mega Barrel':5600000};
+if(lsGet('bike_styleV2','')!=='1'){
+  const oldOwned=cleanIdxList(lsGetJSON('bike_stylesOwned',[0]),LEGACY_STYLE_NAMES.length,true), oldSel=parseInt(lsGet('bike_styleSelected','0'),10)||0;
+  const keep=[], gone=[];
+  for(const n of oldOwned){ const k=STYLE_TIERS.findIndex(t=>t.name===LEGACY_STYLE_NAMES[n]); if(k>=0) keep.push(k); else gone.push(LEGACY_STYLE_NAMES[n]); }
+  if(!keep.includes(0)) keep.unshift(0);
+  let ns=STYLE_TIERS.findIndex(t=>t.name===LEGACY_STYLE_NAMES[oldSel]); if(ns<0||!keep.includes(ns)) ns=0;
+  const refund=gone.reduce((a,nm)=>a+(REMOVED_STYLE_PRICE[nm]||0),0);
+  if(refund>0){ wallet+=refund; lsSet('bike_wallet',String(wallet)); }
+  lsSet('bike_stylesOwned',JSON.stringify(keep)); lsSet('bike_styleSelected',String(ns)); lsSet('bike_styleV2','1');
 }
 let ownedStyles=cleanIdxList(lsGetJSON('bike_stylesOwned',[0]),STYLE_TIERS.length,true);
 let selectedStyle=parseInt(lsGet('bike_styleSelected','0'),10); if(!ownedStyles.includes(selectedStyle)) selectedStyle=0;
@@ -1740,7 +1774,7 @@ const rebirthCoinMul=()=>Math.pow(REBIRTH_COIN,abil.rebirths), rebirthSpeedMul=(
 const spdMul=()=>trainMode?1:Math.pow(REBIRTH_SPEED,abil.rebirths);   // top speed in a real run (practice stays normal)
 const abilCoinMul=()=>rebirthCoinMul()*(abilOn('magnet')?1.25:1);
 const fmtX=x=>String(Math.round(x*100)/100);
-let wheelieT=0, wheelieCD=0, wheelieAng=0, wheelieFrac=0;
+let wheelieT=0, wheelieCD=0, wheelieAng=0, wheelieFrac=0, stoppieAng=0;   // stoppieAng: the back wheel lifting around the front axle (front wheelie)
 function saveAbil(){ lsSet('bike_abilities',JSON.stringify(abil)); }
 function currentStyle(){ return STYLE_TIERS[selectedStyle]||STYLE_TIERS[0]; }
 function petMult(){ return selectedPet>=0?1+PET_TIERS[selectedPet].bonus:1; }
@@ -2010,12 +2044,15 @@ const SKILLS=[
   {id:'lowcrouch',name:'Low Crouch',emoji:'🥷',desc:'drop into a super low racing tuck over the bars', base:24, hard:1.4, price:6000},
   {id:'splitkick',name:'Split Kick',emoji:'🤺',desc:'one foot up on the bars, the other kicked up behind · HARD', base:38, hard:2.2, fall:.18, price:7000},
   {id:'layback',name:'Lay Back',emoji:'😎',desc:'lie all the way back on the rear with your knees up · HARD', base:40, hard:2.4, fall:.2, price:8000},
-  {id:'handstand',name:'Handstand',emoji:'🙃', desc:'upside down on the handlebars, legs in the air · HARD: very twitchy, big red zone', base:34, hard:2.2, fall:.20, price:3000}
+  {id:'handstand',name:'Handstand',emoji:'🙃', desc:'upside down on the handlebars, legs in the air · HARD: very twitchy, big red zone', base:34, hard:2.2, fall:.20, price:3000},
+  {id:'standwheelie',name:'Standing Wheelie',emoji:'🧍',desc:'stand up on the pedals with the front wheel in the air · HARD: a bigger red zone',base:36, hard:2.0, fall:.18, price:3500},
+  {id:'frontwheelie',name:'Front Wheelie',emoji:'🛞',desc:'ride on the front wheel only, the back tire is up in the air · HARD: it bucks over the bars easily',base:40, hard:2.2, fall:.2, price:6500},
+  {id:'upsidepedal',name:'Upside-Down Pedaling',emoji:'🚴',desc:'upside down on the handlebars, legs spinning like you are still pedaling · HARD',base:38, hard:2.1, fall:.19, price:4500}
 ];
 SKILLS.sort((a,b)=>a.price-b.price);   // shop order: cheapest to most expensive (stable, so ties keep their order)
 function skillPrice(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.price)||1000; }
-function skillFall(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.fall)||BAL_FALL; }   // how close to the edge you fall: the hard skills have a bigger red zone
-const isWheelieType=id=>id==='wheelie'||id==='handwheelie';   // these two need the ground and pull the front wheel up
+function skillFall(id){ const k=SKILLS.find(x=>x.id===id); return Math.max(.08,Math.min(.26,BAL_FALL+(((k&&k.hard)||1)-1)*.1)); }   // how close to the edge you fall: the hard skills have a bigger red zone
+const isWheelieType=id=>id==='wheelie'||id==='handwheelie'||id==='standwheelie'||id==='frontwheelie';   // these two need the ground and pull the front wheel up
 const SKILL_BASE=10, SKILL_STEP=2, SKILL_MAXLV=Infinity; // 10c per second, +2c per second for every skill level. no level cap
 const SKILL_PRICE=1000;                                 // base price (each skill now has its own price in SKILLS). training itself is free
 const SPECIAL_MIN_LEVEL=5;                              // game level you need to use special stunts in a run
@@ -2182,8 +2219,8 @@ function renderStunts(animate){
   // special stunts shortcuts (buy / equip + leaderboard)
   const tr=stEl('div','lab-card lab-sp-train'); tr.appendChild(stEl('div','lab-label','special stunts'));
   tr.appendChild(stEl('div','lab-big',act?skillName(act):'none yet'));
-  tr.appendChild(stEl('div','st-skill-line',act?('equipped · level '+(skillLv[act]||0)+' · this is the level the skill leaderboard uses'):'buy one to start training (the train button is at the top)'));
-  const tb=stEl('button','lab-apply','buy / equip special stunts ›'); tb.type='button'; tb.onclick=trainOpen; tr.appendChild(tb);
+  tr.appendChild(stEl('div','st-skill-line',act?('equipped · level '+(skillLv[act]||0)+' · this is the level the skill leaderboard uses'):'open special stunts to buy, equip and train them'));
+  const tb=stEl('button','lab-apply','special stunts · buy, equip, train ›'); tb.type='button'; tb.onclick=trainOpen; tr.appendChild(tb);
   const lbb=stEl('button','lab-reset','skill leaderboard ›'); lbb.type='button';
   lbb.onclick=()=>{ document.getElementById('stuntsPanel').classList.add('hidden'); openPanel('lbPanel'); if(window.__bikeLB) window.__bikeLB.open('skillAvg'); };
   tr.appendChild(lbb);
@@ -2191,46 +2228,130 @@ function renderStunts(animate){
   root.scrollTop=keep; stSwap='';
 }
 
-// train menu: only reachable from the stunts panel. every skill has its own price (1,000c - 3,000c). training them is free (flat practice map)
-function renderTrain(){
-  document.getElementById('trainWalletTag').textContent=fmtC(wallet);
-  const list=document.getElementById('trainList'); list.innerHTML='';
-  const note=stEl('div','shop-section'); note.style.gridColumn='1/-1';
-  note.textContent='skills cost '+fmtC(1000)+' to '+fmtC(3000)+' + '+TAX_PCT+'% sales tax · listed cheapest to most expensive · training is free on a flat practice map · you need level '+SPECIAL_MIN_LEVEL+' to use them in a run · they work in the air too (pays double up there, the wheelie needs the ground)';
-  list.appendChild(note);
-  SKILLS.forEach(k=>{
-    const lv=skillLv[k.id]||0, own=skillOwned(k.id), maxed=lv>=SKILL_MAXLV, sel=activeSkill()===k.id;
-    const card=stEl('div','bike-card'+(sel?' equipped':own?' owned':''));
-    if(sel){ card.appendChild(stEl('div','badge','in use')); }
-    card.appendChild(stEl('div','gear-emoji',k.emoji));
-    card.appendChild(stEl('div','bname',k.name));
-    card.appendChild(stEl('div','bmph',k.desc));
-    const ex=stEl('div','bmph',own?('level '+lv+' · '+skillRate(k.id)+'c per second'+(maxed?' (max)':' → '+(skillRate(k.id)+SKILL_STEP)+'c')):('locked · pays '+skillBase(k.id)+'c per second, +'+SKILL_STEP+'c per level'));
-    ex.style.fontWeight='700'; card.appendChild(ex);
-    if(own&&!maxed){
-      const need=trainNeed(lv), have=Math.min(need,skillXp[k.id]||0), bar=stEl('div','xp'), fill=stEl('i'); fill.style.width=(have/need*100).toFixed(1)+'%'; bar.appendChild(fill); card.appendChild(bar);
-      card.appendChild(stEl('div','bmph',Math.floor(have)+' / '+need+'s balanced to the next level'));
-    }
-    const row=stEl('div','gear-row');
-    const mk=(txt,dis,fn,act)=>{ const b=stEl('button','mode-btn'+(act?' active':''),txt); b.type='button'; b.style.cssText='font-size:12px;padding:6px 10px;white-space:nowrap;'; b.disabled=!!dis; b.onclick=fn; return b; };
-    if(!own){
-      row.appendChild(mk('buy · '+fmtC(withTax(k.price)),wallet<withTax(k.price),()=>{
-        if(wallet<withTax(k.price)||skillOwned(k.id)) return;
-        wallet-=withTax(k.price); skillOwn[k.id]=true; if(!SKILLS.some(x=>x.id!==k.id&&skillOwned(x.id))) skillSel=k.id;
-        saveShop(); saveSkills(); pulseEl('trainWalletTag'); updateWalletTags(); renderTrain();
-      },false));
-    } else {
-      row.appendChild(mk(maxed?'max level':'train · free',maxed,()=>startTraining(k.id),false));   // (the train pop-up at the top of the stunts shop does the same)
-      row.appendChild(mk(sel?'in use':'use',sel,()=>{ skillSel=k.id; saveSkills(); renderTrain(); },sel));
-    }
-    card.appendChild(row); list.appendChild(card);
-  });
+// special stunts menu: the same layout, cards, pay page and animations as the stunts menu. every skill has its own price (1,000c - 8,000c). training them is free (flat practice map)
+const SK_PAGE=5; let skView=0, skPay=false, skSwap='', skKeep=false;
+const skCol=i=>hslToHex((i*47+200)%360,65,50);
+function skFocus(){ const a=activeSkill(); skView=Math.max(0,SKILLS.findIndex(k=>k.id===a)); }
+function skMove(d){ const n=SKILLS.length; skView=((skView+d)%n+n)%n; skSwap=d>0?'swapR':'swapL'; renderTrain(false); }
+function skGoto(i){ skSwap=i>skView?'swapR':'swapL'; skView=i; renderTrain(false); }
+function renderSkPay(root){
+  const el=stEl, k=SKILLS[skView], live=!skillOwned(k.id);
+  const delta=live?k.price:0, tax=taxOn(delta), due=delta+tax, short=due>wallet;
+  const items=live?[{ico:k.emoji,name:k.name+' special stunt',sub:k.desc,price:k.price,remove:()=>{ skPay=false; }}]:[];
+  const redo=top=>{ const keep=root.scrollTop; renderTrain(!!top); root.scrollTop=top?0:keep; };
+  const back=()=>{ skPay=false; redo(true); };
+
+  const hd=el('div','lab-card'), hr=el('div','pay-head'), hl=el('div');
+  hl.appendChild(el('div','lab-label','checkout')); hl.appendChild(el('div','lab-big','your order'));
+  hl.appendChild(el('div','lab-sub',items.length?items.length+' thing'+(items.length>1?'s':'')+' on · special stunts':'nothing on yet'));
+  const rb=el('button','pay-return','‹ return'); rb.type='button'; rb.setAttribute('aria-label','return to special stunts'); rb.onclick=back;
+  hr.appendChild(hl); hr.appendChild(rb); hd.appendChild(hr); root.appendChild(hd);
+
+  const lc=el('div','lab-card'); lc.appendChild(el('div','lab-label','everything you put on'));
+  if(!items.length){ lc.appendChild(el('div','pay-empty','your order is empty. tap return to pick a special stunt.')); }
+  else {
+    const list=el('div','pay-list');
+    items.forEach(it=>{
+      const row=el('div','pay-row'); row.appendChild(el('div','pay-ico',it.ico));
+      const info=el('div','pay-info'); info.appendChild(el('div','pay-name',it.name)); if(it.sub) info.appendChild(el('div','lab-sub',it.sub)); row.appendChild(info);
+      row.appendChild(el('div','pay-price lab-delta pay',fmtSigned(it.price)));
+      const x=el('button','pay-x','✕'); x.type='button'; x.setAttribute('aria-label','remove '+it.name); x.title='remove'; x.onclick=()=>{ it.remove(); redo(false); }; row.appendChild(x);
+      list.appendChild(row);
+    });
+    lc.appendChild(list);
+  }
+  root.appendChild(lc);
+
+  const sc=el('div','lab-card'); sc.appendChild(el('div','lab-label','summary'));
+  const line=(cls,a2,b2)=>{ const r=el('div','pay-line '+cls); r.appendChild(el('span','',a2)); r.appendChild(el('span','',b2)); sc.appendChild(r); };
+  line('','item price',fmtC(delta));
+  line('muted','sales tax rate',TAX_PCT+'%');
+  line('tax','tax you pay','+'+fmtC(tax));
+  const tt=el('div','pay-total'); tt.appendChild(el('div','lab-sub',delta>0?'you pay':'total'));
+  tt.appendChild(el('div','lab-big',fmtC(due))); sc.appendChild(tt);
+  line('muted','your coins',fmtC(wallet));
+  if(items.length) line(short?'tax':'muted',short?'you need':'left after paying',short?fmtC(due-wallet)+' more':fmtC(wallet-due));
+  const pay=el('button','lab-apply'); pay.type='button';
+  pay.textContent=!items.length?'nothing to pay':short?'need '+fmtC(due-wallet)+' more':'pay · '+fmtC(due);
+  pay.disabled=!items.length||short;
+  pay.onclick=()=>{
+    // work the price out fresh at the moment you tap, so what leaves your wallet is always what the page showed
+    const k2=SKILLS[skView]; if(skillOwned(k2.id)) return;
+    const owe=k2.price+taxOn(k2.price); if(owe>wallet) return;
+    wallet-=owe; skillOwn[k2.id]=true; if(!SKILLS.some(x=>x.id!==k2.id&&skillOwned(x.id))) skillSel=k2.id;
+    saveShop(); saveSkills(); pulseEl('trainWalletTag'); updateWalletTags();
+    skPay=false; redo(true); stConfetti('trainPanel');
+  };
+  sc.appendChild(pay);
+  const rb2=el('button','pay-return','return to special stunts'); rb2.type='button'; rb2.onclick=back; sc.appendChild(rb2);
+  root.appendChild(sc);
 }
-// the train button at the top of the stunts shop: a pop-up with the special stunts you own, lowest skill level first. tap one to practise it
+function renderTrain(animate){
+  document.getElementById('trainWalletTag').textContent=fmtC(wallet);
+  const root=document.getElementById('skillLab'), keep=root.scrollTop;
+  root.classList.toggle('enter',animate!==false); root.classList.toggle('checkout',!!skPay); root.innerHTML='';
+  if(skPay){ renderSkPay(root); return; }
+  const n=SKILLS.length, k=SKILLS[skView], own=skillOwned(k.id), lv=skillLv[k.id]||0, sel=activeSkill()===k.id, maxed=lv>=SKILL_MAXLV;
+
+  // preview
+  const pv=stEl('div','lab-card lab-preview'); pv.style.setProperty('--bc',skCol(skView));
+  pv.appendChild(stEl('div','lab-label','special stunt preview'));
+  pv.appendChild(stEl('div','lab-badge'+(sel?' on':''),sel?'in use':own?'owned':'locked'));
+  { const nm=stEl('div','lab-bname'); nm.appendChild(stEl('span','st-emo',k.emoji)); nm.appendChild(document.createTextNode(' '+k.name)); pv.appendChild(nm); }
+  const stage=stEl('div','lab-stage'); const cv=stEl('canvas','st-cv'); cv.id='skillPreview'; cv.width=620; cv.height=330; stage.appendChild(cv); pv.appendChild(stage);
+  const chips=stEl('div','lab-chips');
+  [own?('level '+lv):'not owned',(own?skillRate(k.id):skillBase(k.id))+'c per second',isWheelieType(k.id)?'needs the ground':'works in the air'].forEach(x=>chips.appendChild(stEl('span','chip',x)));
+  pv.appendChild(chips); root.appendChild(pv);
+
+  // skill picker (left / right, same card as the stunt type)
+  const ty=stEl('div','lab-card lab-sp-type'); ty.appendChild(stEl('div','lab-label','special stunt'));
+  const row=stEl('div','st-type-row');
+  const arrow=(txt,d,label)=>{ const b=stEl('button','arrow-btn',txt); b.type='button'; b.setAttribute('aria-label',label); b.onclick=()=>skMove(d); return b; };
+  const mid=stEl('div','st-type-mid'+(skSwap?' '+skSwap:'')); mid.appendChild(stEl('div','lab-big',k.emoji+' '+k.name)); mid.appendChild(stEl('div','lab-sub',k.desc));
+  row.appendChild(arrow('‹',-1,'previous special stunt')); row.appendChild(mid); row.appendChild(arrow('›',1,'next special stunt')); ty.appendChild(row);
+  const pips=stEl('div','pips'), pg0=Math.floor(skView/SK_PAGE)*SK_PAGE;   // 5 pips at a time: the page just follows the selected skill
+  SKILLS.forEach((q,idx)=>{ if(idx<pg0||idx>=pg0+SK_PAGE) return; const p=stEl('button','pip'+(idx===skView?' on':skillOwned(q.id)?' own':'')); p.type='button'; p.title=q.name; p.setAttribute('aria-label',q.name); p.onclick=()=>skGoto(idx); pips.appendChild(p); });
+  ty.appendChild(pips);
+  const pr=stEl('div','lab-prices'); pr.appendChild(stEl('span','',(skView+1)+' of '+n)); pr.appendChild(stEl('span',own?'back':'',own?'owned':'costs '+fmtC(k.price))); ty.appendChild(pr);
+  root.appendChild(ty);
+
+  // skill level + progress to the next one
+  const lc=stEl('div','lab-card lab-sp-special'); lc.appendChild(stEl('div','lab-label','skill level'));
+  lc.appendChild(stEl('div','lab-big',own?'Lv '+lv:'locked'));
+  lc.appendChild(stEl('div','lab-sub',own?(skillRate(k.id)+'c per second · '+(skillRate(k.id)*2)+'c in the air'):'pays '+skillBase(k.id)+'c per second once you own it'));
+  if(own&&!maxed){ const need=trainNeed(lv), have=Math.min(need,skillXp[k.id]||0), bar=stEl('div','xp'), fill=stEl('i'); fill.style.width=(have/need*100).toFixed(1)+'%'; bar.appendChild(fill); lc.appendChild(bar);
+    const sp2=stEl('div','lab-prices'); sp2.appendChild(stEl('span','',Math.floor(have)+' / '+need+'s balanced')); sp2.appendChild(stEl('span','','next: '+(skillRate(k.id)+SKILL_STEP)+'c per second')); lc.appendChild(sp2); }
+  else { const sp2=stEl('div','lab-prices'); sp2.appendChild(stEl('span','',own?'max level':'+'+SKILL_STEP+'c per second each level')); sp2.appendChild(stEl('span','','')); lc.appendChild(sp2); }
+  root.appendChild(lc);
+
+  // cost + proceed to pay (same card as the stunts menu: the tax and total are on the pay page)
+  const cc=stEl('div','lab-card lab-cost'); cc.appendChild(stEl('div','lab-label','cost'));
+  const big=stEl('div','lab-big',fmtC(own?0:k.price)); big.id='skCost'; cc.appendChild(big);
+  const ap=stEl('button','lab-apply'); ap.type='button';
+  ap.textContent=!own?'proceed to pay':(sel?'in use':'use this skill');
+  ap.disabled=own&&sel;
+  ap.onclick=()=>{
+    if(!own){ skPay=true; renderTrain(true); document.getElementById('skillLab').scrollTop=0; return; }
+    skillSel=k.id; saveSkills(); renderTrain(false); pulseEl('skCost');
+  };
+  cc.appendChild(ap); root.appendChild(cc);
+
+  // details
+  const dt=stEl('div','lab-card lab-sp-train'); dt.appendChild(stEl('div','lab-label','details'));
+  dt.appendChild(stEl('div','lab-big',k.name));
+  dt.appendChild(stEl('div','lab-sub','balance difficulty ×'+skillDiff(k.id)+' · you fall within '+Math.round(skillFall(k.id)*100)+'% of either edge'));
+  dt.appendChild(stEl('div','st-skill-line','train it free on the practice map with the train button at the top · you need level '+SPECIAL_MIN_LEVEL+' to use it in a run'+(isWheelieType(k.id)?' · it needs the ground':' · it pays double in the air')));
+  const lbb=stEl('button','lab-reset','skill leaderboard ›'); lbb.type='button';
+  lbb.onclick=()=>{ document.getElementById('trainPanel').classList.add('hidden'); openPanel('lbPanel'); if(window.__bikeLB) window.__bikeLB.open('skillAvg'); };
+  dt.appendChild(lbb);
+  root.appendChild(dt);
+  root.scrollTop=keep; skSwap='';
+}
+// the train button in the special stunts menu: a pop-up with the special stunts you own, lowest skill level first. tap one to practise it
 function closeTrainPick(){ const p=document.getElementById('trainPick'); if(p) p.remove(); }
 function openTrainPick(){
   closeTrainPick();
-  const host=document.getElementById('stuntsPanel'), ov=stEl('div'); ov.id='trainPick';
+  const host=document.getElementById('trainPanel'), ov=stEl('div'); ov.id='trainPick';
   ov.onclick=e=>{ if(e.target===ov) closeTrainPick(); };
   const box=stEl('div','tp-box'), top=stEl('div','tp-top');
   top.appendChild(stEl('h3','','train which stunt?'));
@@ -2253,18 +2374,62 @@ function openTrainPick(){
     });
     box.appendChild(list);
   }
-  const buy=stEl('button','lab-reset tp-buy','buy / equip special stunts ›'); buy.type='button'; buy.onclick=()=>{ closeTrainPick(); trainOpen(); }; box.appendChild(buy);
   ov.appendChild(box); host.appendChild(ov);
 }
 document.getElementById('trainTopBtn').onclick=openTrainPick;
-function trainOpen(){ document.getElementById('stuntsPanel').classList.add('hidden'); startScreenEl.classList.add('hidden'); renderTrain(); document.getElementById('trainPanel').classList.remove('hidden'); }
-function trainBack(){ document.getElementById('trainPanel').classList.add('hidden'); renderStunts(false); document.getElementById('stuntsPanel').classList.remove('hidden'); startStuntLoop(); }
+function trainOpen(){
+  document.getElementById('stuntsPanel').classList.add('hidden'); startScreenEl.classList.add('hidden');
+  if(skKeep) skKeep=false; else skFocus();   // coming back from practice keeps the stunt you just trained in view
+  skPay=false; skSwap=''; renderTrain(true);
+  document.getElementById('trainPanel').classList.remove('hidden'); startSkillLoop();
+}
+function trainBack(){ closeTrainPick(); skPay=false; document.getElementById('trainPanel').classList.add('hidden'); renderStunts(false); document.getElementById('stuntsPanel').classList.remove('hidden'); startStuntLoop(); }
 function startTraining(id){
   if(!skillOwned(id)) return;
   savedMode=mode; mode='easy'; trainMode=true; trainSkill=id;     // practice map: no pits, no cops
+  skView=Math.max(0,SKILLS.findIndex(k=>k.id===id)); skKeep=true;
   document.getElementById('trainPanel').classList.add('hidden');
   startGame();
 }
+// live preview of the selected special stunt: the rider sits, gets into the pose, holds it while the balance bar sways, then sits back down
+let skillRaf=0;
+function drawSkillPreview(ts){
+  const cv=document.getElementById('skillPreview'); if(!cv) return;
+  const g=cv.getContext('2d'), w=cv.width, h=cv.height, k=SKILLS[skView], whl=isWheelieType(k.id), groundY=h-46, SC=1.4;
+  g.clearRect(0,0,w,h);
+  g.fillStyle='rgba(255,255,255,.7)';
+  for(let c=0;c<3;c++){ const cx0=(((c*260-ts*.012*(c+1))%(w+200))+(w+200))%(w+200)-100; g.beginPath(); g.ellipse(cx0,50+c*34,54-c*8,16,0,0,TAU); g.fill(); }
+  g.strokeStyle='#d9d9d9'; g.lineWidth=2; g.beginPath(); g.moveTo(0,groundY); g.lineTo(w,groundY); g.stroke();
+  g.strokeStyle='#e6e6e6'; for(let x=-((ts*.18)%60);x<w;x+=60){ g.beginPath(); g.moveTo(x,groundY+12); g.lineTo(x+28,groundY+12); g.stroke(); }
+  const q=(ts%4800)/4800, ez=u=>u*u*(3-2*u);
+  const wt=q<.14?0:q<.34?ez((q-.14)/.2):q<.82?1:q<.94?1-ez((q-.82)/.12):0;
+  const bal=.5+Math.sin(ts*.0021)*.1+Math.sin(ts*.0057)*.05;   // sways like the real balance bar
+  const front=k.id==='frontwheelie', ang=whl&&!front?wt*(.62+(bal-.5)*.9):0, sAng=front?wt*(.5+(bal-.5)*.8):0;
+  const geo={ST:{x:-20,y:-11},BB:{x:-6,y:20},barC:{x:29,y:-24},pa:ts*.004,crank:10};
+  const keepTuck=riderTuck; riderTuck=0;
+  const P=riderPose(false,geo,null,bal,{w:wt,id:k.id,bob:Math.sin(ts*.006)*1.2,ang,dir:q<.5?1:-1,t:ts/16});
+  riderTuck=keepTuck;
+  const ox=w/2, oy=groundY-34*SC;
+  g.fillStyle='rgba(0,0,0,.14)'; g.beginPath(); g.ellipse(ox,groundY+3,70,6,0,0,TAU); g.fill();
+  g.save(); g.translate(ox,oy); g.scale(SC,SC);
+  if(sAng>.001){ g.translate(30,17); g.rotate(sAng); g.translate(-30,-17); }
+  if(ang>.001){ g.translate(-30,17); g.rotate(-ang); g.translate(30,-17); }
+  drawRiderPart(P,true,g,selMods); miniFrame(g,ts*.012); drawRiderPart(P,false,g,selMods);
+  g.restore();
+  if(wt>.5){   // the balance bar and the coins it pays
+    const bx=w/2-130, by=18, bw=260, bh=12, f=skillFall(k.id), o=Math.max(.3,f+.06), pp=1-o, gr=g.createLinearGradient(bx,0,bx+bw,0);
+    [[0,'#e53935'],[f,'#e53935'],[f,'#ff9800'],[o,'#ff9800'],[o,'#43a047'],[pp,'#43a047'],[pp,'#ff9800'],[1-f,'#ff9800'],[1-f,'#e53935'],[1,'#e53935']].forEach(a=>gr.addColorStop(a[0],a[1]));
+    g.globalAlpha=Math.min(1,(wt-.5)*2); g.fillStyle=gr; g.fillRect(bx,by,bw,bh); g.strokeStyle='#111'; g.lineWidth=2; g.strokeRect(bx,by,bw,bh);
+    g.fillStyle='#fff'; g.fillRect(bx+bw*bal-2,by-3,4,bh+6); g.strokeRect(bx+bw*bal-2,by-3,4,bh+6);
+    if(wt>.9){ const f2=(ts%1000)/1000; g.globalAlpha=1-f2; g.fillStyle=skCol(skView); g.font='800 22px -apple-system,Segoe UI,sans-serif'; g.textAlign='center'; g.fillText('+'+(skillLv[k.id]||0?skillRate(k.id):skillBase(k.id))+'c',ox+95,groundY-150-f2*40); g.textAlign='start'; }
+    g.globalAlpha=1;
+  }
+}
+function skillLoop(ts){
+  if(document.getElementById('trainPanel').classList.contains('hidden')){ skillRaf=0; return; }
+  drawSkillPreview(ts); skillRaf=requestAnimationFrame(skillLoop);
+}
+function startSkillLoop(){ if(!skillRaf) skillRaf=requestAnimationFrame(skillLoop); }
 document.getElementById('closeTrain').onclick=trainBack;
 
 // live preview of the selected stunt type
@@ -2725,6 +2890,7 @@ function fallStep(){
 const RAG_LINKS=[['sh','head',19],['sh','hip',34],['sh','elA',23],['elA','haA',23],['sh','elB',23],['elB','haB',23],['hip','knA',29.5],['knA','anA',29.5],['anA','ftA',7.3],['hip','knB',29.5],['knB','anB',29.5],['anB','ftB',7.3]];
 const RAG_MINS=[['head','hip',38],['hip','anA',22],['hip','anB',22],['sh','haA',14],['sh','haB',14],['sh','knA',18],['sh','knB',18]];
 function bikeToWorld(x,y){      // a point in the bike's own drawing space -> world, mirroring the transforms drawBike() applies
+  if(stoppieAng>0.001){ const dx=x-30, dy=y-17, c=Math.cos(stoppieAng), s=Math.sin(stoppieAng); x=30+dx*c-dy*s; y=17+dx*s+dy*c; }
   if(wheelieAng>0.001){ const dx=x+30, dy=y-17, c=Math.cos(-wheelieAng), s=Math.sin(-wheelieAng); x=-30+dx*c-dy*s; y=17+dx*s+dy*c; }
   const c=Math.cos(car.angle), s=Math.sin(car.angle);
   return {x:car.x+x*c-y*s, y:car.y+x*s+y*c};
@@ -2766,7 +2932,7 @@ function loseBalance(){
   if(balanceT>0||crashed) return;
   // which way he goes: pulling a wheelie too far loops out backwards, standing too far forward goes over the bars
   const hi=SK.b>=.5, id=skillId||RA.id;
-  const kind=id==='wheelie'?(hi?'back':'front'):(hi?'front':'back');
+  const kind=(id==='wheelie'||id==='standwheelie')?(hi?'back':'front'):id==='frontwheelie'?'front':(hi?'front':'back');
   balFall.kind=kind; balFall.id=id;
   balanceT=55; wheelieT=0; skillId=null; wheelieCD=WHEELIE_CD_FRAMES; hopReq=false;
   startRag(kind); fallStart(kind,id);
@@ -2806,7 +2972,7 @@ function updateWheelieTag(){
   t.textContent=wheelieT>0?(skillName(skillId).toUpperCase()+' '+(wheelieT/60).toFixed(1)+'s · W to land'):(wheelieCD>0?('skill cooldown '+(wheelieCD/60).toFixed(1)+'s'):('W = '+skillName(nm).toLowerCase()+' (ready)'));
 }
 function resetGame(){
-  wheelieT=0; wheelieCD=0; wheelieAng=0; wheelieFrac=0; balanceT=0; skillId=null; skillReset(); balRed=0; riderAnimReset();
+  wheelieT=0; wheelieCD=0; wheelieAng=0; stoppieAng=0; wheelieFrac=0; balanceT=0; skillId=null; skillReset(); balRed=0; riderAnimReset();
   dying=null; fall.on=false; fall.a=0; fall.av=0; sparks=[];
   cfg=modeConfig[mode]; jumps=[]; cliffs=[]; pitFront=0; terrainSeed=Math.random()*1000;
   ensureJumps(0,cfg); ensureCliffs(0,cfg); initClouds();
@@ -2853,7 +3019,7 @@ function togglePause(){
 }
 document.getElementById('resumeBtn').onclick=()=>{ if(paused) togglePause(); };
 document.getElementById('pauseMenuBtn').onclick=()=>{
-  running=false; paused=false; releaseKeys(); clearLevelBanner(); updateRocketBtn();
+  running=false; paused=false; releaseKeys(); clearLevelBanner(); updateRocketBtn(); hideSkillHud();
   bankRun();
   const wasTrain=trainMode; endTrainMode();
   document.getElementById('pauseScreen').classList.add('hidden');
@@ -2936,8 +3102,10 @@ function update(){
   { // the front wheel: a wheelie pulls it up around the rear axle; a loop-out throws it up past vertical, then the riderless bike drops back down
     let wTarget=0;
     if(balanceT>0) wTarget=0;
-    else if(wheelieT>0&&isWheelieType(skillId)&&car.onGround) wTarget=0.62+(SK.b-.5)*.9;
+    else if(wheelieT>0&&isWheelieType(skillId)&&skillId!=='frontwheelie'&&car.onGround) wTarget=0.62+(SK.b-.5)*.9;
     wheelieAng+=(wTarget-wheelieAng)*(balanceT>0?(wTarget>0?.16:.09):.15);
+    { const sT=(balanceT<=0&&wheelieT>0&&skillId==='frontwheelie'&&car.onGround)?0.5+(SK.b-.5)*.8:0;   // back tire up, front wheel stays down
+      stoppieAng+=(sT-stoppieAng)*.15; if(stoppieAng<.002&&sT===0) stoppieAng=0; }
     if(fall.on) fallStep(); }   // a lost balance is real bike physics now (flip back and scrape, or nose-dive)
   if(hopReq){ hopReq=false; doHop(); }
   if(hopCliff) car.vx=hopVx;                     // while hopping you keep your speed (no braking mid-air)
@@ -3003,7 +3171,7 @@ function update(){
   }
   if(pitCheck(px)){   // fell in a pit: a shock shield saves you once per shield
     const pc=shieldsLeft>0&&cliffs.find(c=>car.x>=c.x1&&px<=c.x1+(c.x2-c.x1)*.82);
-    if(pc){ shieldsLeft--; car.x=pc.x2+40; car.y=terrainHeight(car.x,cfg)-33; car.vy=0; car.onGround=true; car.angle=0; car.angVel=0; hopCliff=null; shakeT=10; RA.py=car.y; RA.pvy=0; RA.bob=RA.bv=0; wheelieAng=0; }
+    if(pc){ shieldsLeft--; car.x=pc.x2+40; car.y=terrainHeight(car.x,cfg)-33; car.vy=0; car.onGround=true; car.angle=0; car.angVel=0; hopCliff=null; shakeT=10; RA.py=car.y; RA.pvy=0; RA.bob=RA.bv=0; wheelieAng=0; stoppieAng=0; }
     else { crash(false,true); return; }
   }
   { const on=!hopCliff&&!!pitAhead()&&!(abil.autoJump&&abil.autoJumpOn); if(on!==pitTagOn){ pitTagOn=on; document.getElementById('pitTag').classList.toggle('hidden',!on); } }
@@ -3083,7 +3251,7 @@ let dying=null;
 const DEATH_HOLD=60;   // 1 second at 60 steps per second
 function startDeath(busted,pit,balance){
   crashed=true; wheelieT=0; balanceT=0; skillId=null; stuntBurst=0; hopCliff=null; hopReq=hopKick=false; pitTagOn=false; document.getElementById('pitTag').classList.add('hidden');
-  updateWheelieTag(); updateRocketBtn();
+  rocketT=0; updateWheelieTag(); updateRocketBtn(); hideSkillHud();
   const kind=busted?'bust':pit?'pit':balance?'balance':'wipe';
   dying={kind,busted:!!busted,pit:!!pit,balance:!!balance,t:0,stuck:0};
   if(kind==='bust'){        // caught: you stop dead, even in the air, then ease down to the road
@@ -3106,7 +3274,7 @@ function stepDying(){
     const k=Math.min(1,D.t/DEATH_HOLD), e=k*k*(3-2*k), gy=terrainHeight(car.x,cfg)-33;
     car.y=D.y0+(gy-D.y0)*e;                                          // smooth drop, one second
     const ta=Math.atan2(terrainHeight(car.x+car.wheelBase,cfg)-terrainHeight(car.x,cfg),car.wheelBase);
-    car.angle=D.a0+(ta-D.a0)*e; car.vx=0; car.vy=0; wheelieAng*=.85; car.onGround=(k>=1);
+    car.angle=D.a0+(ta-D.a0)*e; car.vx=0; car.vy=0; wheelieAng*=.85; stoppieAng*=.85; car.onGround=(k>=1);
     done=D.t>=DEATH_HOLD;
   } else if(D.kind==='pit'){
     const c=cliffs.find(p=>car.x>=p.x1-40&&car.x<=p.x2+40);
@@ -3141,7 +3309,7 @@ function crash(busted,pit,balance){
     if(pit){ const pc=cliffs.find(c=>car.x>=c.x1-60&&car.x<=c.x2+20); if(pc){ car.x=pc.x2+40; } else ok=false; }
     if(ok){
       windUsed=true; car.y=terrainHeight(car.x,cfg)-33; car.vy=0; car.onGround=true; car.angle=0; car.angVel=0; car.vx=Math.max(car.vx,6); wasOnGround=true; landGrace=40; hopCliff=null; hopReq=hopKick=false;
-      wheelieT=0; skillId=null; wheelieAng=0; shakeT=10; RA.py=car.y; RA.pvy=0; RA.bob=RA.bv=0; SA.hang=0;
+      wheelieT=0; skillId=null; wheelieAng=0; stoppieAng=0; shakeT=10; RA.py=car.y; RA.pvy=0; RA.bob=RA.bv=0; SA.hang=0;
       popups.push({x:car.x-camX,y:car.y-80,text:'💨 second wind!',life:1,age:0});
       return;
     }
@@ -3337,7 +3505,7 @@ function riderPose(scooter,g,skill,bal,an){
   let armsOut=0, headTurn=0, armsDy=8, spread=0;
   if(sid&&w!==0){
     let h2,hd2,a2,b2,l2;
-    if(sid==='stand'){
+    if(sid==='stand'||sid==='standwheelie'){
       if(scooter){   // up on the handlebars, arms out for balance
         h2={x:13+sway*12,y:-68+Math.abs(sway)*3-Math.sin(Math.PI*Math.max(0,Math.min(1,w)))*9}; hd2={x:22,y:-30}; a2={x:9,y:-27}; b2={x:23,y:-29}; l2=0.25+sway*0.35; armsOut=1;
       } else {       // up on level pedals, hips over the bottom bracket, knees soaking up the bumps
@@ -3352,9 +3520,14 @@ function riderPose(scooter,g,skill,bal,an){
       if(scooter){ h2={x:-30,y:-14}; l2=-.7; }
       else { h2={x:g.ST.x-16,y:g.ST.y+15+bob*.3}; l2=-.9-bb*.3; }
       hd2=grd; a2=ankA; b2=ankB; armsOut=0; headTurn=-wa*.2+.3;
-    } else if(sid==='handstand'){   // upside down: hands on the bars, hips high, legs straight up
+    } else if(sid==='frontwheelie'){   // front wheelie: hips way forward over the bars, arms straight, feet on level pedals, the back of the bike rising behind
+      if(scooter){ h2={x:14+sway*8,y:-34}; l2=1.05+sway*.3; }
+      else { h2={x:g.barC.x-16+sway*10,y:g.barC.y-12+bob*.3}; l2=1.0+sway*.3; }
+      hd2=hand; a2=ankA; b2=ankB; armsOut=0; headTurn=-.3;
+    } else if(sid==='handstand'||sid==='upsidepedal'){   // upside down: hands on the bars, hips high, legs straight up
       if(scooter){ h2={x:22+sway*10,y:-100}; hd2={x:22,y:-28}; a2={x:h2.x-6,y:h2.y-58}; b2={x:h2.x+8,y:h2.y-55}; }
       else { h2={x:g.barC.x-4+sway*12,y:g.barC.y-62+bob*.4}; hd2={x:g.barC.x+4,y:g.barC.y-1}; a2={x:h2.x-6,y:h2.y-58}; b2={x:h2.x+8,y:h2.y-55}; }
+      if(sid==='upsidepedal'){ const pq=g.pa||0; a2={x:h2.x-2+Math.cos(pq)*10,y:h2.y-48+Math.sin(pq)*10}; b2={x:h2.x-2-Math.cos(pq)*10,y:h2.y-48-Math.sin(pq)*10}; }   // the legs spin in the air like pedals
       l2=Math.PI-.05+sway*.3; armsOut=0; headTurn=Math.PI/2;
     } else if(sid!=='wheelie'){   // the five A / D balance skills
       const sc=scooter, cp=o=>({x:o.x,y:o.y});
@@ -3426,7 +3599,7 @@ function riderPose(scooter,g,skill,bal,an){
       if(!isWheelieType(sid)){ hip.x+=Math.sin(ph)*1.2*a; hip.y+=Math.sin(ph*2)*.8*a; } else { hip.x+=Math.sin(ph)*.9*a; lean+=Math.sin(ph*1.3)*.015*a; } }
   }
   let sh={x:hip.x+Math.sin(lean)*TORSO, y:hip.y-Math.cos(lean)*TORSO};
-  if(sid&&w>.05&&!armsOut&&sid!=='handstand'&&sid!=='handwheelie'){   // arms are never stretched past their reach: lean in until the hands hold the bars
+  if(sid&&w>.05&&!armsOut&&sid!=='handstand'&&sid!=='upsidepedal'&&sid!=='handwheelie'){   // arms are never stretched past their reach: lean in until the hands hold the bars
     for(let i=0;i<10&&Math.hypot(hand.x-sh.x,hand.y-sh.y)>UARM+FARM-1.2;i++){ lean+=.035; sh={x:hip.x+Math.sin(lean)*TORSO, y:hip.y-Math.cos(lean)*TORSO}; }
   }
   let handB=null;
@@ -3713,13 +3886,14 @@ function drawBike(){
   const HTt={x:18,y:wheelY-30};               // head tube top
   const HTb={x:14,y:wheelY-14};               // head tube bottom
   const barC={x:29,y:wheelY-41};              // handlebar center
-  const pedalAngle=((wheelieT>0&&skillId&&!isWheelieType(skillId))||selectedVehicle===3?0:car.wheelAngle*0.21)%(Math.PI*2);   // pedals level while standing
+  const pedalAngle=((wheelieT>0&&skillId&&(!isWheelieType(skillId)||skillId==='standwheelie')&&skillId!=='upsidepedal')||selectedVehicle===3?0:car.wheelAngle*0.21)%(Math.PI*2);   // pedals level while standing
   const chainringR=8, cogR=4.5, crankLen=10;
 
   const AP=airPoseNow();
   ctx.save(); ctx.translate(sx,car.y); ctx.rotate(AP?AP.ang:car.angle);
   if(AP){ ctx.translate(AP.dx,AP.dy); ctx.scale(AP.ps,AP.ps); ctx.rotate(AP.rot); ctx.scale(AP.sx,AP.sy); }
   if(fall.on&&fall.kind==='front'&&fall.a>0.001){ ctx.translate(frontX,wheelY); ctx.rotate(fall.a); ctx.translate(-frontX,-wheelY); } // nose-dive: pivot on the front wheel
+  if(stoppieAng>0.001){ ctx.translate(frontX,wheelY); ctx.rotate(stoppieAng); ctx.translate(-frontX,-wheelY); } // front wheelie: pivot on the front wheel
   if(wheelieAng>0.001){ ctx.translate(backX,wheelY); ctx.rotate(-wheelieAng); ctx.translate(-backX,-wheelY); } // pivot on the rear wheel
   if(landSquashT>0.02){
     // squash-and-stretch: briefly flatten+widen on landing, then springs back to normal
@@ -4057,7 +4231,9 @@ function loop(ts){
 
 function startGame(){
   document.getElementById('startScreen').classList.add('hidden');
-  document.getElementById('settingsPanel').classList.add('hidden');
+  closeTrainPick();
+  // every menu panel closes when a run starts (the train pop-up used to leave the stunts shop open on top of the game)
+  ['settingsPanel','upgradesPanel','gearPanel','stuntsPanel','trainPanel','lbPanel','profilePanel'].forEach(id=>document.getElementById(id).classList.add('hidden'));
   document.getElementById('crash').style.display='none';
   resize(); resetGame(); running=true; canvas.focus(); updateRocketBtn();
 }
@@ -4066,7 +4242,7 @@ document.getElementById('startBtn').onclick=()=>{ endTrainMode(); startGame(); }
 document.getElementById('retryBtn').onclick=startGame;
 document.getElementById('menuBtn').onclick=()=>{
   const wasTrain=trainMode; endTrainMode();
-  running=false; releaseKeys(); clearLevelBanner(); updateRocketBtn(); document.getElementById('crash').style.display='none';
+  running=false; releaseKeys(); clearLevelBanner(); updateRocketBtn(); hideSkillHud(); document.getElementById('crash').style.display='none';
   document.getElementById('startScreen').classList.remove('hidden');
   updateWalletTags();
   if(wasTrain) trainOpen();                      // back to the train menu after practice
@@ -4110,11 +4286,27 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
+  { v:'0.0.33', date:'Oct 12, 2026', items:[
+    'the harder the special stunt, the bigger its red zone (the balance bar now scales with the stunt difficulty)',
+    'the special stunts menu shows 5 stunts at a time (5, 5, 5, 5) and flips to the next group on its own when you move past the edge'
+  ]},
+  { v:'0.0.32', date:'Oct 12, 2026', items:[
+    '3 new special stunts: standing wheelie (stand on the pedals with the front wheel up), front wheelie (the back tire is in the air, you ride on the front wheel) and upside-down pedaling (a handstand where your legs spin). all three are hard with a bigger red zone',
+    'the two wheelies need the ground, and falling off the front wheelie sends you over the bars'
+  ]},
+  { v:'0.0.31', date:'Oct 12, 2026', items:[
+    '10 stunt types were removed (Lazy Flip, Rocker, Pogo, Tuck Ball, Reverse Roll, Hurricane, Spiral, Phantom, Windmill and Mega Barrel). 18 are left. if you owned any removed ones you get the coins back',
+    'the special stunts menu now works like the stunts menu: a live preview of the rider doing the skill with the balance bar, left / right arrows, level and progress, a cost card with a pay page, and the same animations',
+    'the train button moved into the special stunts menu and the training buttons on each tile are gone. it opens a pop-up with the skills you own, lowest level first',
+    'bug fixes: the train button now really starts practice, the skill bar no longer shows on the death screen or the menus, the rocket flame stops when you die, and the layout no longer overlaps on small screens'
+  ]},
   { v:'0.0.30', date:'Oct 12, 2026', items:[
     'stunt types now get way more expensive as you go: the first few are cheap, then every stunt costs about 50% more than the one before it, all the way up to millions',
     '9 new stunt animations: Lazy Flip floats up, Reverse Roll rolls the other way, Hurricane gets blown sideways, Whiplash whips the frame 1.5 times, Phantom leaves a long ghost trail, Meteor is a fireball, Windmill has its own rotor, Mega Barrel rolls three times and Galaxy spins in a cloud of stars',
     'every one of the new animations also has its own effects in the preview (streaks, rings, fire and stars), and shows in the air while you ride',
-    'the changelog now lists everything from the last updates'
+    'the changelog now lists everything from the last updates',
+    'bug sweep: the train button now really starts practice (the stunts shop used to stay open over the game), the skill bar and tags no longer show on the death screen or the menus, and the rocket flame stops when you die',
+    'layout fixes: menus and the crash screen now sit above the game HUD, the top and bottom tags no longer overlap on small screens, and the start menu scrolls on short screens'
   ]},
   { v:'0.0.29', date:'Oct 12, 2026', items:
     ['deaths are no longer instant: you get about a second before the crash screen. falling in a pit now drops you onto spikes and you sit there stuck for 1 second',
@@ -4587,7 +4779,7 @@ window.__bikeLB={open:lbOpen};
    no rewrite yet? set PROFILE_PATHS to false and links use ?u=handle instead.
    PROFILE_PREFIX is the folder in front of the handle: links look like https://bike.declan.fun/59320599key/@handle */
 const PROFILE_PATHS=true, BIO_MAX=160, PROFILE_PREFIX='/59320599key';
-const SKILL_LABEL={stand:'Stand Up',wheelie:'Wheelie',nohands:'No Hands',seatstand:'Seat Stand',feetup:'Feet Up',superman:'Superman',barstand:'Bar Stand',handwheelie:'No-Hands Wheelie',handstand:'Handstand',onefoot:'One Foot',rearpeg:'Rear Peg',frontpeg:'Front Peg',barsit:'Bar Sit',seatkneel:'Seat Kneel',lowcrouch:'Low Crouch',splitkick:'Split Kick',layback:'Lay Back'};
+const SKILL_LABEL={stand:'Stand Up',wheelie:'Wheelie',nohands:'No Hands',seatstand:'Seat Stand',feetup:'Feet Up',superman:'Superman',barstand:'Bar Stand',handwheelie:'No-Hands Wheelie',handstand:'Handstand',standwheelie:'Standing Wheelie',frontwheelie:'Front Wheelie',upsidepedal:'Upside-Down Pedaling',onefoot:'One Foot',rearpeg:'Rear Peg',frontpeg:'Front Peg',barsit:'Bar Sit',seatkneel:'Seat Kneel',lowcrouch:'Low Crouch',splitkick:'Split Kick',layback:'Lay Back'};
 const cleanHandle=h=>String(h||'').toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,16);
 const BASE_PATH=location.pathname.replace(/\/@[^\/]*\/?$/,'/');   // the page's own folder, even when it was opened from a /@handle link
 function urlTarget(){
