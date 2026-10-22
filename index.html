@@ -111,6 +111,8 @@
   #eaGo:disabled{opacity:.6;}
   .ea-btn{min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
   body.lock{overflow:hidden;}
+  .ea-group{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  #demoBtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;}
   .modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
     background:rgba(2,3,8,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px;}
   .modal.open{display:flex;}
@@ -132,7 +134,8 @@
   @media (max-width:760px){
     .stage{padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));}
     .teaser{flex-direction:column-reverse;align-items:stretch !important;gap:14px;}
-    #eaBtn{width:100%;font-size:14px;padding:14px 18px;}
+    #eaBtn,#demoBtn{width:100%;font-size:14px;padding:14px 18px;}
+    .ea-group{flex-direction:column-reverse;align-items:stretch;}
     .teaser a{align-self:center;font-size:13px;padding:8px 0;}
     .brand{text-align:center;}
     .clock{justify-content:center;}
@@ -167,7 +170,10 @@
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
       watch the teaser
     </a>
-    <button class="ea-btn" id="eaBtn" type="button">early access link</button>
+    <div class="ea-group">
+      <a class="ea-btn" id="demoBtn" href="demo.html">try the demo</a>
+      <button class="ea-btn" id="eaBtn" type="button">early access link</button>
+    </div>
   </div>
 </div>
 
