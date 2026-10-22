@@ -443,7 +443,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 .pay-empty{padding:16px 0;text-align:center;color:#8a8a8a;font-size:13px;font-weight:600;}
 @media (max-width:640px){
   #bikeLab{grid-template-columns:1fr;} .lab-preview{height:auto;} #bikeLab.p2 .lab-card,#bikeLab.p3 .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;}
-  .lab-preview,.lab-stunt,.lab-speed,.lab-cost,.lab-color,.lab-acc{grid-column:1 / -1;grid-row:auto;}
+  .lab-preview,.lab-stunt,.lab-speed,.lab-cost,.lab-color,.lab-acc,.lab-mulinfo{grid-column:1 / -1;grid-row:auto;}
 }
 
 /* ===== shop (stunts / pets / rockets) ===== */
@@ -683,7 +683,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 @media (max-width:520px){#startScreen #dailyBtn{top:10px;left:10px;}}
 .action-btn.ready{border-color:#111 !important;animation:dailyPulse 1.6s ease-in-out infinite;}
 @keyframes dailyPulse{0%,100%{box-shadow:0 0 0 0 rgba(47,111,237,0);}50%{box-shadow:0 0 0 6px rgba(47,111,237,.2);}}
-#dailyModal .modal-card{max-width:560px;}
+#dailyModal .modal-card{max-width:560px;max-height:min(90vh,820px);}
 .dy-big{font-size:28px;font-weight:800;letter-spacing:-.8px;margin-top:6px;}
 .dy-sub{font-size:11.5px;color:#777;line-height:1.6;margin:4px 0 6px;}
 .dy-sub.warn{color:#b26a00;font-weight:600;}
@@ -730,6 +730,32 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 #bikeLab.p3 .lab-m-eyes{grid-column:3 / span 3;grid-row:3;} #bikeLab.p3 .lab-m-extra{grid-column:3 / span 3;grid-row:4;}
 #bikeLab.p3 .lab-m .lab-sub{margin-top:6px;}
 @media (max-width:640px){ #bikeLab.p3 .lab-preview{min-height:300px;} }
+/* ===== rewards: daily reward + spin the wheel ===== */
+.dy-sec{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#9a9a9a;font-weight:700;margin:2px 0 0;}
+.dy-divider{height:1px;background:rgba(0,0,0,.08);margin:18px 0 14px;}
+.dy-wheel-wrap{position:relative;width:min(250px,70vw);aspect-ratio:1;margin:16px auto 12px;}
+.dy-wheel{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 8px 22px rgba(0,0,0,.18),0 0 0 5px #fff,0 0 0 6px rgba(0,0,0,.12);}
+.dy-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:22px solid #111;z-index:2;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));}
+.dy-hub{position:absolute;top:50%;left:50%;width:36px;height:36px;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(135deg,#1a1a1a,#000);color:#ffd24d;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px #fff,var(--shadow-sm);z-index:1;}
+.dy-wheelmsg{text-align:center;}
+
+/* ===== upgrades: inventory + page 4 (multipliers) ===== */
+#upgradesPanel .inv-btn{position:absolute;top:16px;left:16px;z-index:2;height:38px;padding:0 16px;border:none;border-radius:19px;background:#fff;color:var(--fg);font-family:inherit;font-size:12px;font-weight:800;letter-spacing:.4px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s ease,box-shadow .15s ease,background .15s ease,color .15s ease;}
+#upgradesPanel .inv-btn:hover{background:var(--fg);color:#fff;transform:translateY(-1px);box-shadow:var(--shadow-md);}
+@media (max-width:520px){ #upgradesPanel .inv-btn{top:12px;left:10px;height:34px;padding:0 12px;font-size:11px;} #upgradesPanel .shop-header{padding-left:96px;padding-right:56px;gap:8px;} }
+#bikeLab.inv{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));}
+#bikeLab.inv .inv-head{grid-column:1 / -1;} #bikeLab.inv .inv-head .lab-sub{white-space:normal;}
+.inv-card{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:12px;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.inv-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.inv-card.equipped{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent),var(--shadow-md);}
+.inv-card .inv-cv{width:100%;max-width:190px;height:auto;display:block;}
+.inv-card .lab-sub{white-space:normal;text-align:center;} .inv-card .lab-apply{width:100%;margin-top:8px;}
+.inv-badge{position:absolute;top:8px;left:10px;font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:#fff;background:var(--accent);padding:2px 7px;border-radius:8px;font-weight:700;}
+.inv-acc{font-size:16px;min-height:22px;color:#8a8a8a;}
+.lab-mulinfo{grid-column:3 / span 3;grid-row:3;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;gap:8px;}
+.lab-mulinfo .lab-sub{white-space:normal;}
+.mul-line{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;} .mul-line .mul-ic{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:18px;border-radius:12px;background:#f3f4f7;}
+
 /* ===== profile: your bike and rider ===== */
 .pr-ride{position:relative;margin-top:14px;padding:14px 14px 10px;border-radius:22px;text-align:center;background:radial-gradient(circle at 50% 80%,#e4ebfb 0%,#f6f8fd 58%,#eef1f8 100%);box-shadow:var(--shadow-sm);}
 .pr-ride canvas{display:block;width:100%;max-width:420px;height:auto;margin:0 auto;}
@@ -750,6 +776,8 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   #wheelieBar{bottom:120px;}
   #startScreen{padding-top:64px;}
 }
+.lab-preview.night .lab-canvas{filter:brightness(.6) saturate(.9) contrast(1.05);}
+.lab-preview.night .lab-bname{color:#e8ecff;}
 </style>
 </head>
 <body>
@@ -779,7 +807,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 
   <div class="screen" id="startScreen">
     <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
-  <button class="action-btn" id="dailyBtn" type="button">daily</button>
+  <button class="action-btn" id="dailyBtn" type="button">rewards</button>
     <div id="menuTint"></div><div id="menuLights"><i></i><i></i></div>
   <div id="accountBox">
    <div id="acctRow">
@@ -809,7 +837,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="start-btn" id="startBtn">play</button>
     <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="stuntsBtn">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div><div class="level-pill" id="menuHoursTag">0s played</div></div>
-    <div class="ver">v.0.0.33 (alpha)</div>
+    <div class="ver">v.0.0.34 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -819,13 +847,16 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <div class="toggle-row"><span>camera shake</span><div class="switch on" id="shakeToggle"></div></div>
     <div class="controls-note" id="playNote">time played: 0s</div>
     <div class="controls-note" id="saveNote">progress saves automatically on this device</div>
+    <div class="settings-row" style="margin-top:6px"><button class="action-btn" id="exportSave" type="button">export save</button><button class="action-btn" id="importSave" type="button">import save</button></div>
+    <input type="file" id="importFile" accept=".json,application/json" hidden>
     <button class="close-btn" id="closeSettings">close</button>
   </div>
 
   <div class="panel hidden" id="upgradesPanel">
     <button class="close-x" id="closeUpgrades" aria-label="close">✕</button>
+    <button class="inv-btn" id="invBtn" type="button">inventory</button>
     <div class="shop-header">
-      <h2>upgrades</h2>
+      <h2 id="upgradesTitle">upgrades</h2>
       <div id="upgradesWalletTag" class="wallet-pill">0c</div>
     </div>
     <div id="bikeLab"></div>
@@ -897,8 +928,10 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   <div class="modal-back hidden" id="dailyModal" role="dialog" aria-modal="true" aria-labelledby="dyTitle">
     <div class="modal-card">
       <button class="close-x" id="closeDaily" aria-label="close">✕</button>
-      <h2 id="dyTitle">daily reward</h2>
+      <h2 id="dyTitle">rewards</h2>
       <div id="dailyBody"></div>
+      <div class="dy-divider"></div>
+      <div id="wheelBody"></div>
     </div>
   </div>
 
@@ -906,10 +939,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <div class="modal-card">
       <h2 id="pfTitle">set up your profile</h2>
       <p>pick a unique handle and a name for the leaderboard. your google name and photo are never used.</p>
-      <div class="pf-pic"><span id="pfAv"></span>
-        <div><button class="acct-btn" id="pfUpload" type="button">upload picture</button><button class="text-link" id="pfNoPic" type="button">use a letter instead</button></div>
-        <input type="file" id="pfFile" accept="image/*" hidden>
-      </div>
+      <div class="pf-pic"><span id="pfAv"></span></div>
       <label class="pf-l" for="pfHandle">HANDLE (unique)</label>
       <div class="pf-row"><span class="pf-at">@</span><input id="pfHandle" maxlength="16" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="your_handle"></div>
       <div class="pf-hint" id="pfHandleHint"></div>
@@ -937,6 +967,11 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 <script>
 (function(){
 "use strict";
+// ---- save safety: this tab remembers which save revision it loaded. if another tab (or a cloud load) changes the save, this tab is
+// STALE and stops writing, so an old tab can never overwrite newer progress (the main cause of "my data got forgotten")
+var myRev='', staleTab=false;
+try{ myRev=localStorage.getItem('bike_rev')||''; }catch(e){}
+try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){}   // ask the browser not to evict this site's storage
 const canvas=document.getElementById('game');
 canvas.setAttribute('tabindex','0'); canvas.style.outline='none';
 const ctx=canvas.getContext('2d');
@@ -970,7 +1005,8 @@ function closePanel(id){
 window.__bikePanels={open:openPanel,close:closePanel};
 function closeOpenPanel(){
   if(document.getElementById('trainPick')){ document.getElementById('trainPick').remove(); return true; }   // the train pop-up closes first
-  if(!document.getElementById('upgradesPanel').classList.contains('hidden')&&lab.pay){ lab.pay=false; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; return true; }   // back from the pay page goes to the upgrades page first
+  if(!document.getElementById('upgradesPanel').classList.contains('hidden')&&lab.pay){ lab.pay=false; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; return true; }
+  if(!document.getElementById('upgradesPanel').classList.contains('hidden')&&lab.inv){ lab.inv=false; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; return true; }   // back from the inventory goes to the upgrades page first   // back from the pay page goes to the upgrades page first
   if(!document.getElementById('stuntsPanel').classList.contains('hidden')&&stPay){ stPay=false; renderStunts(true); document.getElementById('stuntLab').scrollTop=0; return true; }   // back from the stunts pay page goes to the stunts page first
   if(!document.getElementById('gearPanel').classList.contains('hidden')&&shPay){ shPay=false; shGone=false; renderGear(true); document.getElementById('shopLab').scrollTop=0; return true; }   // back from the shop pay page goes to the shop first
   if(!document.getElementById('trainPanel').classList.contains('hidden')&&skPay){ skPay=false; renderTrain(true); document.getElementById('skillLab').scrollTop=0; return true; }   // back from the special stunts pay page goes to the menu first
@@ -1011,17 +1047,35 @@ function lsGet(key,fallback){
   try{ const v=localStorage.getItem(key); return v===null||v===undefined?fallback:v; }
   catch(e){ return fallback; }
 }
+function markStale(){
+  if(staleTab) return; staleTab=true;
+  try{ paused=true; }catch(e){}
+  const d=document.createElement('div');
+  d.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(17,17,17,.88);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;font:14px/1.6 ui-monospace,Menlo,Consolas,monospace';
+  d.innerHTML='<div style="font-size:18px;font-weight:700">game updated in another tab</div><div style="max-width:360px;opacity:.8">your progress is safe. this tab has older data, so it stopped saving so it can not overwrite the newer save.</div>';
+  const b=document.createElement('button'); b.textContent='reload this tab';
+  b.style.cssText='padding:12px 26px;border:0;border-radius:999px;background:#fff;color:#111;font:inherit;cursor:pointer';
+  b.onclick=()=>location.reload(); d.appendChild(b); document.body.appendChild(d);
+}
 function lsSet(key,value){
   if(window.__bikeAdopting) return true; // a cloud save is being loaded in and the page is about to reload: don't overwrite it
+  if(staleTab) return false;
   try{
+    const meta=(key==='bike_check');
+    if(!meta&&(localStorage.getItem('bike_rev')||'')!==myRev){ markStale(); return false; }
     const old=localStorage.getItem(key);
     localStorage.setItem(key,value);
-    if(old!==value && key!=='bike_check'){
+    if(old!==value&&!meta){
+      myRev=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+      localStorage.setItem('bike_rev',myRev);
       localStorage.setItem('bike_updatedAt',String(Date.now()));
       if(window.__bikeCloud) window.__bikeCloud.dirty();
     }
     return true;
-  }catch(e){ return false; }
+  }catch(e){
+    try{ const n=document.getElementById('saveNote'); if(n) n.textContent="⚠ couldn't save: browser storage is full or blocked"; }catch(x){}
+    return false;
+  }
 }
 function lsGetJSON(key,fallback){
   try{ const v=localStorage.getItem(key); return v===null?fallback:JSON.parse(v); }
@@ -1153,6 +1207,8 @@ function saveShop(){
   lsSet('bike_selected',String(selectedTier));
   lsSet('bike_color',String(selectedColor)); lsSet('bike_acc',JSON.stringify(selectedAcc)); lsSet('bike_mods',JSON.stringify(selMods));
   lsSet('bike_vehicle',String(selectedVehicle)); lsSet('bike_vehPaid',String(vehPaid));
+  garage.data[selectedVehicle]=bikeSnap(); lsSet('bike_garage',JSON.stringify(garage));
+  lsSet('bike_mulStunt',String(selStuntMul)); lsSet('bike_mulAir',String(selAirMul));
   updateWalletTags();
 }
 // bike colours (cosmetic, priced). 'Stock' is the colour that comes with the speed level you own.
@@ -1250,7 +1306,6 @@ function halfMphCost(ve,sp){
   }
   return total;
 }
-function buildCost(sp,st,co,ve,ac,g){ return bikeTiers[sp].price+halfMphCost(ve,sp)+stuntTiers[st].price+BIKE_COLORS[co].price+vehVal(ve||0)+accCost(ac)+(g?modCost(g):0); }
 // accessories fit all 6 vehicles: A = {bar, seat, tube, rear:{x,y,r}} anchor points for the vehicle being drawn
 function drawAcc(c,set,A){
   if(!set||!set.length) return;
@@ -1294,6 +1349,35 @@ if(lsGet('bike_shopV2','')!=='1'){
   ownedTiers=[...new Set([0,selectedTier])]; ownedStuntTiers=[...new Set([0,selectedStuntTier])];
   lsSet('bike_wallet',String(wallet)); lsSet('bike_owned',JSON.stringify(ownedTiers)); lsSet('bike_stuntOwned',JSON.stringify(ownedStuntTiers)); lsSet('bike_shopV2','1');
 }
+// ---- inventory: every bike you buy goes in your garage and keeps its OWN speed level, stunt level, paint and accessories.
+// a bike you have not bought yet starts at base speed and base stunt level, and accessories stay on the one bike they were put on ----
+const BLANK_BIKE=()=>({sp:0,st:0,co:0,ac:[]});
+let garage={owned:[0],data:{}};
+function bikeSnap(){ return {sp:selectedTier,st:selectedStuntTier,co:selectedColor,ac:selectedAcc.slice()}; }
+function cleanBike(ve,b){
+  b=b||{}; const ni=(x,max)=>{ x=Math.floor(Number(x)); return Number.isFinite(x)&&x>=0&&x<max?x:0; };
+  const ac=Array.isArray(b.ac)?[...new Set(b.ac.filter(n=>Number.isInteger(n)&&n>=0&&n<ACCS.length))].sort((x,y)=>x-y):[];
+  return {sp:ni(b.sp,spMax(ve)),st:ni(b.st,stMax(ve)),co:ni(b.co,BIKE_COLORS.length),ac};
+}
+{ const g=lsGetJSON('bike_garage',null);
+  if(g&&typeof g==='object'&&Array.isArray(g.owned)){
+    garage.owned=[...new Set(g.owned.filter(n=>Number.isInteger(n)&&n>=0&&n<VEHICLES.length))];
+    for(const ve of garage.owned) garage.data[ve]=cleanBike(ve,(g.data||{})[ve]);
+  }
+  if(!garage.owned.includes(0)) garage.owned.unshift(0);                                  // the starter bike is always yours
+  if(!garage.owned.includes(selectedVehicle)) garage.owned.push(selectedVehicle);         // an old save: the ride you were on goes in the inventory
+  for(const ve of garage.owned) if(!garage.data[ve]) garage.data[ve]=BLANK_BIKE();
+  garage.data[selectedVehicle]=bikeSnap();
+}
+const isOwned=ve=>garage.owned.includes(ve);
+const baseOf=ve=>ve===selectedVehicle?bikeSnap():(isOwned(ve)?cleanBike(ve,garage.data[ve]):BLANK_BIKE());   // the levels a bike has right now (blank = a bike you have not bought)
+const tierVal=(ve,sp)=>bikeTiers[sp].price+halfMphCost(ve,sp);
+// ---- page 4 of upgrades: stunt multiplier (flips and stunts) and air time multiplier (hang time) ----
+const MUL_MAX=10, MUL_STEP=.2;
+const mulTiers=[]; for(let i=0;i<=MUL_MAX;i++){ const v=Math.round((1+MUL_STEP*i)*10)/10; mulTiers.push({label:'x'+v.toFixed(1),value:v,price:Math.round(1200*i+700*i*i)}); }
+const clampMul=x=>{ x=Math.floor(Number(x)); return Number.isFinite(x)&&x>=0&&x<=MUL_MAX?x:0; };
+let selStuntMul=clampMul(lsGet('bike_mulStunt','0')), selAirMul=clampMul(lsGet('bike_mulAir','0'));
+const stuntMulVal=()=>mulTiers[selStuntMul].value, airMulVal=()=>mulTiers[selAirMul].value;
 function saveStunts(){
   ownedStuntTiers=[...new Set([0,selectedStuntTier])];
   lsSet('bike_stuntOwned',JSON.stringify(ownedStuntTiers));
@@ -1396,10 +1480,21 @@ function paintBikeIcon(c,w,h,color,veh,ac,g,rider){
   c.restore();
 }
 // ---- upgrades: one shop for speed, stunts and colour (bike preview / stunt level / max speed / cost / colours) ----
-const lab={sp:0,st:0,co:0,ve:0,ac:[],g:Object.assign({},selMods),page:0,pay:false,pg:{sp:0,st:0,co:0}};
-const PER={sp:20,st:10,co:12}; // items per page (2 pages each)
+const lab={sp:0,st:0,co:0,ve:0,ac:[],g:Object.assign({},selMods),ms:0,ma:0,page:0,pay:false,inv:false,pg:{sp:0,st:0,co:0,ms:0,ma:0}};
+const PER={sp:20,st:10,co:12,ms:MUL_MAX+1,ma:MUL_MAX+1}; // items per page (2 pages each)
+// what changing the bike on screen costs: a new bike's own price, plus every level, paint, accessory and mod you changed compared with what THAT bike has now
+function labDelta(){
+  const bs=baseOf(lab.ve);
+  return (isOwned(lab.ve)?0:VEHICLES[lab.ve].price)+(tierVal(lab.ve,lab.sp)-tierVal(lab.ve,bs.sp))+(stuntTiers[lab.st].price-stuntTiers[bs.st].price)
+    +(BIKE_COLORS[lab.co].price-BIKE_COLORS[bs.co].price)+(accCost(lab.ac)-accCost(bs.ac))+(modCost(lab.g)-modCost(selMods))
+    +(mulTiers[lab.ms].price-mulTiers[selStuntMul].price)+(mulTiers[lab.ma].price-mulTiers[selAirMul].price);
+}
+function labPickBike(ve){   // show another bike: it loads that bike's own levels, paint and accessories (a bike you have not bought is at base)
+  const b=baseOf(ve); lab.ve=ve; lab.sp=b.sp; lab.st=b.st; lab.co=b.co; lab.ac=b.ac.slice();
+  lab.pg.sp=Math.floor(lab.sp/PER.sp); lab.pg.st=Math.floor(lab.st/PER.st); lab.pg.co=Math.floor(lab.co/PER.co);
+}
 function stepKey(key,d){ // move one level/colour; the page flips by itself when you cross the edge
-  const total={sp:spMax(lab.ve),st:stMax(lab.ve),co:BIKE_COLORS.length}[key];
+  const total={sp:spMax(lab.ve),st:stMax(lab.ve),co:BIKE_COLORS.length,ms:MUL_MAX+1,ma:MUL_MAX+1}[key];
   let v=lab[key]+d;
   if(key==='co') v=(v+total)%total; else if(v<0||v>=total) return false;
   lab[key]=v; lab.pg[key]=Math.floor(v/PER[key]);
@@ -1419,9 +1514,9 @@ function stepKey(key,d){ // move one level/colour; the page flips by itself when
   addEventListener('blur',stop);
 }
 function labReset(){
-  lab.pay=false;
-  lab.sp=selectedTier; lab.st=selectedStuntTier; lab.co=selectedColor; lab.ve=selectedVehicle; lab.ac=selectedAcc.slice(); lab.g=Object.assign({},selMods);
-  lab.pg={sp:Math.floor(selectedTier/PER.sp),st:Math.floor(selectedStuntTier/PER.st),co:Math.floor(selectedColor/PER.co)};
+  lab.pay=false; lab.inv=false;
+  lab.sp=selectedTier; lab.st=selectedStuntTier; lab.co=selectedColor; lab.ve=selectedVehicle; lab.ac=selectedAcc.slice(); lab.g=Object.assign({},selMods); lab.ms=selStuntMul; lab.ma=selAirMul;
+  lab.pg={sp:Math.floor(selectedTier/PER.sp),st:Math.floor(selectedStuntTier/PER.st),co:Math.floor(selectedColor/PER.co),ms:0,ma:0};
 }
 const fmtC=n=>Number(n).toLocaleString('en-US')+'c';
 const fmtSigned=n=>(n>0?'+':n<0?'−':'')+fmtC(Math.abs(n));
@@ -1430,24 +1525,29 @@ const fmtSigned=n=>(n>0?'+':n<0?'−':'')+fmtC(Math.abs(n));
 // carries what its speed levels add at your current level, so taking the ride off also drops that). remove() puts that one thing back to what you own.
 const VEH_ICO=['🚲','🔋','🛴','🏍️','🛴','🚀','✈️'];
 function cartItems(delta){
-  const L=lab, items=[];
+  const L=lab, items=[], bs=baseOf(L.ve), own=isOwned(L.ve);
   if(L.ve!==selectedVehicle){
-    const price=(vehVal(L.ve)+halfMphCost(L.ve,selectedTier))-(vehVal(selectedVehicle)+halfMphCost(selectedVehicle,selectedTier));
-    items.push({ico:VEH_ICO[L.ve]||'🚲',name:VEHICLES[L.ve].name,sub:'switching from '+VEHICLES[selectedVehicle].name,price,remove:()=>{ L.ve=selectedVehicle; }});
+    const V=VEHICLES[L.ve];
+    items.push({ico:VEH_ICO[L.ve]||'🚲',name:V.name,sub:own?'from your inventory · switching from '+VEHICLES[selectedVehicle].name:'new bike · goes in your inventory at base speed and stunt level',price:own?0:V.price,remove:()=>{ labPickBike(selectedVehicle); }});
   }
-  if(L.sp!==selectedTier){
-    const price=(bikeTiers[L.sp].price+halfMphCost(L.ve,L.sp))-(bikeTiers[selectedTier].price+halfMphCost(L.ve,selectedTier));
-    items.push({ico:'🏁',name:'Speed level '+(L.sp+1),sub:vehMph(L.ve,L.sp)+' mph top speed · was level '+(selectedTier+1),price,remove:()=>{ L.sp=selectedTier; }});
+  if(L.sp!==bs.sp){
+    items.push({ico:'🏁',name:'Speed level '+(L.sp+1),sub:vehMph(L.ve,L.sp)+' mph top speed · was level '+(bs.sp+1),price:tierVal(L.ve,L.sp)-tierVal(L.ve,bs.sp),remove:()=>{ L.sp=bs.sp; }});
   }
-  if(L.st!==selectedStuntTier){
-    items.push({ico:'🤸',name:'Stunt level '+(L.st+1),sub:'pays '+stuntTiers[L.st].value+'c per stunt · was level '+(selectedStuntTier+1),price:stuntTiers[L.st].price-stuntTiers[selectedStuntTier].price,remove:()=>{ L.st=selectedStuntTier; }});
+  if(L.st!==bs.st){
+    items.push({ico:'🤸',name:'Stunt level '+(L.st+1),sub:'pays '+stuntTiers[L.st].value+'c per stunt · was level '+(bs.st+1),price:stuntTiers[L.st].price-stuntTiers[bs.st].price,remove:()=>{ L.st=bs.st; }});
   }
-  if(L.co!==selectedColor){
-    items.push({ico:'🎨',name:BIKE_COLORS[L.co].name+' paint',sub:'was '+BIKE_COLORS[selectedColor].name,price:BIKE_COLORS[L.co].price-BIKE_COLORS[selectedColor].price,remove:()=>{ L.co=selectedColor; }});
+  if(L.ms!==selStuntMul){
+    items.push({ico:'✨',name:'Stunt multiplier '+mulTiers[L.ms].label,sub:'flips and stunts pay '+mulTiers[L.ms].label+' · was '+mulTiers[selStuntMul].label,price:mulTiers[L.ms].price-mulTiers[selStuntMul].price,remove:()=>{ L.ms=selStuntMul; }});
+  }
+  if(L.ma!==selAirMul){
+    items.push({ico:'⏱️',name:'Air time multiplier '+mulTiers[L.ma].label,sub:'hang time pays '+mulTiers[L.ma].label+' · was '+mulTiers[selAirMul].label,price:mulTiers[L.ma].price-mulTiers[selAirMul].price,remove:()=>{ L.ma=selAirMul; }});
+  }
+  if(L.co!==bs.co){
+    items.push({ico:'🎨',name:BIKE_COLORS[L.co].name+' paint',sub:'was '+BIKE_COLORS[bs.co].name,price:BIKE_COLORS[L.co].price-BIKE_COLORS[bs.co].price,remove:()=>{ L.co=bs.co; }});
   }
   ACCS.forEach((a,i)=>{
-    const want=L.ac.includes(i), have=selectedAcc.includes(i);
-    if(want&&!have) items.push({ico:a.emoji,name:a.name,sub:'+'+a.mph+' mph',price:a.price,remove:()=>{ L.ac=L.ac.filter(x=>x!==i); }});
+    const want=L.ac.includes(i), have=bs.ac.includes(i);
+    if(want&&!have) items.push({ico:a.emoji,name:a.name,sub:'+'+a.mph+' mph · stays on this bike',price:a.price,remove:()=>{ L.ac=L.ac.filter(x=>x!==i); }});
     if(!want&&have) items.push({ico:a.emoji,name:a.name+' (taking off)',sub:'sold back',price:-a.price,remove:()=>{ L.ac=L.ac.concat(i).sort((x,y)=>x-y); }});
   });
   for(const k of MOD_KEYS){
@@ -1462,8 +1562,11 @@ function cartItems(delta){
 function commitBuild(due){
   if(due>wallet) return false;
   wallet-=due;
-  if(lab.ve!==selectedVehicle) vehPaid=VEHICLES[lab.ve].price;   // remember what this ride cost you
-  selectedTier=lab.sp; selectedStuntTier=lab.st; selectedColor=lab.co; selectedVehicle=lab.ve; selectedAcc=lab.ac.slice(); selMods=Object.assign({},lab.g);
+  garage.data[selectedVehicle]=bikeSnap();                      // the bike you are leaving keeps its own levels and accessories
+  if(!isOwned(lab.ve)) garage.owned.push(lab.ve);               // a new bike goes in the inventory
+  selectedVehicle=lab.ve; selectedTier=lab.sp; selectedStuntTier=lab.st; selectedColor=lab.co; selectedAcc=lab.ac.slice(); selMods=Object.assign({},lab.g);
+  selStuntMul=lab.ms; selAirMul=lab.ma; vehPaid=VEHICLES[selectedVehicle].price;
+  garage.data[selectedVehicle]=bikeSnap();
   saveShop(); saveStunts(); updateWalletTags(); pulseEl('upgradesWalletTag');
   return true;
 }
@@ -1513,7 +1616,7 @@ function renderPay(root,el,delta){
   pay.disabled=!items.length||short;
   pay.onclick=()=>{
     // work the price out fresh at the moment you tap, so what leaves your wallet is always what the page showed
-    const d=buildCost(lab.sp,lab.st,lab.co,lab.ve,lab.ac,lab.g)-buildCost(selectedTier,selectedStuntTier,selectedColor,selectedVehicle,selectedAcc,selMods);
+    const d=labDelta();
     if(!commitBuild(d+upTax(d))) return;
     lab.pay=false; redo(true);
   };
@@ -1523,33 +1626,35 @@ function renderPay(root,el,delta){
 }
 function renderUpgrades(animate){
   document.getElementById('upgradesWalletTag').textContent=fmtC(wallet);
+  { const t=document.getElementById('upgradesTitle'); if(t) t.textContent=lab.inv?'inventory':'upgrades'; const ib=document.getElementById('invBtn'); if(ib) ib.textContent=lab.inv?'‹ upgrades':'inventory'; }
   const root=document.getElementById('bikeLab'), keep=root.scrollTop;
-  root.classList.toggle('enter',animate!==false); root.classList.toggle('p2',lab.page===1); root.classList.toggle('p3',lab.page===2); root.innerHTML='';
+  root.classList.toggle('enter',animate!==false); root.classList.toggle('p2',lab.page===1); root.classList.toggle('p3',lab.page===2); root.classList.toggle('p4',lab.page===3); root.classList.toggle('inv',!!lab.inv); root.innerHTML='';
   const el=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
   const rerender=()=>{ renderUpgrades(false); pulseEl('labCost'); };
   { const pgEl=document.getElementById('labPager'); pgEl.innerHTML='';
-    const pb=(t,d,l)=>{ const b=el('button','arrow-btn',t); b.setAttribute('aria-label',l); b.disabled=lab.page+d<0||lab.page+d>2; b.style.opacity=b.disabled?'.3':''; b.onclick=()=>{ lab.page+=d; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; }; return b; };
+    const pb=(t,d,l)=>{ const b=el('button','arrow-btn',t); b.setAttribute('aria-label',l); b.disabled=lab.page+d<0||lab.page+d>3; b.style.opacity=b.disabled?'.3':''; b.onclick=()=>{ lab.page+=d; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; }; return b; };
     pgEl.appendChild(pb('‹',-1,'previous page')); pgEl.appendChild(el('b','',String(lab.page+1))); pgEl.appendChild(pb('›',1,'next page')); }
   const am=accMph(lab.ac)+modMph(lab.g), vtiers=vehTiers(lab.ve).map((t,i)=>Object.assign({},t,{mph:t.mph+am,price:t.price+halfMphCost(lab.ve,i)})), tier=vtiers[lab.sp], hex=colorHex(lab.co,tier);
-  const dirty=lab.sp!==selectedTier||lab.st!==selectedStuntTier||lab.co!==selectedColor||lab.ve!==selectedVehicle||lab.ac.join()!==selectedAcc.join()||JSON.stringify(lab.g)!==JSON.stringify(selMods);
-  const cost=buildCost(lab.sp,lab.st,lab.co,lab.ve,lab.ac,lab.g), delta=cost-buildCost(selectedTier,selectedStuntTier,selectedColor,selectedVehicle,selectedAcc,selMods);
-  document.getElementById('labPager').style.display=lab.pay?'none':'';
+  const bs0=baseOf(lab.ve), dirty=lab.ve!==selectedVehicle||lab.sp!==bs0.sp||lab.st!==bs0.st||lab.co!==bs0.co||lab.ac.join()!==bs0.ac.join()||JSON.stringify(lab.g)!==JSON.stringify(selMods)||lab.ms!==selStuntMul||lab.ma!==selAirMul;
+  const delta=labDelta();
+  document.getElementById('labPager').style.display=(lab.pay||lab.inv)?'none':'';
   root.classList.toggle('checkout',!!lab.pay);
-  if(lab.pay){ root.classList.remove('p2'); root.classList.remove('p3'); renderPay(root,el,delta); return; }
+  if(lab.pay){ root.classList.remove('p2','p3','p4'); renderPay(root,el,delta); return; }
+  if(lab.inv){ root.classList.remove('p2','p3','p4'); renderInventory(root,el); root.scrollTop=keep; return; }
 
   // bike preview
   const pv=el('div','lab-card lab-preview'+(lab.g.dn?' night':'')); pv.style.setProperty('--bc',hex);
   pv.appendChild(el('div','lab-label',lab.page===2?'rider preview':'bike preview'));
-  pv.appendChild(el('div','lab-badge'+(dirty?'':' on'),dirty?'preview':'equipped'));
+  pv.appendChild(el('div','lab-badge'+(dirty?'':' on'),lab.ve!==selectedVehicle?(isOwned(lab.ve)?'in inventory':'new bike'):dirty?'preview':'equipped'));
   pv.appendChild(el('div','lab-bname',VEHICLES[lab.ve].name+' · '+tier.name));
   const stage=el('div','lab-stage'); stage.appendChild(el('div','lab-shadow'));
   const cv=el('canvas','lab-canvas'); cv.width=620; cv.height=330; paintBikeIcon(cv.getContext('2d'),620,330,hex,lab.ve,lab.ac,lab.g,lab.page===2); stage.appendChild(cv); const fx=el('canvas','lab-fx'); stage.appendChild(fx);
-  const vb=(cls,txt,d,label)=>{ const b=el('button','veh-btn '+cls,txt); b.setAttribute('aria-label',label); b.onclick=()=>{ const n=VEH_ORDER.length, at=Math.max(0,VEH_ORDER.indexOf(lab.ve)); lab.ve=VEH_ORDER[(at+d+n)%n]; lab.sp=Math.min(lab.sp,spMax(lab.ve)-1); lab.st=Math.min(lab.st,stMax(lab.ve)-1); lab.pg.sp=Math.floor(lab.sp/PER.sp); lab.pg.st=Math.floor(lab.st/PER.st); rerender(); }; stage.appendChild(b); };
+  const vb=(cls,txt,d,label)=>{ const b=el('button','veh-btn '+cls,txt); b.setAttribute('aria-label',label); b.onclick=()=>{ const n=VEH_ORDER.length, at=Math.max(0,VEH_ORDER.indexOf(lab.ve)); labPickBike(VEH_ORDER[(at+d+n)%n]); rerender(); }; stage.appendChild(b); };
   vb('l','‹',-1,'previous vehicle'); vb('r','›',1,'next vehicle');
   pv.appendChild(stage);
   { const pen=wxPenalty(lab.g); if(pen) stage.appendChild(el('div','lab-warnbar','⚠️ '+MODS.wx.opts[lab.g.wx][0].toLowerCase()+' slows you by '+pen+' mph. '+(lab.g.wx===1?'Trail tires or better':'snow tires or Trail tires')+' fix it')); }
   const chips=el('div','lab-chips');
-  [VEHICLES[lab.ve].name+(VEHICLES[lab.ve].price>0?' +'+fmtC(VEHICLES[lab.ve].price):VEHICLES[lab.ve].price<0?' pays back '+fmtC(-VEHICLES[lab.ve].price):''),tier.mph+' mph','stunt Lv '+(lab.st+1),BIKE_COLORS[lab.co].name].concat(lab.ac.length?[lab.ac.length+' accessor'+(lab.ac.length>1?'ies':'y')]:[]).concat(PAGE2_KEYS.filter(k=>lab.g[k]).map(k=>MODS[k].opts[lab.g[k]][1]+' '+MODS[k].opts[lab.g[k]][0]).concat(PAGE3_KEYS.some(k=>lab.g[k])?['custom rider']:[])).forEach(t=>chips.appendChild(el('span','chip',t)));
+  [VEHICLES[lab.ve].name+(isOwned(lab.ve)?' · owned':(VEHICLES[lab.ve].price>0?' +'+fmtC(VEHICLES[lab.ve].price):VEHICLES[lab.ve].price<0?' pays back '+fmtC(-VEHICLES[lab.ve].price):'')),tier.mph+' mph','stunt Lv '+(lab.st+1),BIKE_COLORS[lab.co].name].concat(lab.ac.length?[lab.ac.length+' accessor'+(lab.ac.length>1?'ies':'y')]:[]).concat(PAGE2_KEYS.filter(k=>lab.g[k]).map(k=>MODS[k].opts[lab.g[k]][1]+' '+MODS[k].opts[lab.g[k]][0]).concat(PAGE3_KEYS.some(k=>lab.g[k])?['custom rider']:[])).forEach(t=>chips.appendChild(el('span','chip',t)));
   pv.appendChild(chips); root.appendChild(pv);
 
   // up/down stat card
@@ -1566,7 +1671,7 @@ function renderUpgrades(animate){
     steps.appendChild(up); steps.appendChild(down); row.appendChild(steps); c.appendChild(row);
     const per=PER[key], pg=Math.max(0,Math.min(Math.ceil(total/per)-1,lab.pg[key])), pips=el('div','pips');
     for(let i=pg*per;i<Math.min(total,(pg+1)*per);i++){
-      const p=el('button','pip'+(i<=v?' on':'')), t=tiers[i].mph!==undefined?tiers[i].mph+' mph':'Lv '+(i+1);
+      const p=el('button','pip'+(i<=v?' on':'')), t=tiers[i].label||(tiers[i].mph!==undefined?tiers[i].mph+' mph':'Lv '+(i+1));
       p.title=t; p.setAttribute('aria-label',t); p.onclick=()=>{ set(i); lab.pg[key]=pg; rerender(); }; pips.appendChild(p);
     }
     c.appendChild(pips);
@@ -1578,12 +1683,17 @@ function renderUpgrades(animate){
   if(!lab.page){ stat('lab-stunt','st','stunt level','Lv '+(lab.st+1),'pays '+stuntTiers[lab.st].value+'c per stunt',stuntTiers,lab.st,v=>{ lab.st=v; },stMax(lab.ve));
   stat('lab-speed','sp','max speed',tier.mph+' mph','tier '+(lab.sp+1)+' of '+spMax(lab.ve)+' · '+tier.name,vtiers,lab.sp,v=>{ lab.sp=v; },spMax(lab.ve)); }
 
+  if(lab.page===3){   // page 4: payout multipliers (they work on every bike)
+    stat('lab-stunt','ms','stunt multiplier',mulTiers[lab.ms].label,'flips and stunts pay '+mulTiers[lab.ms].label,mulTiers,lab.ms,v=>{ lab.ms=v; },MUL_MAX+1);
+    stat('lab-speed','ma','air time multiplier',mulTiers[lab.ma].label,'hang time pays '+mulTiers[lab.ma].label,mulTiers,lab.ma,v=>{ lab.ma=v; },MUL_MAX+1);
+  }
+
   // cost
   const cc=el('div','lab-card lab-cost'); cc.appendChild(el('div','lab-label','cost'));
   // just the price of what you've changed. the tax, the total and the list of everything you put on are on the pay page
   const big=el('div','lab-big',dirty?(delta<0?'+':'')+fmtC(Math.abs(delta)):fmtC(0)); big.id='labCost'; if(delta<0) big.style.color='#12a150'; cc.appendChild(big);
   const ap=el('button','lab-apply'+(delta<0?' refund':''));
-  ap.textContent=!dirty?'equipped':(delta<0?'proceed to sell back':'proceed to pay');
+  ap.textContent=!dirty?'equipped':(delta<0?'proceed to sell back':(delta===0?'proceed to apply':'proceed to pay'));
   ap.disabled=!dirty;
   ap.onclick=()=>{
     if(!dirty) return;
@@ -1592,6 +1702,13 @@ function renderUpgrades(animate){
   cc.appendChild(ap);
   if(dirty){ const rs=el('button','lab-reset','undo'); rs.onclick=()=>{ labReset(); rerender(); }; cc.appendChild(rs); }
   root.appendChild(cc);
+
+  if(lab.page===3){   // what the two multipliers do
+    const mi=el('div','lab-card lab-mulinfo'); mi.appendChild(el('div','lab-label','what they do'));
+    const l1=el('div','mul-line'); l1.appendChild(el('span','mul-ic','✨')); l1.appendChild(el('span','','every flip and stunt pays '+mulTiers[lab.ms].label)); mi.appendChild(l1);
+    const l2=el('div','mul-line'); l2.appendChild(el('span','mul-ic','⏱️')); l2.appendChild(el('span','','every second of air time pays '+mulTiers[lab.ma].label)); mi.appendChild(l2);
+    mi.appendChild(el('div','lab-sub','they work on every bike and stack with your stunt level, stunt style and pets')); root.appendChild(mi);
+  }
 
   // colours (page 1)
   if(!lab.page){
@@ -1647,6 +1764,32 @@ function renderUpgrades(animate){
   previewFx(fx,cv,lab.g,hex);
   root.scrollTop=keep;
 }
+// ---- inventory: every bike you own, each with its own levels, paint and accessories ----
+function equipBike(ve){
+  if(ve===selectedVehicle||!isOwned(ve)) return;
+  garage.data[selectedVehicle]=bikeSnap();
+  const b=cleanBike(ve,garage.data[ve]);
+  selectedVehicle=ve; selectedTier=b.sp; selectedStuntTier=b.st; selectedColor=b.co; selectedAcc=b.ac.slice(); vehPaid=VEHICLES[ve].price;
+  saveShop(); saveStunts(); labReset(); lab.inv=true; renderUpgrades(true);
+}
+function renderInventory(root,el){
+  const owned=VEH_ORDER.filter(isOwned);
+  const hd=el('div','lab-card inv-head'); hd.appendChild(el('div','lab-label','inventory'));
+  hd.appendChild(el('div','lab-big',owned.length+(owned.length===1?' bike':' bikes')));
+  hd.appendChild(el('div','lab-sub','each bike keeps its own speed level, stunt level, paint and accessories. buy a new bike with the arrows on the bike preview.')); root.appendChild(hd);
+  owned.forEach(ve=>{
+    const b=baseOf(ve), live=ve===selectedVehicle, vt=vehTiers(ve)[b.sp], hex=colorHex(b.co,vt);
+    const c=el('div','lab-card inv-card'+(live?' equipped':''));
+    if(live) c.appendChild(el('div','inv-badge','equipped'));
+    const cv=el('canvas','inv-cv'); cv.width=310; cv.height=165; paintBikeIcon(cv.getContext('2d'),310,165,hex,ve,b.ac,selMods,false); c.appendChild(cv);
+    c.appendChild(el('div','lab-bname',VEHICLES[ve].name));
+    c.appendChild(el('div','lab-sub',(vt.mph+accMph(b.ac)+modMph(selMods))+' mph · speed level '+(b.sp+1)+' · stunt Lv '+(b.st+1)));
+    c.appendChild(el('div','inv-acc',b.ac.length?b.ac.map(i=>ACCS[i].emoji).join(' '):'no accessories'));
+    const btn=el('button','lab-apply',live?'equipped':'equip'); btn.type='button'; btn.disabled=live; btn.onclick=()=>equipBike(ve); c.appendChild(btn);
+    root.appendChild(c);
+  });
+}
+document.getElementById('invBtn').onclick=()=>{ lab.inv=!lab.inv; lab.pay=false; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; };
 document.getElementById('upgradesBtn').onclick=()=>{ labReset(); lab.page=0; renderUpgrades(true); openPanel('upgradesPanel'); };
 document.getElementById('closeUpgrades').onclick=()=>closePanel('upgradesPanel');
 
@@ -2612,12 +2755,13 @@ function dailyView(){
   return {state:'ready',day:(daily.streak>0&&daily.last&&dayDiff(daily.last,today)===1)?daily.streak+1:1,today};
 }
 function dailyLeft(){ const n=new Date(), ms=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1)-n, h=Math.floor(ms/3600000), m=Math.floor(ms%3600000/60000); return h+'h '+m+'m'; }
-function updateDailyBtn(){ const b=document.getElementById('dailyBtn'); if(!b) return; const r=dailyView().state==='ready'; b.classList.toggle('ready',r); b.textContent=r?'🎁 daily':'daily'; }
+function updateDailyBtn(){ const b=document.getElementById('dailyBtn'); if(!b) return; const r=dailyView().state==='ready'; b.classList.toggle('ready',r); b.textContent=r?'🎁 rewards':'rewards'; }
 let dailyWon='';   // what you just won, kept while the daily window stays open
 function renderDaily(got){   // got = what you just won (shown right after you claim)
   if(got) dailyWon=got; got=got||dailyWon;
   const root=document.getElementById('dailyBody'); root.innerHTML='';
   const v=dailyView(), ref=v.state==='wait'?1:v.day, first=Math.max(1,ref-3);
+  root.appendChild(stEl('div','dy-sec','daily reward'));
   root.appendChild(stEl('div','dy-big','day '+daily.streak+' streak'));
   if(got) root.appendChild(stEl('div','dy-sub dy-won',got));
   const msg=v.state==='ready'?(got?'':'day '+v.day+' is ready. what will you get?')
@@ -2638,14 +2782,68 @@ function dailyClaim(){
   let won;
   if(dailyKind(v.day)==='boost'){ daily.boostUntil=Date.now()+BOOST_MS; won='⚡ you won a speed boost: +1 speed tier for 30 minutes'; }
   else { const c=dailyCoins(v.day); wallet+=c; won='+'+fmtC(c)+' added to your coins'; }
-  saveDaily(); saveShop(); updateWalletTags(); updateDailyBtn(); pulseEl('menuWalletTag'); renderDaily(won);
+  saveDaily(); saveShop(); updateWalletTags(); updateDailyBtn(); pulseEl('menuWalletTag'); renderDaily(won); updateWheelUI();
+}
+// ---- rewards: spin the wheel. buy a spin (the game's sales tax applies) for a chance at coins or a speed boost ----
+const SPIN_PRICE=300, SPIN_MS=4600;
+const WHEEL=[{coins:75,w:24},{coins:600,w:8},{coins:150,w:22},{coins:2500,w:1},{coins:250,w:18},{boost:true,w:10},{coins:400,w:12},{coins:1000,w:5}];   // weights add up to 100
+const WHEEL_COLS=['#2f6fed','#13b38a','#7c4dff','#d62839','#ff7a3d','#e6a817','#ec4a86','#18b8d8'];
+const wheelLabel=s=>s.boost?'⚡':(s.coins>=1000?(s.coins/1000)+'k':s.coins+'c');
+let wheelBuilt=false, wheelDeg=0, wheelSpinning=false, wheelMsg='', wheelCv=null;
+function drawWheel(cv){
+  const S=cv.width, c=cv.getContext('2d'), r=S/2, n=WHEEL.length, a=Math.PI*2/n, font=getComputedStyle(document.body).fontFamily;
+  c.clearRect(0,0,S,S);
+  for(let i=0;i<n;i++){
+    const s0=-Math.PI/2+i*a;
+    c.beginPath(); c.moveTo(r,r); c.arc(r,r,r-2,s0,s0+a); c.closePath(); c.fillStyle=WHEEL_COLS[i%WHEEL_COLS.length]; c.fill();
+    c.strokeStyle='#fff'; c.lineWidth=S*.012; c.stroke();
+    c.save(); c.translate(r,r); c.rotate(s0+a/2); c.fillStyle='#fff'; c.font='800 '+Math.round(S*.075)+'px '+font; c.textAlign='center'; c.textBaseline='middle'; c.fillText(wheelLabel(WHEEL[i]),r*.64,0); c.restore();
+  }
+}
+function buildWheel(){
+  if(wheelBuilt) return; wheelBuilt=true;
+  const root=document.getElementById('wheelBody'); root.innerHTML='';
+  root.appendChild(stEl('div','dy-sec','spin the wheel'));
+  root.appendChild(stEl('div','dy-sub','buy a spin for a chance at coins (75c to 2,500c) or a 30 minute speed boost.'));
+  const wrap=stEl('div','dy-wheel-wrap'), cv=stEl('canvas','dy-wheel'); cv.width=cv.height=500; drawWheel(cv); wheelCv=cv; cv.style.transform='rotate('+wheelDeg+'deg)';
+  wrap.appendChild(cv); wrap.appendChild(stEl('div','dy-pointer')); wrap.appendChild(stEl('div','dy-hub','★')); root.appendChild(wrap);
+  const msg=stEl('div','dy-sub dy-wheelmsg'); msg.id='wheelMsg'; root.appendChild(msg);
+  const btn=stEl('button','dy-claim'); btn.id='wheelBtn'; btn.type='button'; btn.onclick=wheelSpin; root.appendChild(btn);
+  const info=stEl('div','dy-sub'); info.id='wheelInfo'; root.appendChild(info);
+}
+function updateWheelUI(){
+  if(!wheelBuilt) return;
+  const cost=withTax(SPIN_PRICE), btn=document.getElementById('wheelBtn'), msg=document.getElementById('wheelMsg'), info=document.getElementById('wheelInfo');
+  btn.disabled=wheelSpinning||wallet<cost;
+  btn.textContent=wheelSpinning?'spinning...':(wallet<cost?'need '+fmtC(cost-wallet)+' more':'buy a spin · '+fmtC(cost));
+  msg.textContent=wheelMsg; msg.className='dy-sub dy-wheelmsg'+(wheelMsg?' dy-won':''); msg.style.display=wheelMsg?'':'none';
+  info.textContent='one spin is '+fmtC(SPIN_PRICE)+' + '+fmtC(taxOn(SPIN_PRICE))+' tax ('+TAX_PCT+'%) · you have '+fmtC(wallet);
+}
+function wheelSpin(){
+  const cost=withTax(SPIN_PRICE); if(wheelSpinning||wallet<cost) return;
+  let r=Math.random()*100, idx=0; for(let i=0;i<WHEEL.length;i++){ r-=WHEEL[i].w; if(r<0){ idx=i; break; } }
+  const prize=WHEEL[idx];
+  wallet-=cost;                                                    // paid and won before the wheel even stops, so closing the window can never lose a prize
+  if(prize.boost){ daily.boostUntil=Math.min(Date.now()+2*BOOST_MS,Math.max(Date.now(),daily.boostUntil)+BOOST_MS); saveDaily(); }
+  else wallet+=prize.coins;
+  lsSet('bike_wallet',String(wallet));
+  wheelSpinning=true; wheelMsg='';
+  const a=360/WHEEL.length, cur=((wheelDeg%360)+360)%360, jitter=(Math.random()-.5)*a*.7, want=(((360-(idx*a+a/2+jitter))%360)+360)%360;
+  wheelDeg+=360*5+(((want-cur)+360)%360);
+  wheelCv.style.transition='transform '+SPIN_MS+'ms cubic-bezier(.12,.62,.12,1)'; wheelCv.style.transform='rotate('+wheelDeg+'deg)';
+  updateWheelUI();
+  setTimeout(()=>{
+    wheelSpinning=false;
+    wheelMsg=prize.boost?'⚡ you won a speed boost: +1 speed tier for 30 minutes':'🎡 you won +'+fmtC(prize.coins);
+    saveShop(); updateWalletTags(); pulseEl('menuWalletTag'); updateDailyBtn(); renderDaily(); updateWheelUI();
+  },SPIN_MS+150);
 }
 { const dm=document.getElementById('dailyModal');
-  const open=()=>{ dailyWon=''; renderDaily(); dm.classList.remove('hidden'); }, close=()=>dm.classList.add('hidden');
+  const open=()=>{ dailyWon=''; renderDaily(); buildWheel(); updateWheelUI(); dm.classList.remove('hidden'); }, close=()=>dm.classList.add('hidden');
   document.getElementById('dailyBtn').onclick=open; document.getElementById('closeDaily').onclick=close;
   dm.addEventListener('click',e=>{ if(e.target===dm) close(); });
   addEventListener('keydown',e=>{ if(e.key==='Escape'&&!dm.classList.contains('hidden')){ close(); e.stopImmediatePropagation(); e.preventDefault(); } },true);
-  setInterval(()=>{ updateDailyBtn(); if(!dm.classList.contains('hidden')) renderDaily(); },20000);
+  setInterval(()=>{ updateDailyBtn(); if(!dm.classList.contains('hidden')){ renderDaily(); updateWheelUI(); } },20000);
   updateDailyBtn(); updatePlayTags(); }
 
 let clouds=[];
@@ -3145,8 +3343,8 @@ function update(){
       const flips=Math.floor(Math.abs(airRotation)/(Math.PI*2));
       const stuntValue=currentStuntValue();
       const style=currentStyle();
-      let coins=airTimeSec>0.05?Math.round(airTimeSec*stuntValue*(style.airMult||1)):0;   // hang-time stunts (Superman, No-Hander, Supernova) pay more for air time
-      coins+=Math.round(flips*stuntValue*style.flipMult); // each completed flip pays the stunt value (x style multiplier)
+      let coins=airTimeSec>0.05?Math.round(airTimeSec*stuntValue*(style.airMult||1)*airMulVal()):0;   // hang-time stunts (Superman, No-Hander, Supernova) pay more for air time
+      coins+=Math.round(flips*stuntValue*style.flipMult*stuntMulVal()); // each completed flip pays the stunt value (x style multiplier)
       coins=Math.round(coins*STUNT_PAY);                  // stunt + jump coins are worth half
       coins=Math.round(coins*petMult());                  // pet bonus
       coins=Math.round(coins*payMul());                   // harder mode pays more (chaos = 2x)
@@ -3389,6 +3587,7 @@ function drawTerrain(){
     if(!started){ctx.moveTo(sx,wy);started=true;} else ctx.lineTo(sx,wy);
   }
   ctx.stroke(); ctx.setLineDash([]);
+  drawGroundCover();
 }
 
 // every pit has spikes on its floor. the stretch the bike can fall onto is x1 + 12% .. x2 - 18% of the pit
@@ -4105,10 +4304,10 @@ function drawPitPins(){
 }
 function render(){
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  drawSky();
   ctx.save();
   if(shakeT>0.2) ctx.translate((Math.random()-.5)*shakeT,(Math.random()-.5)*shakeT);
-  drawGrid();
+  if(!selMods.dn) drawGrid();
   clouds.forEach(c=>{
     const sx=((c.x-camX*0.3)%(W+400)+(W+400))%(W+400)-200;
     drawCloud(sx,c.y,c.s);
@@ -4173,35 +4372,154 @@ function drawSpeedo(speedRatio,mph){
 }
 
 let lastTs=0, acc=0;
-function drawWeather(c,w,h,t,wx){
-  if(wx===1){ c.fillStyle='rgba(110,125,150,.12)'; c.fillRect(0,0,w,h); c.strokeStyle='rgba(90,125,190,.6)'; c.lineWidth=1.2; c.beginPath();
-    for(let i=0;i<90;i++){ const x=(i*97.3+t*140)%(w+100)-50, y=(i*53.7+t*900)%(h+40)-20; c.moveTo(x,y); c.lineTo(x-6,y+16); } c.stroke(); }
-  if(wx===2){ c.fillStyle='#fff'; c.strokeStyle='rgba(120,150,190,.7)'; c.lineWidth=1;
-    for(let i=0;i<70;i++){ const x=(i*83.1+Math.sin(t+i)*20+t*30)%w, y=(i*47.3+t*70*(.6+(i%3)*.3))%h; c.beginPath(); c.arc(x,y,1.6+(i%3)*.6,0,Math.PI*2); c.fill(); c.stroke(); } }
-  if(wx===3){ c.fillStyle='rgba(205,212,222,.5)'; c.fillRect(0,0,w,h); }
+const mod=(a,n)=>((a%n)+n)%n;
+const rr=(i,k)=>{ const x=Math.sin(i*12.9898+k*78.233)*43758.5453; return x-Math.floor(x); };   // stable pseudo-random per particle
+// ---- night sky: stars + moon. drawSky paints them behind everything; nightPass punches matching holes in the dark layer so they stay bright ----
+function nightStuff(w,h,t,sc,s){
+  const st=[]; for(let i=0;i<110;i++) st.push({x:mod(rr(i,1)*w-sc*(.3+rr(i,2)),w),y:rr(i,3)*h*.62,r:(.6+rr(i,5)*1.2)*s,a:.3+.7*(.5+.5*Math.sin(t*(.8+rr(i,4)*2.2)+i*1.7)),warm:rr(i,6)>.85});
+  return {st,mx:w*.8,my:Math.min(h*.2,110),R:Math.min(34,w*.06)*s};
 }
-function drawLights(c,lt,bx,by,u,t,color){ // u = size of the vehicle relative to the game
-  if(!lt) return; c.save();
+function paintNightSky(c,w,h,t,sc,s){
+  const N=nightStuff(w,h,t,sc,s);
+  for(const q of N.st){ c.globalAlpha=q.a; c.fillStyle=q.warm?'#ffe9b0':'#ffffff'; c.beginPath(); c.arc(q.x,q.y,q.r,0,TAU); c.fill(); }
+  c.globalAlpha=1;
+  const g=c.createRadialGradient(N.mx,N.my,N.R*.6,N.mx,N.my,N.R*4); g.addColorStop(0,'rgba(220,230,255,.34)'); g.addColorStop(1,'rgba(220,230,255,0)');
+  c.fillStyle=g; c.fillRect(N.mx-N.R*4,N.my-N.R*4,N.R*8,N.R*8);
+  c.fillStyle='#f6f2de'; c.beginPath(); c.arc(N.mx,N.my,N.R,0,TAU); c.fill();
+  c.fillStyle='rgba(175,170,140,.38)';
+  for(const [a,b,r] of [[-.3,-.2,.22],[.35,.3,.16],[.1,-.5,.12],[-.4,.35,.1]]){ c.beginPath(); c.arc(N.mx+N.R*a,N.my+N.R*b,N.R*r,0,TAU); c.fill(); }
+}
+function drawSky(){
+  if(selMods.dn){
+    const g=ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#3a4a98'); g.addColorStop(1,'#7a8acb'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    paintNightSky(ctx,W,H,performance.now()/1000,camX*.015,1);
+  } else { ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H); }
+}
+// snow settles on the ground, rain makes it wet and shiny (drawn with the terrain, so it sits behind the bike)
+function drawGroundCover(){
+  const wx=selMods.wx; if(wx!==1&&wx!==2) return;
+  ctx.save(); ctx.lineCap='round'; ctx.lineJoin='round';
+  const path=dy=>{ ctx.beginPath(); for(let sx=-20;sx<=W+20;sx+=12){ const y=terrainHeight(camX+sx,cfg)+dy; if(sx===-20) ctx.moveTo(sx,y); else ctx.lineTo(sx,y); } };
+  if(wx===2){ path(2.4); ctx.strokeStyle='rgba(248,251,255,.97)'; ctx.lineWidth=6; ctx.stroke(); path(.6); ctx.strokeStyle='rgba(196,215,240,.9)'; ctx.lineWidth=1.6; ctx.stroke(); }
+  else { path(1.6); ctx.strokeStyle='rgba(90,125,185,.30)'; ctx.lineWidth=4; ctx.stroke(); path(.4); ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=1; ctx.stroke(); }
+  ctx.restore();
+}
+// weather. everything is stateless (position = f(time, scroll)) so it works in the game and in the upgrades preview.
+// o = { sc: how far the world has scrolled (gives parallax), cx/cy: the bike on screen, gy(sx): ground height on screen (for splashes), night }
+function drawWeather(c,w,h,t,wx,o){
+  if(!wx) return; o=o||{};
+  const sc=o.sc||0, cx=o.cx==null?w*.5:o.cx, cy=o.cy==null?h*.6:o.cy, gy=o.gy||null, night=!!o.night;
+  c.save();
+  if(wx===1){   // RAIN: dark sky, 3 depth layers that slant with the wind, ground splashes, a far-off lightning flash now and then
+    const g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,night?'rgba(10,16,34,.35)':'rgba(58,72,98,.36)'); g.addColorStop(1,night?'rgba(20,28,50,.12)':'rgba(96,110,136,.12)');
+    c.fillStyle=g; c.fillRect(0,0,w,h);
+    const fl=mod(t,13);
+    if(fl<.4){ const a=fl<.07?.42:fl<.14?.08:(fl>.24&&fl<.32)?.28:0; if(a){ c.fillStyle='rgba(236,241,255,'+a+')'; c.fillRect(0,0,w,h); } }
+    c.lineCap='round';
+    for(const [n,par,len,lw,sp,al] of [[70,.3,9,1,650,.24],[52,.6,16,1.3,950,.36],[32,1,28,1.8,1300,.58]]){
+      const slant=.16+par*.14;
+      c.strokeStyle=night?'rgba(170,190,235,'+al+')':'rgba(150,178,225,'+al+')'; c.lineWidth=lw; c.beginPath();
+      for(let i=0;i<n;i++){
+        const x=mod(rr(i,par)*(w+200)-sc*par*.9-t*sp*slant,w+200)-100, y=mod(rr(i,par+7)*(h+100)+t*sp,h+100)-50;
+        c.moveTo(x,y); c.lineTo(x+len*slant,y-len);
+      }
+      c.stroke();
+    }
+    if(gy){
+      const P=Math.max(1500,w+240);
+      for(let i=0;i<44;i++){
+        const u=t*1.7+rr(i,3)*3, cyc=Math.floor(u), ph=u-cyc;
+        const sx=mod(rr(i+cyc*17,5)*P-sc,P)-60; if(sx<-20||sx>w+20) continue;
+        const y=gy(sx); if(y==null||y<-10||y>h+10) continue;
+        c.strokeStyle='rgba(205,222,248,'+(.7*(1-ph)).toFixed(3)+')'; c.lineWidth=1.2; c.beginPath(); c.ellipse(sx,y,2+ph*9,.8+ph*2.6,0,0,TAU); c.stroke();
+        if(ph<.45){ c.fillStyle='rgba(215,228,250,'+(.8*(1-ph*2)).toFixed(3)+')'; const up=Math.sin(ph/.45*Math.PI)*10; c.fillRect(sx-ph*16,y-up,1.6,1.6); c.fillRect(sx+ph*16,y-up*.8,1.6,1.6); c.fillRect(sx,y-up*1.1,1.6,1.6); }
+      }
+    }
+  } else if(wx===2){   // SNOW: cold haze, 3 layers of flakes that sway and drift, big near flakes fall faster
+    c.fillStyle=night?'rgba(120,140,190,.14)':'rgba(205,222,245,.22)'; c.fillRect(0,0,w,h);
+    for(const [n,par,r,al,sp] of [[90,.25,1.3,.55,38],[60,.55,2.2,.8,62],[34,1,3.6,.95,92]]){
+      for(let i=0;i<n;i++){
+        const sway=Math.sin(t*(.6+rr(i,2))+i)*(14*par+6);
+        const x=mod(rr(i,par)*(w+120)-sc*par*.85-t*10*par+sway,w+120)-60, y=mod(rr(i,par+5)*(h+40)+t*sp*(.7+rr(i,9)*.6),h+40)-20, rad=r*(.8+rr(i,4)*.5);
+        c.globalAlpha=al; c.fillStyle='#f6f9ff'; c.beginPath(); c.arc(x,y,rad,0,TAU); c.fill();
+        if(r>2){ c.strokeStyle='rgba(120,150,190,.55)'; c.lineWidth=1; c.stroke(); }
+      }
+    }
+    c.globalAlpha=1;
+  } else if(wx===3){   // FOG: haze + a thick bank near the ground + drifting wisps with parallax + you can only see well close to the bike
+    const fc=night?'60,72,112':'212,218,226', wc=night?'80,92,132':'226,231,237';
+    c.fillStyle='rgba('+fc+',.30)'; c.fillRect(0,0,w,h);
+    const gb=c.createLinearGradient(0,h*.3,0,h); gb.addColorStop(0,'rgba('+fc+',0)'); gb.addColorStop(1,'rgba('+fc+',.5)'); c.fillStyle=gb; c.fillRect(0,0,w,h);
+    for(let i=0;i<9;i++){
+      const par=.15+rr(i,1)*.5, rw=170+rr(i,2)*220, rh=rw*.22;
+      const x=mod(rr(i,3)*(w+2*rw)-sc*par-t*(6+rr(i,4)*10),w+2*rw)-rw, y=h*(.3+rr(i,5)*.6)+Math.sin(t*.2+i)*8;
+      c.save(); c.translate(x,y); c.scale(1,rh/rw);
+      const g=c.createRadialGradient(0,0,0,0,0,rw); g.addColorStop(0,'rgba('+wc+',.45)'); g.addColorStop(1,'rgba('+wc+',0)');
+      c.fillStyle=g; c.beginPath(); c.arc(0,0,rw,0,TAU); c.fill(); c.restore();
+    }
+    const R=Math.max(w,h)*.8, v=c.createRadialGradient(cx,cy,60,cx,cy,R);
+    v.addColorStop(0,'rgba('+fc+',0)'); v.addColorStop(.35,'rgba('+fc+',.35)'); v.addColorStop(1,'rgba('+fc+',.88)');
+    c.fillStyle=v; c.fillRect(0,0,w,h);
+  }
+  c.restore();
+}
+function drawLights(c,lt,bx,by,u,t,color,add){ // u = size of the vehicle relative to the game
+  if(!lt) return; c.save(); if(add) c.globalCompositeOperation='lighter';
   if(lt===1){ const g=c.createLinearGradient(bx+30*u,0,bx+380*u,0); g.addColorStop(0,'rgba(255,236,150,.55)'); g.addColorStop(1,'rgba(255,236,150,0)'); c.fillStyle=g;
     c.beginPath(); c.moveTo(bx+34*u,by-22*u); c.lineTo(bx+380*u,by-100*u); c.lineTo(bx+380*u,by+60*u); c.closePath(); c.fill(); }
   else { const col=lt===2?color:'hsl('+((t*120)%360)+',90%,55%)', g=c.createRadialGradient(bx,by+14*u,4*u,bx,by+14*u,95*u);
     g.addColorStop(0,col); g.addColorStop(1,'rgba(255,255,255,0)'); c.globalAlpha=.4; c.fillStyle=g; c.fillRect(bx-100*u,by-80*u,200*u,200*u); }
   c.restore();
 }
+// REAL night: the whole scene is multiplied by a dark blue layer. the layer has holes cut out for the headlamp, the area around the bike,
+// the moon and the stars, so only those places stay lit. (the sky itself is dark with stars + moon, see drawSky)
+let _nc=null;
+function nightPass(bx,by,lt,t){
+  const cw=Math.ceil(W), ch=Math.ceil(H);
+  if(!_nc) _nc=document.createElement('canvas');
+  if(_nc.width!==cw||_nc.height!==ch){ _nc.width=cw; _nc.height=ch; }
+  const n=_nc.getContext('2d');
+  n.globalCompositeOperation='source-over'; n.setTransform(1,0,0,1,0,0); n.clearRect(0,0,cw,ch);
+  n.fillStyle='rgb(84,96,166)'; n.fillRect(0,0,cw,ch);
+  n.globalCompositeOperation='destination-out';
+  // stars + moon stay bright, but only where they are in the sky (clipped to above the ground line)
+  n.save(); n.beginPath(); n.moveTo(-10,-10);
+  for(let sx=-10;sx<=W+10;sx+=16) n.lineTo(sx,terrainHeight(camX+sx,cfg)-camY);
+  n.lineTo(W+10,-10); n.closePath(); n.clip();
+  const N=nightStuff(W,H,t,camX*.015,1);
+  for(const q of N.st){ n.fillStyle='rgba(0,0,0,'+q.a.toFixed(2)+')'; n.beginPath(); n.arc(q.x,q.y,q.r+1,0,TAU); n.fill(); }
+  const mg=n.createRadialGradient(N.mx,N.my,N.R,N.mx,N.my,N.R*3.2); mg.addColorStop(0,'rgba(0,0,0,1)'); mg.addColorStop(1,'rgba(0,0,0,0)');
+  n.fillStyle=mg; n.fillRect(N.mx-N.R*3.2,N.my-N.R*3.2,N.R*6.4,N.R*6.4);
+  n.restore();
+  // light around the bike
+  const rad=lt>=2?210:150, g=n.createRadialGradient(bx,by,0,bx,by,rad); g.addColorStop(0,'rgba(0,0,0,'+(lt>=2?.85:.6)+')'); g.addColorStop(1,'rgba(0,0,0,0)');
+  n.fillStyle=g; n.fillRect(0,0,cw,ch);
+  // headlamp cone (the bike always has a lamp; the Beam light makes it much bigger and brighter)
+  n.save(); n.translate(bx,by); n.rotate(car.angle);
+  const L=lt===1?600:360, sp=lt===1?170:110, g2=n.createLinearGradient(30,0,L,0);
+  g2.addColorStop(0,'rgba(0,0,0,'+(lt===1?1:.85)+')'); g2.addColorStop(.6,'rgba(0,0,0,'+(lt===1?.55:.3)+')'); g2.addColorStop(1,'rgba(0,0,0,0)');
+  n.fillStyle=g2; n.beginPath(); n.moveTo(30,-14); n.lineTo(L,-14-sp*.5); n.lineTo(L,-14+sp); n.closePath(); n.fill();
+  n.restore();
+  ctx.save(); ctx.globalCompositeOperation='multiply'; ctx.drawImage(_nc,0,0,W,H); ctx.restore();
+}
 function drawEnv(){
   const m=selMods; if(!m.wx&&!m.dn&&!m.lt) return;
-  const t=performance.now()/1000, bx=car.x-camX, by=car.y-camY;
-  if(m.dn){ ctx.save(); const g=ctx.createRadialGradient(bx,by,60,bx,by,Math.max(W,H)*.75); g.addColorStop(0,'rgba(8,12,36,0)'); g.addColorStop(1,'rgba(8,12,36,.78)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); ctx.restore(); }
-  drawWeather(ctx,W,H,t,m.wx); drawLights(ctx,m.lt,bx,by,1,t,currentBike().color);
+  const t=performance.now()/1000, bx=car.x-camX, by=car.y-camY, night=!!m.dn;
+  if(night) nightPass(bx,by,m.lt,t);
+  if(m.wx) drawWeather(ctx,W,H,t,m.wx,{sc:camX,cx:bx,cy:by,night,gy:sx=>terrainHeight(camX+sx,cfg)-camY});
+  drawLights(ctx,m.lt,bx,by,1,t,currentBike().color,night);
 }
-// live weather + lights on the upgrades preview
+// live weather + night + lights on the upgrades preview
 let fxRaf=0;
 function previewFx(fx,cv,g,color){
-  cancelAnimationFrame(fxRaf); if(!g.wx&&!g.lt) return;
+  cancelAnimationFrame(fxRaf); if(!g.wx&&!g.lt&&!g.dn) return;
   const c=fx.getContext('2d');
   const tick=()=>{ if(!fx.isConnected||!fx.clientWidth) return;
     const w=fx.width=fx.clientWidth, h=fx.height=fx.clientHeight, t=performance.now()/1000, sc=Math.min(cv.clientWidth/620,cv.clientHeight/330), k=sc*3.93;
-    drawWeather(c,w,h,t,g.wx); drawLights(c,g.lt,cv.offsetLeft+cv.clientWidth/2,cv.offsetTop+(cv.clientHeight-330*sc)/2+330*sc*.74-15*k,k*.9,t,color);
+    const bx=cv.offsetLeft+cv.clientWidth/2, oy=cv.offsetTop+(cv.clientHeight-330*sc)/2+330*sc*.74;
+    if(g.dn) paintNightSky(c,w,h,t,0,.8);
+    if(g.wx) drawWeather(c,w,h,t,g.wx,{sc:t*140,cx:bx,cy:oy,night:!!g.dn,gy:()=>oy+17*k});
+    drawLights(c,g.lt,bx,oy-15*k,k*.9,t,color,!!g.dn);
     fxRaf=requestAnimationFrame(tick); };
   tick();
 }
@@ -4286,6 +4604,21 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
+  { v:'0.0.35', date:'Oct 21, 2026', items:[
+    'daily is now rewards: it still has your daily reward, and now you can also buy a spin on the wheel for coins or a speed boost',
+    'new inventory (top left of the upgrades shop): every new bike you buy goes in it, and you can equip any bike you own',
+    'every bike keeps its own speed level, stunt level, paint and accessories. a new bike starts at base speed and base stunt level, and accessories stay on the one bike they were put on',
+    'upgrades page 4: buy a stunt multiplier (flips and stunts) and an air time multiplier (hang time) for more coins'
+  ]},
+  { v:'0.0.34', date:'Oct 21, 2026', items:[
+    'save fix: an old tab (or an old cloud copy) can no longer overwrite your newer progress. a tab with older data now stops saving and asks you to reload',
+    'cloud save fix: it now remembers the last version it synced, only uploads if the cloud has not changed since, and asks you which save to keep if both changed. loading a cloud save keeps a backup of what it replaced',
+    'new: export save / import save buttons in settings, and the browser is asked to keep your save permanently',
+    'night is now real night: dark blue sky with stars and a moon, everything dim, and only your headlamp, the area around the bike and the moon stay lit (Beam lights make the lamp much stronger)',
+    'weather rebuilt: rain has 3 layers of slanted drops, splashes on the ground, a wet road and distant lightning. snow has swaying flakes in 3 depths and settles on the road. fog has drifting banks, a thick low layer and you only see well near the bike',
+    'profile pictures can no longer be uploaded photos. pick an emoji, gradient, color or letter instead',
+    'new sign-in page design'
+  ]},
   { v:'0.0.33', date:'Oct 12, 2026', items:[
     'the harder the special stunt, the bigger its red zone (the balance bar now scales with the stunt difficulty)',
     'the special stunts menu shows 5 stunts at a time (5, 5, 5, 5) and flips to the next group on its own when you move past the edge'
@@ -4373,7 +4706,7 @@ const FB_VERSION='10.12.2';
 const CONFIGURED=!!firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('YOUR_');
 
 const $=id=>document.getElementById(id);
-const META=['bike_check','bike_updatedAt','bike_cloudUid','bike_seenChangelog'];
+const META=['bike_check','bike_updatedAt','bike_cloudUid','bike_seenChangelog','bike_rev','bike_syncedAt','bike_syncedSig','bike_preAdopt'];
 const isSaveKey=k=>k&&k.startsWith('bike_')&&!META.includes(k);
 const ls=k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } };
 const lsw=(k,v)=>{ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } };
@@ -4504,8 +4837,8 @@ function renderAccount(){
 
 /* ---- local save snapshot helpers ---- */
 function snapshot(){
-  const o={};
-  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(isSaveKey(k)) o[k]=localStorage.getItem(k); } }catch(e){}
+  const o={}, ks=[];
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(isSaveKey(k)) ks.push(k); } ks.sort(); for(const k of ks) o[k]=localStorage.getItem(k); }catch(e){}
   return o;
 }
 function arr(s,k){ try{ const a=JSON.parse(s[k]||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
@@ -4518,39 +4851,56 @@ function hasProgress(s){
 function objOf(s,k){ try{ const o=JSON.parse(s[k]||'{}'); return o&&typeof o==='object'&&!Array.isArray(o)?o:{}; }catch(e){ return {}; } }
 function summary(s){ return 'level '+(parseInt(s.bike_level||'1',10)||1)+' · '+(parseInt(s.bike_wallet||'0',10)||0)+' coins'; }
 
-/* load a cloud save into this device, then reload so the game starts from it */
+const hashStr=s=>{ let h=5381; for(let i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))|0; return h+':'+s.length; };
+/* load a cloud save (or an imported file) into this device, then reload so the game starts from it.
+   what it replaces is kept in bike_preAdopt, and if writing fails half way the old save is put back */
 function adopt(snap,ts,uid){
   window.__bikeAdopting=true;
+  let old={};
   try{
-    const rm=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(isSaveKey(k)) rm.push(k); }
-    rm.forEach(k=>localStorage.removeItem(k));
+    old=snapshot();
+    try{ localStorage.setItem('bike_preAdopt',JSON.stringify(old)); }catch(e){}
+    Object.keys(old).forEach(k=>localStorage.removeItem(k));
     for(const [k,v] of Object.entries(snap)) if(isSaveKey(k)&&typeof v==='string') localStorage.setItem(k,v);
     localStorage.setItem('bike_updatedAt',String(ts));
-    localStorage.setItem('bike_cloudUid',uid);
-  }catch(e){ window.__bikeAdopting=false; return false; }
+    localStorage.setItem('bike_rev',Date.now().toString(36)+Math.random().toString(36).slice(2,6));   // every other open tab is now stale
+    if(uid){ localStorage.setItem('bike_cloudUid',uid); localStorage.setItem('bike_syncedAt',String(ts)); localStorage.setItem('bike_syncedSig',hashStr(JSON.stringify(snapshot()))); }
+  }catch(e){
+    try{ Object.keys(snapshot()).forEach(k=>localStorage.removeItem(k)); for(const [k,v] of Object.entries(old)) localStorage.setItem(k,v); }catch(x){}
+    window.__bikeAdopting=false; return false;
+  }
   location.reload(); return true;
 }
 
-/* ---- pushing local → cloud ---- */
-async function pushNow(){
+/* ---- pushing local -> cloud ----
+   a push only goes through if the cloud still holds the version this device last synced. if someone else changed it, we
+   never overwrite it blindly: runSync() asks which save to keep. force=true is only used after you chose "keep this device's". */
+async function pushNow(force){
   if(!user||!synced||!db) return;
   if(pushing){ pushAgain=true; return; }
   pushing=true; const u=user; clearTimeout(retryTimer); setStatus('syncing…');
+  let conflict=false;
   try{
-    const ts=Number(ls('bike_updatedAt'))||Date.now();
-    await fb.setDoc(fb.doc(db,'saves',u.uid),{json:JSON.stringify(snapshot()),updatedAt:ts});
-    if(user&&user.uid===u.uid){ lsw('bike_cloudUid',u.uid); setStatus('synced to your account'); pushBoard(); }
+    const ref=fb.doc(db,'saves',u.uid);
+    if(force!==true){ const s=await fb.getDoc(ref); if(s.exists()&&(Number(s.data().updatedAt)||0)!==(Number(ls('bike_syncedAt'))||0)) conflict=true; }
+    if(!conflict){
+      const snap=snapshot(), ts=Date.now();
+      await fb.setDoc(ref,{json:JSON.stringify(snap),updatedAt:ts});
+      if(user&&user.uid===u.uid){ lsw('bike_cloudUid',u.uid); lsw('bike_syncedAt',String(ts)); lsw('bike_syncedSig',hashStr(JSON.stringify(snap))); setStatus('synced to your account'); pushBoard(); }
+    }
   }catch(e){
     console.warn('cloud save failed',e);
     if(user&&user.uid===u.uid){ setStatus("couldn't sync · retrying"); retryTimer=setTimeout(pushNow,30000); }
   }finally{
-    pushing=false; if(pushAgain){ pushAgain=false; pushNow(); }
+    pushing=false;
+    if(conflict&&user&&user.uid===u.uid){ synced=false; runSync(u); }
+    else if(pushAgain){ pushAgain=false; pushNow(); }
   }
 }
 function scheduleSync(){
   if(!user||!synced||pushTimer) return;
   setStatus('unsynced changes…');
-  pushTimer=setTimeout(()=>{ pushTimer=null; pushNow(); },4000);   // cloud save follows a local change within ~4s
+  pushTimer=setTimeout(()=>{ pushTimer=null; pushNow(); },6000);   // cloud save follows a local change within ~6s
 }
 function flush(){ if(pushTimer){ clearTimeout(pushTimer); pushTimer=null; } pushNow(); }
 window.__bikeCloud={ dirty:scheduleSync };
@@ -4588,27 +4938,46 @@ async function runSync(u){
   if(!user||user.uid!==u.uid) return;
 
   let cloudSnap=null; try{ cloudSnap=cloud&&JSON.parse(cloud.json); }catch(e){}
-  if(!cloud||!cloudSnap||typeof cloudSnap!=='object'){ synced=true; await pushNow(); return; } // nothing usable in the cloud yet → upload this device
+  if(!cloud||!cloudSnap||typeof cloudSnap!=='object'){ synced=true; await pushNow(true); return; } // nothing usable in the cloud yet -> upload this device
 
-  const cts=Number(cloud.updatedAt)||0, localTs=Number(ls('bike_updatedAt'))||0;
-  const linked=ls('bike_cloudUid')===u.uid;
-  const deviceSnap=snapshot();
-
-  if(linked){ // this device was already syncing with this account: newest wins
-    if(cts>localTs){ if(!adopt(cloudSnap,cts,u.uid)) setStatus('browser storage is blocked'); return; }
-    synced=true; if(localTs>cts) pushNow(); else setStatus('synced to your account');
-    return;
+  const cts=Number(cloud.updatedAt)||0, linked=ls('bike_cloudUid')===u.uid;
+  const syncedAt=Number(ls('bike_syncedAt'))||0, lastSig=ls('bike_syncedSig');
+  const deviceSnap=snapshot(), devSig=hashStr(JSON.stringify(deviceSnap));
+  const cloudSorted={}; Object.keys(cloudSnap).filter(isSaveKey).sort().forEach(k=>{ cloudSorted[k]=cloudSnap[k]; });
+  if(hashStr(JSON.stringify(cloudSorted))===devSig){   // identical: nothing to decide
+    lsw('bike_cloudUid',u.uid); lsw('bike_syncedAt',String(cts)); lsw('bike_syncedSig',devSig);
+    synced=true; setStatus('synced to your account'); return;
   }
-  if(!hasProgress(deviceSnap)){ // fresh device → just take the cloud save
+  if(linked&&lastSig){   // this device has synced with this account before
+    const dirty=devSig!==lastSig;                       // changed on this device since the last sync?
+    if(cts===syncedAt){ synced=true; if(dirty) pushNow(); else setStatus('synced to your account'); return; }   // cloud untouched: ours is simply newer
+    if(!dirty){ if(!adopt(cloudSnap,cts,u.uid)) setStatus('browser storage is blocked'); return; }             // cloud changed elsewhere, this device did not: take the cloud
+    // both changed: fall through and ask
+  } else if(!hasProgress(deviceSnap)){                  // fresh device -> just take the cloud save
     if(!adopt(cloudSnap,cts,u.uid)) setStatus('browser storage is blocked');
     return;
   }
-  const pick=await askWhich(cloudSnap,deviceSnap); // both have progress → let the player choose
+  const pick=await askWhich(cloudSnap,deviceSnap);       // both have progress -> let the player choose
   if(!user||user.uid!==u.uid) return;
   if(pick==='cloud'){ if(!adopt(cloudSnap,cts,u.uid)) setStatus('browser storage is blocked'); }
-  else if(pick==='device'){ lsw('bike_updatedAt',String(Date.now())); synced=true; pushNow(); }
+  else if(pick==='device'){ synced=true; pushNow(true); }
   else signOut();
 }
+
+/* ---- export / import a save file (a backup you control) ---- */
+$('exportSave').onclick=()=>{
+  const b=new Blob([JSON.stringify(snapshot())],{type:'application/json'}), a=document.createElement('a');
+  a.href=URL.createObjectURL(b); a.download='bike-save.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+};
+$('importSave').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    const o=JSON.parse(await f.text()); if(!o||typeof o!=='object'||Array.isArray(o)||!Object.keys(o).some(isSaveKey)) throw new Error('bad');
+    if(!confirm('replace the save on this device with this file?')) return;
+    if(!adopt(o,Date.now(),null)) alert("couldn't write to browser storage");
+  }catch(x){ alert("that file isn't a bike save"); }
+};
 
 /* ---- sign in / out (sign-in happens on its own page: signin.html) ---- */
 function openAuth(){
@@ -4620,7 +4989,7 @@ async function signOut(){
   if(pushTimer){ clearTimeout(pushTimer); pushTimer=null; }
   try{ if(synced) await pushNow(); }catch(e){}
   clearTimeout(retryTimer); profile=null;
-  try{ localStorage.removeItem('bike_cloudUid'); }catch(e){}
+  try{ ['bike_cloudUid','bike_syncedAt','bike_syncedSig'].forEach(k=>localStorage.removeItem(k)); }catch(e){}
   try{ await fb.signOut(auth); }catch(e){ console.warn(e); }
 }
 btnIn.onclick=openAuth; outBtn.onclick=signOut;
@@ -4658,10 +5027,6 @@ function readPhoto(file){
     im.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error('bad image')); }; im.src=u;
   });
 }
-$('pfUpload').onclick=()=>$('pfFile').click();
-$('pfFile').onchange=async e=>{ const f=e.target.files[0]; e.target.value=''; if(!f) return;
-  try{ pfPhoto=await readPhoto(f); pfAvatar(); setHint('pfNameHint',''); }catch(err){ setHint('pfNameHint',"couldn't use that picture. Try a different image",'err'); } };
-$('pfNoPic').onclick=()=>{ pfPhoto=null; pfAvatar(); };
 $('pfHandle').addEventListener('input',e=>{ e.target.value=e.target.value.toLowerCase().replace(/[^a-z0-9_]/g,''); pfAvatar(); clearTimeout(pfTimer); pfTimer=setTimeout(pfCheckHandle,400); });
 $('pfName').addEventListener('input',pfAvatar);
 ['pfHandle','pfName'].forEach(i=>$(i).addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); $('pfSave').click(); } }));
