@@ -470,6 +470,13 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   font-size:12px;letter-spacing:.5px;cursor:pointer;color:#111;transition:transform .15s,background .15s,color .15s;}
 #rocketBtn:hover:not(:disabled){background:#111;color:#fff;transform:translateY(-2px);}
 #rocketBtn:disabled{opacity:.5;cursor:default;}
+#throwBtn{position:absolute;left:16px;bottom:60px;z-index:3;padding:9px 16px;border:1px solid #1d3fa8;border-radius:20px;background:rgba(255,255,255,.85);font-size:12px;letter-spacing:.5px;cursor:pointer;color:#1d3fa8;white-space:nowrap;max-width:60vw;overflow:hidden;text-overflow:ellipsis;transition:transform .15s,background .15s,color .15s;}
+#throwBtn:hover:not(:disabled){background:#1d3fa8;color:#fff;transform:translateY(-2px);}
+#throwBtn:disabled{opacity:.5;cursor:default;}
+#copAlert{position:absolute;top:64px;left:50%;transform:translateX(-50%);z-index:5;pointer-events:none;font-size:14px;font-weight:800;letter-spacing:1px;color:#fff;padding:8px 18px;border-radius:16px;white-space:nowrap;background:#d11;box-shadow:0 4px 18px rgba(0,0,0,.25);animation:copFlash .35s steps(1) infinite;}
+#copAlert.hidden{display:none;}
+@keyframes copFlash{0%{background:#d11;}50%{background:#1d54e0;}100%{background:#d11;}}
+@media (max-width:700px){#copAlert{top:150px;font-size:12px;}}
 
 /* ===== account (google sign-in, optional) ===== */
 #acctRow{display:flex;align-items:center;justify-content:flex-end;gap:8px;max-width:100%;}
@@ -679,11 +686,10 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 @keyframes stConf{0%{opacity:1;transform:translate(0,0) rotate(0) scale(.6);}70%{opacity:1;}100%{opacity:0;transform:translate(var(--dx),calc(var(--dy) + 260px)) rotate(var(--rot)) scale(1);}}
 
 /* ===== daily rewards ===== */
-#startScreen #dailyBtn{position:absolute;top:14px;left:16px;z-index:2;font-family:var(--mono);}
-@media (max-width:520px){#startScreen #dailyBtn{top:10px;left:10px;}}
+#startScreen #settingsBtn{position:absolute;top:14px;left:16px;z-index:2;font-family:var(--mono);}
+@media (max-width:520px){#startScreen #settingsBtn{top:10px;left:10px;}}
 .action-btn.ready{border-color:#111 !important;animation:dailyPulse 1.6s ease-in-out infinite;}
 @keyframes dailyPulse{0%,100%{box-shadow:0 0 0 0 rgba(47,111,237,0);}50%{box-shadow:0 0 0 6px rgba(47,111,237,.2);}}
-#dailyModal .modal-card{max-width:560px;max-height:min(90vh,820px);}
 .dy-big{font-size:28px;font-weight:800;letter-spacing:-.8px;margin-top:6px;}
 .dy-sub{font-size:11.5px;color:#777;line-height:1.6;margin:4px 0 6px;}
 .dy-sub.warn{color:#b26a00;font-weight:600;}
@@ -733,10 +739,54 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 /* ===== rewards: daily reward + spin the wheel ===== */
 .dy-sec{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#9a9a9a;font-weight:700;margin:2px 0 0;}
 .dy-divider{height:1px;background:rgba(0,0,0,.08);margin:18px 0 14px;}
-.dy-wheel-wrap{position:relative;width:min(250px,70vw);aspect-ratio:1;margin:16px auto 12px;}
-.dy-wheel{width:100%;height:100%;display:block;border-radius:50%;box-shadow:0 8px 22px rgba(0,0,0,.18),0 0 0 5px #fff,0 0 0 6px rgba(0,0,0,.12);}
-.dy-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:22px solid #111;z-index:2;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));}
-.dy-hub{position:absolute;top:50%;left:50%;width:36px;height:36px;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(135deg,#1a1a1a,#000);color:#ffd24d;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 4px #fff,var(--shadow-sm);z-index:1;}
+#rewardsPanel{align-items:stretch;justify-content:flex-start;padding:0;gap:0;}
+#rewardsBody{flex:1;min-height:0;overflow-y:auto;width:100%;max-width:1220px;margin:0 auto;padding:18px 20px 48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;align-content:start;align-items:start;}
+.rw-card{background:#fff;border-radius:22px;box-shadow:var(--shadow-sm);padding:20px 20px 22px;position:relative;min-width:0;}
+.rw-card .dy-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+@media (max-width:520px){#rewardsPanel .shop-header{padding:20px 56px 14px;} #rewardsBody{padding:12px 12px 40px;gap:12px;} .rw-card{padding:16px 14px 18px;border-radius:18px;}}
+/* prize wheel: a chrome bezel with bulbs, a painted face with pegs, a glass sheen, a metal hub and a flapper that flicks over every peg */
+.rw-stage{position:relative;width:min(420px,100%);aspect-ratio:1;margin:30px auto 18px;}
+.rw-shadow{position:absolute;left:10%;right:10%;bottom:-6%;height:9%;background:radial-gradient(ellipse at center,rgba(0,0,0,.4),rgba(0,0,0,0) 70%);filter:blur(4px);}
+.rw-frame{position:absolute;inset:0;border-radius:50%;background:conic-gradient(#f4f6fa,#9aa3b2,#ffffff,#8a93a3,#f4f6fa,#9aa3b2,#ffffff,#8a93a3,#f4f6fa);box-shadow:0 12px 26px rgba(0,0,0,.35),inset 0 0 0 2px rgba(255,255,255,.6);}
+.rw-frame::before{content:'';position:absolute;inset:3.2%;border-radius:50%;background:radial-gradient(circle at 35% 22%,#43306b,#1a1030 72%);box-shadow:inset 0 4px 10px rgba(0,0,0,.65),inset 0 -2px 4px rgba(255,255,255,.14);}
+.rw-bulb{position:absolute;width:3.5%;height:3.5%;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 35% 30%,#fff,#ffe27a 45%,#c98a00);box-shadow:0 0 9px 2px rgba(255,214,90,.85);animation:rwBulb 1s linear infinite;}
+.rw-bulb.b{animation-delay:.5s;}
+.rw-stage.spin .rw-bulb{animation-duration:.24s;}
+@keyframes rwBulb{0%,49%{opacity:1;}50%,100%{opacity:.28;box-shadow:0 0 2px 0 rgba(255,214,90,.3);}}
+.rw-face{position:absolute;left:9.5%;top:9.5%;width:81%;height:81%;border-radius:50%;box-shadow:0 0 0 2px rgba(0,0,0,.55);will-change:transform;}
+.rw-gloss{position:absolute;left:9.5%;top:9.5%;width:81%;height:81%;border-radius:50%;pointer-events:none;background:radial-gradient(ellipse 62% 40% at 34% 20%,rgba(255,255,255,.34),rgba(255,255,255,0) 72%),radial-gradient(circle at 50% 50%,rgba(0,0,0,0) 60%,rgba(0,0,0,.24) 100%);}
+.rw-hub{position:absolute;left:50%;top:50%;width:17%;height:17%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff7d1,#e6b94a 42%,#8a6212 100%);box-shadow:0 5px 11px rgba(0,0,0,.55),inset 0 -3px 5px rgba(0,0,0,.35),0 0 0 4px #20263a,0 0 0 6px #caa84a;display:flex;align-items:center;justify-content:center;color:#5a3b00;font-size:clamp(14px,4.2vw,26px);text-shadow:0 1px 0 rgba(255,255,255,.6);z-index:2;}
+.rw-flap{position:absolute;left:50%;top:-5.5%;width:10%;height:16%;margin-left:-5%;transform-origin:50% 26%;z-index:3;filter:drop-shadow(0 3px 3px rgba(0,0,0,.5));will-change:transform;}
+/* crates */
+.rw-crate{width:min(150px,45vw);aspect-ratio:140/130;margin:14px auto 4px;}
+.rw-crate{margin-top:34px;} .rw-crate .cr-lid{transform-origin:20px 58px;transition:transform .55s cubic-bezier(.3,1.5,.5,1);}
+.rw-crate .cr-glow{opacity:0;transition:opacity .4s ease;}
+.rw-crate.open .cr-lid{transform:translate(-10px,-12px) rotate(-34deg);}
+.rw-crate.open .cr-glow{opacity:1;}
+.rw-crate.shake{animation:crShake .42s ease-in-out infinite;}
+@keyframes crShake{0%,100%{transform:translateX(0) rotate(0);}20%{transform:translateX(-5px) rotate(-4deg);}40%{transform:translateX(5px) rotate(4deg);}60%{transform:translateX(-4px) rotate(-3deg);}80%{transform:translateX(4px) rotate(3deg);}}
+.rw-cres{display:none;text-align:center;border-radius:16px;padding:12px 10px;margin:6px 0 12px;}
+.rw-cres.show{display:block;animation:rwPop .5s cubic-bezier(.2,1.4,.4,1);}
+.rw-cres.hi{background:linear-gradient(135deg,#fff6d6,#e9ffe0);border:1.6px solid #e6a817;}
+.rw-cres.lo{background:#f3f4f7;border:1.6px solid #d9dce3;}
+.rw-cico{font-size:40px;line-height:1.1;}
+.rw-ctitle{font-size:17px;font-weight:800;letter-spacing:-.4px;margin-top:2px;}
+.rw-csub{font-size:11px;color:#666;margin-top:3px;line-height:1.5;}
+.rw-cbadge{display:inline-block;margin-top:7px;font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:3px 10px;border-radius:999px;}
+.rw-cres.hi .rw-cbadge{background:#12a150;color:#fff;} .rw-cres.lo .rw-cbadge{background:#9aa0aa;color:#fff;}
+@keyframes rwPop{0%{transform:scale(.5);opacity:0;}100%{transform:scale(1);opacity:1;}}
+.rw-crow{display:flex;align-items:center;gap:8px;margin:8px 0 6px;}
+.rw-crow input{flex:1;min-width:0;padding:11px 14px;border:1.6px solid #d9dce3;border-radius:12px;font-size:16px;font-weight:700;font-family:inherit;background:#fff;color:#111;outline:none;}
+.rw-crow input:focus{border-color:#111;}
+.rw-cunit{font-size:11px;color:#777;}
+.rw-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;}
+.rw-chip{padding:6px 12px;border:1.4px solid #d9dce3;border-radius:999px;background:#fff;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:#111;transition:background .15s,color .15s;}
+.rw-chip:hover{background:#111;color:#fff;}
+.rw-inv{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+.rw-irow{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1.4px solid #e3e3e1;border-radius:12px;padding:8px 10px;background:#fafafa;}
+.rw-iname{font-size:12.5px;font-weight:700;}
+.rw-iopen{padding:6px 14px;border:none;border-radius:999px;background:#111;color:#fff;font-size:11px;font-family:inherit;cursor:pointer;}
+.rw-iopen:disabled{background:#e6e8ec;color:#9aa0aa;cursor:default;}
 .dy-wheelmsg{text-align:center;}
 
 /* ===== upgrades: inventory + page 4 (multipliers) ===== */
@@ -778,6 +828,56 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 }
 .lab-preview.night .lab-canvas{filter:brightness(.6) saturate(.9) contrast(1.05);}
 .lab-preview.night .lab-bname{color:#e8ecff;}
+/* ===== v0.0.40: crate prize buttons + quests + quest popup ===== */
+.rw-cact{display:flex;gap:8px;margin-top:10px;} .rw-cact .dy-claim{flex:1;padding:11px 8px;font-size:11px;letter-spacing:1px;}
+.rw-cact .rw-sell{background:#12a150;}
+#questBody{grid-column:1 / -1;}
+.qs-cnt{font-weight:800;color:#444;}
+.qs-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
+.qs-tab{padding:7px 12px;border:1.4px solid #d8d8d6;border-radius:999px;background:#fff;color:#333;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.5px;cursor:pointer;}
+.qs-tab.on{background:#111;color:#fff;border-color:#111;} .qs-n{opacity:.65;font-weight:600;margin-left:2px;}
+.qs-list{display:flex;flex-direction:column;max-height:340px;overflow-y:auto;border:1.4px solid #e6e6e4;border-radius:14px;background:#fff;}
+.qs-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #eee;} .qs-row:last-child{border-bottom:none;}
+.qs-row.on{background:var(--accent-soft);}
+.qs-emo{font-size:20px;flex:none;width:26px;text-align:center;} .qs-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.qs-name{font-size:13px;font-weight:800;} .qs-desc{font-size:11.5px;color:#666;line-height:1.4;} .qs-prog{font-size:10.5px;font-weight:700;color:#444;}
+.qs-tag{display:inline-block;margin-left:6px;font-size:9.5px;font-weight:700;color:#777;background:#eee;border-radius:999px;padding:1px 7px;letter-spacing:.3px;}
+.qs-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.qs-rw{font-size:11px;font-weight:800;color:#b26a00;background:#fff4d6;border-radius:999px;padding:3px 9px;}
+.qs-btn{padding:7px 14px;border:none;border-radius:999px;background:#111;color:#fff;font-family:inherit;font-size:11px;letter-spacing:.6px;cursor:pointer;}
+.qs-btn.off{background:#fff;color:#111;border:1.4px solid #d2d2d0;}
+/* ===== v0.0.41: full screen crate opening ===== */
+.rw-cact .dy-claim.rw-keep{background:#12a150;} .rw-cact .dy-claim.rw-sell{background:#d62839;}
+#cfx{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(4,5,10,0);transition:background .6s ease,opacity .35s ease;overflow:hidden;}
+#cfx.in{background:rgba(4,5,10,.93);} #cfx.out{opacity:0;}
+.cfx-stage{position:relative;width:min(92vw,520px);height:min(92vh,640px);display:flex;align-items:center;justify-content:center;}
+#cfx .cfx-crate{position:absolute;width:min(300px,70vw);margin:0;transition:transform .5s ease,opacity .5s ease;transform:scale(.4);opacity:0;}
+#cfx.in .cfx-crate{transform:scale(1);opacity:1;transition:transform 1s cubic-bezier(.2,1.3,.4,1),opacity .6s;}
+#cfx.env .cfx-crate{transform:translateY(120px) scale(.7);opacity:0;}
+.cfx-flash{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,236,160,.95),rgba(255,200,60,0) 68%);opacity:0;transform:scale(.3);pointer-events:none;}
+#cfx.flash .cfx-flash{animation:cfxFlash 1s ease-out forwards;}
+@keyframes cfxFlash{0%{opacity:0;transform:scale(.3);}25%{opacity:1;}100%{opacity:0;transform:scale(2.2);}}
+.cfx-env{position:absolute;width:300px;height:200px;opacity:0;transform:translateY(160px) scale(.6);transition:transform .9s cubic-bezier(.2,1.2,.4,1),opacity .5s;perspective:900px;}
+#cfx.env .cfx-env{opacity:1;transform:translateY(40px) scale(1);}
+#cfx.card .cfx-env{transform:translateY(90px) scale(1);}
+.cfx-eback,.cfx-efront,.cfx-eflap{position:absolute;inset:0;}
+.cfx-eback{background:#d9c58f;border-radius:8px;z-index:0;box-shadow:0 20px 50px rgba(0,0,0,.6);}
+.cfx-efront{z-index:3;background:linear-gradient(#f1e2b3,#e6d199);clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);border-radius:0 0 8px 8px;}
+.cfx-eflap{z-index:4;background:linear-gradient(#ecd9a0,#d3bd84);clip-path:polygon(0 0,100% 0,50% 60%);transform-origin:50% 0;transition:transform .7s ease;backface-visibility:visible;}
+#cfx.flap .cfx-eflap{transform:rotateX(180deg);z-index:1;background:linear-gradient(#d3bd84,#c4ad72);transition:transform .7s ease,z-index 0s .35s;}
+.cfx-card{position:absolute;left:18px;right:18px;top:12px;height:182px;z-index:2;background:#fff;border-radius:14px;text-align:center;padding:14px 10px 0;overflow:hidden;transform:translateY(0);transition:transform 1s cubic-bezier(.25,.8,.3,1),box-shadow .6s ease .4s;box-shadow:none;color:#111;}
+.cfx-card.hi{background:linear-gradient(#fffbe8,#ffeeb0);}
+#cfx.card .cfx-card{box-shadow:0 6px 22px rgba(0,0,0,.35);} #cfx.card .cfx-card.hi{box-shadow:0 0 36px rgba(255,210,70,.9);}
+#cfx.card .cfx-card{transform:translateY(-150px);}
+.cfx-ico{font-size:40px;line-height:1.1;} .cfx-t{font-size:17px;line-height:1.2;font-weight:800;margin-top:4px;} .cfx-s{font-size:12px;color:#666;margin-top:3px;} .cfx-b{font-size:11px;font-weight:800;letter-spacing:.6px;margin-top:8px;color:#444;}
+.cfx-btns{position:absolute;bottom:4%;left:0;right:0;display:flex;gap:14px;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s;}
+#cfx.btns .cfx-btns{opacity:1;pointer-events:auto;}
+.cfx-btn{min-width:140px;padding:15px 22px;border:none;border-radius:999px;color:#fff;font-family:inherit;font-size:14px;font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.5);transition:transform .15s;}
+.cfx-btn:hover{transform:translateY(-2px);} .cfx-btn.keep{background:#12a150;} .cfx-btn.sell{background:#d62839;}
+#questAlert{position:absolute;top:104px;left:50%;transform:translateX(-50%);z-index:7;pointer-events:none;max-width:92vw;text-align:center;padding:10px 22px;border-radius:18px;font-size:14px;font-weight:800;letter-spacing:.4px;color:#3b2a00;background:linear-gradient(135deg,#fff1b8,#ffd24d);border:2px solid #e0a800;box-shadow:0 8px 24px rgba(224,168,0,.45);animation:qPop .45s cubic-bezier(.2,1.4,.4,1);}
+#questAlert small{display:block;font-size:11px;font-weight:700;opacity:.8;margin-top:2px;}
+@keyframes qPop{from{opacity:0;transform:translate(-50%,-14px) scale(.8);}to{opacity:1;transform:translate(-50%,0) scale(1);}}
+@media (max-width:700px){#questAlert{top:196px;font-size:12.5px;}}
 </style>
 </head>
 <body>
@@ -796,6 +896,9 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   <div id="wheelieBar" class="hidden"><div id="wbTrack"><div id="wbMark"></div></div><div id="wbHint">A / D to balance</div></div>
   <div id="balanceMsg" class="hidden">LOST BALANCE!</div>
   <button id="rocketBtn" class="hidden" tabindex="-1">🚀 rockets</button>
+  <button id="throwBtn" class="hidden" tabindex="-1">🍌 throw</button>
+  <div id="copAlert" class="hidden"></div>
+  <div id="questAlert" class="hidden"></div>
   <div id="levelUpBanner" class="hidden"><div id="levelUpText">LEVEL 1</div></div>
 
   <div id="crash">
@@ -807,7 +910,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 
   <div class="screen" id="startScreen">
     <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
-  <button class="action-btn" id="dailyBtn" type="button">rewards</button>
+  <button class="action-btn" id="settingsBtn">settings</button>
     <div id="menuTint"></div><div id="menuLights"><i></i><i></i></div>
   <div id="accountBox">
    <div id="acctRow">
@@ -835,9 +938,9 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
       <button class="mode-btn" data-mode="police">🚓 police</button>
     </div>
     <button class="start-btn" id="startBtn">play</button>
-    <div class="settings-row"><button class="action-btn" id="settingsBtn">settings</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="stuntsBtn">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
+    <div class="settings-row"><button class="action-btn" id="dailyBtn" type="button">rewards</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="stuntsBtn">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div><div class="level-pill" id="menuHoursTag">0s played</div></div>
-    <div class="ver">v.0.0.34 (alpha)</div>
+    <div class="ver">v.0.0.41 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -925,13 +1028,17 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     </div>
   </div>
 
-  <div class="modal-back hidden" id="dailyModal" role="dialog" aria-modal="true" aria-labelledby="dyTitle">
-    <div class="modal-card">
-      <button class="close-x" id="closeDaily" aria-label="close">✕</button>
+  <div class="panel hidden" id="rewardsPanel" role="dialog" aria-modal="true" aria-labelledby="dyTitle">
+    <button class="close-x" id="closeDaily" aria-label="close">✕</button>
+    <div class="shop-header">
       <h2 id="dyTitle">rewards</h2>
-      <div id="dailyBody"></div>
-      <div class="dy-divider"></div>
-      <div id="wheelBody"></div>
+      <div id="rewardsWalletTag" class="wallet-pill">0c</div>
+    </div>
+    <div id="rewardsBody">
+      <div class="rw-card" id="dailyBody"></div>
+      <div class="rw-card" id="wheelBody"></div>
+      <div class="rw-card" id="crateBody"></div>
+      <div class="rw-card" id="questBody"></div>
     </div>
   </div>
 
@@ -994,7 +1101,7 @@ try{ const sv=JSON.parse(lsGet('bike_settings','{}'))||{}; for(const k of ['grid
 // menu panels: the start screen is hidden while any panel is open (it used to stay active underneath),
 // and comes back when the panel closes
 const startScreenEl=document.getElementById('startScreen');
-const PANEL_IDS=['profilePanel','settingsPanel','upgradesPanel','gearPanel','stuntsPanel','lbPanel'];
+const PANEL_IDS=['profilePanel','settingsPanel','upgradesPanel','gearPanel','stuntsPanel','lbPanel','rewardsPanel'];
 function openPanel(id){ startScreenEl.classList.add('hidden'); document.getElementById(id).classList.remove('hidden'); }
 function closePanel(id){
   document.getElementById(id).classList.add('hidden');
@@ -1025,7 +1132,7 @@ const modeConfig={
   easy:{bumpAmp:18,bumpFreq:.008,jumpChance:.10,cliffChance:.08,pitChance:.2,accel:.24,gravity:.55,speedCap:32},
   regular:{bumpAmp:26,bumpFreq:.010,jumpChance:.16,cliffChance:.12,pitChance:.4,accel:.26,gravity:.55,speedCap:38},
   hard:{bumpAmp:36,bumpFreq:.013,jumpChance:.24,cliffChance:.18,pitChance:.6,accel:.28,gravity:.58,speedCap:46},
-  chaos:{bumpAmp:50,bumpFreq:.018,jumpChance:.36,cliffChance:.26,pitChance:.8,pitGap:.5,accel:.32,gravity:.8,speedCap:56},   // chaos: pit slots every ~250m instead of ~500m (2x the pits) and heavier gravity
+  chaos:{bumpAmp:62,bumpFreq:.022,jumpChance:.46,cliffChance:.26,pitChance:1,pitGap:.38,pitWidthMul:1.25,pitHeightMul:1.25,jumpGapMul:.75,jumpHeightMul:1.15,accel:.32,gravity:.9,speedCap:56},   // chaos (harder): a pit slot every ~190m and EVERY slot is a pit (wider and deeper), rougher road, more and taller ramps packed closer together, heavier gravity
   police:{bumpAmp:18,bumpFreq:.008,jumpChance:.10,cliffChance:.08,pitChance:.2,accel:.24,gravity:.55,speedCap:32} // police plays like easy
 };
 // harder modes pay more coins (stunts and skills), and the MENU gets redder the closer the mode is to chaos (the game itself is never tinted)
@@ -1121,10 +1228,10 @@ function ensureJumps(uptoX,cfg){
   let x=Math.max(last,400);
   while(x<uptoX+1200){
     const lvl=levelScale(), spacingBonus=lvl===1?400:(lvl-1)*260;
-    x+=500+spacingBonus+Math.random()*(700+spacingBonus);
+    x+=(500+spacingBonus+Math.random()*(700+spacingBonus))*(cfg.jumpGapMul||1);
     if(Math.random()<cfg.jumpChance){
       const heightMul=1+0.05*(lvl-1);
-      const width=170+Math.random()*190,height=(75+Math.random()*110)*heightMul;
+      const width=170+Math.random()*190,height=(75+Math.random()*110)*heightMul*(cfg.jumpHeightMul||1);
       if(!overlapsAny(cliffs,x-250,x+width+250)) jumps.push({x1:x,x2:x+width,height}); x+=width;
     }
   }
@@ -1141,7 +1248,7 @@ function ensureCliffs(uptoX,cfg){
     pitFront=x;
     if(Math.random()<Math.min(1,cfg.pitChance*(1+0.25*(lvl-1)))){
       const heightMul=1+0.05*(lvl-1);
-      const width=140+Math.random()*170,height=(55+Math.random()*95)*heightMul;
+      const width=(140+Math.random()*170)*(cfg.pitWidthMul||1),height=(55+Math.random()*95)*heightMul*(cfg.pitHeightMul||1);
       if(!overlapsAny(jumps,x-250,x+width+250)){ cliffs.push({x1:x,x2:x+width,height}); x+=width; pitFront=x; }
     }
   }
@@ -1161,7 +1268,7 @@ function updatePlayTags(){
 }
 function savePlay(){ playSaved=playSecs; lsSet('bike_playSecs',String(playSecs)); updatePlayTags(); }
 addEventListener('pagehide',savePlay); document.addEventListener('visibilitychange',()=>{ if(document.hidden) savePlay(); });
-function levelScale(){ return Math.min(level,10); } // difficulty scaling stops growing at level 10
+function levelScale(){ return (mode==='police'&&!trainMode)?1:Math.min(level,10); }   // police is one continuous run: the map never gets harder with levels // difficulty scaling stops growing at level 10
 // one-time cleanup: drop the old persisted key from earlier versions so it can't cause
 // confusion if this code is ever changed back to read it.
 try{ localStorage.removeItem('bike_bestLevel'); }catch(e){}
@@ -1179,10 +1286,11 @@ function hslToHex(h,s,l){
 const NAME_POOL=['Starter','Ember','Cobalt','Meadow','Violet','Blaze','Teal','Gold','Crimson','Azure',
   'Jade','Amber','Storm','Neon','Solar','Frost','Volt','Rogue','Nova','Onyx'];
 NAME_POOL.push('Aurora','Basalt','Cinder','Dusk','Echo','Flare','Glacier','Halo','Iris','Jolt','Kinetic','Lumen','Mirage','Nebula','Orbit','Pulse','Quasar','Radiant','Spectre','Titan');
-const ROCKET_VEH=5, JET_VEH=6, ROCKET_EXTRA=20;   // the rocket bike gets 20 extra speed levels and 20 extra stunt levels on top of everyone else's
+const CHOPPER_VEH=7, HYPER_VEH=8, CHOPPER_AIR=5;   // the Chopper is a normal bike with a helicopter rotor and pays 5x for air time
+const ROCKET_VEH=5, JET_VEH=6, IGNITOR_VEH=9, ROCKET_EXTRA=20;   // the Ignitor bike (id 9) is a rocket bike with ONE fixed speed (450 mph) and the extra stunt levels   // the rocket bike gets 20 extra speed levels and 20 extra stunt levels on top of everyone else's
 const TOTAL_BIKES=40;   // 40 speed levels per ride, spread evenly between that ride's slowest and fastest speed
 const MAX_SP=TOTAL_BIKES+ROCKET_EXTRA;
-const spMax=ve=>ve===ROCKET_VEH?MAX_SP:TOTAL_BIKES;
+const spMax=ve=>ve===ROCKET_VEH?MAX_SP:ve===IGNITOR_VEH?1:TOTAL_BIKES;   // the Ignitor has a single speed level
 NAME_POOL.push('Zenith','Apex','Vortex','Helios','Tempest','Ion','Photon','Comet','Eclipse','Inferno','Zephyr','Mach','Ares','Orion','Sigma','Omega','Hyperion','Singularity','Infinity','Apocalypse');
 const bikeTiers=[];
 for(let i=0;i<MAX_SP;i++){
@@ -1224,12 +1332,24 @@ const BIKE_COLORS=[
   {name:'Hot Pink',hex:'#ff2bd6',price:4600},{name:'Toxic',hex:'#22d46a',price:5400},{name:'Lavender',hex:'#9b86f5',price:6300},
   {name:'Deep Teal',hex:'#0b6e6e',price:7300},{name:'Ruby',hex:'#a3002b',price:8400},{name:'Steel',hex:'#6c7a92',price:9600}
 ];
-// vehicle type. every ride has its own speed range (slowest speed level -> fastest speed level, in mph) and a price on top of the speed level:
-// bike 15-55 (free), push scooter 5-45 (a slower ride that PAYS YOU 1000c when you switch to it), e-bike and e-scooter 40-120 (+2000c each), motorcycle 60-140 (+6500c), rocket bike 160-320 (+1,000,000c)
-const VEHICLES=[{name:'Bike',price:0,lo:15,hi:55},{name:'E-bike',price:2000,lo:40,hi:120},{name:'E-scooter',price:2000,lo:40,hi:120},{name:'Motorcycle',price:6500,lo:60,hi:140},{name:'Push scooter',price:-1000,lo:5,hi:45},{name:'Rocket Bike',price:1000000,lo:160,hi:320},{name:'Jet Bike',price:750000,lo:150,hi:270}];   // jet bike (id 6): a filler between the motorcycle and the rocket bike
+// ONE price curve for every ride: a top speed costs the same no matter which ride it is on.
+// price of a speed = mphPrice(mph). a ride's own price is the price of its slowest speed (compared with the 15 mph bike), and a speed level
+// costs the difference between its mph and the ride's slowest mph. so 80 mph costs the same on the e-bike, the chopper or any other ride.
+// the curve is anchored so the rocket bike (160 mph) costs exactly ROCKET_BASE_PRICE, and every ride in between sits smoothly on the same line.
+const MPH_BASE=15, MPH_FLAT=1000, ROCKET_BASE_MPH=160, ROCKET_BASE_PRICE=5000000;
+const MPH_SQ=(ROCKET_BASE_PRICE-MPH_FLAT*(ROCKET_BASE_MPH-MPH_BASE))/Math.pow(ROCKET_BASE_MPH-MPH_BASE,2);   // 1,000c per mph to start + a gentle squared climb
+function mphPrice(m){ const x=m-MPH_BASE; return Math.round((x<=0?MPH_FLAT*x:MPH_FLAT*x+MPH_SQ*x*x)/10)*10; }
+// vehicle type. every ride has 40 speed levels in clean, even mph steps (lo = slowest, step = mph gained per level) and sits on the same ladder:
+// push scooter 5-44 (+1/level), bike 15-54 (+1), e-bike and e-scooter 40-118 (+2), motorcycle 60-138 (+2), chopper 80-177.5 (+2.5),
+// hyper bike 110-227 (+3), jet bike 135-271.5 (+3.5), rocket bike 160-316 (+4, and its 20 extra levels carry on to 396),
+// ignitor bike 450 (one fixed speed, no speed levels)
+const VEHICLES=[{name:'Bike',lo:15,step:1},{name:'E-bike',lo:40,step:2},{name:'E-scooter',lo:40,step:2},{name:'Motorcycle',lo:60,step:2},{name:'Push scooter',lo:5,step:1,price:-1000},{name:'Rocket Bike',lo:160,step:4},{name:'Jet Bike',lo:135,step:3.5},{name:'Chopper',lo:80,step:2.5},{name:'Hyper Bike',lo:110,step:3},{name:'Ignitor Bike',lo:450,step:0,price:50000000}];   // id 9: one fixed speed, 450 mph, fixed price of 50,000,000c   // jet bike (id 6): a filler between the chopper and the rocket bike
+VEHICLES.forEach(v=>{ v.hi=v.lo+v.step*(TOTAL_BIKES-1); if(v.price===undefined) v.price=mphPrice(v.lo)-mphPrice(MPH_BASE); });   // the push scooter keeps its fixed 1,000c pay-back
 // speeds snap to the nearest half mph (17 -> 17.5 -> 18)
 const snapMph=x=>Math.round(x*2)/2;
-const vehMph=(v,i)=>snapMph(VEHICLES[v].lo+(VEHICLES[v].hi-VEHICLES[v].lo)*i/(TOTAL_BIKES-1));
+const vehMph=(v,i)=>snapMph(VEHICLES[v].lo+VEHICLES[v].step*i);
+// what a speed level costs: the price of its mph minus the price of the ride's slowest mph (the same curve for every ride)
+function speedCost(ve,sp){ return mphPrice(vehMph(ve,sp))-mphPrice(vehMph(ve,0)); }
 // the shop lists rides cheapest first (saved ids never change, only the order the arrows walk through them)
 const VEH_ORDER=VEHICLES.map((v,i)=>i).sort((a,b)=>VEHICLES[a].price-VEHICLES[b].price||a-b);
 const isScoot=v=>v===2||v===4;   // e-scooter and push scooter share the scooter body
@@ -1241,13 +1361,13 @@ let vehPaid=parseInt(lsGet('bike_vehPaid',''),10);   // can be negative: the pus
 if(!Number.isFinite(vehPaid)) vehPaid=LEGACY_VEH_PRICE[selectedVehicle]||0;
 const vehVal=ve=>ve===selectedVehicle?vehPaid:VEHICLES[ve].price;
 const VEH_TIERS={};
-function vehTiers(v){ return VEH_TIERS[v]||(VEH_TIERS[v]=bikeTiers.map((t,i)=>Object.assign({},t,{mph:vehMph(v,i)}))); }
+function vehTiers(v){ return VEH_TIERS[v]||(VEH_TIERS[v]=bikeTiers.map((t,i)=>Object.assign({},t,{mph:vehMph(v,i),price:speedCost(v,i)}))); }
 let selectedColor=parseInt(lsGet('bike_color','0'),10); if(!(selectedColor>=0&&selectedColor<BIKE_COLORS.length)) selectedColor=0;
 function colorHex(ci,tier){ const c=BIKE_COLORS[ci]||BIKE_COLORS[0]; return c.stock?tier.color:c.hex; }
 let _cbKey='', _cbVal=null;
 function currentBike(){
   const t=vehTiers(selectedVehicle)[selectedTier]||vehTiers(selectedVehicle)[0], k=selectedVehicle+':'+selectedTier+':'+selectedColor+':'+selectedAcc.join()+':'+JSON.stringify(selMods);
-  if(k!==_cbKey){ _cbKey=k; _cbVal=Object.assign({},t,{mph:t.mph+accMph(selectedAcc)+modMph(selMods),color:colorHex(selectedColor,t),veh:selectedVehicle}); }
+  if(k!==_cbKey){ _cbKey=k; _cbVal=Object.assign({},t,{mph:t.mph+mphBonus(selectedVehicle,selectedAcc,selMods),color:colorHex(selectedColor,t),veh:selectedVehicle}); }
   return _cbVal;
 }
 // what your whole build is worth: speed level + stunt level + colour. Going up pays the difference, going down refunds it.
@@ -1282,30 +1402,20 @@ let selMods={rim:0,tire:0,snow:0,shock:0,wx:0,dn:0,lt:0,body:0,face:0,hat:0,hatc
 try{ const m=JSON.parse(lsGet('bike_mods','{}')); for(const k of MOD_KEYS) if(Number.isInteger(m[k])&&m[k]>=0&&m[k]<MODS[k].opts.length) selMods[k]=m[k]; }catch(e){}
 const modCost=g=>MOD_KEYS.reduce((t,k)=>t+MODS[k].opts[g[k]][2],0);
 const wxPenalty=g=>g.wx===1?(g.tire<2?10:0):g.wx===2?(g.tire<2&&!g.snow?10:0):0; // rain: -10 mph until Trail tires or better; snow: same unless you have snow tires
-const modMph=g=>g.rim*1+g.tire*2-wxPenalty(g); // each rim step +1 mph, each tire step +2 mph
+const modMph=g=>g.rim*1+g.tire*2-wxPenalty(g);
+const mphBonus=(ve,ac,g)=>ve===IGNITOR_VEH?0:accMph(ac)+modMph(g);   // the Ignitor is locked at 450 mph: rims, tires, extras and weather don't touch it // each rim step +1 mph, each tire step +2 mph
 const jumpMul=()=>1+.04*selMods.shock; // shocks: slightly higher jumps
 const RIM_LOOK=[['#fff','#111'],['#e3e6ea','#555'],['#dfeaff','#2f6fed'],['#3a3d44','#c8ccd4'],['#fff3c4','#e6a817']];
 const TIRE_LOOK=[['#111',1],['#111',1.35],['#5a3d1e',1.5],['#c0392b',1.3],['#13b38a',1.35]];
 function wheelLook(g){ g=g||selMods; const r=RIM_LOOK[g.rim], t=TIRE_LOOK[g.tire]; return {fill:r[0],spoke:r[1],tire:g.snow?'#5fb4ee':t[0],tw:g.snow?Math.max(t[1],1.4):t[1]}; }
 const accCost=ac=>(ac||[]).reduce((t,i)=>t+ACCS[i].price,0);
-// the extra mph each speed level gives over the one before it adds to the price: 465c per extra 1 mph, 232c per extra 0.5 mph,
-// and that mph price goes up 15% with every speed level you climb (level 2 is x1, level 3 is x1.15, level 4 is x1.15^2 ...)
-const MPH_PRICE=465, HALF_MPH_PRICE=232, MPH_PRICE_GROWTH=1.15;
-// game-wide sales tax: 15% is added on top of everything you pay for (upgrades, stunts, skills, shop). refunds and pay-backs are never taxed
-const TAX_RATE=0.15, TAX_PCT=Math.round(TAX_RATE*100);
-const ROCKET_TAX_RATE=0.20;   // the rocket bike in the upgrades shop is taxed at 20% instead of 15%
+// game-wide sales tax: 10% is added on top of everything you pay for (upgrades, stunts, skills, shop). refunds and pay-backs are never taxed
+const TAX_RATE=0.10, TAX_PCT=Math.round(TAX_RATE*100);
+const ROCKET_TAX_RATE=0.20;   // the rocket bike in the upgrades shop is taxed at 20% instead of 10%
 const taxOn=(a,r)=>a>0?Math.round(a*(r==null?TAX_RATE:r)):0;
 const withTax=a=>a+taxOn(a);
-const upRate=()=>lab.ve===ROCKET_VEH?ROCKET_TAX_RATE:TAX_RATE, upTax=a=>taxOn(a,upRate());
+const upRate=()=>(lab.ve===ROCKET_VEH||lab.ve===IGNITOR_VEH)?ROCKET_TAX_RATE:TAX_RATE, upTax=a=>taxOn(a,upRate());
 const taxNote=a=>'+'+Number(taxOn(a)).toLocaleString('en-US')+'c tax ('+TAX_PCT+'%)';
-function halfMphCost(ve,sp){
-  ve=ve||0; let total=0;
-  for(let j=1;j<=sp;j++){
-    const halves=Math.round((vehMph(ve,j)-vehMph(ve,j-1))*2);                 // extra half-mph steps this level gives
-    total+=Math.round((Math.floor(halves/2)*MPH_PRICE+(halves%2)*HALF_MPH_PRICE)*Math.pow(MPH_PRICE_GROWTH,j-1));
-  }
-  return total;
-}
 // accessories fit all 6 vehicles: A = {bar, seat, tube, rear:{x,y,r}} anchor points for the vehicle being drawn
 function drawAcc(c,set,A){
   if(!set||!set.length) return;
@@ -1327,7 +1437,7 @@ function drawAcc(c,set,A){
 // flips) pays out. Lives in its own shop so it never gets mixed up with bike tiers.
 // Base payout is a flat 15 coins; each tier bought raises it further.
 const STUNT_BASE=15, STUNT_STEP=8, TOTAL_STUNT_TIERS=20, MAX_ST=TOTAL_STUNT_TIERS+ROCKET_EXTRA;
-const stMax=ve=>ve===ROCKET_VEH?MAX_ST:TOTAL_STUNT_TIERS;
+const stMax=ve=>(ve===ROCKET_VEH||ve===IGNITOR_VEH)?MAX_ST:TOTAL_STUNT_TIERS;
 const stuntTiers=[];
 for(let i=0;i<MAX_ST;i++){
   const value=STUNT_BASE+i*STUNT_STEP;
@@ -1340,7 +1450,8 @@ let selectedStuntTier=parseInt(lsGet('bike_stuntSelected','0'),10)||0;
 ownedStuntTiers=ownedStuntTiers.filter(n=>Number.isInteger(n)&&n>=0&&n<MAX_ST);
 if(!ownedStuntTiers.includes(0)) ownedStuntTiers.unshift(0);
 if(!ownedStuntTiers.includes(selectedStuntTier)) selectedStuntTier=0;
-if(selectedVehicle!==ROCKET_VEH){ if(selectedTier>=TOTAL_BIKES) selectedTier=TOTAL_BIKES-1; if(selectedStuntTier>=TOTAL_STUNT_TIERS) selectedStuntTier=TOTAL_STUNT_TIERS-1; }   // the extra levels only exist on the rocket bike
+if(selectedVehicle!==ROCKET_VEH&&selectedVehicle!==IGNITOR_VEH){ if(selectedTier>=TOTAL_BIKES) selectedTier=TOTAL_BIKES-1; if(selectedStuntTier>=TOTAL_STUNT_TIERS) selectedStuntTier=TOTAL_STUNT_TIERS-1; }
+if(selectedVehicle===IGNITOR_VEH) selectedTier=0;   // the extra levels only exist on the rocket bike
 // one-time move to the merged upgrades shop: you now own exactly one speed level and one stunt level, so anything
 // you had bought but weren't using is refunded
 if(lsGet('bike_shopV2','')!=='1'){
@@ -1371,13 +1482,45 @@ function cleanBike(ve,b){
 }
 const isOwned=ve=>garage.owned.includes(ve);
 const baseOf=ve=>ve===selectedVehicle?bikeSnap():(isOwned(ve)?cleanBike(ve,garage.data[ve]):BLANK_BIKE());   // the levels a bike has right now (blank = a bike you have not bought)
-const tierVal=(ve,sp)=>bikeTiers[sp].price+halfMphCost(ve,sp);
+const tierVal=(ve,sp)=>speedCost(ve,sp);
+// one-time repricing: speed levels follow one shared mph price curve, so hand back what the levels you owned cost under the previous prices
+// and start every ride at its base speed again (nobody can sell a level back for more than they paid)
+{
+  const OLD=[[15,55],[40,120],[40,120],[60,140],[5,45],[160,320],[150,270],[80,170],[140,260]];   // the very first prices: level-based, per ride
+  const oldMph=(ve,i)=>Math.round((OLD[ve][0]+(OLD[ve][1]-OLD[ve][0])*i/(TOTAL_BIKES-1))*2)/2;
+  const cost1=(ve,sp)=>{ let t=sp===0?0:Math.round(sp*550+18*sp*sp);
+    for(let j=1;j<=sp;j++){ const h=Math.round((oldMph(ve,j)-oldMph(ve,j-1))*2); t+=Math.round((Math.floor(h/2)*465+(h%2)*232)*Math.pow(1.15,j-1)); } return t; };
+  const p3=m=>{ const x=m-15, K=39; let p; if(x<=0) p=1000*x; else if(x<=K) p=1000*x+.29*Math.pow(x,4);
+    else p=1000*K+.29*Math.pow(K,4)+(1000+4*.29*Math.pow(K,3))*(Math.pow(x,3)-Math.pow(K,3))/(3*K*K); return Math.round(p/10)*10; };   // the previous steeper curve
+  const cost3=(ve,sp)=>p3(vehMph(ve,sp))-p3(vehMph(ve,0));
+  if(lsGet('bike_mphV4','')!=='1'){
+    const had3=lsGet('bike_mphV3','')==='1'; let back=0;
+    for(const ve of garage.owned){
+      const sp=ve===selectedVehicle?selectedTier:(garage.data[ve]&&garage.data[ve].sp)||0;
+      if(sp>0&&OLD[ve]) back+=had3?cost3(ve,sp):cost1(ve,sp);
+      if(garage.data[ve]) garage.data[ve].sp=0;
+    }
+    selectedTier=0; wallet+=back;
+    lsSet('bike_wallet',String(wallet)); lsSet('bike_selected','0'); lsSet('bike_owned',JSON.stringify([0])); lsSet('bike_garage',JSON.stringify(garage));
+    lsSet('bike_mphV3','1'); lsSet('bike_mphV4','1');
+  }
+}
 // ---- page 4 of upgrades: stunt multiplier (flips and stunts) and air time multiplier (hang time) ----
 const MUL_MAX=10, MUL_STEP=.2;
 const mulTiers=[]; for(let i=0;i<=MUL_MAX;i++){ const v=Math.round((1+MUL_STEP*i)*10)/10; mulTiers.push({label:'x'+v.toFixed(1),value:v,price:Math.round(1200*i+700*i*i)}); }
+const MUL_AIR_CAP=100000;   // the air time multiplier never stops either (the cap is only there so the numbers can't overflow)
+const airMulTier=i=>{ const v=Math.round((1+MUL_STEP*i)*10)/10; return {label:'x'+v.toFixed(1),value:v,price:Math.round(1200*i+700*i*i)}; };   // same prices as before for levels 0-10, then it just keeps going
+const clampAirMul=x=>{ x=Math.floor(Number(x)); return Number.isFinite(x)&&x>=0&&x<=MUL_AIR_CAP?x:0; };
 const clampMul=x=>{ x=Math.floor(Number(x)); return Number.isFinite(x)&&x>=0&&x<=MUL_MAX?x:0; };
-let selStuntMul=clampMul(lsGet('bike_mulStunt','0')), selAirMul=clampMul(lsGet('bike_mulAir','0'));
-const stuntMulVal=()=>mulTiers[selStuntMul].value, airMulVal=()=>mulTiers[selAirMul].value;
+const MUL_STUNT_CAP=100000, MUL_STUNT_STEP=30000;   // the stunt multiplier never stops (the cap is only there so the numbers can't overflow)
+const stuntMulTier=i=>{ const v=Math.round((1+MUL_STEP*i)*10)/10; return {label:'x'+v.toFixed(1),value:v,price:MUL_STUNT_STEP*i*(i+1)/2}; };   // level i costs 30,000 x i more than level i-1
+const clampStuntMul=x=>{ x=Math.floor(Number(x)); return Number.isFinite(x)&&x>=0&&x<=MUL_STUNT_CAP?x:0; };
+if(lsGet('bike_mulV2','')!=='1'){   // the stunt multiplier was repriced: hand back what the old levels cost and start again at the new prices
+  const old=clampMul(lsGet('bike_mulStunt','0')); if(old>0){ wallet+=Math.round(1200*old+700*old*old); lsSet('bike_wallet',String(wallet)); lsSet('bike_mulStunt','0'); }
+  lsSet('bike_mulV2','1');
+}
+let selStuntMul=clampStuntMul(lsGet('bike_mulStunt','0')), selAirMul=clampAirMul(lsGet('bike_mulAir','0'));
+const stuntMulVal=()=>stuntMulTier(selStuntMul).value, airMulVal=()=>airMulTier(selAirMul).value;
 function saveStunts(){
   ownedStuntTiers=[...new Set([0,selectedStuntTier])];
   lsSet('bike_stuntOwned',JSON.stringify(ownedStuntTiers));
@@ -1385,6 +1528,69 @@ function saveStunts(){
 }
 function currentStuntValue(){ return (stuntTiers[selectedStuntTier]||stuntTiers[0]).value; }
 
+// the Chopper is a normal bike with a helicopter rotor on a mast above the rider. (mx,my) = where the mast leaves the frame, topY = rotor height,
+// spin = rotor phase in radians (the blades turn edge-on and flat as they spin), len = half the blade span
+function heliRotor(c,mx,my,topY,color,spin,len){
+  c.save(); c.lineCap='round'; c.lineJoin='round';
+  c.strokeStyle='#3b4049'; c.lineWidth=3.4; c.beginPath(); c.moveTo(mx,my); c.lineTo(mx,topY+3); c.stroke();            // mast
+  c.strokeStyle='#8a8f98'; c.lineWidth=1.2; c.beginPath(); c.moveTo(mx-1,my-2); c.lineTo(mx-1,topY+4); c.stroke();      // mast highlight
+  c.strokeStyle='#3b4049'; c.lineWidth=2.4; c.beginPath(); c.moveTo(mx,my+3); c.lineTo(mx+9,my+12); c.stroke();         // brace to the frame
+  c.fillStyle='rgba(60,66,78,.13)'; c.beginPath(); c.ellipse(mx,topY,len,3.6,0,0,Math.PI*2); c.fill();                  // spinning blur disc
+  [[Math.cos(spin),1],[Math.sin(spin),.55]].forEach(([k,al])=>{                                                         // two blades, 90 degrees apart
+    const a=len*Math.abs(k); if(a<2) return;
+    c.globalAlpha=al; c.strokeStyle='#2b2f38'; c.lineWidth=2.8; c.beginPath(); c.moveTo(mx-a,topY); c.lineTo(mx+a,topY); c.stroke();
+    c.strokeStyle=color; c.lineWidth=3.2; c.beginPath(); c.moveTo(mx-a,topY); c.lineTo(mx-a*.74,topY); c.moveTo(mx+a*.74,topY); c.lineTo(mx+a,topY); c.stroke();   // coloured tips
+  });
+  c.globalAlpha=1;
+  c.fillStyle='#2e323b'; c.beginPath(); c.moveTo(mx-5,topY+4); c.lineTo(mx-3,topY-2); c.lineTo(mx+3,topY-2); c.lineTo(mx+5,topY+4); c.closePath(); c.fill();   // hub
+  c.fillStyle='#ffd24d'; c.beginPath(); c.arc(mx,topY-2.4,1.7,0,Math.PI*2); c.fill();
+  c.restore();
+}
+// the Hyper Bike: a full-fairing superbike drawn on the motorcycle's skeleton. A = anchors of the context it is drawn in (wheel x/y/radius, fork top,
+// handlebar, and the y of the tank, engine and seat) so the shop icons and the game share one drawing
+function motoVariant(c,veh,color,A){
+  const bx=A.bx,fx=A.fx,wy=A.wy,wr=A.wr,F=A.fork,B=A.bar,T=A.tank,E=A.eng,S=A.seat,H=A.hl;
+  c.save(); c.lineCap='round'; c.lineJoin='round';
+  const dark='#1b1d22', neon='#18e0ff';
+  // gold upside-down fork + rear swingarm + shock
+  c.strokeStyle='#8a6a1a'; c.lineWidth=5.4; c.beginPath(); c.moveTo(F.x+3,F.y+6); c.lineTo(fx,wy); c.stroke();
+  c.strokeStyle='#e5b53a'; c.lineWidth=3.6; c.beginPath(); c.moveTo(F.x+3,F.y+6); c.lineTo(fx,wy); c.stroke();
+  c.strokeStyle=color; c.lineWidth=5; c.beginPath(); c.moveTo(bx,wy); c.lineTo(-6,E+11); c.stroke();
+  c.strokeStyle='#c7cbd3'; c.lineWidth=2; c.beginPath(); c.moveTo(-26,S+3); c.lineTo(-12,E+10); c.stroke();
+  // engine block showing under the fairing
+  c.fillStyle='#3a3d44'; c.fillRect(-14,E+4,24,13); c.strokeStyle='#9a9fa8'; c.lineWidth=1.1; for(let k=0;k<3;k++){ c.beginPath(); c.moveTo(-14,E+7+k*3.6); c.lineTo(10,E+7+k*3.6); c.stroke(); }
+  // exhaust: silver can with a carbon tip
+  c.strokeStyle='#c7cbd3'; c.lineWidth=5.2; c.beginPath(); c.moveTo(-8,E+15); c.quadraticCurveTo(-24,E+15,-40,E+6); c.stroke();
+  c.strokeStyle=dark; c.lineWidth=5.2; c.beginPath(); c.moveTo(-38,E+7); c.lineTo(-45,E+3.5); c.stroke();
+  // tail cowl, seat, LED tail light and a little wing
+  c.fillStyle=color; c.beginPath(); c.moveTo(-48,S+1); c.quadraticCurveTo(-47,S-9,-30,S-10); c.quadraticCurveTo(-18,S-11,-9,S-5); c.lineTo(-9,S+4); c.lineTo(-42,S+4); c.closePath(); c.fill();
+  c.fillStyle=dark; c.beginPath(); c.moveTo(-36,S-8.6); c.quadraticCurveTo(-24,S-12.4,-11,S-6.8); c.lineTo(-11,S-4.6); c.quadraticCurveTo(-24,S-8.4,-36,S-5.8); c.closePath(); c.fill();
+  c.fillStyle='#ff3b3b'; c.beginPath(); c.arc(-47,S-1.5,2,0,Math.PI*2); c.fill(); c.fillStyle='rgba(255,59,59,.28)'; c.beginPath(); c.arc(-47,S-1.5,4.2,0,Math.PI*2); c.fill();
+  c.fillStyle=dark; c.fillRect(-53,S-12.5,13,2.4); c.strokeStyle=dark; c.lineWidth=1.8; c.beginPath(); c.moveTo(-46,S-1); c.lineTo(-46.5,S-10.2); c.stroke();
+  // fairing
+  c.fillStyle=color; c.beginPath();
+  c.moveTo(-17,E+17); c.quadraticCurveTo(-21,T+1,-15,T-5); c.quadraticCurveTo(-5,T-13,9,T-11);        // belly -> tank
+  c.lineTo(F.x+3,F.y-1);                                                                               // up to the screen
+  c.quadraticCurveTo(F.x+15,F.y+2,H.x+12,H.y+5);                                                      // nose top
+  c.quadraticCurveTo(H.x+10,H.y+12,H.x+3,H.y+14); c.lineTo(15,E+18); c.closePath(); c.fill();          // nose bottom + belly line
+  // belly pan
+  c.fillStyle=dark; c.beginPath(); c.moveTo(-17,E+17); c.lineTo(15,E+18); c.lineTo(H.x+3,H.y+14); c.lineTo(9,E+12.5); c.lineTo(-14,E+10.5); c.closePath(); c.fill();
+  // side stripe + vents
+  c.strokeStyle='rgba(255,255,255,.92)'; c.lineWidth=2.6; c.beginPath(); c.moveTo(-15,E+5); c.quadraticCurveTo(2,E-2,H.x+7,H.y+7); c.stroke();
+  c.strokeStyle=neon; c.lineWidth=1.3; c.beginPath(); c.moveTo(-15,E+8); c.quadraticCurveTo(2,E+1,H.x+6,H.y+10); c.stroke();
+  c.strokeStyle='rgba(0,0,0,.42)'; c.lineWidth=1.5; for(let k=0;k<3;k++){ c.beginPath(); c.moveTo(-5+k*3.4,T+1+k*.4); c.lineTo(-2.4+k*3.4,T-4+k*.4); c.stroke(); }
+  c.strokeStyle='rgba(255,255,255,.4)'; c.lineWidth=1.4; c.beginPath(); c.moveTo(-9,T-6); c.quadraticCurveTo(0,T-10,8,T-9); c.stroke();   // gloss on the tank
+  // windscreen
+  c.fillStyle='rgba(165,222,255,.85)'; c.beginPath(); c.moveTo(F.x-2,F.y+1); c.quadraticCurveTo(F.x+1,F.y-6,F.x+5,F.y-12); c.lineTo(F.x+10,F.y-9); c.quadraticCurveTo(F.x+8,F.y-2,F.x+9,F.y+1); c.closePath(); c.fill();
+  c.strokeStyle='rgba(255,255,255,.75)'; c.lineWidth=1; c.beginPath(); c.moveTo(F.x+1,F.y-2); c.lineTo(F.x+6,F.y-10); c.stroke();
+  // clip-on bars, mirror
+  c.strokeStyle='#222'; c.lineWidth=3.4; c.beginPath(); c.moveTo(F.x+2,F.y-3); c.lineTo(B.x,B.y-1); c.stroke(); c.fillStyle='#111'; c.beginPath(); c.arc(B.x,B.y-1,2.6,0,Math.PI*2); c.fill();
+  c.strokeStyle=dark; c.lineWidth=1.6; c.beginPath(); c.moveTo(F.x+6,F.y-8); c.lineTo(F.x+3,F.y-15); c.stroke(); c.fillStyle=color; c.beginPath(); c.ellipse(F.x+2.5,F.y-16,3,1.7,-.3,0,Math.PI*2); c.fill();
+  // twin LED headlight
+  c.fillStyle='#effbff'; c.beginPath(); c.ellipse(H.x+4.5,H.y+1.5,3.8,2.6,.5,0,Math.PI*2); c.fill(); c.strokeStyle=neon; c.lineWidth=1.2; c.stroke();
+  c.fillStyle='rgba(24,224,255,.28)'; c.beginPath(); c.arc(H.x+4.5,H.y+1.5,6,0,Math.PI*2); c.fill();
+  c.restore();
+}
 // simplified static bike drawing used both for the shop preview icons and (scaled up)
 // could be reused elsewhere; kept separate from the animated in-game drawBike().
 function paintBikeIcon(c,w,h,color,veh,ac,g,rider){
@@ -1395,7 +1601,9 @@ function paintBikeIcon(c,w,h,color,veh,ac,g,rider){
   const scale=Math.min(w/100,h/(rider?132:84)); // roomy enough for the flag and bell on every ride
   c.scale(scale,scale);
   if(veh===5){ c.scale(.78,.78); c.translate(22,0); } // room for the big engine
+  if(veh===IGNITOR_VEH){ c.scale(.72,.72); c.translate(30,0); } // room for the big engine and its long flame
   if(veh===6){ c.scale(.86,.86); c.translate(14,0); } // a smaller engine, so a little less room
+  if(veh===CHOPPER_VEH){ c.scale(.78,.78); } // room for the rotor above the rider
   const wheelR=15, backX=-26, frontX=26, wheelY=0;
   function wheel(x){
     c.beginPath(); c.arc(x,wheelY,wheelR,0,Math.PI*2);
@@ -1406,9 +1614,10 @@ function paintBikeIcon(c,w,h,color,veh,ac,g,rider){
   }
   const BB={x:-4,y:-2}, ST={x:-17,y:-25}, HTt={x:15,y:-27}, HTb={x:12,y:-11}, barC={x:24,y:-35};
   c.lineCap='round'; c.lineJoin='round';
-  if(veh===3){ // motorcycle
+  if(veh===3||veh===HYPER_VEH){ // motorcycle and hyper bike
     c.scale(.82,.82);
     const bx=-30, fx=30;
+    if(veh===HYPER_VEH) motoVariant(c,veh,color,{bx,fx,wy:0,wr:wheelR,fork:{x:15,y:-30},bar:{x:22,y:-41},tank:-23,eng:-14,seat:-22,hl:{x:25,y:-27}}); else {
     c.strokeStyle='#8a8f98'; c.lineWidth=4.4; c.beginPath(); c.moveTo(15,-30); c.lineTo(fx,0); c.stroke();                 // fork
     c.strokeStyle=color; c.lineWidth=5; c.beginPath(); c.moveTo(bx,0); c.lineTo(-8,1); c.stroke();                         // swingarm
     c.beginPath(); c.moveTo(13,-14); c.lineTo(-12,-2); c.stroke(); c.beginPath(); c.moveTo(-22,-20); c.lineTo(-8,-2); c.stroke();   // frame
@@ -1420,6 +1629,7 @@ function paintBikeIcon(c,w,h,color,veh,ac,g,rider){
     c.strokeStyle='#222'; c.lineWidth=3.4; c.beginPath(); c.moveTo(15,-30); c.lineTo(22,-41); c.stroke();                   // handlebar
     c.fillStyle='#111'; c.beginPath(); c.arc(22,-41,2.6,0,Math.PI*2); c.fill();
     c.fillStyle='#ffd24d'; c.beginPath(); c.arc(25,-27,3.6,0,Math.PI*2); c.fill();                                          // headlight
+    }
     wheel(bx); wheel(fx);
     drawAcc(c,ac,{bar:{x:22,y:-41},seat:{x:-20,y:-29},tube:{x:0,y:-18},rear:{x:bx,y:0,r:wheelR}}); if(rider) riderOverlay(c,veh,g);
     c.restore(); return;
@@ -1457,19 +1667,24 @@ function paintBikeIcon(c,w,h,color,veh,ac,g,rider){
     c.strokeStyle='#222'; c.lineWidth=7; c.beginPath(); c.moveTo(BB.x+(HTb.x-BB.x)*.22,BB.y+(HTb.y-BB.y)*.22); c.lineTo(BB.x+(HTb.x-BB.x)*.78,BB.y+(HTb.y-BB.y)*.78); c.stroke();
     c.strokeStyle='#ffd24d'; c.lineWidth=1.8; c.beginPath(); c.moveTo(BB.x+(HTb.x-BB.x)*.3,BB.y+(HTb.y-BB.y)*.3); c.lineTo(BB.x+(HTb.x-BB.x)*.7,BB.y+(HTb.y-BB.y)*.7); c.stroke();
   }
-  if(veh===5||veh===6){ // rocket bike: a huge engine strapped to the back (the jet bike carries the same rocket, 35% smaller)
+  if(veh===5||veh===6||veh===IGNITOR_VEH){ // rocket bike: a huge engine strapped to the back (the jet bike carries the same rocket, 35% smaller)
+    const ign=veh===IGNITOR_VEH;
     c.save(); if(veh===6){ c.translate(ST.x,ST.y+3); c.scale(.65,.65); c.translate(-ST.x,-(ST.y+3)); }
     const ey=-15;
     c.strokeStyle='#555'; c.lineWidth=3.4; c.beginPath(); c.moveTo(ST.x,ST.y+3); c.lineTo(-44,ey); c.stroke();
-    c.fillStyle='#ff9a2e'; c.beginPath(); c.moveTo(-84,ey-6); c.lineTo(-100,ey); c.lineTo(-84,ey+6); c.closePath(); c.fill();                  // flame
-    c.fillStyle='#ffd24d'; c.beginPath(); c.moveTo(-84,ey-3); c.lineTo(-93,ey); c.lineTo(-84,ey+3); c.closePath(); c.fill();
-    c.fillStyle=color; c.beginPath(); c.moveTo(-74,ey-11); c.lineTo(-66,ey-26); c.lineTo(-54,ey-11); c.closePath(); c.fill();                   // fin
-    c.fillStyle='#2e323b'; c.fillRect(-76,ey-11,40,22);                                                                                       // engine body
+    if(ign){ c.fillStyle='#d90f1f'; c.beginPath(); c.moveTo(-84,ey-8); c.lineTo(-84,ey-8); c.lineTo(-118,ey); c.lineTo(-84,ey+8); c.closePath(); c.fill();        // permanent red flame
+      c.fillStyle='#ff4a3d'; c.beginPath(); c.moveTo(-84,ey-5); c.lineTo(-108,ey); c.lineTo(-84,ey+5); c.closePath(); c.fill();
+      c.fillStyle='#ffb3a0'; c.beginPath(); c.moveTo(-84,ey-2.2); c.lineTo(-97,ey); c.lineTo(-84,ey+2.2); c.closePath(); c.fill(); }
+    else { c.fillStyle='#ff9a2e'; c.beginPath(); c.moveTo(-84,ey-6); c.lineTo(-100,ey); c.lineTo(-84,ey+6); c.closePath(); c.fill();                  // flame
+    c.fillStyle='#ffd24d'; c.beginPath(); c.moveTo(-84,ey-3); c.lineTo(-93,ey); c.lineTo(-84,ey+3); c.closePath(); c.fill(); }
+    c.fillStyle=ign?'#e11d2a':color; c.beginPath(); c.moveTo(-74,ey-11); c.lineTo(-66,ey-26); c.lineTo(-54,ey-11); c.closePath(); c.fill();                   // fin
+    c.fillStyle=ign?'#7a1019':'#2e323b'; c.fillRect(-76,ey-11,40,22);                                                                                       // engine body
     c.beginPath(); c.moveTo(-36,ey-11); c.lineTo(-27,ey); c.lineTo(-36,ey+11); c.closePath(); c.fill();                                       // nose
     c.fillStyle='#4a4f5a'; c.beginPath(); c.moveTo(-76,ey-8); c.lineTo(-86,ey-13); c.lineTo(-86,ey+13); c.lineTo(-76,ey+8); c.closePath(); c.fill(); // nozzle
-    c.fillStyle=color; c.fillRect(-66,ey-3,26,6); c.fillStyle='#ffd24d'; c.fillRect(-70,ey-11,3,22);                                          // stripes
+    c.fillStyle=ign?'#e11d2a':color; c.fillRect(-66,ey-3,26,6); c.fillStyle=ign?'#ffb3a0':'#ffd24d'; c.fillRect(-70,ey-11,3,22);                                          // stripes
     c.restore();
   }
+  if(veh===CHOPPER_VEH) heliRotor(c,ST.x-9,ST.y-3,rider?-96:-70,color,.55,40);   // helicopter rotor (the game spins it)
   wheel(backX); wheel(frontX);
   if(veh===1){
     c.fillStyle='#222'; c.beginPath(); c.arc(backX,wheelY,6.5,0,Math.PI*2); c.fill();
@@ -1487,16 +1702,18 @@ function labDelta(){
   const bs=baseOf(lab.ve);
   return (isOwned(lab.ve)?0:VEHICLES[lab.ve].price)+(tierVal(lab.ve,lab.sp)-tierVal(lab.ve,bs.sp))+(stuntTiers[lab.st].price-stuntTiers[bs.st].price)
     +(BIKE_COLORS[lab.co].price-BIKE_COLORS[bs.co].price)+(accCost(lab.ac)-accCost(bs.ac))+(modCost(lab.g)-modCost(selMods))
-    +(mulTiers[lab.ms].price-mulTiers[selStuntMul].price)+(mulTiers[lab.ma].price-mulTiers[selAirMul].price);
+    +(stuntMulTier(lab.ms).price-stuntMulTier(selStuntMul).price)+(airMulTier(lab.ma).price-airMulTier(selAirMul).price);
 }
 function labPickBike(ve){   // show another bike: it loads that bike's own levels, paint and accessories (a bike you have not bought is at base)
   const b=baseOf(ve); lab.ve=ve; lab.sp=b.sp; lab.st=b.st; lab.co=b.co; lab.ac=b.ac.slice();
   lab.pg.sp=Math.floor(lab.sp/PER.sp); lab.pg.st=Math.floor(lab.st/PER.st); lab.pg.co=Math.floor(lab.co/PER.co);
 }
-function stepKey(key,d){ // move one level/colour; the page flips by itself when you cross the edge
-  const total={sp:spMax(lab.ve),st:stMax(lab.ve),co:BIKE_COLORS.length,ms:MUL_MAX+1,ma:MUL_MAX+1}[key];
-  let v=lab[key]+d;
-  if(key==='co') v=(v+total)%total; else if(v<0||v>=total) return false;
+function stepKey(key,d,n){ // move one level/colour; the page flips by itself when you cross the edge
+  const total={sp:spMax(lab.ve),st:stMax(lab.ve),co:BIKE_COLORS.length,ms:Infinity,ma:Infinity}[key];
+  let v=lab[key]+d*(n||1);
+  if(key==='ms') v=Math.max(0,Math.min(MUL_STUNT_CAP,v));
+  if(key==='ma') v=Math.max(0,Math.min(MUL_AIR_CAP,v));
+  if(key==='co') v=(v+total)%total; else if(v<0||v>=total||v===lab[key]) return false;
   lab[key]=v; lab.pg[key]=Math.floor(v/PER[key]);
   renderUpgrades(false); pulseEl('labCost'); return true;
 }
@@ -1508,7 +1725,8 @@ function stepKey(key,d){ // move one level/colour; the page flips by itself when
     e.preventDefault(); stop();
     const key=b.dataset.key, d=Number(b.dataset.dir);
     if(!stepKey(key,d)) return;
-    tm=setTimeout(()=>{ iv=setInterval(()=>{ if(!stepKey(key,d)) stop(); },70); },380);
+    let ticks=0;
+    tm=setTimeout(()=>{ iv=setInterval(()=>{ ticks++; const n=(key==='ms'||key==='ma')?Math.min(50,1+Math.floor(ticks/8)):1; if(!stepKey(key,d,n)) stop(); },70); },380);   // the stunt multiplier has no top, so holding the arrow speeds up
   });
   ['pointerup','pointercancel'].forEach(t=>addEventListener(t,stop));
   addEventListener('blur',stop);
@@ -1523,7 +1741,7 @@ const fmtSigned=n=>(n>0?'+':n<0?'−':'')+fmtC(Math.abs(n));
 // ---- pay page ----
 // every change you've made on the upgrades page, one line each. the prices add up to exactly what the cost card says (a ride's own price
 // carries what its speed levels add at your current level, so taking the ride off also drops that). remove() puts that one thing back to what you own.
-const VEH_ICO=['🚲','🔋','🛴','🏍️','🛴','🚀','✈️'];
+const VEH_ICO=['🚲','🔋','🛴','🏍️','🛴','🚀','✈️','🚁','🏁','🔥'];
 function cartItems(delta){
   const L=lab, items=[], bs=baseOf(L.ve), own=isOwned(L.ve);
   if(L.ve!==selectedVehicle){
@@ -1537,10 +1755,10 @@ function cartItems(delta){
     items.push({ico:'🤸',name:'Stunt level '+(L.st+1),sub:'pays '+stuntTiers[L.st].value+'c per stunt · was level '+(bs.st+1),price:stuntTiers[L.st].price-stuntTiers[bs.st].price,remove:()=>{ L.st=bs.st; }});
   }
   if(L.ms!==selStuntMul){
-    items.push({ico:'✨',name:'Stunt multiplier '+mulTiers[L.ms].label,sub:'flips and stunts pay '+mulTiers[L.ms].label+' · was '+mulTiers[selStuntMul].label,price:mulTiers[L.ms].price-mulTiers[selStuntMul].price,remove:()=>{ L.ms=selStuntMul; }});
+    items.push({ico:'✨',name:'Stunt multiplier '+stuntMulTier(L.ms).label,sub:'flips and stunts pay '+stuntMulTier(L.ms).label+' · was '+stuntMulTier(selStuntMul).label,price:stuntMulTier(L.ms).price-stuntMulTier(selStuntMul).price,remove:()=>{ L.ms=selStuntMul; }});
   }
   if(L.ma!==selAirMul){
-    items.push({ico:'⏱️',name:'Air time multiplier '+mulTiers[L.ma].label,sub:'hang time pays '+mulTiers[L.ma].label+' · was '+mulTiers[selAirMul].label,price:mulTiers[L.ma].price-mulTiers[selAirMul].price,remove:()=>{ L.ma=selAirMul; }});
+    items.push({ico:'⏱️',name:'Air time multiplier '+airMulTier(L.ma).label,sub:'hang time pays '+airMulTier(L.ma).label+' · was '+airMulTier(selAirMul).label,price:airMulTier(L.ma).price-airMulTier(selAirMul).price,remove:()=>{ L.ma=selAirMul; }});
   }
   if(L.co!==bs.co){
     items.push({ico:'🎨',name:BIKE_COLORS[L.co].name+' paint',sub:'was '+BIKE_COLORS[bs.co].name,price:BIKE_COLORS[L.co].price-BIKE_COLORS[bs.co].price,remove:()=>{ L.co=bs.co; }});
@@ -1604,7 +1822,7 @@ function renderPay(root,el,delta){
   const line=(cls,a,b)=>{ const r=el('div','pay-line '+cls); r.appendChild(el('span','',a)); r.appendChild(el('span','',b)); sc.appendChild(r); };
   if(buys&&sells){ line('','items',fmtC(buys)); line('refund','sold back','−'+fmtC(sells)); }
   line('',delta<0?'refund':'item price',fmtC(Math.abs(delta)));
-  line('muted','sales tax rate',Math.round(upRate()*100)+'%'+(lab.ve===ROCKET_VEH?' (rocket bike)':''));
+  line('muted','sales tax rate',Math.round(upRate()*100)+'%'+(lab.ve===ROCKET_VEH?' (rocket bike)':lab.ve===IGNITOR_VEH?' (ignitor bike)':''));
   line('tax','tax you pay','+'+fmtC(tax));
   const tt=el('div','pay-total'); tt.appendChild(el('div','lab-sub',delta<0?'you get back':delta>0?'you pay':'total'));
   tt.appendChild(el('div','lab-big',fmtC(Math.abs(due)))); sc.appendChild(tt);
@@ -1634,7 +1852,7 @@ function renderUpgrades(animate){
   { const pgEl=document.getElementById('labPager'); pgEl.innerHTML='';
     const pb=(t,d,l)=>{ const b=el('button','arrow-btn',t); b.setAttribute('aria-label',l); b.disabled=lab.page+d<0||lab.page+d>3; b.style.opacity=b.disabled?'.3':''; b.onclick=()=>{ lab.page+=d; renderUpgrades(true); document.getElementById('bikeLab').scrollTop=0; }; return b; };
     pgEl.appendChild(pb('‹',-1,'previous page')); pgEl.appendChild(el('b','',String(lab.page+1))); pgEl.appendChild(pb('›',1,'next page')); }
-  const am=accMph(lab.ac)+modMph(lab.g), vtiers=vehTiers(lab.ve).map((t,i)=>Object.assign({},t,{mph:t.mph+am,price:t.price+halfMphCost(lab.ve,i)})), tier=vtiers[lab.sp], hex=colorHex(lab.co,tier);
+  const am=mphBonus(lab.ve,lab.ac,lab.g), vtiers=vehTiers(lab.ve).map((t,i)=>Object.assign({},t,{mph:t.mph+am,price:speedCost(lab.ve,i)})), tier=vtiers[lab.sp], hex=colorHex(lab.co,tier);
   const bs0=baseOf(lab.ve), dirty=lab.ve!==selectedVehicle||lab.sp!==bs0.sp||lab.st!==bs0.st||lab.co!==bs0.co||lab.ac.join()!==bs0.ac.join()||JSON.stringify(lab.g)!==JSON.stringify(selMods)||lab.ms!==selStuntMul||lab.ma!==selAirMul;
   const delta=labDelta();
   document.getElementById('labPager').style.display=(lab.pay||lab.inv)?'none':'';
@@ -1654,7 +1872,7 @@ function renderUpgrades(animate){
   pv.appendChild(stage);
   { const pen=wxPenalty(lab.g); if(pen) stage.appendChild(el('div','lab-warnbar','⚠️ '+MODS.wx.opts[lab.g.wx][0].toLowerCase()+' slows you by '+pen+' mph. '+(lab.g.wx===1?'Trail tires or better':'snow tires or Trail tires')+' fix it')); }
   const chips=el('div','lab-chips');
-  [VEHICLES[lab.ve].name+(isOwned(lab.ve)?' · owned':(VEHICLES[lab.ve].price>0?' +'+fmtC(VEHICLES[lab.ve].price):VEHICLES[lab.ve].price<0?' pays back '+fmtC(-VEHICLES[lab.ve].price):'')),tier.mph+' mph','stunt Lv '+(lab.st+1),BIKE_COLORS[lab.co].name].concat(lab.ac.length?[lab.ac.length+' accessor'+(lab.ac.length>1?'ies':'y')]:[]).concat(PAGE2_KEYS.filter(k=>lab.g[k]).map(k=>MODS[k].opts[lab.g[k]][1]+' '+MODS[k].opts[lab.g[k]][0]).concat(PAGE3_KEYS.some(k=>lab.g[k])?['custom rider']:[])).forEach(t=>chips.appendChild(el('span','chip',t)));
+  [VEHICLES[lab.ve].name+(lab.ve===CHOPPER_VEH?' · 5x air time':'')+(isOwned(lab.ve)?' · owned':(VEHICLES[lab.ve].price>0?' +'+fmtC(VEHICLES[lab.ve].price):VEHICLES[lab.ve].price<0?' pays back '+fmtC(-VEHICLES[lab.ve].price):'')),tier.mph+' mph','stunt Lv '+(lab.st+1),BIKE_COLORS[lab.co].name].concat(lab.ac.length?[lab.ac.length+' accessor'+(lab.ac.length>1?'ies':'y')]:[]).concat(PAGE2_KEYS.filter(k=>lab.g[k]).map(k=>MODS[k].opts[lab.g[k]][1]+' '+MODS[k].opts[lab.g[k]][0]).concat(PAGE3_KEYS.some(k=>lab.g[k])?['custom rider']:[])).forEach(t=>chips.appendChild(el('span','chip',t)));
   pv.appendChild(chips); root.appendChild(pv);
 
   // up/down stat card
@@ -1681,11 +1899,24 @@ function renderUpgrades(animate){
     c.appendChild(pr); root.appendChild(c);
   };
   if(!lab.page){ stat('lab-stunt','st','stunt level','Lv '+(lab.st+1),'pays '+stuntTiers[lab.st].value+'c per stunt',stuntTiers,lab.st,v=>{ lab.st=v; },stMax(lab.ve));
-  stat('lab-speed','sp','max speed',tier.mph+' mph','tier '+(lab.sp+1)+' of '+spMax(lab.ve)+' · '+tier.name,vtiers,lab.sp,v=>{ lab.sp=v; },spMax(lab.ve)); }
+  if(lab.ve===IGNITOR_VEH){ const c=el('div','lab-card lab-speed'); c.appendChild(el('div','lab-label','max speed')); c.appendChild(el('div','lab-big','450 mph')); c.appendChild(el('div','lab-sub','🔒 fixed speed · the Ignitor always runs at 450 mph and has no speed levels')); root.appendChild(c); }
+  else stat('lab-speed','sp','max speed',tier.mph+' mph','tier '+(lab.sp+1)+' of '+spMax(lab.ve)+' · '+tier.name,vtiers,lab.sp,v=>{ lab.sp=v; },spMax(lab.ve)); }
 
+  const statInf=(cls,key,label,big,sub,v,tierAt)=>{   // like stat(), but a level counter instead of pips: there is no last level
+    const c=el('div','lab-card '+cls); c.appendChild(el('div','lab-label',label));
+    const row=el('div','lab-row'), left=el('div'); left.appendChild(el('div','lab-big',big)); left.appendChild(el('div','lab-sub',sub)); row.appendChild(left);
+    const steps=el('div','lab-steps'), up=el('button','step-btn','▲'), down=el('button','step-btn','▼');
+    up.setAttribute('aria-label','raise '+label); down.setAttribute('aria-label','lower '+label); down.disabled=v<=0;
+    up.dataset.key=down.dataset.key=key; up.dataset.dir='1'; down.dataset.dir='-1';
+    up.onclick=e=>{ if(!e.detail) stepKey(key,1); }; down.onclick=e=>{ if(!e.detail) stepKey(key,-1); };
+    steps.appendChild(up); steps.appendChild(down); row.appendChild(steps); c.appendChild(row);
+    c.appendChild(el('div','lab-sub','level '+v+' · no max level · hold ▲ to climb faster'));
+    const pr=el('div','lab-prices'); pr.appendChild(el('span','','▲ +'+fmtC(tierAt(v+1).price-tierAt(v).price)));
+    pr.appendChild(el('span','back',v>0?'▼ refunds '+fmtC(tierAt(v).price-tierAt(v-1).price):'lowest')); c.appendChild(pr); root.appendChild(c);
+  };
   if(lab.page===3){   // page 4: payout multipliers (they work on every bike)
-    stat('lab-stunt','ms','stunt multiplier',mulTiers[lab.ms].label,'flips and stunts pay '+mulTiers[lab.ms].label,mulTiers,lab.ms,v=>{ lab.ms=v; },MUL_MAX+1);
-    stat('lab-speed','ma','air time multiplier',mulTiers[lab.ma].label,'hang time pays '+mulTiers[lab.ma].label,mulTiers,lab.ma,v=>{ lab.ma=v; },MUL_MAX+1);
+    statInf('lab-stunt','ms','stunt multiplier',stuntMulTier(lab.ms).label,'flips and stunts pay '+stuntMulTier(lab.ms).label,lab.ms,stuntMulTier);
+    statInf('lab-speed','ma','air time multiplier',airMulTier(lab.ma).label,'hang time pays '+airMulTier(lab.ma).label,lab.ma,airMulTier);
   }
 
   // cost
@@ -1705,8 +1936,8 @@ function renderUpgrades(animate){
 
   if(lab.page===3){   // what the two multipliers do
     const mi=el('div','lab-card lab-mulinfo'); mi.appendChild(el('div','lab-label','what they do'));
-    const l1=el('div','mul-line'); l1.appendChild(el('span','mul-ic','✨')); l1.appendChild(el('span','','every flip and stunt pays '+mulTiers[lab.ms].label)); mi.appendChild(l1);
-    const l2=el('div','mul-line'); l2.appendChild(el('span','mul-ic','⏱️')); l2.appendChild(el('span','','every second of air time pays '+mulTiers[lab.ma].label)); mi.appendChild(l2);
+    const l1=el('div','mul-line'); l1.appendChild(el('span','mul-ic','✨')); l1.appendChild(el('span','','every flip and stunt pays '+stuntMulTier(lab.ms).label)); mi.appendChild(l1);
+    const l2=el('div','mul-line'); l2.appendChild(el('span','mul-ic','⏱️')); l2.appendChild(el('span','','every second of air time pays '+airMulTier(lab.ma).label)); mi.appendChild(l2);
     mi.appendChild(el('div','lab-sub','they work on every bike and stack with your stunt level, stunt style and pets')); root.appendChild(mi);
   }
 
@@ -1740,7 +1971,7 @@ function renderUpgrades(animate){
   });
   ac.appendChild(ag); root.appendChild(ac);
   { const mc=el('div','lab-card lab-m lab-m-mph'); mc.appendChild(el('div','lab-label','max speed')); mc.appendChild(el('div','lab-big',tier.mph+' mph'));
-    mc.appendChild(el('div','lab-sub','rims +'+lab.g.rim+' · tires +'+lab.g.tire*2+' · extras +'+accMph(lab.ac)+(wxPenalty(lab.g)?' · weather −10':''))); root.appendChild(mc); }
+    mc.appendChild(el('div','lab-sub',lab.ve===IGNITOR_VEH?'🔒 fixed speed · rims, tires, extras and weather do not change it':'rims +'+lab.g.rim+' · tires +'+lab.g.tire*2+' · extras +'+accMph(lab.ac)+(wxPenalty(lab.g)?' · weather −10':''))); root.appendChild(mc); }
   PAGE2_KEYS.forEach(k=>{
     const M=MODS[k], c=el('div','lab-card lab-m lab-m-'+k); c.appendChild(el('div','lab-label',M.label));
     const gr=el('div','acc-grid'); gr.style.setProperty('--n',M.opts.length);
@@ -1783,7 +2014,7 @@ function renderInventory(root,el){
     if(live) c.appendChild(el('div','inv-badge','equipped'));
     const cv=el('canvas','inv-cv'); cv.width=310; cv.height=165; paintBikeIcon(cv.getContext('2d'),310,165,hex,ve,b.ac,selMods,false); c.appendChild(cv);
     c.appendChild(el('div','lab-bname',VEHICLES[ve].name));
-    c.appendChild(el('div','lab-sub',(vt.mph+accMph(b.ac)+modMph(selMods))+' mph · speed level '+(b.sp+1)+' · stunt Lv '+(b.st+1)));
+    c.appendChild(el('div','lab-sub',(vt.mph+mphBonus(ve,b.ac,selMods))+' mph · '+(ve===IGNITOR_VEH?'fixed speed':'speed level '+(b.sp+1))+' · stunt Lv '+(b.st+1)));
     c.appendChild(el('div','inv-acc',b.ac.length?b.ac.map(i=>ACCS[i].emoji).join(' '):'no accessories'));
     const btn=el('button','lab-apply',live?'equipped':'equip'); btn.type='button'; btn.disabled=live; btn.onclick=()=>equipBike(ve); c.appendChild(btn);
     root.appendChild(c);
@@ -1903,7 +2134,7 @@ function saveGear(){
   saveAbil();
 }
 // abilities: auto jump (hops pits for you) and stunt wheelie (W: 10s of extra coins, 2s cooldown) -- the priciest item
-const AUTOJUMP_PRICE=500000, WHEELIE_PRICE=500, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=0;   // no cooldown
+const AUTOJUMP_PRICE=100000, WHEELIE_PRICE=500, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=0;   // no cooldown
 let abil=lsGetJSON('bike_abilities',{}); if(!abil||typeof abil!=='object') abil={};
 abil={autoJump:!!abil.autoJump, autoJumpOn:abil.autoJumpOn!==false, wheelie:!!abil.wheelie,
   hang:!!abil.hang, hangOn:abil.hangOn!==false, spin:!!abil.spin, spinOn:abil.spinOn!==false,
@@ -2362,11 +2593,8 @@ function renderStunts(animate){
   // special stunts shortcuts (buy / equip + leaderboard)
   const tr=stEl('div','lab-card lab-sp-train'); tr.appendChild(stEl('div','lab-label','special stunts'));
   tr.appendChild(stEl('div','lab-big',act?skillName(act):'none yet'));
-  tr.appendChild(stEl('div','st-skill-line',act?('equipped · level '+(skillLv[act]||0)+' · this is the level the skill leaderboard uses'):'open special stunts to buy, equip and train them'));
+  tr.appendChild(stEl('div','st-skill-line',act?('equipped · level '+(skillLv[act]||0)):'open special stunts to buy, equip and train them'));
   const tb=stEl('button','lab-apply','special stunts · buy, equip, train ›'); tb.type='button'; tb.onclick=trainOpen; tr.appendChild(tb);
-  const lbb=stEl('button','lab-reset','skill leaderboard ›'); lbb.type='button';
-  lbb.onclick=()=>{ document.getElementById('stuntsPanel').classList.add('hidden'); openPanel('lbPanel'); if(window.__bikeLB) window.__bikeLB.open('skillAvg'); };
-  tr.appendChild(lbb);
   root.appendChild(tr);
   root.scrollTop=keep; stSwap='';
 }
@@ -2484,9 +2712,6 @@ function renderTrain(animate){
   dt.appendChild(stEl('div','lab-big',k.name));
   dt.appendChild(stEl('div','lab-sub','balance difficulty ×'+skillDiff(k.id)+' · you fall within '+Math.round(skillFall(k.id)*100)+'% of either edge'));
   dt.appendChild(stEl('div','st-skill-line','train it free on the practice map with the train button at the top · you need level '+SPECIAL_MIN_LEVEL+' to use it in a run'+(isWheelieType(k.id)?' · it needs the ground':' · it pays double in the air')));
-  const lbb=stEl('button','lab-reset','skill leaderboard ›'); lbb.type='button';
-  lbb.onclick=()=>{ document.getElementById('trainPanel').classList.add('hidden'); openPanel('lbPanel'); if(window.__bikeLB) window.__bikeLB.open('skillAvg'); };
-  dt.appendChild(lbb);
   root.appendChild(dt);
   root.scrollTop=keep; skSwap='';
 }
@@ -2729,9 +2954,10 @@ document.getElementById('closeStunts').onclick=()=>{ closeTrainPick(); closePane
 
 // ---- daily rewards: one claim per day (your local date), and the streak can go on forever. miss a day and your streak resets, then you wait one day before you can start again.
 // the reward is a surprise (the game never says what it is before you claim): most days are coins that grow slowly, and every 7th day is a speed boost worth one speed tier ----
+const DAILY_CAP=1000000;   // sanity limit only (about 2,700 years of daily streak), the firestore rules use the same number
 const BOOST_MS=30*60*1000;   // a speed boost lasts 30 minutes
 let daily={streak:0,last:'',wait:'',best:0,total:0,boostUntil:0};
-try{ const o=lsGetJSON('bike_daily',{}); if(o&&typeof o==='object'){ const ds=x=>(typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x))?x:'', ni=x=>Math.max(0,Math.min(999999,Math.floor(Number(x))||0));
+try{ const o=lsGetJSON('bike_daily',{}); if(o&&typeof o==='object'){ const ds=x=>(typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x))?x:'', ni=x=>Math.max(0,Math.min(DAILY_CAP,Math.floor(Number(x))||0));
   daily={streak:ni(o.streak),last:ds(o.last),wait:ds(o.wait),best:ni(o.best),total:ni(o.total),boostUntil:Math.max(0,Math.min(Date.now()+2*BOOST_MS,Math.floor(Number(o.boostUntil))||0))}; } }catch(e){}
 function saveDaily(){ lsSet('bike_daily',JSON.stringify(daily)); }
 const pad2=n=>(n<10?'0':'')+n;
@@ -2743,7 +2969,7 @@ const dailyCoins=day=>100+12*(day-1);   // 100, 112, 124 ... slow and steady, no
 // the speed boost: for 30 minutes your top speed is one speed tier higher (the gap to the next tier; at the top tier, the gap from the one below)
 function boostLeft(){ return Math.max(0,daily.boostUntil-Date.now()); }
 function boostMph(){
-  if(boostLeft()<=0) return 0;
+  if(boostLeft()<=0||selectedVehicle===IGNITOR_VEH) return 0;   // the Ignitor's speed never changes
   const v=selectedVehicle, hi=Math.min(spMax(v)-1,selectedTier+1), lo=hi>selectedTier?selectedTier:Math.max(0,selectedTier-1);
   return Math.max(1,vehMph(v,hi)-vehMph(v,lo));
 }
@@ -2778,72 +3004,387 @@ function renderDaily(got){   // got = what you just won (shown right after you c
 }
 function dailyClaim(){
   const v=dailyView(); if(v.state!=='ready') return;
-  daily.streak=v.day; daily.last=v.today; daily.wait=''; daily.best=Math.max(daily.best,v.day); daily.total=Math.min(999999,daily.total+1);
+  daily.streak=v.day; daily.last=v.today; daily.wait=''; daily.best=Math.max(daily.best,v.day); daily.total=Math.min(DAILY_CAP,daily.total+1);
   let won;
   if(dailyKind(v.day)==='boost'){ daily.boostUntil=Date.now()+BOOST_MS; won='⚡ you won a speed boost: +1 speed tier for 30 minutes'; }
   else { const c=dailyCoins(v.day); wallet+=c; won='+'+fmtC(c)+' added to your coins'; }
   saveDaily(); saveShop(); updateWalletTags(); updateDailyBtn(); pulseEl('menuWalletTag'); renderDaily(won); updateWheelUI();
+  try{ if(window.__bikeLB&&window.__bikeLB.push) window.__bikeLB.push(true); }catch(e){}
 }
-// ---- rewards: spin the wheel. buy a spin (the game's sales tax applies) for a chance at coins or a speed boost ----
-const SPIN_PRICE=300, SPIN_MS=4600;
-const WHEEL=[{coins:75,w:24},{coins:600,w:8},{coins:150,w:22},{coins:2500,w:1},{coins:250,w:18},{boost:true,w:10},{coins:400,w:12},{coins:1000,w:5}];   // weights add up to 100
-const WHEEL_COLS=['#2f6fed','#13b38a','#7c4dff','#d62839','#ff7a3d','#e6a817','#ec4a86','#18b8d8'];
-const wheelLabel=s=>s.boost?'⚡':(s.coins>=1000?(s.coins/1000)+'k':s.coins+'c');
-let wheelBuilt=false, wheelDeg=0, wheelSpinning=false, wheelMsg='', wheelCv=null;
-function drawWheel(cv){
-  const S=cv.width, c=cv.getContext('2d'), r=S/2, n=WHEEL.length, a=Math.PI*2/n, font=getComputedStyle(document.body).fontFamily;
+// ---- rewards: a real prize wheel (bezel with bulbs, pegs, and a flapper that clicks over every peg) + crates ----
+const SPIN_PRICE=300, SPIN_MS=5600;
+const WHEEL=[{coins:200,w:14,col:'#5b6b8c'},{coins:1000,w:9,col:'#d62839'},{coins:400,w:12,col:'#1fa5a0'},{boost:true,w:6,dark:true},{coins:750,w:10,col:'#7c4dff'},{coins:2500,w:8,col:'#e6a817',dark:true},
+             {coins:300,w:12,col:'#3aa655'},{coins:5000,w:5,col:'#d6336c'},{coins:600,w:8,col:'#f08a24'},{boost:true,w:6,dark:true},{coins:1500,w:7,col:'#2f6fed'},{coins:10000,w:3,col:'#8a1c9e'}];   // 12 slices, weights add up to 100. big prizes (1,000c to 10,000c) are much more common than before
+const wheelCol=s=>s.boost?'#f2d024':s.col;
+const wheelLbl=n=>n>=1000?String(n/1000)+'k':String(n);
+let wheelBuilt=false, wheelDeg=0, wheelSpinning=false, wheelMsg='', wheelCv=null, wheelFlapEl=null, wheelStage=null;
+function shadeHex(h,k){   // k from -1 (darker) to 1 (lighter)
+  const n=parseInt(h.slice(1),16), f=v=>Math.max(0,Math.min(255,Math.round(k<0?v*(1+k):v+(255-v)*k)));
+  return 'rgb('+f(n>>16)+','+f((n>>8)&255)+','+f(n&255)+')';
+}
+function drawPrizeWheel(cv){
+  const S=cv.width, c=cv.getContext('2d'), m=S/2, R=m-2, face=R*.915, n=WHEEL.length, a=Math.PI*2/n, font=getComputedStyle(document.body).fontFamily;
   c.clearRect(0,0,S,S);
-  for(let i=0;i<n;i++){
-    const s0=-Math.PI/2+i*a;
-    c.beginPath(); c.moveTo(r,r); c.arc(r,r,r-2,s0,s0+a); c.closePath(); c.fillStyle=WHEEL_COLS[i%WHEEL_COLS.length]; c.fill();
-    c.strokeStyle='#fff'; c.lineWidth=S*.012; c.stroke();
-    c.save(); c.translate(r,r); c.rotate(s0+a/2); c.fillStyle='#fff'; c.font='800 '+Math.round(S*.075)+'px '+font; c.textAlign='center'; c.textBaseline='middle'; c.fillText(wheelLabel(WHEEL[i]),r*.64,0); c.restore();
+  c.beginPath(); c.arc(m,m,R,0,Math.PI*2); c.fillStyle='#1b1630'; c.fill();
+  for(let i=0;i<n;i++){   // slices with a light-to-dark shade so they look like real painted metal
+    const s0=-Math.PI/2+i*a, col=wheelCol(WHEEL[i]), g=c.createRadialGradient(m,m,R*.1,m,m,face);
+    g.addColorStop(0,shadeHex(col,-.4)); g.addColorStop(.55,col); g.addColorStop(1,shadeHex(col,.24));
+    c.beginPath(); c.moveTo(m,m); c.arc(m,m,face,s0,s0+a); c.closePath(); c.fillStyle=g; c.fill();
+  }
+  c.save(); c.lineCap='round';   // dividers: a dark groove with a gold ridge on top
+  for(let i=0;i<n;i++){ const s0=-Math.PI/2+i*a, x=m+Math.cos(s0)*face, y=m+Math.sin(s0)*face;
+    c.beginPath(); c.moveTo(m,m); c.lineTo(x,y); c.strokeStyle='rgba(0,0,0,.45)'; c.lineWidth=S*.011; c.stroke();
+    c.beginPath(); c.moveTo(m,m); c.lineTo(x,y); c.strokeStyle='#f3dc8a'; c.lineWidth=S*.005; c.stroke(); }
+  c.restore();
+  c.beginPath(); c.arc(m,m,face*.43,0,Math.PI*2); c.strokeStyle='rgba(255,255,255,.22)'; c.lineWidth=S*.004; c.stroke();   // inner ring
+  c.beginPath(); c.arc(m,m,face*.45,0,Math.PI*2); c.strokeStyle='rgba(0,0,0,.25)'; c.lineWidth=S*.003; c.stroke();
+  for(let i=0;i<n;i++){   // labels read outward from the hub
+    const s=WHEEL[i], dark=!!s.dark;
+    c.save(); c.translate(m,m); c.rotate(-Math.PI/2+i*a+a/2); c.textBaseline='middle'; c.textAlign='center';
+    c.shadowColor=dark?'rgba(255,255,255,.35)':'rgba(0,0,0,.55)'; c.shadowBlur=S*.01; c.shadowOffsetY=S*.004;
+    c.fillStyle=dark?'#3b2a00':'#fff';
+    c.font='800 '+Math.round(S*(s.boost?.1:.078))+'px '+font; c.fillText(s.boost?'⚡':wheelLbl(s.coins),face*.6,0);
+    c.restore();
+  }
+  const rp=(face+R)/2, lg=c.createLinearGradient(0,0,S,S);   // outer rim band
+  lg.addColorStop(0,'#fff1b8'); lg.addColorStop(.35,'#c99a2e'); lg.addColorStop(.65,'#f7e08b'); lg.addColorStop(1,'#8a6212');
+  c.beginPath(); c.arc(m,m,rp,0,Math.PI*2); c.strokeStyle=lg; c.lineWidth=R-face; c.stroke();
+  c.beginPath(); c.arc(m,m,face,0,Math.PI*2); c.strokeStyle='rgba(0,0,0,.5)'; c.lineWidth=S*.004; c.stroke();
+  for(let i=0;i<n;i++){   // a metal peg at every divider (the flapper clicks over these)
+    const t=-Math.PI/2+i*a, x=m+Math.cos(t)*rp, y=m+Math.sin(t)*rp, r=S*.017, pg=c.createRadialGradient(x-r*.35,y-r*.35,r*.1,x,y,r);
+    pg.addColorStop(0,'#fff'); pg.addColorStop(.5,'#d9dde6'); pg.addColorStop(1,'#6b7280');
+    c.save(); c.shadowColor='rgba(0,0,0,.6)'; c.shadowBlur=S*.008; c.shadowOffsetY=S*.004; c.beginPath(); c.arc(x,y,r,0,Math.PI*2); c.fillStyle=pg; c.fill(); c.restore();
   }
 }
 function buildWheel(){
   if(wheelBuilt) return; wheelBuilt=true;
   const root=document.getElementById('wheelBody'); root.innerHTML='';
   root.appendChild(stEl('div','dy-sec','spin the wheel'));
-  root.appendChild(stEl('div','dy-sub','buy a spin for a chance at coins (75c to 2,500c) or a 30 minute speed boost.'));
-  const wrap=stEl('div','dy-wheel-wrap'), cv=stEl('canvas','dy-wheel'); cv.width=cv.height=500; drawWheel(cv); wheelCv=cv; cv.style.transform='rotate('+wheelDeg+'deg)';
-  wrap.appendChild(cv); wrap.appendChild(stEl('div','dy-pointer')); wrap.appendChild(stEl('div','dy-hub','★')); root.appendChild(wrap);
+  root.appendChild(stEl('div','dy-sub','buy a spin for coins (200c up to 10,000c) or a 30 minute speed boost. no tax on rewards.'));
+  const stage=stEl('div','rw-stage'); wheelStage=stage;
+  stage.appendChild(stEl('div','rw-shadow')); stage.appendChild(stEl('div','rw-frame'));
+  for(let i=0;i<24;i++){ const b=stEl('div','rw-bulb'+(i%2?' b':'')), t=i/24*Math.PI*2; b.style.left=(50+45.4*Math.sin(t))+'%'; b.style.top=(50-45.4*Math.cos(t))+'%'; stage.appendChild(b); }
+  const cv=stEl('canvas','rw-face'); cv.width=cv.height=840; drawPrizeWheel(cv); wheelCv=cv; cv.style.transform='rotate('+wheelDeg+'deg)'; stage.appendChild(cv);
+  stage.appendChild(stEl('div','rw-gloss'));
+  const fl=stEl('div','rw-flap'); fl.innerHTML='<svg viewBox="0 0 40 64" width="100%" height="100%"><defs><linearGradient id="rwFl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6a5a"/><stop offset="1" stop-color="#a3121f"/></linearGradient></defs><path d="M20 62 L5 22 A16 16 0 1 1 35 22 Z" fill="url(#rwFl)" stroke="#4a0710" stroke-width="2.2" stroke-linejoin="round"/><circle cx="20" cy="17" r="6.5" fill="#ffd24d" stroke="#8a6212" stroke-width="2"/><circle cx="18" cy="15" r="2" fill="#fff8d6"/></svg>';
+  wheelFlapEl=fl; stage.appendChild(fl);
+  stage.appendChild(stEl('div','rw-hub','★'));
+  root.appendChild(stage);
   const msg=stEl('div','dy-sub dy-wheelmsg'); msg.id='wheelMsg'; root.appendChild(msg);
   const btn=stEl('button','dy-claim'); btn.id='wheelBtn'; btn.type='button'; btn.onclick=wheelSpin; root.appendChild(btn);
   const info=stEl('div','dy-sub'); info.id='wheelInfo'; root.appendChild(info);
 }
 function updateWheelUI(){
   if(!wheelBuilt) return;
-  const cost=withTax(SPIN_PRICE), btn=document.getElementById('wheelBtn'), msg=document.getElementById('wheelMsg'), info=document.getElementById('wheelInfo');
-  btn.disabled=wheelSpinning||wallet<cost;
+  const cost=SPIN_PRICE, btn=document.getElementById('wheelBtn'), msg=document.getElementById('wheelMsg'), info=document.getElementById('wheelInfo');
+  btn.disabled=wheelSpinning||crateBusy||wallet<cost;
   btn.textContent=wheelSpinning?'spinning...':(wallet<cost?'need '+fmtC(cost-wallet)+' more':'buy a spin · '+fmtC(cost));
   msg.textContent=wheelMsg; msg.className='dy-sub dy-wheelmsg'+(wheelMsg?' dy-won':''); msg.style.display=wheelMsg?'':'none';
-  info.textContent='one spin is '+fmtC(SPIN_PRICE)+' + '+fmtC(taxOn(SPIN_PRICE))+' tax ('+TAX_PCT+'%) · you have '+fmtC(wallet);
+  info.textContent='one spin costs '+fmtC(SPIN_PRICE)+' (no tax)'+(wheelSpinning?'':' · you have '+fmtC(wallet));   // the wallet is hidden mid-spin so it can't give the prize away
+  updateCrateUI();
 }
 function wheelSpin(){
-  const cost=withTax(SPIN_PRICE); if(wheelSpinning||wallet<cost) return;
-  let r=Math.random()*100, idx=0; for(let i=0;i<WHEEL.length;i++){ r-=WHEEL[i].w; if(r<0){ idx=i; break; } }
+  const cost=SPIN_PRICE; if(wheelSpinning||crateBusy||wallet<cost) return;
+  const tot=WHEEL.reduce((t,x)=>t+x.w,0); let r=Math.random()*tot, idx=0; for(let i=0;i<WHEEL.length;i++){ r-=WHEEL[i].w; if(r<0){ idx=i; break; } }
   const prize=WHEEL[idx];
   wallet-=cost;                                                    // paid and won before the wheel even stops, so closing the window can never lose a prize
   if(prize.boost){ daily.boostUntil=Math.min(Date.now()+2*BOOST_MS,Math.max(Date.now(),daily.boostUntil)+BOOST_MS); saveDaily(); }
   else wallet+=prize.coins;
   lsSet('bike_wallet',String(wallet));
-  wheelSpinning=true; wheelMsg='';
+  wheelSpinning=true; wheelMsg=''; if(wheelStage) wheelStage.classList.add('spin');
   const a=360/WHEEL.length, cur=((wheelDeg%360)+360)%360, jitter=(Math.random()-.5)*a*.7, want=(((360-(idx*a+a/2+jitter))%360)+360)%360;
-  wheelDeg+=360*5+(((want-cur)+360)%360);
-  wheelCv.style.transition='transform '+SPIN_MS+'ms cubic-bezier(.12,.62,.12,1)'; wheelCv.style.transform='rotate('+wheelDeg+'deg)';
-  updateWheelUI();
-  setTimeout(()=>{
-    wheelSpinning=false;
+  const from=wheelDeg, to=wheelDeg+360*(5+Math.floor(Math.random()*2))+(((want-cur)+360)%360), t0=performance.now();
+  let lastN=Math.floor(from/a), flap=0, done=false;
+  const finish=()=>{
+    if(done) return; done=true; wheelDeg=to; wheelCv.style.transform='rotate('+to+'deg)'; if(wheelFlapEl) wheelFlapEl.style.transform='';
+    wheelSpinning=false; if(wheelStage) wheelStage.classList.remove('spin');
     wheelMsg=prize.boost?'⚡ you won a speed boost: +1 speed tier for 30 minutes':'🎡 you won +'+fmtC(prize.coins);
-    saveShop(); updateWalletTags(); pulseEl('menuWalletTag'); updateDailyBtn(); renderDaily(); updateWheelUI();
-  },SPIN_MS+150);
+    saveShop(); updateWalletTags(); pulseEl('menuWalletTag'); pulseEl('rewardsWalletTag'); updateDailyBtn(); renderDaily(); updateWheelUI();
+  };
+  const step=now=>{
+    if(done) return;
+    const u=Math.min(1,(now-t0)/SPIN_MS), deg=from+(to-from)*(1-Math.pow(1-u,4));      // fast start, long slow-down like a real wheel
+    wheelDeg=deg; wheelCv.style.transform='rotate('+deg+'deg)';
+    const nn=Math.floor(deg/a); if(nn!==lastN){ flap=1; lastN=nn; }                    // a peg just pushed the flapper
+    flap*=.84; if(wheelFlapEl) wheelFlapEl.style.transform='rotate('+(-flap*34)+'deg)';
+    if(u<1) requestAnimationFrame(step); else finish();
+  };
+  requestAnimationFrame(step); setTimeout(finish,SPIN_MS+500);   // the timer only matters if the tab was hidden (rAF pauses)
+  updateWheelUI();
+  updateCrateUI();
 }
-{ const dm=document.getElementById('dailyModal');
-  const open=()=>{ dailyWon=''; renderDaily(); buildWheel(); updateWheelUI(); dm.classList.remove('hidden'); }, close=()=>dm.classList.add('hidden');
-  document.getElementById('dailyBtn').onclick=open; document.getElementById('closeDaily').onclick=close;
-  dm.addEventListener('click',e=>{ if(e.target===dm) close(); });
-  addEventListener('keydown',e=>{ if(e.key==='Escape'&&!dm.classList.contains('hidden')){ close(); e.stopImmediatePropagation(); e.preventDefault(); } },true);
-  setInterval(()=>{ updateDailyBtn(); if(!dm.classList.contains('hidden')){ renderDaily(); updateWheelUI(); } },20000);
+
+// ---- crates: buy one at any price and it opens by itself. coins go straight to your wallet. a bike prize can be KEPT (goes in your inventory) or SOLD.
+// anything is possible: any bike can come out of any crate, and there is a small jackpot chance of a fully maxed out bike (a max e-bike, for example) ----
+const CRATE_MIN=100, CRATE_HI_CHANCE=.3, SELL_TAX=.1, CRATE_MIN_MPH=20;   // bikes in crates must be faster than 20 mph at their base speed, so the base bike and the push scooter never show up
+try{ const oldC=lsGetJSON('bike_crates',[]); if(Array.isArray(oldC)&&oldC.length){   // crates stored by older versions are turned into coins
+  const sum=oldC.reduce((t,n)=>t+(Math.floor(Number(n))||0),0); if(sum>0&&isFinite(sum)){ wallet+=Math.min(sum,1e12); lsSet('bike_wallet',String(wallet)); } lsSet('bike_crates','[]'); } }catch(e){}
+let crPend=null;   // a bike prize that is waiting for you to keep it or sell it (saved, so closing the window never loses it)
+try{ const p=lsGetJSON('bike_crPend',null); if(p&&p.kind==='bike'&&Number.isInteger(p.ve)&&p.ve>=0&&p.ve<VEHICLES.length&&Number.isFinite(p.val)&&p.val>=0) crPend={kind:'bike',ve:p.ve,maxed:!!p.maxed,val:Math.floor(p.val),V:Math.max(0,Math.floor(Number(p.V))||0),hi:!!p.hi,jackpot:!!p.jackpot}; }catch(e){}
+const saveCrPend=()=>lsSet('bike_crPend',JSON.stringify(crPend));
+let cratePrice=1000, crateBusy=false, crateOpen=false, crateRes=null, crateBuilt=false, crateMsg='';
+const crateBikeOk=ve=>VEHICLES[ve].lo>CRATE_MIN_MPH;
+function bikeValue(ve,maxed){   // what a bike prize is worth (a maxed bike also counts its top speed level and top stunt level)
+  let v=isOwned(ve)?0:Math.max(0,VEHICLES[ve].price);
+  if(maxed) v+=speedCost(ve,ve===IGNITOR_VEH?0:spMax(ve)-1)+stuntTiers[stMax(ve)-1].price;
+  return Math.max(0,Math.round(v));
+}
+function grantBike(ve,maxed){   // keep: the bike goes in your inventory (a maxed one comes with its top speed level and top stunt level)
+  if(!garage.owned.includes(ve)){ garage.owned.push(ve); garage.data[ve]=BLANK_BIKE(); }
+  if(maxed){
+    const sp=ve===IGNITOR_VEH?0:spMax(ve)-1, st=stMax(ve)-1;
+    if(ve===selectedVehicle){ selectedTier=Math.max(selectedTier,sp); selectedStuntTier=Math.max(selectedStuntTier,st); }
+    else { const b=cleanBike(ve,garage.data[ve]); b.sp=Math.max(b.sp,sp); b.st=Math.max(b.st,st); garage.data[ve]=b; }
+  }
+  saveShop(); saveStunts();
+}
+function crateRoll(V){   // V = what you paid
+  const hi=Math.random()<CRATE_HI_CHANCE, tail=()=>-Math.log(1-Math.random()*.999);
+  const jp=.004+.02*Math.min(1,V/1000000);   // jackpot: any bike, fully maxed out. 0.4% on any crate, up to 2.4% on big ones
+  if(Math.random()<jp){
+    const w=VEHICLES.map((v,i)=>crateBikeOk(i)?1/Math.sqrt(Math.max(1000,bikeValue(i,true))):0);
+    let q=Math.random()*w.reduce((t,x)=>t+x,0), j=0; for(let i=0;i<w.length;i++){ q-=w[i]; if(q<0){ j=i; break; } }
+    return {kind:'bike',ve:j,maxed:true,val:bikeValue(j,true),hi:true,jackpot:true};
+  }
+  const bikes=VEHICLES.map((v,ve)=>({ve,val:Math.max(0,v.price)})).filter(b=>crateBikeOk(b.ve)&&!isOwned(b.ve)&&(hi?(b.val>V&&b.val<=V*5):(b.val<V&&(b.val>=V/20))));
+  if(bikes.length&&Math.random()<.3){
+    const w=bikes.map(b=>hi?1/Math.max(1,b.val):Math.max(1,b.val)); let q=Math.random()*w.reduce((t,x)=>t+x,0), j=0; for(let i=0;i<w.length;i++){ q-=w[i]; if(q<0){ j=i; break; } }
+    return {kind:'bike',ve:bikes[j].ve,maxed:false,val:bikes[j].val,hi};
+  }
+  const v=hi?Math.max(V+1,Math.floor(V*Math.min(25,1.1+.8*tail()))):Math.max(1,Math.floor(V*(.08+.87*Math.random())));
+  return {kind:'money',val:v,hi};
+}
+function crateStart(V){
+  const roll=crateRoll(V); roll.V=V;
+  crateBusy=true; crateOpen=false; crateRes=null; crateMsg='';
+  if(roll.kind==='money') wallet+=roll.val; else crPend=roll;
+  saveCrPend(); saveShop();                                         // paid and won right away, so closing the window can never lose a prize
+  updateCrateUI(); updateWheelUI();
+  crateFx(roll);
+}
+// full screen opening: dark backdrop, the crate shakes and pops open, an envelope comes out, its flap opens and the prize slides out
+let cfxEl=null, cfxTimers=[];
+function crateFxClose(){ cfxTimers.forEach(clearTimeout); cfxTimers=[]; if(cfxEl){ const e=cfxEl; cfxEl=null; e.classList.add('out'); setTimeout(()=>e.remove(),350); } }
+function crateFx(R){
+  crateFxClose();
+  const bike=R.kind==='bike', hi=R.jackpot||R.hi;
+  const el=document.createElement('div'); el.id='cfx'; cfxEl=el;
+  el.innerHTML='<div class="cfx-stage"><div class="rw-crate cfx-crate shake">'+CRATE_SVG+'</div><div class="cfx-flash"></div>'+
+    '<div class="cfx-env"><div class="cfx-eback"></div><div class="cfx-card"></div><div class="cfx-efront"></div><div class="cfx-eflap"></div></div>'+
+    '<div class="cfx-btns"></div></div>';
+  const card=el.querySelector('.cfx-card'), btns=el.querySelector('.cfx-btns'), crate=el.querySelector('.cfx-crate');
+  card.className='cfx-card'+(hi?' hi':'');
+  card.appendChild(stEl('div','cfx-ico',R.jackpot?'🎰':bike?(VEH_ICO[R.ve]||'🚲'):'💰'));
+  card.appendChild(stEl('div','cfx-t',bike?((R.jackpot?'JACKPOT! ':'')+(R.maxed?'fully maxed ':'')+VEHICLES[R.ve].name):'+'+fmtC(R.val)+' coins'));
+  card.appendChild(stEl('div','cfx-s',bike?(R.maxed?'top speed and stunt levels · worth '+fmtC(R.val):'worth '+fmtC(R.val)):'added to your coins'));
+  card.appendChild(stEl('div','cfx-b',R.jackpot?'★ jackpot':hi?'▲ worth more than you paid':'▼ worth less than you paid'));
+  if(bike){
+    const kb=stEl('button','cfx-btn keep','keep'), sb=stEl('button','cfx-btn sell','sell · +'+fmtC(Math.floor(R.val*(1-SELL_TAX))));
+    kb.type=sb.type='button'; kb.onclick=crateKeep; sb.onclick=crateSell; btns.appendChild(kb); btns.appendChild(sb);
+  } else {
+    const ok=stEl('button','cfx-btn keep','collect'); ok.type='button';
+    ok.onclick=()=>{ crateMsg='💰 +'+fmtC(R.val)+' coins added'; crateFxClose(); updateWalletTags(); updateCrateUI(); pulseEl('menuWalletTag'); pulseEl('rewardsWalletTag'); updateWheelUI(); };
+    btns.appendChild(ok);
+  }
+  document.body.appendChild(el);
+  const T=(ms,f)=>cfxTimers.push(setTimeout(f,ms));
+  T(30,()=>el.classList.add('in'));
+  T(2000,()=>crate.classList.remove('shake'));
+  T(2100,()=>{ crate.classList.add('open'); el.classList.add('flash'); });
+  T(2900,()=>el.classList.add('env'));
+  T(4200,()=>el.classList.add('flap'));
+  T(4900,()=>el.classList.add('card'));
+  T(5900,()=>{ el.classList.add('btns'); crateBusy=false; updateCrateUI(); });   // now keep / sell work
+}
+function crateBuy(){
+  if(crateBusy||wheelSpinning||crPend) return;
+  const p=Math.floor(cratePrice); if(!(p>=CRATE_MIN)||wallet<p) return;
+  wallet-=p; crateStart(p);
+}
+function crateKeep(){
+  const R=crPend; if(!R||crateBusy) return;
+  grantBike(R.ve,R.maxed); crPend=null; saveCrPend();
+  crateMsg='✅ '+VEHICLES[R.ve].name+' is in your inventory'+(R.maxed?' with max speed and stunt levels':'')+' (upgrades → inventory)';
+  crateRes=null; crateOpen=false; crateFxClose(); updateWalletTags(); updateCrateUI();
+}
+function crateSell(){
+  const R=crPend; if(!R||crateBusy) return;
+  const amt=Math.floor(R.val*(1-SELL_TAX)); wallet+=amt; crPend=null; saveCrPend(); saveShop();
+  crateMsg='💸 sold for +'+fmtC(amt);
+  crateRes=null; crateOpen=false; crateFxClose(); updateWalletTags(); updateCrateUI(); pulseEl('menuWalletTag'); pulseEl('rewardsWalletTag'); updateWheelUI();
+}
+const CRATE_SVG='<svg viewBox="0 0 140 130" width="100%" height="100%" style="overflow:visible"><defs><linearGradient id="crGl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="rgba(255,226,122,.95)"/><stop offset="1" stop-color="rgba(255,226,122,0)"/></linearGradient></defs><ellipse cx="70" cy="122" rx="54" ry="6" fill="rgba(0,0,0,.2)"/>'+
+  '<g class="cr-body"><rect x="20" y="54" width="100" height="66" rx="5" fill="#b9833f" stroke="#5e3b0e" stroke-width="3"/>'+
+  '<path d="M21 76H119M21 98H119" stroke="#8a5d26" stroke-width="2.5"/><path d="M26 116L114 58" stroke="#8a5d26" stroke-width="5"/>'+
+  '<rect x="20" y="54" width="13" height="66" fill="#7b8494" stroke="#4b5260" stroke-width="2"/><rect x="107" y="54" width="13" height="66" fill="#7b8494" stroke="#4b5260" stroke-width="2"/>'+
+  '<circle cx="26.5" cy="64" r="2.4" fill="#d9dde6"/><circle cx="26.5" cy="110" r="2.4" fill="#d9dde6"/><circle cx="113.5" cy="64" r="2.4" fill="#d9dde6"/><circle cx="113.5" cy="110" r="2.4" fill="#d9dde6"/></g>'+
+  '<g class="cr-glow"><path d="M30 56L110 56L134 -14L6 -14Z" fill="url(#crGl)"/></g>'+
+  '<g class="cr-lid"><rect x="14" y="36" width="112" height="22" rx="5" fill="#c9954c" stroke="#5e3b0e" stroke-width="3"/>'+
+  '<rect x="14" y="36" width="15" height="22" fill="#7b8494" stroke="#4b5260" stroke-width="2"/><rect x="111" y="36" width="15" height="22" fill="#7b8494" stroke="#4b5260" stroke-width="2"/>'+
+  '<rect x="62" y="46" width="16" height="14" rx="2" fill="#ffd24d" stroke="#8a6212" stroke-width="2"/><circle cx="70" cy="53" r="2.4" fill="#5e3b0e"/></g></svg>';
+function buildCrates(){
+  if(crateBuilt) return; crateBuilt=true;
+  const root=document.getElementById('crateBody'); root.innerHTML='';
+  root.appendChild(stEl('div','dy-sec','crates'));
+  root.appendChild(stEl('div','dy-sub','pick a price and buy a crate. it opens by itself and you win a random prize: coins or a bike. coins go straight to your wallet. a bike you can keep or sell. most prizes are worth less than you paid, some are worth more, and now and then you hit a jackpot: a fully maxed out bike. no tax when you buy.'));
+  const art=stEl('div','rw-crate'); art.id='crArt'; art.innerHTML=CRATE_SVG; root.appendChild(art);
+  const cm=stEl('div','dy-sub dy-won'); cm.id='crMsg'; root.appendChild(cm);
+  const res=stEl('div','rw-cres'); res.id='crRes'; root.appendChild(res);
+  root.appendChild(stEl('div','dy-sec','crate price'));
+  const row=stEl('div','rw-crow'), inp=document.createElement('input'); inp.id='crPrice'; inp.type='number'; inp.min=String(CRATE_MIN); inp.step='100'; inp.inputMode='numeric'; inp.value=String(cratePrice); inp.setAttribute('aria-label','crate price in coins');
+  inp.addEventListener('input',()=>{ cratePrice=parseInt(inp.value,10)||0; updateCrateUI(); });
+  inp.addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter') crateBuy(); });
+  row.appendChild(inp); row.appendChild(stEl('span','rw-cunit','coins')); root.appendChild(row);
+  const chips=stEl('div','rw-chips');
+  [[100,'100'],[500,'500'],[1000,'1k'],[5000,'5k'],[25000,'25k'],[100000,'100k'],[0,'max']].forEach(([v,l])=>{ const b=stEl('button','rw-chip',l); b.type='button'; b.onclick=()=>{ cratePrice=v||Math.max(CRATE_MIN,Math.floor(wallet)); inp.value=String(cratePrice); updateCrateUI(); }; chips.appendChild(b); });
+  root.appendChild(chips);
+  const buy=stEl('button','dy-claim'); buy.id='crBuy'; buy.type='button'; buy.onclick=crateBuy; root.appendChild(buy);
+  const info=stEl('div','dy-sub'); info.id='crInfo'; root.appendChild(info);
+}
+function updateCrateUI(){
+  if(!crateBuilt) return;
+  const art=document.getElementById('crArt'), buy=document.getElementById('crBuy'), info=document.getElementById('crInfo'), res=document.getElementById('crRes'), cm=document.getElementById('crMsg');
+  art.className='rw-crate'+(crateBusy?' shake':'')+(crateOpen?' open':'');
+  const p=Math.floor(cratePrice), ok=p>=CRATE_MIN, lock=crateBusy||wheelSpinning||!!crPend;
+  buy.disabled=lock||!ok||wallet<p;
+  buy.textContent=crateBusy?'opening...':crPend?'keep or sell your prize first':!ok?'minimum '+fmtC(CRATE_MIN):wallet<p?'need '+fmtC(p-wallet)+' more':'buy & open a crate · '+fmtC(p);
+  info.textContent=crateBusy||wheelSpinning?'':'you pay exactly the price you pick (no tax) · you have '+fmtC(wallet);
+  cm.textContent=crateMsg; cm.style.display=(crateMsg&&!crateBusy)?'':'none';
+  res.innerHTML=''; res.className='rw-cres';
+  if(crateRes&&!crateBusy){
+    const R=crateRes, bike=R.kind==='bike';
+    res.className='rw-cres show '+((R.jackpot||R.hi)?'hi':'lo');
+    res.appendChild(stEl('div','rw-cico',R.jackpot?'🎰':bike?(VEH_ICO[R.ve]||'🚲'):'💰'));
+    res.appendChild(stEl('div','rw-ctitle',bike?((R.jackpot?'JACKPOT! ':'')+(R.maxed?'fully maxed ':'')+VEHICLES[R.ve].name):'+'+fmtC(R.val)+' coins'));
+    res.appendChild(stEl('div','rw-csub',bike?((R.maxed?'top speed level and top stunt level · ':'base speed and stunt level · ')+'worth '+fmtC(R.val)+' vs '+fmtC(R.V)+' paid'):('added to your coins · worth '+fmtC(R.val)+' vs '+fmtC(R.V)+' paid')));
+    res.appendChild(stEl('div','rw-cbadge',R.jackpot?'★ jackpot':R.hi?'▲ worth more':'▼ worth less'));
+    if(bike&&crPend){
+      const act=stEl('div','rw-cact'), kb=stEl('button','dy-claim rw-keep','keep it'), sb=stEl('button','dy-claim rw-sell','sell · +'+fmtC(Math.floor(R.val*(1-SELL_TAX))));
+      kb.type=sb.type='button'; kb.onclick=crateKeep; sb.onclick=crateSell; act.appendChild(kb); act.appendChild(sb); res.appendChild(act);
+    }
+  }
+}
+
+// ---- quests: select up to 3 in rewards. while a quest is selected, doing it in the game counts toward it. when you finish it a message pops up in the game and the coins are yours (no tax) ----
+const QUEST_MAX=3;
+const QUESTS=[
+ {id:'m1',e:'🚴',name:'Warm-up',d:'ride 1,000 m in total',m:'meters',kind:'sum',goal:1000,u:' m',reward:300},
+ {id:'m2',e:'🛣️',name:'Road trip',d:'ride 5,000 m in total',m:'meters',kind:'sum',goal:5000,u:' m',reward:1500},
+ {id:'m3',e:'🏁',name:'Marathon',d:'ride 20,000 m in total',m:'meters',kind:'sum',goal:20000,u:' m',reward:6000},
+ {id:'m4',e:'🌍',name:'Cross country',d:'ride 100,000 m in total',m:'meters',kind:'sum',goal:100000,u:' m',reward:25000},
+ {id:'r1',e:'📏',name:'Long ride',d:'ride 1,500 m in one run',m:'run',kind:'max',goal:1500,u:' m',reward:500},
+ {id:'r2',e:'🔋',name:'Endurance',d:'ride 4,000 m in one run',m:'run',kind:'max',goal:4000,u:' m',reward:2500},
+ {id:'r3',e:'😤',name:'Hard rider',d:'ride 2,000 m in one run on hard',m:'run',kind:'max',goal:2000,u:' m',reward:2500,mode:'hard'},
+ {id:'r4',e:'🔥',name:'Chaos survivor',d:'ride 1,000 m in one run on chaos',m:'run',kind:'max',goal:1000,u:' m',reward:4000,mode:'chaos'},
+ {id:'r5',e:'🚓',name:'Outrun the law',d:'stay ahead of the cops for 1,500 m',m:'run',kind:'max',goal:1500,u:' m',reward:3500,mode:'police'},
+ {id:'c1',e:'🍌',name:'Cop stopper',d:'take down 3 cops',m:'copsdown',kind:'sum',goal:3,u:'',reward:3000,mode:'police'},
+ {id:'f1',e:'🤸',name:'First flips',d:'land 5 flips in total',m:'flips',kind:'sum',goal:5,u:'',reward:400},
+ {id:'f2',e:'🔄',name:'Flip machine',d:'land 50 flips in total',m:'flips',kind:'sum',goal:50,u:'',reward:3000},
+ {id:'f3',e:'🌀',name:'Flip legend',d:'land 300 flips in total',m:'flips',kind:'sum',goal:300,u:'',reward:15000},
+ {id:'t1',e:'✨',name:'Big trick',d:'land 3 flips in one jump',m:'bestflips',kind:'max',goal:3,u:'',reward:800},
+ {id:'t2',e:'💫',name:'Mega trick',d:'land 6 flips in one jump',m:'bestflips',kind:'max',goal:6,u:'',reward:4000},
+ {id:'t3',e:'🌟',name:'Insane trick',d:'land 12 flips in one jump',m:'bestflips',kind:'max',goal:12,u:'',reward:15000},
+ {id:'a1',e:'🪂',name:'Hang time',d:'stay in the air for 1 second in one jump',m:'bestair',kind:'max',goal:1,u:' s',dec:1,reward:500},
+ {id:'a2',e:'🕊️',name:'Sky high',d:'stay in the air for 2 seconds in one jump',m:'bestair',kind:'max',goal:2,u:' s',dec:1,reward:2500},
+ {id:'a3',e:'🧑‍🚀',name:'Astronaut',d:'stay in the air for 3.5 seconds in one jump',m:'bestair',kind:'max',goal:3.5,u:' s',dec:1,reward:10000},
+ {id:'j1',e:'🦘',name:'Jump around',d:'land 10 jumps that pay coins',m:'jumps',kind:'sum',goal:10,u:'',reward:600},
+ {id:'j2',e:'👑',name:'Jump king',d:'land 60 jumps that pay coins',m:'jumps',kind:'sum',goal:60,u:'',reward:3500},
+ {id:'p1',e:'🕳️',name:'Pit hopper',d:'hop over 5 pits',m:'hops',kind:'sum',goal:5,u:'',reward:700},
+ {id:'p2',e:'🦅',name:'Pit master',d:'hop over 30 pits',m:'hops',kind:'sum',goal:30,u:'',reward:4000},
+ {id:'s1',e:'💨',name:'Getting fast',d:'reach 30 mph',m:'mph',kind:'max',goal:30,u:' mph',reward:400},
+ {id:'s2',e:'🏎️',name:'Need for speed',d:'reach 60 mph',m:'mph',kind:'max',goal:60,u:' mph',reward:1500},
+ {id:'s3',e:'⚡',name:'Lightning',d:'reach 120 mph',m:'mph',kind:'max',goal:120,u:' mph',reward:5000},
+ {id:'s4',e:'🚀',name:'Sonic',d:'reach 250 mph',m:'mph',kind:'max',goal:250,u:' mph',reward:15000},
+ {id:'k1',e:'🧍',name:'Balance',d:'hold special stunts for 30 seconds in total',m:'skillsec',kind:'sum',goal:30,u:' s',reward:800},
+ {id:'k2',e:'🏅',name:'Stunt pro',d:'hold special stunts for 5 minutes in total',m:'skillsec',kind:'sum',goal:300,u:' s',reward:6000},
+ {id:'k3',e:'🎯',name:'Steady hands',d:'hold one special stunt for 20 seconds',m:'hold',kind:'max',goal:20,u:' s',reward:1500},
+ {id:'l1',e:'⬆️',name:'Level up',d:'reach the next level',m:'levels',kind:'sum',goal:1,u:'',reward:600},
+ {id:'l2',e:'🧗',name:'Climber',d:'go up 5 levels',m:'levels',kind:'sum',goal:5,u:'',reward:4000},
+ {id:'e1',e:'💰',name:'Pocket money',d:'earn 500 coins in one run',m:'runcoins',kind:'max',goal:500,u:'c',reward:600},
+ {id:'e2',e:'🤑',name:'Big earner',d:'earn 5,000 coins in one run',m:'runcoins',kind:'max',goal:5000,u:'c',reward:3000},
+ {id:'x1',e:'🎆',name:'Blast off',d:'fire 3 rockets',m:'rockets',kind:'sum',goal:3,u:'',reward:500},
+ {id:'n1',e:'🔁',name:'Keep riding',d:'finish 5 runs',m:'runs',kind:'sum',goal:5,u:'',reward:400}
+];
+const QUEST_BY_ID=Object.fromEntries(QUESTS.map(q=>[q.id,q]));
+let quests={active:[],prog:{},done:{}}, qDirty=false, qMsg='', qLastDist=0;
+try{ const o=lsGetJSON('bike_quests',{}); if(o&&typeof o==='object'){
+  if(Array.isArray(o.active)) quests.active=[...new Set(o.active.filter(id=>QUEST_BY_ID[id]))].slice(0,QUEST_MAX);
+  for(const id of Object.keys(QUEST_BY_ID)){ const pg=Number(o.prog&&o.prog[id]); if(isFinite(pg)&&pg>0) quests.prog[id]=pg; const dn=Math.floor(Number(o.done&&o.done[id])); if(isFinite(dn)&&dn>0) quests.done[id]=Math.min(dn,99999); } } }catch(e){}
+function saveQuests(force){ if(!qDirty&&!force) return; qDirty=false; lsSet('bike_quests',JSON.stringify(quests)); }
+let qToastQ=[], qToastBusy=false;
+function questToast(title,sub){ qToastQ.push([title,sub]); if(!qToastBusy) qToastNext(); }
+function qToastNext(){
+  const el=document.getElementById('questAlert'); if(!el) return;
+  const n=qToastQ.shift(); if(!n){ qToastBusy=false; el.classList.add('hidden'); return; }
+  qToastBusy=true; el.textContent=''; el.appendChild(document.createTextNode(n[0])); const sm=document.createElement('small'); sm.textContent=n[1]; el.appendChild(sm);
+  el.classList.remove('hidden'); el.style.animation='none'; void el.offsetWidth; el.style.animation=''; setTimeout(qToastNext,3300);
+}
+function qComplete(q){
+  quests.active=quests.active.filter(x=>x!==q.id); quests.prog[q.id]=0; quests.done[q.id]=(quests.done[q.id]||0)+1;
+  wallet+=q.reward; lsSet('bike_wallet',String(wallet)); saveQuests(true); updateWalletTags(); pulseEl('menuWalletTag');
+  questToast('🏆 quest complete: '+q.name,'+'+fmtC(q.reward)+' added to your coins'); renderQuests();
+}
+function qCheck(q){ if((quests.prog[q.id]||0)>=q.goal-1e-6) qComplete(q); }
+function qAdd(m,a){
+  if(!(a>0)||trainMode||!running||!quests.active.length) return;
+  for(const id of quests.active.slice()){ const q=QUEST_BY_ID[id]; if(!q||q.m!==m||q.kind!=='sum'||(q.mode&&q.mode!==mode)) continue; quests.prog[id]=(quests.prog[id]||0)+a; qDirty=true; qCheck(q); }
+}
+function qMax(m,v){
+  if(!(v>0)||trainMode||!running||!quests.active.length) return;
+  for(const id of quests.active.slice()){ const q=QUEST_BY_ID[id]; if(!q||q.m!==m||q.kind!=='max'||(q.mode&&q.mode!==mode)) continue; if(v>(quests.prog[id]||0)){ quests.prog[id]=v; qDirty=true; qCheck(q); } }
+}
+function questTick(){   // called every physics step while riding
+  if(trainMode||!running||!quests.active.length){ qLastDist=distance; return; }
+  if(distance>qLastDist) qAdd('meters',distance-qLastDist);
+  qLastDist=distance;
+  qMax('run',runMeters()); qMax('mph',Math.round(realDX)); qMax('runcoins',score);
+}
+const QCATS=[['all','all'],['dist','distance'],['trick','tricks'],['speed','speed'],['stunt','stunts'],['other','other']];
+const QCAT_OF={meters:'dist',run:'dist',flips:'trick',bestflips:'trick',bestair:'trick',jumps:'trick',hops:'trick',mph:'speed',skillsec:'stunt',hold:'stunt'};
+const qCat=q=>QCAT_OF[q.m]||'other';
+let qTab='all';
+function renderQuests(){
+  const root=document.getElementById('questBody'); if(!root) return;
+  root.innerHTML='';
+  root.appendChild(stEl('div','dy-sec','quests'));
+  root.appendChild(stEl('div','dy-sub','select up to '+QUEST_MAX+' quests. only selected quests count while you ride. finish one and a message pops up in the game and the coins are yours (no tax). you can select it again after.'));
+  const mm=stEl('div','dy-sub warn',qMsg); mm.style.display=qMsg?'':'none'; root.appendChild(mm);
+  const fmt=(q,v)=>{ v=Math.min(v,q.goal); return Number(q.dec?Math.round(v*10)/10:Math.floor(v)).toLocaleString('en-US')+q.u; };
+  root.appendChild(stEl('div','dy-sub qs-cnt','selected: '+quests.active.length+' / '+QUEST_MAX));
+  const tabs=stEl('div','qs-tabs');
+  QCATS.forEach(([id,lb])=>{
+    const n=String(id==='all'?QUESTS.length:QUESTS.filter(q=>qCat(q)===id).length);
+    const t=stEl('button','qs-tab'+(qTab===id?' on':''),lb+' '); t.type='button'; t.appendChild(stEl('span','qs-n',n));
+    t.onclick=()=>{ qTab=id; qMsg=''; renderQuests(); }; tabs.appendChild(t);
+  });
+  root.appendChild(tabs);
+  const list=stEl('div','qs-list'), items=qTab==='all'?QUESTS:QUESTS.filter(q=>qCat(q)===qTab);
+    items.forEach(q=>{
+    const on=quests.active.includes(q.id), pg=quests.prog[q.id]||0, r=stEl('div','qs-row'+(on?' on':''));
+    r.appendChild(stEl('span','qs-emo',q.e));
+    const mid=stEl('div','qs-mid'), nm=stEl('div','qs-name',q.name);
+    if(q.mode) nm.appendChild(stEl('span','qs-tag',q.mode));
+    mid.appendChild(nm); mid.appendChild(stEl('div','qs-desc',q.d));
+    if(on||pg>0){ const bar=stEl('div','xp'), fl=stEl('i'); fl.style.width=Math.min(100,pg/q.goal*100).toFixed(1)+'%'; bar.appendChild(fl); mid.appendChild(bar);
+      mid.appendChild(stEl('div','qs-prog',fmt(q,pg)+' / '+fmt(q,q.goal))); }
+    r.appendChild(mid);
+    const side=stEl('div','qs-side'); side.appendChild(stEl('span','qs-rw','+'+fmtC(q.reward)));
+    if(quests.done[q.id]) side.appendChild(stEl('span','qs-tag','done ×'+quests.done[q.id]));
+    const bt=stEl('button','qs-btn'+(on?' off':''),on?'drop':'select'); bt.type='button';
+    bt.onclick=()=>{
+      if(on) quests.active=quests.active.filter(x=>x!==q.id);
+      else { if(quests.active.length>=QUEST_MAX){ qMsg='you already have '+QUEST_MAX+' quests selected. drop one first (selected ones are highlighted).'; renderQuests(); return; } quests.active.push(q.id); }
+      qMsg=''; saveQuests(true); renderQuests();
+    };
+    side.appendChild(bt); r.appendChild(side); list.appendChild(r);
+  });
+  root.appendChild(list);
+}
+
+{ const panel='rewardsPanel';
+  const open=()=>{ dailyWon=''; renderDaily(); buildWheel(); buildCrates(); renderQuests(); if(crPend&&!crateBusy){ crateRes=crPend; crateOpen=true; } updateWheelUI(); updateWalletTags(); openPanel(panel); document.getElementById('rewardsBody').scrollTop=0; };
+  document.getElementById('dailyBtn').onclick=open; document.getElementById('closeDaily').onclick=()=>closePanel(panel);   // Escape closes it too (it is one of the menu panels)
+  setInterval(()=>{ updateDailyBtn(); if(!document.getElementById(panel).classList.contains('hidden')&&!wheelSpinning&&!crateBusy){ renderDaily(); updateWheelUI(); } },20000);
   updateDailyBtn(); updatePlayTags(); }
 
 let clouds=[];
@@ -2920,9 +3461,13 @@ function recordRun(){ bestSet('bike_maxLevel',level); bestSet('bike_bestRun',sco
 // police mode: a cop bike chases you from behind; catch-up speed scales with level, plus periodic siren bursts
 const mkCop=()=>({x:0,y:0,vx:0,angle:0,wheel:0,burstT:0,nextBurst:0,grace:0,age:0,boost:0});
 const cop=mkCop(); let escorts=[]; // lead cop + extra cops that join as you climb levels
-const copCount=()=>Math.min(level,12);   // one more cop for every level you reach, up to 12
+const copCount=()=>1+escorts.length;   // police always starts with 1 cop; more join when they call for backup (max 12)
+const BACKUP_DIST=2000, MAX_COPS=12, THROW_COST=10000, THROW_CD=600;   // backup is called when you are 2000m ahead of the nearest cop; a throw costs 10,000 coins and has a 10 second cooldown (600 steps at 60Hz)
+let throwCD=0, backupCD=0, copAlertT=0, thrown=null; const copsDown=[];
+const nearestCop=()=>{ let b=cop; for(const c of escorts) if(c.x>b.x) b=c; return b; };
+function copAlert(msg){ const el=document.getElementById('copAlert'); if(!el) return; el.textContent=msg; el.classList.remove('hidden'); el.style.animation='none'; void el.offsetWidth; el.style.animation=''; copAlertT=180; }
 function initCop(keep){
-  escorts=[]; for(let i=1;i<copCount();i++) escorts.push(mkCop());
+  escorts=[]; throwCD=0; backupCD=0; thrown=null; copsDown.length=0; copAlertT=0; { const el=document.getElementById('copAlert'); if(el) el.classList.add('hidden'); }
   [cop,...escorts].forEach((c,i)=>{
     if(!keep){ c.age=0; c.boost=0; } // keep the heat when a level rolls over, reset it on a fresh run
     c.x=car.x-500-i*260; c.vx=car.vx*.85; c.angle=0; c.wheel=0; c.burstT=0; c.nextBurst=360+Math.random()*300; c.grace=75+i*20;
@@ -2930,8 +3475,8 @@ function initCop(keep){
   });
 }
 function stepCop(cop,i){
-  if(cop.grace>0) cop.grace--; else { const fast=currentBike().mph>50; cop.age+=fast?1+(currentBike().mph-50)/12:1; cop.boost=Math.min(fast?1:.6,cop.age*(.10/600)); } // above 50mph the cops ramp up much faster (and past +60%) // +10% speed every 10s, up to +60%
-  const k=.86+.02*Math.min(level,15)-.008*Math.min(i,8), gap=car.x-cop.x;
+  if(cop.grace>0) cop.grace--; else { cop.age+=Math.min(3,1+Math.max(0,currentBike().mph-50)/60); cop.boost=Math.min(.6,cop.age*(.10/1800)); } // slower ramp-up: +10% speed every 30s (fast bikes: every 10s at most), up to +60%
+  const k=.88-.008*Math.min(i,8), gap=car.x-cop.x;   // cop speed no longer depends on your level (police has no levels)
   if(--cop.nextBurst<=0&&cop.burstT<=0){ cop.burstT=150; cop.nextBurst=420+Math.random()*420; }
   const burst=cop.burstT>0?1.22:1; if(cop.burstT>0) cop.burstT--;
   const catchUp=Math.min(.3,Math.max(0,(gap-600)/1500));
@@ -2943,7 +3488,44 @@ function stepCop(cop,i){
   cop.angle+=(ta-cop.angle)*.25;
   if(cop.grace<=0&&cop.x>=car.x-30) crash(true);
 }
-function updateCop(){ stepCop(cop,0); escorts.forEach((c,i)=>stepCop(c,i+1)); }
+function callBackup(){   // you are 2000m+ ahead of every cop: dispatch calls for backup and a new cop joins the chase behind you
+  const c=mkCop(); c.x=car.x-3000; c.vx=car.vx*.85; c.grace=0; c.nextBurst=360+Math.random()*300; c.y=terrainHeight(c.x,cfg)-33;
+  escorts.push(c); backupCD=600;
+  copAlert('🚨 BACKUP CALLED!  🚓 ×'+copCount());
+  popups.push({x:car.x-camX,y:car.y-90,text:'🚨 backup called! ×'+copCount(),life:1,age:0});
+}
+function canThrow(){ return mode==='police'&&!trainMode&&running&&!paused&&!crashed&&!dying; }
+const spendable=()=>wallet+Math.max(0,score-savedScore);   // banked coins + the coins this run has earned so far
+function throwAtCop(){   // T / the throw button: 10,000 coins to take the nearest cop out of the chase (never the last one), 10 second cooldown
+  if(!canThrow()||thrown||throwCD>0) return;
+  if(!escorts.length){ popups.push({x:car.x-camX,y:car.y-70,text:'only 1 cop - nothing to take down yet',life:1,age:0}); return; }
+  if(spendable()<THROW_COST){ popups.push({x:car.x-camX,y:car.y-70,text:'throwing costs '+fmtC(THROW_COST),life:1,age:0}); return; }
+  if(score>savedScore){ wallet+=score-savedScore; savedScore=score; }   // bank this run's coins first so the payment comes out of one place
+  wallet-=THROW_COST; saveShop(); updateWalletTags();
+  thrown={t:nearestCop(),sx:car.x,sy:car.y-24,x:car.x,y:car.y-24,f:0,dur:36}; throwCD=THROW_CD;
+}
+function stepThrow(){
+  if(!thrown) return;
+  const T=thrown; T.f++; const u=Math.min(1,T.f/T.dur), e=u*u*(3-2*u);
+  T.x=T.sx+(T.t.x-T.sx)*e; T.y=T.sy+(T.t.y-18-T.sy)*e-Math.sin(u*Math.PI)*70;
+  if(u<1) return;
+  const snap=Object.assign({},T.t), idx=T.t===cop?0:escorts.indexOf(T.t)+1;
+  if(idx===0){ if(escorts.length){ Object.assign(cop,escorts[0]); escorts.shift(); } }
+  else if(idx>0) escorts.splice(idx-1,1);
+  snap.vx*=.6; snap.vy=-7; snap.life=80; snap.burstT=0; copsDown.push(snap); qAdd('copsdown',1);
+  popups.push({x:car.x-camX,y:car.y-90,text:'💥 cop down! ×'+copCount()+' left',life:1,age:0});
+  thrown=null;
+}
+function stepCopsDown(){
+  for(const d of copsDown){ d.x+=d.vx; d.vx*=.97; d.vy+=.55; d.y+=d.vy; const gy=terrainHeight(d.x,cfg)-33; if(d.y>gy){ d.y=gy; d.vy*=-.35; d.vx*=.8; } d.angle+=.22*Math.min(1,d.life/40); d.wheel+=d.vx*.12; d.life--; }
+  for(let i=copsDown.length-1;i>=0;i--) if(copsDown[i].life<=0) copsDown.splice(i,1);
+}
+function updateCop(){
+  stepCop(cop,0); escorts.forEach((c,i)=>stepCop(c,i+1)); if(crashed) return;
+  if(throwCD>0) throwCD--; if(backupCD>0) backupCD--; if(copAlertT>0&&--copAlertT===0){ const el=document.getElementById('copAlert'); if(el) el.classList.add('hidden'); }
+  if(backupCD<=0&&copCount()<MAX_COPS&&(car.x-nearestCop().x)/12>BACKUP_DIST) callBackup();
+  stepThrow(); stepCopsDown();
+}
 function drawOneCop(cop){
   const sx=cop.x-camX; if(sx<-100||sx>W+100) return;
   ctx.save(); ctx.translate(sx,cop.y); ctx.rotate(cop.angle); ctx.lineCap='round'; ctx.lineJoin='round';
@@ -2958,10 +3540,35 @@ function drawOneCop(cop){
   ctx.shadowColor=red?'#ff2a2a':'#2a6bff'; ctx.shadowBlur=16; ctx.fillStyle=red?'#ff2a2a':'#2a6bff'; ctx.fillRect(-38,-24,16,7);
   ctx.restore();
 }
-function drawCop(){ [cop,...escorts].forEach(drawOneCop); }
+function drawCop(){ [cop,...escorts,...copsDown].forEach(drawOneCop); }
+function drawThrown(){ if(!thrown) return; const sx=Math.max(24,thrown.x-camX); ctx.save(); ctx.translate(sx,thrown.y); ctx.rotate(thrown.f*.45); ctx.font='26px serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('🍌',0,0); ctx.restore(); }
+// police: the distance of every cop is always on the game field: a tag over each cop on screen, and a list on the left edge for the cops that are off screen
+function drawCopRadar(){
+  if(mode!=='police'||trainMode||!running||crashed) return;
+  const fmt=m=>m.toLocaleString('en-US')+'m', off=[];
+  ctx.save(); ctx.font="700 12px ui-monospace,Menlo,Consolas,monospace"; ctx.textBaseline='middle';
+  const tag=(x,y,text,align,hot)=>{ const w=ctx.measureText(text).width+14, x0=align==='center'?x-w/2:x; ctx.fillStyle='rgba(255,255,255,.88)'; ctx.fillRect(x0,y-10,w,20); ctx.lineWidth=1.5; ctx.strokeStyle=hot?'#d11':'#1d3fa8'; ctx.strokeRect(x0,y-10,w,20); ctx.fillStyle=hot?'#d11':'#111'; ctx.textAlign='left'; ctx.fillText(text,x0+7,y); };
+  for(const c of [cop,...escorts]){
+    const m=Math.max(0,Math.round((car.x-c.x)/12)), sx=c.x-camX;
+    if(sx>=-30&&sx<=W+30) tag(sx,c.y-camY-78,'🚓 '+fmt(m),'center',m<60); else off.push(m);
+  }
+  off.sort((a,b)=>a-b);
+  const y0=Math.max(140,Math.min(H-150,H*.36));
+  off.slice(0,6).forEach((m,i)=>tag(8,y0+i*24,'◀ 🚓 '+fmt(m),'left',m<60));
+  if(off.length>6){ ctx.fillStyle='#555'; ctx.textAlign='left'; ctx.fillText('+'+(off.length-6)+' more',12,y0+6*24); }
+  ctx.restore();
+}
+function updateThrowBtn(){
+  const b=document.getElementById('throwBtn'); if(!b) return;
+  const show=canThrow(); b.classList.toggle('hidden',!show); if(!show) return;
+  const cd=Math.ceil(throwCD/60), noCop=!escorts.length, poor=spendable()<THROW_COST;
+  const txt=cd>0?('🍌 throw · '+cd+'s'):noCop?'🍌 throw · needs 2+ cops':('🍌 throw · '+fmtC(THROW_COST)+' · T');
+  if(b.textContent!==txt) b.textContent=txt;
+  b.disabled=cd>0||noCop||poor||!!thrown;
+}
 function sirenTint(){   // police mode: red and blue lights flash along the top of the screen (no red wash anywhere else)
   if(mode!=='police'||trainMode||!running||crashed) return;
-  const g=Math.max(0,(car.x-cop.x)/12), close=g<40?1-g/40:0, flip=Math.floor(simTime/170)%2===0;
+  const g=Math.max(0,(car.x-nearestCop().x)/12), close=g<40?1-g/40:0, flip=Math.floor(simTime/170)%2===0;
   const hi=.6+.3*close, lo=.12, h=Math.min(130,H*.24), half=W/2;
   ctx.save();
   [[0,'255,40,40',flip?hi:lo],[half,'40,100,255',flip?lo:hi]].forEach(([x,col,al])=>{
@@ -2984,7 +3591,7 @@ function startLevel(){
   pet.x=car.x-70; pet.y=terrainHeight(pet.x,cfg)-16; initCop(true);
 }
 function levelUp(){
-  level++; lsSet('bike_level',String(level)); recordRun();
+  level++; lsSet('bike_level',String(level)); recordRun(); qAdd('levels',1);
   startLevel(); announceLevel(level,(mode==='police'&&!trainMode)?'LEVEL '+level+'  ·  🚓 ×'+copCount():undefined); updateWalletTags();
 }
 function updateRocketBtn(){
@@ -2997,11 +3604,12 @@ function updateRocketBtn(){
 function fireRocket(){
   if(!running||crashed||paused) return;
   const idx=pickRocket(); if(idx<0) return;
-  rockets[idx]--; saveGear();
+  rockets[idx]--; saveGear(); qAdd('rockets',1);
   rocketActive=idx; rocketT=ROCKET_TIERS[idx].dur;
   updateRocketBtn();
 }
 document.getElementById('rocketBtn').addEventListener('pointerdown',e=>{ e.preventDefault(); fireRocket(); });
+document.getElementById('throwBtn').addEventListener('pointerdown',e=>{ e.preventDefault(); e.stopPropagation(); throwAtCop(); });
 
 // special-stunt skills (stand up / wheelie): W starts the chosen skill, A and D balance. lean to within 10% of either edge and you fall off.
 // every second of a skill pays 10c, +2c for each train level of that skill.
@@ -3009,7 +3617,7 @@ const SK={b:.5,v:0,t:0}; let balanceT=0, skillId=null; const BAL_FALL=.10;
 function skillReset(){ SK.b=.5; SK.v=(Math.random()-.5)*.012; SK.t=0; }
 function modeLabel(){
   return trainMode?('training · '+skillName(trainSkill)+' Lv '+(skillLv[trainSkill]||0)+' · '+currentBike().name)
-    :(mode+(!trainMode&&MODE_PAY[mode]>1?' ('+MODE_PAY[mode]+'x coins)':'')+(!trainMode&&abil.rebirths>0?' · ♻️ rebirth '+abil.rebirths:'')+' · Lv '+level+' · '+currentBike().name+(shieldsLeft>0?' · 🛡️'+shieldsLeft:'')+(boostMph()>0?' · ⚡ boost':''));
+    :(mode+(!trainMode&&MODE_PAY[mode]>1?' ('+MODE_PAY[mode]+'x coins)':'')+(!trainMode&&abil.rebirths>0?' · ♻️ rebirth '+abil.rebirths:'')+(mode==='police'?'':' · Lv '+level)+' · '+currentBike().name+(shieldsLeft>0?' · 🛡️'+shieldsLeft:'')+(boostMph()>0?' · ⚡ boost':''));
 }
 function toggleWheelie(){            // W: start the chosen skill / land it safely
   if(!running||crashed||paused||balanceT>0) return;
@@ -3207,6 +3815,7 @@ addEventListener('keydown',e=>{
   if(e.code==='KeyR'&&crashed&&!dying&&running&&!e.repeat) startGame();
   if(e.code==='KeyW'){ if(running) e.preventDefault(); if(!e.repeat) toggleWheelie(); }
   if(e.code==='ArrowUp'||e.code==='KeyE'){ if(running) e.preventDefault(); if(!e.repeat) fireRocket(); }
+  if(e.code==='KeyT'&&!e.repeat) throwAtCop();   // police: throw something at the nearest cop (10,000 coins)
   if(e.code==='Escape'){ e.preventDefault(); if(!e.repeat && !closeOpenPanel()) togglePause(); }
 });
 function togglePause(){
@@ -3289,7 +3898,7 @@ function update(){
       if(trainMode) trainTick();                                                       // practice map: skill levels, no coins
       else{ wheelieFrac+=skillRate(skillId)*payMul()*(car.onGround?1:2)/60;                                        // 10c per second + 2c per train level
         if(wheelieFrac>=1){ const w=Math.floor(wheelieFrac); wheelieFrac-=w; score+=w; document.getElementById('scoreTag').textContent=score+' coins'; } }
-      SK.t+=1/60;
+      SK.t+=1/60; if(!trainMode){ qAdd('skillsec',1/60); qMax('hold',SK.t); }
       const hard=(1+Math.min(SK.t,60)*.03)*skillDiff(skillId);                                              // gets a little twitchier the longer you hold it
       SK.v+=(SK.b-.5)*.0006*hard+(Math.random()-.5)*.0006*hard;
       if(keys.aDown) SK.v-=.0009; if(keys.dDown) SK.v+=.0009;
@@ -3338,12 +3947,13 @@ function update(){
     airTimerOpacity=Math.max(0,airTimerOpacity-0.05);
 
     if(!wasOnGround){
+      if(hopCliff) qAdd('hops',1);
       hopCliff=null;
       const airTimeSec=(simTime-airStart)/1000;
       const flips=Math.floor(Math.abs(airRotation)/(Math.PI*2));
       const stuntValue=currentStuntValue();
       const style=currentStyle();
-      let coins=airTimeSec>0.05?Math.round(airTimeSec*stuntValue*(style.airMult||1)*airMulVal()):0;   // hang-time stunts (Superman, No-Hander, Supernova) pay more for air time
+      let coins=airTimeSec>0.05?Math.round(airTimeSec*stuntValue*(style.airMult||1)*airMulVal()*(selectedVehicle===CHOPPER_VEH?CHOPPER_AIR:1)):0;   // hang-time stunts (Superman, No-Hander, Supernova) pay more for air time
       coins+=Math.round(flips*stuntValue*style.flipMult*stuntMulVal()); // each completed flip pays the stunt value (x style multiplier)
       coins=Math.round(coins*STUNT_PAY);                  // stunt + jump coins are worth half
       coins=Math.round(coins*petMult());                  // pet bonus
@@ -3359,6 +3969,7 @@ function update(){
         st.textContent=score+' coins';
         pulseEl('scoreTag');
       }
+      if(coins>0) qAdd('jumps',1); if(flips>0) qAdd('flips',flips); qMax('bestflips',flips); qMax('bestair',airTimeSec);
       lastAirTime=airTimeSec;
       airTimerFlash=1;
       if(Math.abs(car.vy)>10 && settings.shake) shakeT=Math.min(8,Math.abs(car.vy)*0.6);
@@ -3385,7 +3996,7 @@ function update(){
   riderTuck+=(Math.max(0,Math.min(1,car.vx/Math.max(30,currentBike().mph)))-riderTuck)*0.05;
   riderAnimStep();
 
-  distance=Math.max(distance,Math.floor(car.x/12));
+  distance=Math.max(distance,Math.floor(car.x/12)); questTick();
   airTimerFlash=Math.max(0,airTimerFlash-0.05);
   { // camera: feed-forward by the bike's own motion (no speed-dependent lag) + gentle correction + a little look-ahead at speed
     const sp=Math.min(1,Math.abs(car.vx)/Math.max(30,currentBike().mph));
@@ -3408,7 +4019,7 @@ function update(){
   updateWheelieTag();
   if(mode==='police'){ updateCop(); if(crashed) return; }
   if(crashed) return;
-  if(!trainMode&&distance>=levelMeters(level)) levelUp(); // new level: save it, rebuild a harder map, back to the start
+  if(!trainMode&&mode!=='police'&&distance>=levelMeters(level)) levelUp();   // police never levels up: it is one continuous chase // new level: save it, rebuild a harder map, back to the start
 }
 // banks whatever coins the current run has earned into the wallet. Called from every path
 // that can end a run — crashing, or backing out to the menu via pause — so coins are never
@@ -3424,7 +4035,7 @@ function bankRun(){
 function autosave(){
   recordRun();
   if(score>savedScore){ wallet+=score-savedScore; savedScore=score; }
-  saveShop(); saveStunts(); saveGear(); saveSkills(); lsSet('bike_level',String(level));
+  saveShop(); saveStunts(); saveGear(); saveSkills(); saveQuests(); lsSet('bike_level',String(level));
 }
 addEventListener('pagehide',autosave);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden) autosave(); });
@@ -3432,6 +4043,7 @@ setInterval(autosave,2000);   // saves to this device every 2 seconds, always (p
 function updateWalletTags(){
   const menuTag=document.getElementById('menuWalletTag');
   if(menuTag) menuTag.textContent=fmtC(wallet);
+  try{ const rwTag=document.getElementById('rewardsWalletTag'); if(rwTag&&!wheelSpinning&&!crateBusy) rwTag.textContent=fmtC(wallet); }catch(e){}   // not mid-spin: the new total would give the prize away
   const lvTag=document.getElementById('menuLevelTag');
   if(lvTag) lvTag.textContent='level '+level;
   updatePlayTags();
@@ -3522,9 +4134,10 @@ function hideSkillHud(){
 function finishCrash(busted,pit,balance){
   crashed=true; wheelieT=0; balanceT=0; skillId=null; updateWheelieTag(); hideSkillHud();
   document.querySelector('#crash h1').textContent=balance?'you lost balance':(busted?'busted':(pit?'fell in a pit':'wiped out'));
+  qAdd('runs',1);
   const earned=score;
   bankRun();
-  document.getElementById('crashStats').textContent=trainMode?('training · '+skillName(trainSkill)+' Lv '+(skillLv[trainSkill]||0)+' · '+(skillLv[trainSkill]>=SKILL_MAXLV?'max level':Math.floor(skillXp[trainSkill]||0)+' / '+trainNeed(skillLv[trainSkill]||0)+'s to next level')):'level '+level+'  ·  distance: '+distance+'m  ·  coins: '+earned+'  ·  mode: '+mode+(mode==='police'?'  ·  chased: '+runMeters()+'m':'');
+  document.getElementById('crashStats').textContent=trainMode?('training · '+skillName(trainSkill)+' Lv '+(skillLv[trainSkill]||0)+' · '+(skillLv[trainSkill]>=SKILL_MAXLV?'max level':Math.floor(skillXp[trainSkill]||0)+' / '+trainNeed(skillLv[trainSkill]||0)+'s to next level')):(mode==='police'?'':'level '+level+'  ·  ')+'distance: '+distance+'m  ·  coins: '+earned+'  ·  mode: '+mode+(mode==='police'?'  ·  chased: '+runMeters()+'m':'');
   document.getElementById('crash').style.display='flex';
   document.getElementById('restartHint').classList.add('hidden');
   document.getElementById('stuntTag').classList.add('hidden');
@@ -4085,7 +4698,7 @@ function drawBike(){
   const HTt={x:18,y:wheelY-30};               // head tube top
   const HTb={x:14,y:wheelY-14};               // head tube bottom
   const barC={x:29,y:wheelY-41};              // handlebar center
-  const pedalAngle=((wheelieT>0&&skillId&&(!isWheelieType(skillId)||skillId==='standwheelie')&&skillId!=='upsidepedal')||selectedVehicle===3?0:car.wheelAngle*0.21)%(Math.PI*2);   // pedals level while standing
+  const pedalAngle=((wheelieT>0&&skillId&&(!isWheelieType(skillId)||skillId==='standwheelie')&&skillId!=='upsidepedal')||selectedVehicle===3||selectedVehicle===HYPER_VEH?0:car.wheelAngle*0.21)%(Math.PI*2);   // pedals level while standing
   const chainringR=8, cogR=4.5, crankLen=10;
 
   const AP=airPoseNow();
@@ -4115,7 +4728,8 @@ function drawBike(){
   ctx.lineCap='round'; ctx.lineJoin='round';
   ctx.strokeStyle=bikeColor; ctx.fillStyle=bikeColor;
 
-  if(selectedVehicle===3){ // motorcycle: fork, frame, engine, tank, seat, exhaust and headlight, then two big wheels
+  if(selectedVehicle===3||selectedVehicle===HYPER_VEH){ // motorcycle (and the hyper bike): fork, frame, engine, tank, seat, exhaust and headlight, then two big wheels
+    if(selectedVehicle===HYPER_VEH) motoVariant(ctx,selectedVehicle,bikeColor,{bx:backX,fx:frontX,wy:wheelY,wr:wheelR,fork:HTt,bar:barC,tank:-14,eng:4,seat:-12,hl:{x:27,y:-8}}); else {
     ctx.strokeStyle='#8a8f98'; ctx.lineWidth=4.6; ctx.beginPath(); ctx.moveTo(HTt.x,HTt.y); ctx.lineTo(frontX,wheelY); ctx.stroke();       // fork
     ctx.strokeStyle=bikeColor; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(backX,wheelY); ctx.lineTo(-8,wheelY+1); ctx.stroke();               // swingarm
     ctx.beginPath(); ctx.moveTo(HTb.x,HTb.y); ctx.lineTo(-14,6); ctx.stroke(); ctx.beginPath(); ctx.moveTo(-24,-12); ctx.lineTo(-8,8); ctx.stroke(); // frame
@@ -4127,6 +4741,7 @@ function drawBike(){
     ctx.strokeStyle='#222'; ctx.lineWidth=3.6; ctx.beginPath(); ctx.moveTo(HTt.x,HTt.y); ctx.lineTo(barC.x,barC.y); ctx.stroke();                 // handlebar
     ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(barC.x,barC.y,3,0,Math.PI*2); ctx.fill();
     ctx.fillStyle='#ffd24d'; ctx.beginPath(); ctx.arc(27,-8,4.6,0,Math.PI*2); ctx.fill();                                                        // headlight
+    }
     drawWheel(backX,wheelY,wheelR,car.wheelAngle); drawWheel(frontX,wheelY,wheelR,car.wheelAngle);
   } else if(isScoot(selectedVehicle)){ // e-scooter / push scooter (same ground contact as the bike: small wheels sit lower)
     const wr=11, wy=34-wr;
@@ -4201,17 +4816,20 @@ function drawBike(){
   }
   drawWheel(backX,wheelY,wheelR,car.wheelAngle);
   drawWheel(frontX,wheelY,wheelR,car.wheelAngle);
-  if(selectedVehicle===5||selectedVehicle===6){ // rocket bike: a huge engine strapped to the back, flame while you hold the throttle (jet bike: the same rocket, 35% smaller)
+  if(selectedVehicle===CHOPPER_VEH) heliRotor(ctx,ST.x-9,ST.y-3,-94,bikeColor,performance.now()/1000*(car.onGround?16:34),44);   // chopper: the rotor spins faster in the air
+  if(selectedVehicle===5||selectedVehicle===6||selectedVehicle===IGNITOR_VEH){ // rocket bike: a huge engine strapped to the back, flame while you hold the throttle (jet bike: the same rocket, 35% smaller)
+    const ign=selectedVehicle===IGNITOR_VEH;   // the Ignitor's red flame never goes out
     ctx.save(); if(selectedVehicle===6){ ctx.translate(ST.x,ST.y+4); ctx.scale(.65,.65); ctx.translate(-ST.x,-(ST.y+4)); }
-    const ey=wheelY-18, fl=(keys.right||rocketT>0)?14+Math.random()*16:4;
+    const ey=wheelY-18, fl=ign?(24+Math.random()*20+((keys.right||rocketT>0)?12:0)):(keys.right||rocketT>0)?14+Math.random()*16:4;
     ctx.strokeStyle='#555'; ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(ST.x,ST.y+4); ctx.lineTo(-54,ey); ctx.stroke();
-    ctx.fillStyle='#ff6a1f'; ctx.beginPath(); ctx.moveTo(-100,ey-7); ctx.lineTo(-100-fl,ey); ctx.lineTo(-100,ey+7); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='#ffd24d'; ctx.beginPath(); ctx.moveTo(-100,ey-3.5); ctx.lineTo(-100-fl*.55,ey); ctx.lineTo(-100,ey+3.5); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=bikeColor; ctx.beginPath(); ctx.moveTo(-88,ey-13); ctx.lineTo(-78,ey-30); ctx.lineTo(-64,ey-13); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='#2e323b'; ctx.fillRect(-90,ey-13,48,26);
+    ctx.fillStyle=ign?'#d90f1f':'#ff6a1f'; ctx.beginPath(); ctx.moveTo(-100,ey-(ign?9:7)); ctx.lineTo(-100-fl,ey); ctx.lineTo(-100,ey+(ign?9:7)); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=ign?'#ff4a3d':'#ffd24d'; ctx.beginPath(); ctx.moveTo(-100,ey-3.5); ctx.lineTo(-100-fl*.55,ey); ctx.lineTo(-100,ey+3.5); ctx.closePath(); ctx.fill();
+    if(ign){ ctx.fillStyle='#ffb3a0'; ctx.beginPath(); ctx.moveTo(-100,ey-1.8); ctx.lineTo(-100-fl*.3,ey); ctx.lineTo(-100,ey+1.8); ctx.closePath(); ctx.fill(); }
+    ctx.fillStyle=ign?'#e11d2a':bikeColor; ctx.beginPath(); ctx.moveTo(-88,ey-13); ctx.lineTo(-78,ey-30); ctx.lineTo(-64,ey-13); ctx.closePath(); ctx.fill();
+    ctx.fillStyle=ign?'#7a1019':'#2e323b'; ctx.fillRect(-90,ey-13,48,26);
     ctx.beginPath(); ctx.moveTo(-42,ey-13); ctx.lineTo(-31,ey); ctx.lineTo(-42,ey+13); ctx.closePath(); ctx.fill();
     ctx.fillStyle='#4a4f5a'; ctx.beginPath(); ctx.moveTo(-90,ey-9); ctx.lineTo(-101,ey-15); ctx.lineTo(-101,ey+15); ctx.lineTo(-90,ey+9); ctx.closePath(); ctx.fill();
-    ctx.fillStyle=bikeColor; ctx.fillRect(-78,ey-3.5,32,7); ctx.fillStyle='#ffd24d'; ctx.fillRect(-83,ey-13,3.5,26);
+    ctx.fillStyle=ign?'#e11d2a':bikeColor; ctx.fillRect(-78,ey-3.5,32,7); ctx.fillStyle=ign?'#ffb3a0':'#ffd24d'; ctx.fillRect(-83,ey-13,3.5,26);
     ctx.restore();
   }
   if(selectedVehicle===1){ // motor hub + display
@@ -4317,7 +4935,7 @@ function render(){
   drawPopups();
   drawTrail();
   drawPet();
-  if(mode==='police') drawCop();
+  if(mode==='police'){ drawCop(); drawThrown(); }
   drawBike();
   drawSpikesFront();
   drawRag();
@@ -4329,6 +4947,7 @@ function render(){
   drawPitPins();
   modeTint();
   sirenTint();
+  drawCopRadar();
   balanceTint();
 }
 
@@ -4540,8 +5159,9 @@ function loop(ts){
       const scaleMax=Math.max(8,Math.ceil(Math.max(reach,shown)/8)*8);
       drawSpeedo(shown/scaleMax,shown);
     }
-    document.getElementById('distTag').textContent=trainMode?(distance+' m · practice map'):(distance+' / '+levelMeters(level)+' m');
-    { const ct=document.getElementById('copTag'); if(mode==='police'){ const gm=Math.max(0,Math.round((car.x-Math.max(cop.x,...escorts.map(c=>c.x)))/12)); ct.classList.remove('hidden'); ct.textContent='🚓'+(escorts.length?' ×'+(escorts.length+1):'')+' '+gm+'m behind'+(cop.boost>=.01?' · +'+Math.round(cop.boost*100)+'%':''); ct.style.color=gm<20?'#d11':''; } else ct.classList.add('hidden'); }
+    document.getElementById('distTag').textContent=trainMode?(distance+' m · practice map'):mode==='police'?(distance+' m'):(distance+' / '+levelMeters(level)+' m');
+    { const ct=document.getElementById('copTag'); if(mode==='police'&&!trainMode){ const gm=Math.max(0,Math.round((car.x-nearestCop().x)/12)); ct.classList.remove('hidden'); ct.textContent='🚓 ×'+copCount()+' · nearest '+gm.toLocaleString('en-US')+'m behind'+(gm>BACKUP_DIST*.75?' · ⚠ backup at '+BACKUP_DIST.toLocaleString('en-US')+'m':'')+(cop.boost>=.01?' · +'+Math.round(cop.boost*100)+'%':''); ct.style.color=gm<20?'#d11':''; } else ct.classList.add('hidden'); }
+    updateThrowBtn();
     document.getElementById('modeTag').textContent=modeLabel();
   } else acc=0;
   requestAnimationFrame(loop);
@@ -4604,6 +5224,42 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
+  { v:'0.0.41', date:'Oct 22, 2026', items:[
+    'opening a crate is now full screen: the background goes dark, the crate shakes and pops open, an envelope comes out, the flap opens and your prize slides out. keep is green, sell is red',
+    'selling a bike from a crate now has a 10% sell tax',
+    'crates only give bikes that are faster than 20 mph at their base speed, so the base bike and the push scooter never come out of a crate (better or worse than what you paid)'
+  ]},
+  { v:'0.0.40', date:'Oct 22, 2026', items:[
+    'crates are simpler: buy one and it opens by itself right away. coins go straight to your wallet, and a bike prize you can keep (it goes in your inventory) or sell. crates inside crates are gone, and any crates you had saved were turned into coins',
+    'anything is possible: any crate can hold any bike, and there is a small jackpot chance (bigger for bigger crates) of a fully maxed out bike, like a max speed and max stunt e-bike',
+    'no tax on rewards any more: the wheel spin costs a flat 300c (crates were already tax free). tax only applies when it says so',
+    'the wheel has way more high rewards: prizes now go from 200c up to 10,000c, and 1,000c, 2,500c and 5,000c prizes are much more common',
+    'new: quests in rewards. select up to 3 quests, and when you do them in the game a message pops up and the coins are yours. distance, flips, air time, pit hops, speed, special stunts, levels, police and more. you can pick a quest again after you finish it'
+  ]},
+  { v:'0.0.39', date:'Oct 22, 2026', items:[
+    'rewards is now a full screen with an X (and Escape) to close it, with your daily reward, the wheel and crates side by side',
+    'the spinning wheel looks like a real prize wheel now: a chrome rim with blinking bulbs, painted slices with metal pegs, a flapper that clicks over every peg, and a long slow-down',
+    'new: crates. pick any price (100c or more) and open one for a random item: a bike you do not own, another crate, or coins. 70% of the time it is worth less than you paid, 30% of the time it is worth more',
+    'crates you win go in your crate list, and opening them is free (they use their own value as the price)'
+  ]},
+  { v:'0.0.38', date:'Oct 22, 2026', items:[
+    'police mode is easier: it always starts with 1 cop, and the cops call for backup (a new cop joins, with a flashing alert) whenever you get more than 2000m ahead of the nearest one',
+    'the distance of every cop is always shown on the game field (a tag over each cop, and a list on the left edge for the ones off screen)',
+    'new: press T (or tap the throw button) to throw something at the nearest cop for 10,000 coins and take him out of the chase. 10 second cooldown, and the last cop can never be taken out',
+    'the cops now speed up much slower (+10% every 30 seconds) and their speed no longer depends on your level',
+    'police mode has no levels any more: it is one continuous chase',
+    'chaos mode is harder: a pit at every pit slot and twice as often as regular modes (wider and deeper), a rougher road, more and taller ramps packed closer together, and heavier gravity'
+  ]},
+  { v:'0.0.37', date:'Oct 22, 2026', items:[
+    'the Chopper is now a normal bike with a helicopter rotor on top, and it pays 5x coins for air time',
+    'the Hyper Bike has a new, more detailed design (gold fork, stripe, windscreen, tail light and wing)',
+    'the stunt multiplier has no maximum now: the first step costs 30,000c and every step after costs 30,000c more than the one before. if you had already bought some, you got your coins back'
+  ]},
+  { v:'0.0.36', date:'Oct 22, 2026', items:[
+    'sales tax is now 10% (the rocket bike is still 20%)',
+    'rewards and settings swapped places on the main menu',
+    'two new bikes: the Chopper (80-170 mph, 25,000c) and the Hyper Bike (140-260 mph, 150,000c)'
+  ]},
   { v:'0.0.35', date:'Oct 21, 2026', items:[
     'daily is now rewards: it still has your daily reward, and now you can also buy a spin on the wheel for coins or a speed boost',
     'new inventory (top left of the upgrades shop): every new bike you buy goes in it, and you can equip any bike you own',
@@ -4640,23 +5296,6 @@ const CHANGELOG=[
     'the changelog now lists everything from the last updates',
     'bug sweep: the train button now really starts practice (the stunts shop used to stay open over the game), the skill bar and tags no longer show on the death screen or the menus, and the rocket flame stops when you die',
     'layout fixes: menus and the crash screen now sit above the game HUD, the top and bottom tags no longer overlap on small screens, and the start menu scrolls on short screens'
-  ]},
-  { v:'0.0.29', date:'Oct 12, 2026', items:
-    ['deaths are no longer instant: you get about a second before the crash screen. falling in a pit now drops you onto spikes and you sit there stuck for 1 second',
-    'getting caught by the police stops you dead, even in the air, then you drop smoothly to the road for 1 second',
-    'losing balance is real bike physics now: pull a wheelie too far and the bike flips over backwards and scrapes along the ground with sparks, lean too far forward and it nose-dives over the front wheel',
-    'every special stunt now has its own price, listed cheapest to most expensive. wheelie and bar stand 1,000c, no hands and feet up 1,500c, seat stand 2,000c, stand up and superman 3,000c',
-    '10 new special stunts: no-hands wheelie (one hand drags on the ground) and handstand are hard with a bigger red zone, plus one foot, rear peg, front peg, bar sit, seat kneel, low crouch, split kick and lay back',
-    'the train button is now at the top of the stunts shop. it opens a pop-up with the special stunts you own, lowest level first, and you tap the one to train',
-    'stunt types are all on one page (7 of 28, like the upgrades shop) and 14 new ones fill the gaps',
-    'the stunt skills leaderboard now saves the level of your equipped special stunt instead of an average',
-    'fixed the skill bar and level banner sometimes showing on the death screen',
-    'the leaderboard shows the top 15, and #1, #2 and #3 now have gold, silver and bronze medals',
-    'new in the shop: 7 rockets, 7 pets (the seal is the best pet), 5 trails (rainbow is still the top one) and 5 abilities',
-    'new ability: rebirth. 60,000,000 coins each time, makes your coins x1.5 and your speed x1.2 every time you buy it',
-    'stunts now really animate in the air: barrel roll, tailwhip, helicopter, superman and the rest each have their own look (no sparks or trails)',
-    'special stunts (W) work in the air too and pay double up there',
-    'skill levels are faster to train: 5 seconds for the first level, then 1 second more for each level after'
   ]},
 ];
 // keep only the newest 2 updates in this list (delete the oldest when you add a new one)
@@ -5055,26 +5694,30 @@ async function loadProfile(u){
 }
 
 /* ---- leaderboard ---- */
-const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['bestPolice','police chase'],['skillAvg','equipped skill'],['playSecs','hours played']];
+const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['bestPolice','police chase'],['streak','daily streak'],['playSecs','hours played']];
 const fmtPlayM=sec=>{ sec=Math.max(0,Math.floor(sec)); const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h>0?h+'h '+m+'m':m+'m'; };   // hours played, for profiles
 let lbTab='maxLevel', lbToken=0, lbLastPushed='', skillFieldBlocked=false;
 const num=k=>Math.max(0,parseInt(ls(k)||'0',10)||0);
 /* average level of the stunt-shop skills you actually train (stand up, wheelie, ...).
    a skill counts once you own it and have trained it (level 1+ or any practice time). if only one skill is trained, that skill's level is
    the score (no averaging). nothing trained = 0, which keeps you off this board. rounded to 2 decimals. */
-function skillLevels(){   // per-skill levels for the profile page (trained skills only)
-  const o={};
-  try{ const lv=JSON.parse(ls('bike_skills')||'{}'); for(const k of Object.keys(lv)){ const n=Math.floor(Number(lv[k])); if(/^[a-z]{1,16}$/.test(k)&&isFinite(n)&&n>0) o[k]=n; } }catch(e){}
-  return o;
-}
-function skillAvgStat(){   // (field name kept as skillAvg so the firestore rules keep working) = the level of the stunt skill you have EQUIPPED right now
+function skillAvgStat(){   // (field name kept as skillAvg so the firestore rules keep working) = the average level of the stunt skills you own. profiles only show this average
   try{
-    if(window.__bikeEquipped){ const q=window.__bikeEquipped(); return q&&q.lv>0?Math.floor(q.lv):0; }
-    const sel=ls('bike_skillSel'), ownO=JSON.parse(ls('bike_skillOwn')||'{}'), lvO=JSON.parse(ls('bike_skills')||'{}');
-    if(sel&&ownO&&ownO[sel]) return Math.max(0,Math.floor(Number(lvO[sel])||0));
-    const jo=k=>{ try{ const o=JSON.parse(ls(k)||'{}'); return o&&typeof o==='object'&&!Array.isArray(o)?o:{}; }catch(e){ return {}; } };
-    return 0;
+    const own=JSON.parse(ls('bike_skillOwn')||'{}'), lv=JSON.parse(ls('bike_skills')||'{}'); let t=0,c=0;
+    for(const k of Object.keys(own||{})){ if(own[k]){ c++; t+=Math.max(0,Math.floor(Number(lv[k])||0)); } }
+    return c?Math.round(t/c*100)/100:0;
   }catch(e){ return 0; }
+}
+const dNum=x=>{ const q=String(x||'').split('-'); return q.length===3?Math.round(Date.UTC(+q[0],+q[1]-1,+q[2])/86400000):0; };
+function streakStats(){   // read from the same bike_daily save that syncs to your cloud save. streakDay = the day number of your last claim, so others can tell when a streak has run out
+  try{
+    const o=JSON.parse(ls('bike_daily')||'{}'), cap=1000000, ni=x=>Math.max(0,Math.min(cap,Math.floor(Number(x))||0));
+    return {streak:ni(o.streak),bestStreak:Math.max(ni(o.best),ni(o.streak)),streakDay:dNum(o.last)};
+  }catch(e){ return {streak:0,bestStreak:0,streakDay:0}; }
+}
+function streakAlive(d){   // a streak counts on the board until a whole day has been missed (1 day of slack for time zones)
+  const t=new Date(), today=Math.round(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())/86400000), l=Number(d.streakDay)||0;
+  return l>0&&today-l<=2;
 }
 let lookBlocked=false, lookSig='';
 /* the ride is stored inside the existing "skills" map (key ride_look) in its own write, so no new firestore fields are needed.
@@ -5090,7 +5733,7 @@ async function pushBoard(force){
   if(!user||!db||!synced||!profile) return;
   pushLook();
   const d={handle:profile.handle,name:profile.name,...statsObj(),updatedAt:Date.now()}; if(profile.photo) d.photo=profile.photo;
-  const ext={skillAvg:skillAvgStat(),skills:skillLevels(),playSecs:Math.floor(num('bike_playSecs')/60)*60}, ref=fb.doc(db,'leaderboard',user.uid);
+  const ext={skillAvg:skillAvgStat(),...streakStats(),playSecs:Math.floor(num('bike_playSecs')/60)*60}, ref=fb.doc(db,'leaderboard',user.uid);
   const sig=JSON.stringify([user.uid,d.handle,d.name,!!d.photo,d.maxLevel,d.bestRun,d.bestPolice,ext]);
   if(!force&&sig===lbLastPushed) return;
   try{   // merge, so the bio and anything else on the profile is never wiped by a stats update
@@ -5098,7 +5741,7 @@ async function pushBoard(force){
       try{ await fb.setDoc(ref,{...d,...ext},{merge:true}); lbLastPushed=sig; return; }
       catch(e){
         if(!(e&&e.code==='permission-denied')) throw e;
-        skillFieldBlocked=true; console.warn('leaderboard: firestore rules reject the skill fields. Publish the updated rules to enable the stunt skills board and profiles.');
+        skillFieldBlocked=true; console.warn('leaderboard: firestore rules reject the new fields (skill average, streaks). Publish the updated rules to enable streaks on the board and profiles.');
       }
     }
     await fb.setDoc(ref,d,{merge:true}); lbLastPushed=sig;
@@ -5114,20 +5757,20 @@ async function lbLoad(){
   const tok=++lbToken; lbMsg('loading…');
   if(!CONFIGURED||!db){ lbMsg(!CONFIGURED?"the leaderboard isn't set up yet.":'loading…'); if(CONFIGURED) setTimeout(()=>{ if(tok===lbToken&&!$('lbPanel').classList.contains('hidden')) lbLoad(); },1500); return; }
   try{
-    const snap=await fb.getDocs(fb.query(fb.collection(db,'leaderboard'),fb.orderBy(lbTab,'desc'),fb.limit(15)));
+    const snap=await fb.getDocs(fb.query(fb.collection(db,'leaderboard'),fb.orderBy(lbTab,'desc'),fb.limit(lbTab==='streak'?60:15)));
     if(tok!==lbToken) return;
     const l=$('lbList'); l.textContent=''; let n=0;
     snap.forEach(s=>{
-      const d=s.data(), v=Number(d[lbTab])||0; if(v<=0||!d.handle||badText(d.handle)||badText(d.name||'')) return; n++;
+      const d=s.data(), v=Number(d[lbTab])||0; if(v<=0||!d.handle||badText(d.handle)||badText(d.name||'')) return; if(lbTab==='streak'&&!streakAlive(d)) return; if(n>=15) return; n++;
       const r=document.createElement('div'); r.className='lb-row'+(n<=3?' top r'+n:'')+(user&&s.id===user.uid?' me':''); r.dataset.h=String(d.handle); r.title='view profile'; r.onclick=()=>openProfile(d.handle);
       const a=document.createElement('span'); a.className='lb-rank';
       if(n<=3){ const m=document.createElement('span'); m.className='lb-medal'; m.textContent=['🥇','🥈','🥉'][n-1]; const nn=document.createElement('span'); nn.textContent='#'+n; a.append(m,nn); } else a.textContent='#'+n;
       const w=document.createElement('span'); w.className='lb-who'; const hb=document.createElement('b'); hb.textContent='@'+String(d.handle).slice(0,16);
       const nm=document.createElement('span'); nm.textContent=String(d.name||'').slice(0,20); w.append(hb,nm);
-      const vl=document.createElement('span'); vl.className='lb-val'; vl.textContent=lbTab==='maxLevel'?'lvl '+v:lbTab==='skillAvg'?'skill lv '+Math.floor(v):lbTab==='playSecs'?(v/3600).toFixed(1)+' h':v.toLocaleString()+(lbTab==='bestPolice'?'m':' coins');
+      const vl=document.createElement('span'); vl.className='lb-val'; vl.textContent=lbTab==='maxLevel'?'lvl '+v:lbTab==='streak'?'🔥 '+v+(v===1?' day':' days'):lbTab==='playSecs'?(v/3600).toFixed(1)+' h':v.toLocaleString()+(lbTab==='bestPolice'?'m':' coins');
       const go=document.createElement('span'); go.className='lb-go'; go.textContent='›'; r.append(a,avatar({handle:d.handle,name:d.name,photo:d.photo},n<=3?44:30),w,vl,go); l.appendChild(r);
     });
-    if(!n) lbMsg(lbTab==='skillAvg'&&skillFieldBlocked?"the stunt skills board needs a firestore rules update before it can save scores.":'no scores yet. Be the first!');
+    if(!n) lbMsg(lbTab==='streak'&&skillFieldBlocked?'the streak board needs a firestore rules update before it can save streaks.':lbTab==='streak'?'no active streaks yet. Claim your daily reward to start one!':'no scores yet. Be the first!');
   }catch(e){ console.warn(e); if(tok===lbToken) lbMsg("couldn't load the leaderboard. Check your Firestore rules and connection."); }
 }
 function lbOpen(tab){
@@ -5137,7 +5780,7 @@ function lbOpen(tab){
     b.onclick=()=>{ lbTab=k; tabs.querySelectorAll('.tab-btn').forEach(x=>x.classList.toggle('active',x===b)); lbLoad(); }; tabs.appendChild(b); });
   lbFoot(); pushBoard().finally(lbLoad);
 }
-window.__bikeLB={open:lbOpen};
+window.__bikeLB={open:lbOpen,push:pushBoard};
 
 /* ===== profiles: /@handle (also works as ?u=handle or #@handle) =====
    a path like /@handle needs one rewrite on your host that serves this page for any /@* address.
@@ -5251,8 +5894,8 @@ function renderProfile(){
   card('best run',n(d.bestRun)?n(d.bestRun).toLocaleString()+' coins':'—');
   card('police chase',n(d.bestPolice)?n(d.bestPolice).toLocaleString()+'m':'—');
   card('hours played',n(d.playSecs)>=60?fmtPlayM(n(d.playSecs)):'—');
-  card('equipped skill level',n(d.skillAvg)?'lv '+Math.floor(n(d.skillAvg)):'—');
-  if(d.skills&&typeof d.skills==='object') Object.keys(d.skills).filter(k=>/^[a-z]{1,16}$/.test(k)&&n(d.skills[k])>0).sort().forEach(k=>card((SKILL_LABEL[k]||k)+' skill','lv '+Math.floor(n(d.skills[k]))));
+  card('stunt skill average',n(d.skillAvg)?'lv '+(Math.round(n(d.skillAvg)*10)/10):'—');
+  { const live=streakAlive(d), cur=live?n(d.streak):0; card('daily streak',cur?'🔥 '+cur.toLocaleString()+(cur===1?' day':' days'):'—'); card('best streak',n(d.bestStreak)?n(d.bestStreak).toLocaleString()+(n(d.bestStreak)===1?' day':' days'):'—'); }
   b.appendChild(st);
   { const rc=mk('div','pr-ride'), cvr=document.createElement('canvas'); cvr.width=620; cvr.height=330; rc.appendChild(cvr);
     rc.appendChild(mk('div','pr-ridecap',mine?'you and your bike':'@'+String(d.handle).slice(0,16)+' and their bike')); b.appendChild(rc);
