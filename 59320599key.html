@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>bike.declan.fun</title>
 <meta name="robots" content="noindex,nofollow">
 <!--
@@ -441,7 +441,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 .pay-line{display:flex;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;padding:3px 0;} .pay-line.tax{color:#d11;} .pay-line.refund{color:#12a150;} .pay-line.muted{color:#8a8a8a;font-weight:600;}
 .pay-total{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-top:10px;margin-top:4px;border-top:1px solid rgba(0,0,0,.08);} .pay-total .lab-big{font-size:28px;}
 .pay-empty{padding:16px 0;text-align:center;color:#8a8a8a;font-size:13px;font-weight:600;}
-@media (max-width:640px){
+@media (max-width:900px){
   #bikeLab{grid-template-columns:1fr;} .lab-preview{height:auto;} #bikeLab.p2 .lab-card,#bikeLab.p3 .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;}
   .lab-preview,.lab-stunt,.lab-speed,.lab-cost,.lab-color,.lab-acc,.lab-mulinfo{grid-column:1 / -1;grid-row:auto;}
 }
@@ -650,7 +650,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 .lab-sp-train .lab-sub{white-space:normal;}
 .st-skill-line{font-size:12px;font-weight:700;color:#444;margin-top:2px;} .st-skill-line span{color:#8a8a8a;font-weight:600;}
 .xp{height:8px;border-radius:5px;background:#e7e9ee;overflow:hidden;margin:6px 0 2px;} .xp>i{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .3s;}
-@media (max-width:640px){
+@media (max-width:900px){
   #stuntLab{grid-template-columns:1fr;} #stuntLab .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;} #stuntLab .lab-stage{min-height:190px;}
   #skillLab{grid-template-columns:1fr;} #skillLab .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;} #skillLab .lab-stage{min-height:190px;}
 }
@@ -722,7 +722,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 #shopLab .lab-card:not(.lab-preview):hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
 #shopLab .arrow-btn:active{transform:scale(.9);}
 #shopLab .lab-sp-special .lab-big{font-size:19px;letter-spacing:-.4px;}
-@media (max-width:640px){
+@media (max-width:900px){
   #shopLab{grid-template-columns:1fr;} #shopLab .lab-card{grid-column:1 / -1 !important;grid-row:auto !important;} #shopLab .lab-stage{min-height:190px;}
 }
 /* ===== upgrades page 3: rider customization ===== */
@@ -735,7 +735,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 #bikeLab.p3 .lab-cost{grid-column:1 / span 2;grid-row:3 / span 2;align-self:stretch;}
 #bikeLab.p3 .lab-m-eyes{grid-column:3 / span 3;grid-row:3;} #bikeLab.p3 .lab-m-extra{grid-column:3 / span 3;grid-row:4;}
 #bikeLab.p3 .lab-m .lab-sub{margin-top:6px;}
-@media (max-width:640px){ #bikeLab.p3 .lab-preview{min-height:300px;} }
+@media (max-width:900px){ #bikeLab.p3 .lab-preview{min-height:300px;} }
 /* ===== rewards: daily reward + spin the wheel ===== */
 .dy-sec{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#9a9a9a;font-weight:700;margin:2px 0 0;}
 .dy-divider{height:1px;background:rgba(0,0,0,.08);margin:18px 0 14px;}
@@ -846,6 +846,16 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 .qs-rw{font-size:11px;font-weight:800;color:#b26a00;background:#fff4d6;border-radius:999px;padding:3px 9px;}
 .qs-btn{padding:7px 14px;border:none;border-radius:999px;background:#111;color:#fff;font-family:inherit;font-size:11px;letter-spacing:.6px;cursor:pointer;}
 .qs-btn.off{background:#fff;color:#111;border:1.4px solid #d2d2d0;}
+/* ===== v0.0.42: crate selector ===== */
+.rw-csel{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 4px;}
+.rw-cmid{flex:1;min-width:0;text-align:center;}
+.rw-carrow{width:44px;height:44px;border-radius:50%;border:1.6px solid #d9dce3;background:#fff;color:#111;font-size:26px;line-height:1;font-weight:700;cursor:pointer;flex:none;transition:background .15s,color .15s,transform .15s;}
+.rw-carrow:hover:not(:disabled){background:#111;color:#fff;transform:scale(1.08);}
+.rw-carrow:disabled{opacity:.3;cursor:default;}
+.rw-cname{font-size:17px;font-weight:800;margin-top:6px;}
+.rw-cdots{display:flex;justify-content:center;gap:6px;margin:6px 0 2px;}
+.rw-cdot{width:8px;height:8px;border-radius:50%;background:#d0d3da;} .rw-cdot.on{background:#111;transform:scale(1.25);}
+.rw-cdesc{text-align:center;min-height:3.2em;}
 /* ===== v0.0.41: full screen crate opening ===== */
 .rw-cact .dy-claim.rw-keep{background:#12a150;} .rw-cact .dy-claim.rw-sell{background:#d62839;}
 #cfx{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(4,5,10,0);transition:background .6s ease,opacity .35s ease;overflow:hidden;}
@@ -878,6 +888,78 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 #questAlert small{display:block;font-size:11px;font-weight:700;opacity:.8;margin-top:2px;}
 @keyframes qPop{from{opacity:0;transform:translate(-50%,-14px) scale(.8);}to{opacity:1;transform:translate(-50%,0) scale(1);}}
 @media (max-width:700px){#questAlert{top:196px;font-size:12.5px;}}
+
+/* ===== v0.0.44: phones, small screens and touch controls ===== */
+html{-webkit-text-size-adjust:100%;} button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+canvas#game{touch-action:none;}
+/* smaller windows on pc and phones in landscape: the game world shrinks to fit (see resize()), and the HUD gets more compact */
+@media (max-height:520px),(max-width:700px){
+  #hud{padding:8px;} #speedo{width:60px;height:60px;}
+  #topTags{top:8px;} #modeTag{font-size:10px;padding:3px 9px;}
+  #distTag,#scoreTag,#copTag{font-size:11px;padding:3px 9px;}
+  #copAlert{top:46px;font-size:11px;padding:5px 12px;} #questAlert{top:46px;font-size:11px;padding:6px 14px;}
+  #balanceMsg{font-size:28px;}
+}
+@media (max-height:520px){ #topTags{top:8px;max-width:50vw;} #restartHint{bottom:8px;} }
+/* touch controls: only on phones and tablets, and only while you are riding */
+#touchCtl,#rotateHint{display:none;}
+html.touch #touchCtl{display:block;position:absolute;inset:0;pointer-events:none;z-index:4;opacity:0;transition:opacity .2s;}
+html.touch #touchCtl.on{opacity:1;}
+html.touch #touchCtl .tc{pointer-events:none;}
+html.touch #touchCtl.on .tc{pointer-events:auto;}
+.tc{position:absolute;border:2px solid rgba(17,17,17,.55);background:rgba(255,255,255,.72);color:#111;font:800 12px/1 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;letter-spacing:.8px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.2);user-select:none;-webkit-user-select:none;touch-action:none;padding:0;}
+.tc.down{background:#111;color:#fff;transform:scale(.94);}
+.tc-big{width:92px;height:92px;font-size:15px;} .tc-mid{width:62px;height:62px;} .tc-sm{width:44px;height:44px;font-size:13px;}
+#tcGas{right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));background:rgba(47,111,237,.78);color:#fff;border-color:#1d3fa8;}
+#tcGas.down{background:#1d3fa8;}
+#tcBrake{left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));background:rgba(214,40,57,.78);color:#fff;border-color:#9d1020;}
+#tcBrake.down{background:#9d1020;}
+#tcStunt{right:calc(116px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));}
+#tcSkill{right:calc(22px + env(safe-area-inset-right,0px));bottom:calc(116px + env(safe-area-inset-bottom,0px));}
+#tcHop{left:calc(116px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));}
+#tcBal{position:absolute;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:none;gap:14px;}
+#tcBal.show{display:flex;} #tcBal .tc{position:static;width:66px;height:66px;font-size:24px;}
+#tcPause{right:calc(12px + env(safe-area-inset-right,0px));top:calc(46px + env(safe-area-inset-top,0px));}
+html.touch #rocketBtn{left:auto;right:calc(12px + env(safe-area-inset-right,0px));top:calc(98px + env(safe-area-inset-top,0px));bottom:auto;max-width:42vw;}
+html.touch #throwBtn{left:auto;right:calc(12px + env(safe-area-inset-right,0px));top:calc(140px + env(safe-area-inset-top,0px));bottom:auto;max-width:42vw;}
+html.touch #stuntTag,html.touch #restartHint{display:none !important;}
+html.touch #wheelieTag{right:auto;left:50%;transform:translateX(-50%);bottom:auto;top:44px;}
+html.touch #pitTag{bottom:calc(100px + env(safe-area-inset-bottom,0px));}
+html.touch #wheelieBar{bottom:calc(88px + env(safe-area-inset-bottom,0px));}
+html.touch #copTag{white-space:nowrap;}
+@media (max-height:420px){ .tc-big{width:78px;height:78px;} .tc-mid{width:54px;height:54px;} #tcStunt{right:calc(104px + env(safe-area-inset-right,0px));} #tcHop{left:calc(104px + env(safe-area-inset-left,0px));} #tcSkill{bottom:calc(100px + env(safe-area-inset-bottom,0px));} #tcBal .tc{width:58px;height:58px;} }
+html.touch #rotateHint.on{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;pointer-events:none;background:rgba(17,17,17,.82);color:#fff;border-radius:16px;padding:14px 20px;font-size:14px;font-weight:700;text-align:center;max-width:80vw;}
+/* the "designed for pc" note on phones */
+#mobileNote{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:20px;}
+#mobileNote .mn-card{background:#fff;border-radius:20px;padding:24px 22px 20px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:panelIn .3s ease;}
+#mobileNote h2{margin:0 0 8px;font-size:20px;} #mobileNote p{margin:0 0 10px;font-size:14px;line-height:1.5;color:#444;} #mobileNote .mn-ico{font-size:34px;}
+#mobileNote button{margin-top:8px;padding:12px 30px;border:none;border-radius:999px;background:#111;color:#fff;font:800 14px inherit;font-family:inherit;cursor:pointer;}
+@media (max-height:420px){ #mobileNote .mn-card{padding:14px 18px;} #mobileNote .mn-ico{display:none;} #mobileNote p{font-size:12.5px;margin-bottom:6px;} }
+
+/* ===== v0.0.45: shops on small PC windows ===== */
+/* below 900px wide the shops are one column (they used to squeeze 5 columns until 640px, which mashed everything together) */
+@media (max-width:900px){
+  #bikeLab,#stuntLab,#skillLab,#shopLab{max-width:620px;padding:12px 14px 20px;}
+  #bikeLab.checkout,#stuntLab.checkout,#skillLab.checkout{max-width:560px;}
+  .lab-preview{min-height:230px;}
+  .lab-stage{min-height:170px;}
+  .lab-chips{flex-wrap:wrap;height:auto;overflow:visible;}
+  .lab-sub{white-space:normal;}
+  #bikeLab .lab-card,#stuntLab .lab-card,#skillLab .lab-card,#shopLab .lab-card{padding:12px 14px;}
+  .gear-tabs{gap:6px;padding:10px 12px 0;} .tab-btn{padding:7px 14px;font-size:12px;}
+}
+/* short windows (laptops with a small browser window): smaller pictures and type so the shop still fits */
+@media (max-height:700px){
+  .lab-big{font-size:24px;} .lab-bname{font-size:17px;}
+  .lab-preview{--ph:260px;} .lab-stage{min-height:150px;}
+  .shop-header{padding-top:12px;padding-bottom:8px;}
+  .lab-pager{padding:4px 0 10px;}
+}
+@media (max-height:540px){
+  .lab-preview{--ph:210px;min-height:190px;} .lab-stage{min-height:130px;}
+  .lab-big{font-size:21px;} .pips{margin-top:10px;} .lab-prices{margin-top:10px;}
+}
+.lab-big{overflow-wrap:anywhere;}
 </style>
 </head>
 <body>
@@ -890,16 +972,33 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
   </div>
   <div id="topTags"><div id="scoreTag">0 coins</div><div id="distTag">0 m</div><div id="copTag" class="hidden"></div></div>
   <div id="restartHint" class="hidden">tap / space to pedal · brake to slow</div>
-  <div id="pitTag" class="hidden">⚠ PIT AHEAD · press SPACE to hop</div>
+  <div id="pitTag" class="hidden">⚠ PIT AHEAD · press SPACE (or tap HOP) to hop</div>
   <div id="stuntTag" class="hidden">S = stunt (tap it each time)</div>
   <div id="wheelieTag" class="hidden"></div>
-  <div id="wheelieBar" class="hidden"><div id="wbTrack"><div id="wbMark"></div></div><div id="wbHint">A / D to balance</div></div>
+  <div id="wheelieBar" class="hidden"><div id="wbTrack"><div id="wbMark"></div></div><div id="wbHint">A / D (or ◀ ▶) to balance</div></div>
   <div id="balanceMsg" class="hidden">LOST BALANCE!</div>
   <button id="rocketBtn" class="hidden" tabindex="-1">🚀 rockets</button>
   <button id="throwBtn" class="hidden" tabindex="-1">🍌 throw</button>
+  <div id="touchCtl">
+    <button id="tcBrake" class="tc tc-big" type="button">BRAKE</button>
+    <button id="tcHop" class="tc tc-mid" type="button">HOP</button>
+    <button id="tcGas" class="tc tc-big" type="button">GAS</button>
+    <button id="tcStunt" class="tc tc-mid" type="button">STUNT</button>
+    <button id="tcSkill" class="tc tc-mid" type="button">SKILL</button>
+    <div id="tcBal"><button id="tcBalL" class="tc" type="button">◀</button><button id="tcBalR" class="tc" type="button">▶</button></div>
+    <button id="tcPause" class="tc tc-sm" type="button" aria-label="pause">❚❚</button>
+  </div>
+  <div id="rotateHint">↻ turn your phone sideways for a bigger view</div>
   <div id="copAlert" class="hidden"></div>
   <div id="questAlert" class="hidden"></div>
   <div id="levelUpBanner" class="hidden"><div id="levelUpText">LEVEL 1</div></div>
+
+  <div id="mobileNote" class="hidden">
+    <div class="mn-card"><div class="mn-ico">💻</div><h2>this game is designed for pc</h2>
+    <p>you can still play on your phone: touch buttons (gas, brake, hop, stunt, skill and balance) show up while you ride.</p>
+    <p>for the best view, turn your phone sideways.</p>
+    <button id="mobileNoteOk" type="button">got it</button></div>
+  </div>
 
   <div id="crash">
     <h1>wiped out</h1>
@@ -940,7 +1039,7 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
     <button class="start-btn" id="startBtn">play</button>
     <div class="settings-row"><button class="action-btn" id="dailyBtn" type="button">rewards</button><button class="action-btn" id="upgradesBtn">upgrades</button><button class="action-btn" id="stuntsBtn">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div><div class="level-pill" id="menuHoursTag">0s played</div></div>
-    <div class="ver">v.0.0.41 (alpha)</div>
+    <div class="ver">v.0.0.45 (alpha)</div>
     <div class="warn">this game is not for public view, game is still in early testing</div>
   </div>
 
@@ -1079,17 +1178,23 @@ canvas{display:block;width:100%;height:100%;background:transparent;}
 var myRev='', staleTab=false;
 try{ myRev=localStorage.getItem('bike_rev')||''; }catch(e){}
 try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist(); }catch(e){}   // ask the browser not to evict this site's storage
+// phones and tablets (a touchscreen as the main pointer) get on-screen buttons
+const IS_TOUCH=(()=>{ try{ return (matchMedia('(pointer:coarse)').matches&&matchMedia('(hover:none)').matches)||(navigator.maxTouchPoints>0&&/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)); }catch(e){ return false; } })();
+if(IS_TOUCH) document.documentElement.classList.add('touch');
+const BAL_TXT=IS_TOUCH?'◀ ▶ to balance · ':'A / D to balance · ';
 const canvas=document.getElementById('game');
 canvas.setAttribute('tabindex','0'); canvas.style.outline='none';
 const ctx=canvas.getContext('2d');
-let W,H,DPR;
+let W,H,DPR,VS=1;
 function resize(){
   DPR=Math.min(devicePixelRatio||1,2);
-  W=canvas.clientWidth||innerWidth; H=canvas.clientHeight||innerHeight;
-  canvas.width=Math.max(1,Math.floor(W*DPR)); canvas.height=Math.max(1,Math.floor(H*DPR));
-  ctx.setTransform(DPR,0,0,DPR,0,0);
+  const cw=canvas.clientWidth||innerWidth, ch=canvas.clientHeight||innerHeight;
+  VS=Math.max(.5,Math.min(1,cw/1000,ch/560));        // small windows and phones: the whole game world is zoomed out to fit (W and H are the zoomed-out size)
+  W=cw/VS; H=ch/VS;
+  canvas.width=Math.max(1,Math.floor(cw*DPR)); canvas.height=Math.max(1,Math.floor(ch*DPR));
+  ctx.setTransform(DPR*VS,0,0,DPR*VS,0,0);
 }
-addEventListener('resize',resize); addEventListener('load',resize);
+addEventListener('resize',resize); addEventListener('load',resize); addEventListener('orientationchange',()=>setTimeout(resize,250));
 
 const settings={grid:true,shake:true};
 function bindToggle(id,key){
@@ -2136,16 +2241,17 @@ function saveGear(){
 // abilities: auto jump (hops pits for you) and stunt wheelie (W: 10s of extra coins, 2s cooldown) -- the priciest item
 const AUTOJUMP_PRICE=100000, WHEELIE_PRICE=500, WHEELIE_FRAMES=600, WHEELIE_CD_FRAMES=0;   // no cooldown
 let abil=lsGetJSON('bike_abilities',{}); if(!abil||typeof abil!=='object') abil={};
+var REBIRTH_MAX=10, MAX_MPH=700;   // rebirths stop at 10 and nothing goes faster than 700 mph (declared early because the abilities loader below uses it)
 abil={autoJump:!!abil.autoJump, autoJumpOn:abil.autoJumpOn!==false, wheelie:!!abil.wheelie,
   hang:!!abil.hang, hangOn:abil.hangOn!==false, spin:!!abil.spin, spinOn:abil.spinOn!==false,
   launch:!!abil.launch, launchOn:abil.launchOn!==false, magnet:!!abil.magnet, magnetOn:abil.magnetOn!==false,
   wind:!!abil.wind, windOn:abil.windOn!==false,
-  rebirths:Math.max(0,Math.min(999,Math.floor(Number(abil.rebirths))||0))};
+  rebirths:Math.max(0,Math.min(REBIRTH_MAX,Math.floor(Number(abil.rebirths))||0))};
 // rebirth: costs 60,000,000 coins every time and stacks. each one makes ALL your coins x1.5 and your top speed x1.2
 const REBIRTH_PRICE=60000000, REBIRTH_COIN=1.5, REBIRTH_SPEED=1.2;
 const abilOn=k=>!!(abil[k]&&abil[k+'On']);
-const rebirthCoinMul=()=>Math.pow(REBIRTH_COIN,abil.rebirths), rebirthSpeedMul=()=>Math.pow(REBIRTH_SPEED,abil.rebirths);
-const spdMul=()=>trainMode?1:Math.pow(REBIRTH_SPEED,abil.rebirths);   // top speed in a real run (practice stays normal)
+const rebirthCoinMul=()=>Math.pow(REBIRTH_COIN,Math.min(REBIRTH_MAX,abil.rebirths)), rebirthSpeedMul=()=>Math.pow(REBIRTH_SPEED,Math.min(REBIRTH_MAX,abil.rebirths));
+const spdMul=()=>trainMode?1:Math.pow(REBIRTH_SPEED,Math.min(REBIRTH_MAX,abil.rebirths));   // top speed in a real run (practice stays normal)
 const abilCoinMul=()=>rebirthCoinMul()*(abilOn('magnet')?1.25:1);
 const fmtX=x=>String(Math.round(x*100)/100);
 let wheelieT=0, wheelieCD=0, wheelieAng=0, wheelieFrac=0, stoppieAng=0;   // stoppieAng: the back wheel lifting around the front axle (front wheelie)
@@ -2179,11 +2285,11 @@ const ABILITY_LIST=[
   {key:'launch',name:'Launch Boost',emoji:'🛫',price:750000,desc:'every run starts with a free 2 second booster burn',fx:'free boost each run'},
   {key:'magnet',name:'Coin Magnet',emoji:'🧲',price:1500000,desc:'pulls in extra coins from everything you do',fx:'+25% coins'},
   {key:'wind',name:'Second Wind',emoji:'💨',price:2500000,desc:'survive one wipe-out or pit fall every run: you are set back upright and keep riding',fx:'1 free save per run'},
-  {key:'rebirth',name:'Rebirth',emoji:'♻️',price:REBIRTH_PRICE,repeat:true,desc:'buy it again and again. every rebirth makes all your coins ×'+REBIRTH_COIN+' and your top speed ×'+REBIRTH_SPEED+' for good',fx:'×'+REBIRTH_COIN+' coins · ×'+REBIRTH_SPEED+' speed each'}
+  {key:'rebirth',name:'Rebirth',emoji:'♻️',price:REBIRTH_PRICE,repeat:true,desc:'buy it up to '+REBIRTH_MAX+' times. every rebirth makes all your coins ×'+REBIRTH_COIN+' and your top speed ×'+REBIRTH_SPEED+' for good (top speed never goes past '+MAX_MPH+' mph)',fx:'×'+REBIRTH_COIN+' coins · ×'+REBIRTH_SPEED+' speed each'}
 ];
 const shList=c=>c===0?PET_TIERS:c===1?TRAIL_TIERS:c===2?ROCKET_TIERS:ABILITY_LIST;
 const shOrder=c=>{ const L=shList(c); return L.map((_,i)=>i).sort((a,b)=>L[a].price-L[b].price||a-b); };
-const shOwned=(c,i)=>c===0?ownedPets.includes(i):c===1?ownedTrails.includes(i):c===2?rockets[i]>0:(!ABILITY_LIST[i].repeat&&!!abil[ABILITY_LIST[i].key]);   // rebirth can be bought again and again, so it never counts as owned
+const shOwned=(c,i)=>c===0?ownedPets.includes(i):c===1?ownedTrails.includes(i):c===2?rockets[i]>0:(ABILITY_LIST[i].repeat?abil.rebirths>=REBIRTH_MAX:!!abil[ABILITY_LIST[i].key]);   // rebirth can be bought again and again, so it never counts as owned
 const shEq=(c,i)=>c===0?selectedPet===i:c===1?selectedTrail===i:c===2?selectedRocket===i:(!ABILITY_LIST[i].repeat&&abilOn(ABILITY_LIST[i].key));
 const shIcon=t=>t.emoji||'✨';
 let shCat=0, shView=[0,0,0,0], shPay=false, shQty=1, shGone=false, shSwap='';
@@ -2249,7 +2355,7 @@ function renderShPay(root){
     if(c===0){ ownedPets.push(k); selectedPet=k; }
     else if(c===1){ ownedTrails.push(k); selectedTrail=k; }
     else if(c===2){ rockets[k]+=q; }
-    else if(tk.repeat){ abil.rebirths=Math.min(999,abil.rebirths+1); }
+    else if(tk.repeat){ abil.rebirths=Math.min(REBIRTH_MAX,abil.rebirths+1); }
     else { abil[tk.key]=true; abil[tk.key+'On']=true; }
     saveShop(); saveGear(); updateWalletTags(); pulseEl('gearWalletTag');
     shPay=false; shGone=false; shQty=1; redo(true); stConfetti('gearPanel');
@@ -2440,6 +2546,8 @@ let specialOn=lsGet('bike_specialOn','1')!=='0';
 function skillBase(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.base)||SKILL_BASE; }
 function skillDiff(id){ const k=SKILLS.find(x=>x.id===id); return (k&&k.hard)||1; }   // how twitchy the balance bar is
 function skillRate(id){ return skillBase(id)+SKILL_STEP*(skillLv[id]||0); }
+// NEW: skills pay more the longer you hold them (up to x3 after 20 s) and the faster you go (up to x2 at 150 mph). together that is up to x6
+function skillBonusMul(){ return (1+Math.min(2,SK.t/10))*(1+Math.min(1,Math.max(0,car.vx)/150)); }
 function skillName(id){ const k=SKILLS.find(x=>x.id===id); return k?k.name:''; }
 function trainNeed(lv){ return 5+lv; }   // seconds of balancing on the practice map to reach the next level: 5s for the first, then 1 second more for every level
 function skillOwned(id){ return !!skillOwn[id]; }
@@ -3119,9 +3227,29 @@ function wheelSpin(){
 const CRATE_MIN=100, CRATE_HI_CHANCE=.3, SELL_TAX=.1, CRATE_MIN_MPH=20;   // bikes in crates must be faster than 20 mph at their base speed, so the base bike and the push scooter never show up
 try{ const oldC=lsGetJSON('bike_crates',[]); if(Array.isArray(oldC)&&oldC.length){   // crates stored by older versions are turned into coins
   const sum=oldC.reduce((t,n)=>t+(Math.floor(Number(n))||0),0); if(sum>0&&isFinite(sum)){ wallet+=Math.min(sum,1e12); lsSet('bike_wallet',String(wallet)); } lsSet('bike_crates','[]'); } }catch(e){}
-let crPend=null;   // a bike prize that is waiting for you to keep it or sell it (saved, so closing the window never loses it)
-try{ const p=lsGetJSON('bike_crPend',null); if(p&&p.kind==='bike'&&Number.isInteger(p.ve)&&p.ve>=0&&p.ve<VEHICLES.length&&Number.isFinite(p.val)&&p.val>=0) crPend={kind:'bike',ve:p.ve,maxed:!!p.maxed,val:Math.floor(p.val),V:Math.max(0,Math.floor(Number(p.V))||0),hi:!!p.hi,jackpot:!!p.jackpot}; }catch(e){}
+let crPend=null;   // a prize (bike, pet, stunt or upgrade) that is waiting for you to keep it or sell it (saved, so closing the window never loses it)
+function cleanPrize(p){
+  if(!p||typeof p!=='object') return null;
+  const val=Math.floor(Number(p.val)); if(!Number.isFinite(val)||val<0) return null;
+  const base={val,V:Math.max(0,Math.floor(Number(p.V))||0),hi:!!p.hi,jackpot:!!p.jackpot}, vOk=Number.isInteger(p.ve)&&p.ve>=0&&p.ve<VEHICLES.length;
+  if(p.kind==='bike'&&vOk) return Object.assign(base,{kind:'bike',ve:p.ve,maxed:!!p.maxed});
+  if(p.kind==='pet'&&Number.isInteger(p.pi)&&p.pi>=0&&p.pi<PET_TIERS.length) return Object.assign(base,{kind:'pet',pi:p.pi});
+  if(p.kind==='stunt'&&SKILLS.some(k=>k.id===p.sk)) return Object.assign(base,{kind:'stunt',sk:p.sk});
+  if(p.kind==='upgrade'&&vOk&&(p.type==='sp'||p.type==='st')&&Number.isInteger(p.from)&&Number.isInteger(p.to)&&p.from>=0&&p.to>p.from&&p.to<(p.type==='sp'?spMax(p.ve):stMax(p.ve))) return Object.assign(base,{kind:'upgrade',ve:p.ve,type:p.type,from:p.from,to:p.to});
+  return null;
+}
+try{ crPend=cleanPrize(lsGetJSON('bike_crPend',null)); }catch(e){}
 const saveCrPend=()=>lsSet('bike_crPend',JSON.stringify(crPend));
+// the six crates. each one has its own prize pool. the wager (what you pay) sets the price range of the prize
+const CRATE_TYPES=[
+  {id:'bikes',   name:'Bike crate',    emoji:'🚲',hue:0,   desc:'a bike you do not own yet, in the price range of your wager (or nothing if no bike fits). a tiny chance of a FULLY MAXED e-bike, rocket bike or ignitor bike. the bigger the wager, the better the maxed bike (small wager: e-bike, medium: rocket bike, huge: ignitor bike).'},
+  {id:'pets',    name:'Pet crate',     emoji:'🐾',hue:300, desc:'a pet you do not own yet, in the price range of your wager (or nothing if no pet fits).'},
+  {id:'stunts',  name:'Stunt crate',   emoji:'🤸',hue:200, desc:'a special stunt you do not own yet, in the price range of your wager (or nothing if none fits).'},
+  {id:'upgrades',name:'Upgrade crate', emoji:'⚙️',hue:120, desc:'free speed or stunt levels for a bike you own, in the price range of your wager (or nothing).'},
+  {id:'random',  name:'Random crate',  emoji:'🎲',hue:60,  desc:'a mystery: it can be a bike, a pet, a stunt, an upgrade, coins, or nothing.'},
+  {id:'coins',   name:'Coin crate',    emoji:'💰',hue:40,  desc:'coins straight to your wallet, worth less or more than your wager.'}
+];
+let crateType=0;
 let cratePrice=1000, crateBusy=false, crateOpen=false, crateRes=null, crateBuilt=false, crateMsg='';
 const crateBikeOk=ve=>VEHICLES[ve].lo>CRATE_MIN_MPH;
 function bikeValue(ve,maxed){   // what a bike prize is worth (a maxed bike also counts its top speed level and top stunt level)
@@ -3138,26 +3266,90 @@ function grantBike(ve,maxed){   // keep: the bike goes in your inventory (a maxe
   }
   saveShop(); saveStunts();
 }
-function crateRoll(V){   // V = what you paid
-  const hi=Math.random()<CRATE_HI_CHANCE, tail=()=>-Math.log(1-Math.random()*.999);
-  const jp=.004+.02*Math.min(1,V/1000000);   // jackpot: any bike, fully maxed out. 0.4% on any crate, up to 2.4% on big ones
-  if(Math.random()<jp){
-    const w=VEHICLES.map((v,i)=>crateBikeOk(i)?1/Math.sqrt(Math.max(1000,bikeValue(i,true))):0);
-    let q=Math.random()*w.reduce((t,x)=>t+x,0), j=0; for(let i=0;i<w.length;i++){ q-=w[i]; if(q<0){ j=i; break; } }
-    return {kind:'bike',ve:j,maxed:true,val:bikeValue(j,true),hi:true,jackpot:true};
-  }
-  const bikes=VEHICLES.map((v,ve)=>({ve,val:Math.max(0,v.price)})).filter(b=>crateBikeOk(b.ve)&&!isOwned(b.ve)&&(hi?(b.val>V&&b.val<=V*5):(b.val<V&&(b.val>=V/20))));
-  if(bikes.length&&Math.random()<.3){
-    const w=bikes.map(b=>hi?1/Math.max(1,b.val):Math.max(1,b.val)); let q=Math.random()*w.reduce((t,x)=>t+x,0), j=0; for(let i=0;i<w.length;i++){ q-=w[i]; if(q<0){ j=i; break; } }
-    return {kind:'bike',ve:bikes[j].ve,maxed:false,val:bikes[j].val,hi};
-  }
+function bikeLevels(ve){ if(ve===selectedVehicle) return {sp:selectedTier,st:selectedStuntTier}; const b=cleanBike(ve,garage.data[ve]); return {sp:b.sp,st:b.st}; }
+function pickByValue(items,V,hi){   // items: [{val,...}]. strictly the price range of the wager: lower = anything cheaper than the wager, higher = above it and up to 5x. if nothing is in range you get nothing (null)
+  const pool=items.filter(b=>hi?(b.val>V&&b.val<=V*5):(b.val>0&&b.val<=V));
+  if(!pool.length) return null;
+  const w=pool.map(b=>hi?1/Math.max(1,b.val):Math.max(1,b.val)); let q=Math.random()*w.reduce((t,x)=>t+x,0), j=0; for(let i=0;i<w.length;i++){ q-=w[i]; if(q<0){ j=i; break; } }
+  return pool[j];
+}
+function rollCoins(V,hi){
+  const tail=()=>-Math.log(1-Math.random()*.999);
   const v=hi?Math.max(V+1,Math.floor(V*Math.min(25,1.1+.8*tail()))):Math.max(1,Math.floor(V*(.08+.87*Math.random())));
   return {kind:'money',val:v,hi};
+}
+function rollBike(V,hi){
+  const jp=.004+.02*Math.min(1,V/1000000);   // tiny chance of a fully maxed bike: 0.4% on a small wager, up to 2.4% on a big one
+  if(Math.random()<jp){
+    const t=Math.max(0,Math.min(1,Math.log10(Math.max(100,V)/100)/Math.log10(5e7/100)));   // 0 = 100c wager ... 1 = 50,000,000c wager
+    const opts=[[1,Math.pow(1-t,2)+.04],[ROCKET_VEH,Math.max(0,1-Math.abs(t-.55)/.4)+.04],[IGNITOR_VEH,Math.pow(t,3)+.01]];   // small wager: maxed e-bike, medium: rocket bike, huge: ignitor bike
+    let q=Math.random()*opts.reduce((x,o)=>x+o[1],0), j=opts[0][0]; for(const o of opts){ q-=o[1]; if(q<0){ j=o[0]; break; } }
+    return {kind:'bike',ve:j,maxed:true,val:bikeValue(j,true),hi:true,jackpot:true};
+  }
+  const items=VEHICLES.map((v,ve)=>({ve,val:Math.max(0,v.price||0)})).filter(b=>crateBikeOk(b.ve)&&b.ve!==ROCKET_VEH&&b.ve!==IGNITOR_VEH&&!isOwned(b.ve));   // the rocket and ignitor bikes only come out maxed
+  const b=pickByValue(items,V,hi); if(!b) return null;
+  return {kind:'bike',ve:b.ve,maxed:false,val:b.val,hi:b.val>V};
+}
+function rollPet(V,hi){
+  const items=PET_TIERS.map((p,pi)=>({pi,val:p.price})).filter(x=>!ownedPets.includes(x.pi));
+  const b=pickByValue(items,V,hi); if(!b) return null;
+  return {kind:'pet',pi:b.pi,val:b.val,hi:b.val>V};
+}
+function rollStunt(V,hi){
+  const items=SKILLS.map(k=>({sk:k.id,val:k.price||1000})).filter(x=>!skillOwned(x.sk));
+  const b=pickByValue(items,V,hi); if(!b) return null;
+  return {kind:'stunt',sk:b.sk,val:b.val,hi:b.val>V};
+}
+function rollUpgrade(V,hi){
+  const target=hi?V*(1.15+Math.random()*2.2):Math.max(1,V*(.1+.8*Math.random())), opts=[];
+  garage.owned.forEach(ve=>{
+    const L=bikeLevels(ve);
+    [['sp',spMax(ve)-1,L.sp,(a,b)=>tierVal(ve,b)-tierVal(ve,a)],['st',stMax(ve)-1,L.st,(a,b)=>stuntTiers[b].price-stuntTiers[a].price]].forEach(([type,mx,cur,f])=>{
+      if(cur>=mx) return;
+      let to=cur; while(to<mx&&f(cur,to+1)<=target) to++;     // the furthest level that still fits the target value
+      if(to===cur){ if(!hi) return; to=cur+1; }              // a higher crate gives at least one level, but only if that level is still in range (up to 5x the wager)
+      const val=f(cur,to); if(val>0&&val<=V*5) opts.push({ve,type,from:cur,to,val});
+    });
+  });
+  if(!opts.length) return null;
+  const o=opts[Math.floor(Math.random()*opts.length)];
+  return {kind:'upgrade',ve:o.ve,type:o.type,from:o.from,to:o.to,val:o.val,hi:o.val>V};
+}
+function crateRoll(V){   // V = what you paid
+  let id=CRATE_TYPES[crateType].id;
+  if(id==='random') id=['bikes','pets','stunts','upgrades','coins'][Math.floor(Math.random()*5)];
+  const hi=Math.random()<CRATE_HI_CHANCE;
+  if(id==='coins') return rollCoins(V,hi);
+  const r=id==='bikes'?rollBike(V,hi):id==='pets'?rollPet(V,hi):id==='stunts'?rollStunt(V,hi):rollUpgrade(V,hi);
+  return r||{kind:'nothing',val:0,hi:false};   // nothing in the price range (or everything of that kind is owned): the crate is empty
+}
+// how a prize looks, in the full screen opening and in the rewards panel
+function prizeView(R){
+  const bk=R.kind==='bike', lvl=n=>'Lv '+(n+1);
+  let ico,title,sub;
+  if(bk){ ico=R.jackpot?'🎰':(VEH_ICO[R.ve]||'🚲'); title=(R.jackpot?'JACKPOT! ':'')+(R.maxed?'fully maxed ':'')+VEHICLES[R.ve].name; sub=(R.maxed?'top speed and stunt levels · ':'')+'worth '+fmtC(R.val); }
+  else if(R.kind==='pet'){ const t=PET_TIERS[R.pi]; ico=t.emoji; title=t.name; sub='pet · +'+Math.round(t.bonus*100)+'% stunt coins · worth '+fmtC(R.val); }
+  else if(R.kind==='stunt'){ const k=SKILLS.find(x=>x.id===R.sk); ico=k.emoji; title=k.name; sub='special stunt · worth '+fmtC(R.val); }
+  else if(R.kind==='upgrade'){ ico=R.type==='sp'?'🏁':'🤸'; title=VEHICLES[R.ve].name+' '+(R.type==='sp'?'speed':'stunt')+' +'+(R.to-R.from)+(R.to-R.from===1?' level':' levels'); sub=lvl(R.from)+' → '+lvl(R.to)+' · worth '+fmtC(R.val); }
+  else if(R.kind==='nothing'){ ico='💨'; title='nothing'; sub='the crate was empty'; }
+  else { ico='💰'; title='+'+fmtC(R.val)+' coins'; sub='added to your coins'; }
+  return {ico,title,sub,badge:R.kind==='nothing'?'✖ empty crate':R.jackpot?'★ jackpot':R.hi?'▲ worth more than you paid':'▼ worth less than you paid'};
+}
+function grantPrize(R){   // keep: put the prize in your game
+  if(R.kind==='bike'){ grantBike(R.ve,R.maxed); return; }
+  if(R.kind==='pet'){ if(!ownedPets.includes(R.pi)) ownedPets.push(R.pi); saveGear(); saveShop(); return; }
+  if(R.kind==='stunt'){ skillOwn[R.sk]=true; if(!SKILLS.some(x=>x.id!==R.sk&&skillOwned(x.id))) skillSel=R.sk; saveSkills(); return; }
+  if(R.kind==='upgrade'){
+    if(!garage.owned.includes(R.ve)){ wallet+=R.val; saveShop(); return; }   // you sold that bike in the meantime: you get its value instead
+    if(R.ve===selectedVehicle){ if(R.type==='sp') selectedTier=Math.max(selectedTier,R.to); else selectedStuntTier=Math.max(selectedStuntTier,R.to); }
+    else { const b=cleanBike(R.ve,garage.data[R.ve]); b[R.type]=Math.max(b[R.type],R.to); garage.data[R.ve]=b; }
+    saveShop(); saveStunts();
+  }
 }
 function crateStart(V){
   const roll=crateRoll(V); roll.V=V;
   crateBusy=true; crateOpen=false; crateRes=null; crateMsg='';
-  if(roll.kind==='money') wallet+=roll.val; else crPend=roll;
+  if(roll.kind==='money') wallet+=roll.val; else if(roll.kind!=='nothing') crPend=roll;   // an empty crate has nothing to keep
   saveCrPend(); saveShop();                                         // paid and won right away, so closing the window can never lose a prize
   updateCrateUI(); updateWheelUI();
   crateFx(roll);
@@ -3167,23 +3359,21 @@ let cfxEl=null, cfxTimers=[];
 function crateFxClose(){ cfxTimers.forEach(clearTimeout); cfxTimers=[]; if(cfxEl){ const e=cfxEl; cfxEl=null; e.classList.add('out'); setTimeout(()=>e.remove(),350); } }
 function crateFx(R){
   crateFxClose();
-  const bike=R.kind==='bike', hi=R.jackpot||R.hi;
+  const bike=R.kind!=='money'&&R.kind!=='nothing', hi=R.jackpot||R.hi;   // bike = anything you can keep or sell
   const el=document.createElement('div'); el.id='cfx'; cfxEl=el;
   el.innerHTML='<div class="cfx-stage"><div class="rw-crate cfx-crate shake">'+CRATE_SVG+'</div><div class="cfx-flash"></div>'+
     '<div class="cfx-env"><div class="cfx-eback"></div><div class="cfx-card"></div><div class="cfx-efront"></div><div class="cfx-eflap"></div></div>'+
     '<div class="cfx-btns"></div></div>';
   const card=el.querySelector('.cfx-card'), btns=el.querySelector('.cfx-btns'), crate=el.querySelector('.cfx-crate');
   card.className='cfx-card'+(hi?' hi':'');
-  card.appendChild(stEl('div','cfx-ico',R.jackpot?'🎰':bike?(VEH_ICO[R.ve]||'🚲'):'💰'));
-  card.appendChild(stEl('div','cfx-t',bike?((R.jackpot?'JACKPOT! ':'')+(R.maxed?'fully maxed ':'')+VEHICLES[R.ve].name):'+'+fmtC(R.val)+' coins'));
-  card.appendChild(stEl('div','cfx-s',bike?(R.maxed?'top speed and stunt levels · worth '+fmtC(R.val):'worth '+fmtC(R.val)):'added to your coins'));
-  card.appendChild(stEl('div','cfx-b',R.jackpot?'★ jackpot':hi?'▲ worth more than you paid':'▼ worth less than you paid'));
+  { const pv=prizeView(R); card.appendChild(stEl('div','cfx-ico',pv.ico)); card.appendChild(stEl('div','cfx-t',pv.title)); card.appendChild(stEl('div','cfx-s',pv.sub)); card.appendChild(stEl('div','cfx-b',pv.badge)); }
+  crate.style.filter='hue-rotate('+CRATE_TYPES[crateType].hue+'deg)';
   if(bike){
     const kb=stEl('button','cfx-btn keep','keep'), sb=stEl('button','cfx-btn sell','sell · +'+fmtC(Math.floor(R.val*(1-SELL_TAX))));
     kb.type=sb.type='button'; kb.onclick=crateKeep; sb.onclick=crateSell; btns.appendChild(kb); btns.appendChild(sb);
   } else {
-    const ok=stEl('button','cfx-btn keep','collect'); ok.type='button';
-    ok.onclick=()=>{ crateMsg='💰 +'+fmtC(R.val)+' coins added'; crateFxClose(); updateWalletTags(); updateCrateUI(); pulseEl('menuWalletTag'); pulseEl('rewardsWalletTag'); updateWheelUI(); };
+    const ok=stEl('button','cfx-btn keep',R.kind==='nothing'?'ok':'collect'); ok.type='button';
+    ok.onclick=()=>{ crateMsg=R.kind==='nothing'?'💨 the crate was empty':'💰 +'+fmtC(R.val)+' coins added'; crateFxClose(); updateWalletTags(); updateCrateUI(); pulseEl('menuWalletTag'); pulseEl('rewardsWalletTag'); updateWheelUI(); };
     btns.appendChild(ok);
   }
   document.body.appendChild(el);
@@ -3203,8 +3393,9 @@ function crateBuy(){
 }
 function crateKeep(){
   const R=crPend; if(!R||crateBusy) return;
-  grantBike(R.ve,R.maxed); crPend=null; saveCrPend();
-  crateMsg='✅ '+VEHICLES[R.ve].name+' is in your inventory'+(R.maxed?' with max speed and stunt levels':'')+' (upgrades → inventory)';
+  grantPrize(R); crPend=null; saveCrPend();
+  const pv=prizeView(R);
+  crateMsg='✅ '+pv.title+(R.kind==='bike'?' is in your inventory'+(R.maxed?' with max speed and stunt levels':'')+' (upgrades → inventory)':R.kind==='pet'?' is yours (shop → pets)':R.kind==='stunt'?' is unlocked (stunts)':' applied to your bike');
   crateRes=null; crateOpen=false; crateFxClose(); updateWalletTags(); updateCrateUI();
 }
 function crateSell(){
@@ -3222,21 +3413,29 @@ const CRATE_SVG='<svg viewBox="0 0 140 130" width="100%" height="100%" style="ov
   '<g class="cr-lid"><rect x="14" y="36" width="112" height="22" rx="5" fill="#c9954c" stroke="#5e3b0e" stroke-width="3"/>'+
   '<rect x="14" y="36" width="15" height="22" fill="#7b8494" stroke="#4b5260" stroke-width="2"/><rect x="111" y="36" width="15" height="22" fill="#7b8494" stroke="#4b5260" stroke-width="2"/>'+
   '<rect x="62" y="46" width="16" height="14" rx="2" fill="#ffd24d" stroke="#8a6212" stroke-width="2"/><circle cx="70" cy="53" r="2.4" fill="#5e3b0e"/></g></svg>';
+function crateStep(d){ if(crateBusy||wheelSpinning||crPend) return; crateType=(crateType+d+CRATE_TYPES.length)%CRATE_TYPES.length; crateMsg=''; updateCrateUI(); }
 function buildCrates(){
   if(crateBuilt) return; crateBuilt=true;
   const root=document.getElementById('crateBody'); root.innerHTML='';
   root.appendChild(stEl('div','dy-sec','crates'));
-  root.appendChild(stEl('div','dy-sub','pick a price and buy a crate. it opens by itself and you win a random prize: coins or a bike. coins go straight to your wallet. a bike you can keep or sell. most prizes are worth less than you paid, some are worth more, and now and then you hit a jackpot: a fully maxed out bike. no tax when you buy.'));
-  const art=stEl('div','rw-crate'); art.id='crArt'; art.innerHTML=CRATE_SVG; root.appendChild(art);
+  root.appendChild(stEl('div','dy-sub','use the arrows to pick a crate, set your wager and open it. bikes, pets, stunts, upgrades, a random mix or coins. the prize is always in the price range of your wager, and sometimes the crate is empty. anything that is not coins you can keep or sell (10% sell tax). no tax when you buy.'));
+  const sel=stEl('div','rw-csel');
+  const pv=stEl('button','rw-carrow','‹'); pv.type='button'; pv.id='crPrev'; pv.setAttribute('aria-label','previous crate'); pv.onclick=()=>crateStep(-1);
+  const nx=stEl('button','rw-carrow','›'); nx.type='button'; nx.id='crNext'; nx.setAttribute('aria-label','next crate'); nx.onclick=()=>crateStep(1);
+  const mid=stEl('div','rw-cmid'); const art=stEl('div','rw-crate'); art.id='crArt'; art.innerHTML=CRATE_SVG; mid.appendChild(art);
+  const nm=stEl('div','rw-cname',''); nm.id='crName'; mid.appendChild(nm);
+  const dt=stEl('div','rw-cdots',''); dt.id='crDots'; mid.appendChild(dt);
+  sel.appendChild(pv); sel.appendChild(mid); sel.appendChild(nx); root.appendChild(sel);
+  const cd=stEl('div','dy-sub rw-cdesc'); cd.id='crDesc'; root.appendChild(cd);
   const cm=stEl('div','dy-sub dy-won'); cm.id='crMsg'; root.appendChild(cm);
   const res=stEl('div','rw-cres'); res.id='crRes'; root.appendChild(res);
-  root.appendChild(stEl('div','dy-sec','crate price'));
-  const row=stEl('div','rw-crow'), inp=document.createElement('input'); inp.id='crPrice'; inp.type='number'; inp.min=String(CRATE_MIN); inp.step='100'; inp.inputMode='numeric'; inp.value=String(cratePrice); inp.setAttribute('aria-label','crate price in coins');
+  root.appendChild(stEl('div','dy-sec','your wager'));
+  const row=stEl('div','rw-crow'), inp=document.createElement('input'); inp.id='crPrice'; inp.type='number'; inp.min=String(CRATE_MIN); inp.step='100'; inp.inputMode='numeric'; inp.value=String(cratePrice); inp.setAttribute('aria-label','crate wager in coins');
   inp.addEventListener('input',()=>{ cratePrice=parseInt(inp.value,10)||0; updateCrateUI(); });
   inp.addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter') crateBuy(); });
   row.appendChild(inp); row.appendChild(stEl('span','rw-cunit','coins')); root.appendChild(row);
   const chips=stEl('div','rw-chips');
-  [[100,'100'],[500,'500'],[1000,'1k'],[5000,'5k'],[25000,'25k'],[100000,'100k'],[0,'max']].forEach(([v,l])=>{ const b=stEl('button','rw-chip',l); b.type='button'; b.onclick=()=>{ cratePrice=v||Math.max(CRATE_MIN,Math.floor(wallet)); inp.value=String(cratePrice); updateCrateUI(); }; chips.appendChild(b); });
+  [[100,'100'],[500,'500'],[1000,'1k'],[5000,'5k'],[25000,'25k'],[100000,'100k'],[1000000,'1m'],[0,'max']].forEach(([v,l])=>{ const b=stEl('button','rw-chip',l); b.type='button'; b.onclick=()=>{ cratePrice=v||Math.max(CRATE_MIN,Math.floor(wallet)); inp.value=String(cratePrice); updateCrateUI(); }; chips.appendChild(b); });
   root.appendChild(chips);
   const buy=stEl('button','dy-claim'); buy.id='crBuy'; buy.type='button'; buy.onclick=crateBuy; root.appendChild(buy);
   const info=stEl('div','dy-sub'); info.id='crInfo'; root.appendChild(info);
@@ -3244,21 +3443,26 @@ function buildCrates(){
 function updateCrateUI(){
   if(!crateBuilt) return;
   const art=document.getElementById('crArt'), buy=document.getElementById('crBuy'), info=document.getElementById('crInfo'), res=document.getElementById('crRes'), cm=document.getElementById('crMsg');
-  art.className='rw-crate'+(crateBusy?' shake':'')+(crateOpen?' open':'');
-  const p=Math.floor(cratePrice), ok=p>=CRATE_MIN, lock=crateBusy||wheelSpinning||!!crPend;
+  const ct=CRATE_TYPES[crateType], busy=crateBusy||wheelSpinning||!!crPend;
+  art.className='rw-crate'+(crateBusy?' shake':'')+(crateOpen?' open':''); art.style.filter='hue-rotate('+ct.hue+'deg)';
+  document.getElementById('crName').textContent=ct.emoji+' '+ct.name;
+  document.getElementById('crDesc').textContent=ct.desc;
+  const dots=document.getElementById('crDots'); dots.innerHTML=''; CRATE_TYPES.forEach((q,i)=>{ const d=stEl('span','rw-cdot'+(i===crateType?' on':'')); d.title=q.name; dots.appendChild(d); });
+  document.getElementById('crPrev').disabled=document.getElementById('crNext').disabled=busy;
+  const p=Math.floor(cratePrice), ok=p>=CRATE_MIN, lock=busy;
   buy.disabled=lock||!ok||wallet<p;
-  buy.textContent=crateBusy?'opening...':crPend?'keep or sell your prize first':!ok?'minimum '+fmtC(CRATE_MIN):wallet<p?'need '+fmtC(p-wallet)+' more':'buy & open a crate · '+fmtC(p);
-  info.textContent=crateBusy||wheelSpinning?'':'you pay exactly the price you pick (no tax) · you have '+fmtC(wallet);
+  buy.textContent=crateBusy?'opening...':crPend?'keep or sell your prize first':!ok?'minimum '+fmtC(CRATE_MIN):wallet<p?'need '+fmtC(p-wallet)+' more':'buy & open a '+ct.name.toLowerCase()+' · '+fmtC(p);
+  info.textContent=crateBusy||wheelSpinning?'':'you pay exactly the wager you pick (no tax) · you have '+fmtC(wallet);
   cm.textContent=crateMsg; cm.style.display=(crateMsg&&!crateBusy)?'':'none';
   res.innerHTML=''; res.className='rw-cres';
   if(crateRes&&!crateBusy){
-    const R=crateRes, bike=R.kind==='bike';
+    const R=crateRes, v=prizeView(R), keepable=R.kind!=='money'&&R.kind!=='nothing';
     res.className='rw-cres show '+((R.jackpot||R.hi)?'hi':'lo');
-    res.appendChild(stEl('div','rw-cico',R.jackpot?'🎰':bike?(VEH_ICO[R.ve]||'🚲'):'💰'));
-    res.appendChild(stEl('div','rw-ctitle',bike?((R.jackpot?'JACKPOT! ':'')+(R.maxed?'fully maxed ':'')+VEHICLES[R.ve].name):'+'+fmtC(R.val)+' coins'));
-    res.appendChild(stEl('div','rw-csub',bike?((R.maxed?'top speed level and top stunt level · ':'base speed and stunt level · ')+'worth '+fmtC(R.val)+' vs '+fmtC(R.V)+' paid'):('added to your coins · worth '+fmtC(R.val)+' vs '+fmtC(R.V)+' paid')));
-    res.appendChild(stEl('div','rw-cbadge',R.jackpot?'★ jackpot':R.hi?'▲ worth more':'▼ worth less'));
-    if(bike&&crPend){
+    res.appendChild(stEl('div','rw-cico',v.ico));
+    res.appendChild(stEl('div','rw-ctitle',v.title));
+    res.appendChild(stEl('div','rw-csub',v.sub+' · vs '+fmtC(R.V)+' paid'));
+    res.appendChild(stEl('div','rw-cbadge',v.badge));
+    if(keepable&&crPend){
       const act=stEl('div','rw-cact'), kb=stEl('button','dy-claim rw-keep','keep it'), sb=stEl('button','dy-claim rw-sell','sell · +'+fmtC(Math.floor(R.val*(1-SELL_TAX))));
       kb.type=sb.type='button'; kb.onclick=crateKeep; sb.onclick=crateSell; act.appendChild(kb); act.appendChild(sb); res.appendChild(act);
     }
@@ -3462,7 +3666,7 @@ function recordRun(){ bestSet('bike_maxLevel',level); bestSet('bike_bestRun',sco
 const mkCop=()=>({x:0,y:0,vx:0,angle:0,wheel:0,burstT:0,nextBurst:0,grace:0,age:0,boost:0});
 const cop=mkCop(); let escorts=[]; // lead cop + extra cops that join as you climb levels
 const copCount=()=>1+escorts.length;   // police always starts with 1 cop; more join when they call for backup (max 12)
-const BACKUP_DIST=2000, MAX_COPS=12, THROW_COST=10000, THROW_CD=600;   // backup is called when you are 2000m ahead of the nearest cop; a throw costs 10,000 coins and has a 10 second cooldown (600 steps at 60Hz)
+const BACKUP_DIST=3000, MAX_COPS=8, THROW_COST=5000, THROW_CD=420;   // easier police: backup only when you are 3000m ahead, at most 8 cops, a throw costs 5,000 coins with a 7 second cooldown (420 steps at 60Hz) // was 2000m, 12 cops, 10,000 coins, 10 s   // backup is called when you are 2000m ahead of the nearest cop; a throw costs 10,000 coins and has a 10 second cooldown (600 steps at 60Hz)
 let throwCD=0, backupCD=0, copAlertT=0, thrown=null; const copsDown=[];
 const nearestCop=()=>{ let b=cop; for(const c of escorts) if(c.x>b.x) b=c; return b; };
 function copAlert(msg){ const el=document.getElementById('copAlert'); if(!el) return; el.textContent=msg; el.classList.remove('hidden'); el.style.animation='none'; void el.offsetWidth; el.style.animation=''; copAlertT=180; }
@@ -3470,16 +3674,16 @@ function initCop(keep){
   escorts=[]; throwCD=0; backupCD=0; thrown=null; copsDown.length=0; copAlertT=0; { const el=document.getElementById('copAlert'); if(el) el.classList.add('hidden'); }
   [cop,...escorts].forEach((c,i)=>{
     if(!keep){ c.age=0; c.boost=0; } // keep the heat when a level rolls over, reset it on a fresh run
-    c.x=car.x-500-i*260; c.vx=car.vx*.85; c.angle=0; c.wheel=0; c.burstT=0; c.nextBurst=360+Math.random()*300; c.grace=75+i*20;
+    c.x=car.x-800-i*260; c.vx=car.vx*.85; c.angle=0; c.wheel=0; c.burstT=0; c.nextBurst=600+Math.random()*400; c.grace=150+i*20;
     c.y=terrainHeight(c.x,cfg)-33;
   });
 }
 function stepCop(cop,i){
-  if(cop.grace>0) cop.grace--; else { cop.age+=Math.min(3,1+Math.max(0,currentBike().mph-50)/60); cop.boost=Math.min(.6,cop.age*(.10/1800)); } // slower ramp-up: +10% speed every 30s (fast bikes: every 10s at most), up to +60%
-  const k=.88-.008*Math.min(i,8), gap=car.x-cop.x;   // cop speed no longer depends on your level (police has no levels)
-  if(--cop.nextBurst<=0&&cop.burstT<=0){ cop.burstT=150; cop.nextBurst=420+Math.random()*420; }
-  const burst=cop.burstT>0?1.22:1; if(cop.burstT>0) cop.burstT--;
-  const catchUp=Math.min(.3,Math.max(0,(gap-600)/1500));
+  if(cop.grace>0) cop.grace--; else { cop.age+=Math.min(3,1+Math.max(0,currentBike().mph-50)/60); cop.boost=Math.min(.3,cop.age*(.05/1800)); } // slower ramp-up: +10% speed every 30s (fast bikes: every 10s at most), up to +60%
+  const k=.76-.008*Math.min(i,8), gap=car.x-cop.x;   // cop speed no longer depends on your level (police has no levels)
+  if(--cop.nextBurst<=0&&cop.burstT<=0){ cop.burstT=100; cop.nextBurst=700+Math.random()*700; }
+  const burst=cop.burstT>0?1.12:1; if(cop.burstT>0) cop.burstT--;
+  const catchUp=Math.min(.15,Math.max(0,(gap-800)/2500));
   const target=cop.grace>0?0:currentBike().mph*spdMul()*k*burst*(1+catchUp)*(1+cop.boost);
   cop.vx+=Math.max(-.6,Math.min(cfg.accel*.85,target-cop.vx));
   cop.x+=cop.vx; cop.wheel=(cop.wheel+cop.vx*.12)%(Math.PI*2);
@@ -3489,7 +3693,7 @@ function stepCop(cop,i){
   if(cop.grace<=0&&cop.x>=car.x-30) crash(true);
 }
 function callBackup(){   // you are 2000m+ ahead of every cop: dispatch calls for backup and a new cop joins the chase behind you
-  const c=mkCop(); c.x=car.x-3000; c.vx=car.vx*.85; c.grace=0; c.nextBurst=360+Math.random()*300; c.y=terrainHeight(c.x,cfg)-33;
+  const c=mkCop(); c.x=car.x-4000; c.vx=car.vx*.85; c.grace=0; c.nextBurst=360+Math.random()*300; c.y=terrainHeight(c.x,cfg)-33;
   escorts.push(c); backupCD=600;
   copAlert('🚨 BACKUP CALLED!  🚓 ×'+copCount());
   popups.push({x:car.x-camX,y:car.y-90,text:'🚨 backup called! ×'+copCount(),life:1,age:0});
@@ -3764,8 +3968,8 @@ function updateWheelieTag(){
     document.getElementById('wbMark').style.left=(Math.max(0,Math.min(1,SK.b))*100).toFixed(2)+'%';
     const lv=skillLv[skillId]||0;
     document.getElementById('wbHint').textContent=trainMode
-      ?('A / D to balance · '+skillName(skillId).toLowerCase()+' Lv '+lv+' · '+(lv>=SKILL_MAXLV?'max level':Math.floor(skillXp[skillId]||0)+' / '+trainNeed(lv)+'s to next level'))
-      :('A / D to balance · '+skillName(skillId).toLowerCase()+' +'+Math.round(skillRate(skillId)*payMul()*(car.onGround?1:2))+'c per second'+(car.onGround?'':' (x2 in the air)'));
+      ?(BAL_TXT+skillName(skillId).toLowerCase()+' Lv '+lv+' · '+(lv>=SKILL_MAXLV?'max level':Math.floor(skillXp[skillId]||0)+' / '+trainNeed(lv)+'s to next level'))
+      :(BAL_TXT+skillName(skillId).toLowerCase()+' +'+Math.round(skillRate(skillId)*payMul()*skillBonusMul()*(car.onGround?1:2))+'c per second'+(skillBonusMul()>1.05?' (hold + speed bonus x'+skillBonusMul().toFixed(1)+')':'')+(car.onGround?'':' (x2 in the air)'));
   }
   if(!running||crashed){ t.classList.add('hidden'); return; }
   if(!ready){
@@ -3841,6 +4045,35 @@ addEventListener('keyup',e=>{
   if(e.code==='Space'||e.code==='ArrowDown') keys.brake=false;
 });
 canvas.addEventListener('mousedown',()=>canvas.focus());
+// ---- touch buttons (phones and tablets): they press the same things the keyboard does ----
+function holdBtn(id,down,up){
+  const b=document.getElementById(id); if(!b) return;
+  const on=e=>{ e.preventDefault(); e.stopPropagation(); try{ b.setPointerCapture(e.pointerId); }catch(_){} b.classList.add('down'); down(); };
+  const off=e=>{ e.preventDefault(); b.classList.remove('down'); up(); };
+  b.addEventListener('pointerdown',on); b.addEventListener('pointerup',off); b.addEventListener('pointercancel',off);
+  b.addEventListener('contextmenu',e=>e.preventDefault());
+}
+const live=()=>running&&!paused&&!crashed;
+holdBtn('tcGas',()=>{ keys.right=true; },()=>{ keys.right=false; });
+holdBtn('tcBrake',()=>{ keys.brake=true; },()=>{ keys.brake=false; });
+holdBtn('tcHop',()=>{ if(live()&&!hopCliff&&pitAhead()) hopReq=true; },()=>{});
+holdBtn('tcStunt',()=>{ if(live()&&!car.onGround){ stuntBurst=STUNT_BURST_FRAMES; SA.last=simTime; } },()=>{});
+holdBtn('tcSkill',()=>{ if(live()) toggleWheelie(); },()=>{});
+holdBtn('tcBalL',()=>{ keys.aDown=true; if(wheelieT<=0) keys.left=true; },()=>{ keys.aDown=false; keys.left=false; });
+holdBtn('tcBalR',()=>{ keys.dDown=true; if(wheelieT<=0) keys.right=true; },()=>{ keys.dDown=false; keys.right=false; });
+holdBtn('tcPause',()=>{ togglePause(); },()=>{});
+{ // show the buttons only while you ride; the balance arrows only while a skill is on
+  const tc=document.getElementById('tcBal'), box=document.getElementById('touchCtl'), rh=document.getElementById('rotateHint');
+  setInterval(()=>{
+    const show=IS_TOUCH&&running&&!paused&&!crashed;
+    box.classList.toggle('on',show);
+    tc.classList.toggle('show',show&&!document.getElementById('wheelieBar').classList.contains('hidden'));
+    rh.classList.toggle('on',IS_TOUCH&&show&&matchMedia('(orientation:portrait)').matches);
+  },120);
+}
+// phones: tell the player this game is made for pc (once per visit)
+if(IS_TOUCH){ try{ if(!sessionStorage.getItem('bike_mobileNote')){ document.getElementById('mobileNote').classList.remove('hidden'); } }catch(e){ document.getElementById('mobileNote').classList.remove('hidden'); }
+  document.getElementById('mobileNoteOk').onclick=()=>{ document.getElementById('mobileNote').classList.add('hidden'); try{ sessionStorage.setItem('bike_mobileNote','1'); }catch(e){} }; }
 canvas.addEventListener('touchstart',handleTouch,{passive:true});
 canvas.addEventListener('touchmove',handleTouch,{passive:true});
 canvas.addEventListener('touchend',e=>{ if(!e.touches.length){keys.right=false;keys.brake=false;} },{passive:true});
@@ -3851,7 +4084,7 @@ function autoPause(){ releaseKeys(); if(running&&!crashed&&!paused) togglePause(
 addEventListener('blur',autoPause);
 document.addEventListener('visibilitychange',()=>{ if(document.hidden) autoPause(); });
 function handleTouch(e){
-  if(!e.touches.length) return;
+  if(IS_TOUCH||!e.touches.length) return;   // phones use the on-screen buttons instead of the two screen halves
   const t=e.touches[0];
   if(t.clientX>W/2){keys.right=true;keys.brake=false;} else {keys.brake=true;keys.right=false; if(e.type==='touchstart'&&running&&!paused&&!crashed&&!hopCliff&&pitAhead()) hopReq=true;}
 }
@@ -3864,11 +4097,11 @@ function update(){
   const groundY=terrainHeight(car.x,cfg), aheadY=terrainHeight(car.x+car.wheelBase,cfg);
   const groundAngle=Math.atan2(aheadY-groundY,car.wheelBase);
 
-  const bikeCap=(currentBike().mph+boostMph())*spdMul();   // daily speed boost: +1 speed tier while it lasts, and every rebirth is x1.2
+  const bikeCap=Math.min(MAX_MPH,(currentBike().mph+boostMph())*spdMul());   // daily speed boost: +1 speed tier while it lasts, and every rebirth is x1.2
   let cap=bikeCap;
   if(rocketT>0){
     const rk=ROCKET_TIERS[rocketActive];
-    cap=Math.min(Math.max(340,bikeCap),bikeCap+rk.extra); car.vx+=rk.thrust; rocketT--;
+    cap=Math.min(MAX_MPH,Math.max(340,bikeCap),bikeCap+rk.extra); car.vx+=rk.thrust; rocketT--;
     if(rocketT===0) updateRocketBtn();
   }
   const preVx=car.vx;
@@ -3896,7 +4129,7 @@ function update(){
     if(car.onGround&&pa&&pa.x1-car.x<=pitLook()+250){ wheelieT=0; skillId=null; wheelieCD=0; popups.push({x:car.x-camX,y:car.y-70,text:'pit ahead - skill ended, hop it!',life:1,age:0}); }   // pit coming: the skill ends so you can hop it (no cooldown penalty for that)
     else if((car.onGround&&car.vx>2)||(!car.onGround&&skillId&&!isWheelieType(skillId))){   // on the ground, or showing off in the air (not the wheelie)
       if(trainMode) trainTick();                                                       // practice map: skill levels, no coins
-      else{ wheelieFrac+=skillRate(skillId)*payMul()*(car.onGround?1:2)/60;                                        // 10c per second + 2c per train level
+      else{ wheelieFrac+=skillRate(skillId)*payMul()*skillBonusMul()*(car.onGround?1:2)/60;                                        // 10c per second + 2c per train level
         if(wheelieFrac>=1){ const w=Math.floor(wheelieFrac); wheelieFrac-=w; score+=w; document.getElementById('scoreTag').textContent=score+' coins'; } }
       SK.t+=1/60; if(!trainMode){ qAdd('skillsec',1/60); qMax('hold',SK.t); }
       const hard=(1+Math.min(SK.t,60)*.03)*skillDiff(skillId);                                              // gets a little twitchier the longer you hold it
@@ -3917,6 +4150,7 @@ function update(){
   if(hopReq){ hopReq=false; doHop(); }
   if(hopCliff) car.vx=hopVx;                     // while hopping you keep your speed (no braking mid-air)
   const px=car.x;
+  if(car.vx>MAX_MPH) car.vx=MAX_MPH;             // hard 700 mph limit, nothing can push you past it
   car.x+=car.vx; realDX=car.x-px;
   car.wheelAngle=(car.wheelAngle+car.vx*.12)%(Math.PI*2);
 
@@ -5154,8 +5388,8 @@ function loop(ts){
     if(crashed&&!dying) hideSkillHud();   // safety net: a late update can never bring the bar back on the death screen
     render();
     { // the dial is scaled to the speed you can really reach right now (bike top speed, or the rocket's boosted cap), in half-mph steps (17, 17.5, 18), so the needle never pins at full and always agrees with the number
-      const shown=Math.max(0,Math.round(realDX)), top=(currentBike().mph+boostMph())*spdMul();   // whole mph only (15, 16, 17), no decimals on the dial
-      const reach=rocketT>0?Math.min(Math.max(340,top),top+ROCKET_TIERS[rocketActive].extra):top;
+      const shown=Math.max(0,Math.round(realDX)), top=Math.min(MAX_MPH,(currentBike().mph+boostMph())*spdMul());   // whole mph only (15, 16, 17), no decimals on the dial
+      const reach=Math.min(MAX_MPH,rocketT>0?Math.min(Math.max(340,top),top+ROCKET_TIERS[rocketActive].extra):top);
       const scaleMax=Math.max(8,Math.ceil(Math.max(reach,shown)/8)*8);
       drawSpeedo(shown/scaleMax,shown);
     }
@@ -5224,6 +5458,25 @@ resize(); render(); loop();
 (function(){
 "use strict";
 const CHANGELOG=[
+  { v:'0.0.45', date:'Oct 27, 2026', items:[
+    'fixed the upgrades, stunts and all the other shops looking mashed together on smaller windows: they now switch to one column on windows narrower than 900px, and get more compact on short windows',
+    'removed the daily streak and police chase leaderboards (your streak and police record still show on your profile)'
+  ]},
+  { v:'0.0.44', date:'Oct 27, 2026', items:[
+    'the game now works on phones and tablets: touch buttons (gas, brake, hop, stunt, skill, balance arrows and pause) show up while you ride. on a phone you get a note that the game is designed for pc, but you can still play',
+    'smaller screens: the game world zooms out to fit small windows and phones sideways, and the on-screen info gets more compact'
+  ]},
+  { v:'0.0.43', date:'Oct 27, 2026', items:[
+    'police mode is easier again: cops start further back with a longer head start, they are slower, their sirens burst less often and less hard, they speed up half as fast over time, and they catch up less when you fall behind',
+    'backup now only gets called when you are 3000m ahead (was 2000m), there are at most 8 cops (was 12), and throwing something at a cop costs 5,000 coins with a 7 second cooldown (was 10,000 and 10 seconds)'
+  ]},
+  { v:'0.0.42', date:'Oct 27, 2026', items:[
+    'crates now have a left and right arrow to pick the crate: bikes, pets, stunts, upgrades, random or coins. the prize is always in the price range of your wager, and sometimes the crate is empty',
+    'bike crates have a tiny chance of a FULLY MAXED e-bike, rocket bike or ignitor bike. the bigger your wager, the better the maxed bike (small wager: e-bike, medium: rocket bike, huge: ignitor bike)',
+    'fixed: your speed going crazy high after rebirths. rebirths are now capped at 10, and nothing can go faster than 700 mph',
+    'wheelies and special stunts pay more: the longer you hold one the more it pays (up to x3), and the faster you go the more it pays (up to x2)',
+    'the daily reward has no end, with streaks on the new daily streak board and on profiles. profiles show your average stunt skill instead of every skill level, and the skills leaderboard is gone'
+  ]},
   { v:'0.0.41', date:'Oct 22, 2026', items:[
     'opening a crate is now full screen: the background goes dark, the crate shakes and pops open, an envelope comes out, the flap opens and your prize slides out. keep is green, sell is red',
     'selling a bike from a crate now has a 10% sell tax',
@@ -5694,7 +5947,7 @@ async function loadProfile(u){
 }
 
 /* ---- leaderboard ---- */
-const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['bestPolice','police chase'],['streak','daily streak'],['playSecs','hours played']];
+const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['playSecs','hours played']];   // (police chase and daily streak still show on profiles, they just have no board)
 const fmtPlayM=sec=>{ sec=Math.max(0,Math.floor(sec)); const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h>0?h+'h '+m+'m':m+'m'; };   // hours played, for profiles
 let lbTab='maxLevel', lbToken=0, lbLastPushed='', skillFieldBlocked=false;
 const num=k=>Math.max(0,parseInt(ls(k)||'0',10)||0);
