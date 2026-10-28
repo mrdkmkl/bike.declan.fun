@@ -61,7 +61,13 @@
   <div class="box" id="gateBoxSignin">
     <h1>restricted access</h1>
     <div id="gateInner">
-      <button id="btnGoogle" class="primary">sign in with google</button>
+      <button id="btnGoogle" class="primary" style="width:100%">sign in with google</button>
+      <div style="margin:14px 0 8px"><button id="btnShowEmail" class="back" style="font-size:11px">or use email &amp; password</button></div>
+      <div id="emailBox" class="hidden" style="text-align:left">
+        <div class="field"><input type="text" id="emailIn" placeholder="email" style="width:100%" autocomplete="username"></div>
+        <div class="field"><input type="password" id="emailPwIn" placeholder="password" style="width:100%" autocomplete="current-password"></div>
+        <button id="btnEmailSignin" class="primary" style="width:100%">sign in</button>
+      </div>
     </div>
     <div id="status"></div>
   </div>
@@ -96,12 +102,32 @@
     <div id="playersList">
       <div class="row">
         <input type="search" id="playerSearch" placeholder="filter by handle / name / uid">
+        <select id="playerStatusFilter">
+          <option value="all">all players</option>
+          <option value="banned">banned only</option>
+          <option value="timeout">timed out only</option>
+          <option value="active">active only</option>
+        </select>
         <button id="btnLoadPlayers">reload list</button>
+        <button id="btnExportPlayers">export list (.json)</button>
         <span class="muted" id="playerCount"></span>
       </div>
       <div class="msg" id="playersMsg"></div>
+      <div class="row" id="bulkBar">
+        <span class="muted" id="bulkCount">0 selected</span>
+        <select id="bulkTimeoutDur">
+          <option value="10">10 minutes</option>
+          <option value="60" selected>1 hour</option>
+          <option value="360">6 hours</option>
+          <option value="1440">24 hours</option>
+          <option value="10080">7 days</option>
+        </select>
+        <button id="btnBulkTimeout" class="danger">timeout selected</button>
+        <button id="btnBulkBan" class="danger">ban selected</button>
+        <button id="btnBulkUnban">unban selected</button>
+      </div>
       <table>
-        <thead><tr><th>handle</th><th>name</th><th>uid</th><th>status</th><th></th></tr></thead>
+        <thead><tr><th style="width:24px"><input type="checkbox" id="selectAllPlayers"></th><th>handle</th><th>name</th><th>uid</th><th>status</th><th></th></tr></thead>
         <tbody id="playersTbody"></tbody>
       </table>
     </div>
@@ -145,6 +171,22 @@
             </div>
           </div>
           <div class="field">
+            <label>coins (bike_wallet, inside their save)</label>
+            <div class="row">
+              <input type="text" id="coinsAmount" placeholder="amount" style="min-width:110px">
+              <button id="btnCoinsAdd">add</button>
+              <button id="btnCoinsSet">set to exact amount</button>
+            </div>
+            <div class="muted" id="coinsStatus" style="font-size:11.5px"></div>
+          </div>
+          <div class="field">
+            <label>admin notes (private — never visible to players)</label>
+            <textarea id="adminNotes" style="min-height:70px" placeholder="e.g. reported for griefing 10/12, keep an eye on this one"></textarea>
+            <div class="row" style="margin-top:6px">
+              <button id="btnSaveNote">save note</button>
+            </div>
+          </div>
+          <div class="field">
             <label>destructive</label>
             <div class="row">
               <button id="btnResetSave" class="danger">reset save to default</button>
@@ -154,15 +196,20 @@
         </div>
         <div>
           <div class="field">
-            <label>leaderboard quick edits</label>
-            <div class="row">
-              <input type="text" id="editMaxLevel" placeholder="maxLevel" style="min-width:110px">
-              <input type="text" id="editBestRun" placeholder="bestRun" style="min-width:110px">
-              <input type="text" id="editBestPolice" placeholder="bestPolice" style="min-width:110px">
+            <label>leaderboard stats — same names and units shown on the player's in-game profile</label>
+            <div class="row" style="align-items:flex-end">
+              <div><label class="muted" style="text-transform:none;font-size:10.5px">highest level (maxLevel)</label><br>
+                <input type="text" id="editMaxLevel" placeholder="e.g. 12" style="min-width:110px"></div>
+              <div><label class="muted" style="text-transform:none;font-size:10.5px">best run — coins (bestRun)</label><br>
+                <input type="text" id="editBestRun" placeholder="e.g. 4200" style="min-width:110px"></div>
+              <div><label class="muted" style="text-transform:none;font-size:10.5px">police chase — meters (bestPolice)</label><br>
+                <input type="text" id="editBestPolice" placeholder="e.g. 850" style="min-width:110px"></div>
             </div>
-            <div class="row">
-              <input type="text" id="editStreak" placeholder="streak" style="min-width:110px">
-              <input type="text" id="editBestStreak" placeholder="bestStreak" style="min-width:110px">
+            <div class="row" style="align-items:flex-end;margin-top:8px">
+              <div><label class="muted" style="text-transform:none;font-size:10.5px">daily streak — days (streak)</label><br>
+                <input type="text" id="editStreak" placeholder="e.g. 5" style="min-width:110px"></div>
+              <div><label class="muted" style="text-transform:none;font-size:10.5px">best streak — days (bestStreak)</label><br>
+                <input type="text" id="editBestStreak" placeholder="e.g. 9" style="min-width:110px"></div>
               <button id="btnSaveLb" class="primary">save leaderboard fields</button>
             </div>
           </div>
@@ -173,6 +220,17 @@
               <input type="text" id="customVal" placeholder="value (JSON or text)" style="min-width:140px">
               <button id="btnCustomSet">set field</button>
             </div>
+          </div>
+          <div class="field">
+            <label>bio / profile picture</label>
+            <div class="row">
+              <input type="text" id="editBio" placeholder="bio text (max 160 chars)" style="width:100%">
+            </div>
+            <div class="row">
+              <button id="btnSaveBio">save bio</button>
+              <button id="btnClearPhoto">clear profile picture</button>
+            </div>
+            <div class="muted" id="followCounts" style="font-size:11px"></div>
           </div>
         </div>
       </div>
@@ -191,13 +249,21 @@
 
   <!-- leaderboard tab -->
   <div class="panel" id="tab-leaderboard">
+    <p class="muted" style="margin-top:0">same boards as the in-game leaderboard screen (Highest Level / Best Run / Hours Played / Daily Streak).</p>
     <div class="row">
-      <button id="btnLoadLb">load leaderboard (top 100 by maxLevel)</button>
+      <label class="muted" style="text-transform:none">sort by</label>
+      <select id="lbSortField">
+        <option value="maxLevel" selected>highest level</option>
+        <option value="bestRun">best run (coins)</option>
+        <option value="playSecs">hours played</option>
+        <option value="streak">daily streak</option>
+      </select>
+      <button id="btnLoadLb">load top 100</button>
       <span class="muted" id="lbCount"></span>
     </div>
     <div class="msg" id="lbMsg"></div>
     <table>
-      <thead><tr><th>handle</th><th>maxLevel</th><th>bestRun</th><th>bestPolice</th><th>streak</th><th></th></tr></thead>
+      <thead><tr><th>handle</th><th>highest level<br><span class="muted" style="font-weight:400">(maxLevel)</span></th><th>best run — coins<br><span class="muted" style="font-weight:400">(bestRun)</span></th><th>police chase — m<br><span class="muted" style="font-weight:400">(bestPolice)</span></th><th>daily streak — days<br><span class="muted" style="font-weight:400">(streak)</span></th><th></th></tr></thead>
       <tbody id="lbTbody"></tbody>
     </table>
   </div>
@@ -208,6 +274,14 @@
     <div class="field">
       <label>message text</label>
       <input type="text" id="msgText" placeholder="e.g. servers going down for maintenance at 9pm" style="width:100%">
+    </div>
+    <div class="row">
+      <label class="muted" style="text-transform:none">placement</label>
+      <select id="msgPlacement">
+        <option value="top" selected>top of screen</option>
+        <option value="bottom">bottom of screen</option>
+      </select>
+      <label class="muted" style="text-transform:none"><input type="checkbox" id="msgClosable" checked style="width:auto;margin-right:4px;vertical-align:middle"> player can close it</label>
     </div>
     <div class="row">
       <label class="muted" style="text-transform:none">expires in</label>
@@ -297,7 +371,7 @@ async function logAction(action,target,detail){
       import(base+'firebase-firestore.js')
     ]);
     fb={...B,doc:C.doc,getDoc:C.getDoc,setDoc:C.setDoc,updateDoc:C.updateDoc,deleteDoc:C.deleteDoc,
-        collection:C.collection,query:C.query,orderBy:C.orderBy,limit:C.limit,getDocs:C.getDocs,
+        collection:C.collection,query:C.query,orderBy:C.orderBy,limit:C.limit,getDocs:C.getDocs,where:C.where,
         deleteField:C.deleteField,writeBatch:C.writeBatch};
     const app=A.initializeApp(firebaseConfig);
     auth=B.getAuth(app); db=C.getFirestore(app);
@@ -309,6 +383,16 @@ async function logAction(action,target,detail){
         await B.signInWithPopup(auth,provider);
       }catch(e){ setStatus('sign-in failed: '+(e&&e.code||e.message),'err'); }
     };
+    $('btnShowEmail').onclick=()=>{ $('emailBox').classList.toggle('hidden'); };
+    $('btnEmailSignin').onclick=async()=>{
+      const email=$('emailIn').value.trim(), pw=$('emailPwIn').value;
+      if(!email||!pw){ setStatus('enter an email and password','err'); return; }
+      setStatus('signing in…');
+      try{
+        await B.signInWithEmailAndPassword(auth,email,pw);
+      }catch(e){ setStatus('sign-in failed: '+(e&&e.code||e.message),'err'); }
+    };
+    ['emailIn','emailPwIn'].forEach(id=>$(id).addEventListener('keydown',e=>{ if(e.key==='Enter') $('btnEmailSignin').click(); }));
 
     B.onAuthStateChanged(auth,u=>{
       if(!u){ uid=null; pendingUser=null; showSigninBox(); return; }
@@ -427,24 +511,84 @@ async function loadPlayers(){
     msg.textContent='failed to load: '+e.message; msg.className='msg err';
   }
 }
+let selectedUids=new Set();
+function playerStatus(p){
+  if(p.banned) return 'banned';
+  if(p.timeoutUntil&&p.timeoutUntil>Date.now()) return 'timeout';
+  return 'active';
+}
 function renderPlayers(list){
   const tb=$('playersTbody'); tb.innerHTML='';
   list.forEach(p=>{
     const tr=document.createElement('tr');
-    const banned=!!p.banned;
-    tr.innerHTML=`<td>@${esc(p.handle||'?')}</td><td>${esc(p.name||'')}</td><td class="muted" style="font-size:11px">${esc(p.uid)}</td>
-      <td>${banned?'<span class="pill ban">banned</span>':'<span class="pill ok">active</span>'}</td>
+    const st=playerStatus(p);
+    const pill=st==='banned'?'<span class="pill ban">banned</span>':st==='timeout'?'<span class="pill ban">timed out</span>':'<span class="pill ok">active</span>';
+    tr.innerHTML=`<td><input type="checkbox" class="rowSel" data-uid="${esc(p.uid)}" ${selectedUids.has(p.uid)?'checked':''}></td>
+      <td>@${esc(p.handle||'?')}</td><td>${esc(p.name||'')}</td><td class="muted" style="font-size:11px">${esc(p.uid)}</td>
+      <td>${pill}</td>
       <td><button data-uid="${esc(p.uid)}" class="openPlayer">open</button></td>`;
     tb.appendChild(tr);
   });
   tb.querySelectorAll('.openPlayer').forEach(b=>b.onclick=()=>openPlayer(b.dataset.uid));
+  tb.querySelectorAll('.rowSel').forEach(cb=>cb.onchange=()=>{
+    if(cb.checked) selectedUids.add(cb.dataset.uid); else selectedUids.delete(cb.dataset.uid);
+    updateBulkBar();
+  });
+  updateBulkBar();
 }
-$('playerSearch').addEventListener('input',e=>{
-  const q=e.target.value.trim().toLowerCase();
-  if(!q){ renderPlayers(allPlayers); return; }
-  renderPlayers(allPlayers.filter(p=>(p.handle||'').toLowerCase().includes(q)||(p.name||'').toLowerCase().includes(q)||p.uid.toLowerCase().includes(q)));
-});
+function updateBulkBar(){
+  $('bulkCount').textContent=selectedUids.size+' selected';
+  const dis=selectedUids.size===0;
+  $('btnBulkTimeout').disabled=dis; $('btnBulkBan').disabled=dis; $('btnBulkUnban').disabled=dis;
+}
+$('selectAllPlayers').onchange=e=>{
+  const visible=[...document.querySelectorAll('#playersTbody .rowSel')];
+  visible.forEach(cb=>{ cb.checked=e.target.checked; if(e.target.checked) selectedUids.add(cb.dataset.uid); else selectedUids.delete(cb.dataset.uid); });
+  updateBulkBar();
+};
+
+function currentFiltered(){
+  const q=$('playerSearch').value.trim().toLowerCase();
+  const status=$('playerStatusFilter').value;
+  return allPlayers.filter(p=>{
+    if(status!=='all' && playerStatus(p)!==status) return false;
+    if(!q) return true;
+    return (p.handle||'').toLowerCase().includes(q)||(p.name||'').toLowerCase().includes(q)||p.uid.toLowerCase().includes(q);
+  });
+}
+function applyPlayerFilters(){ renderPlayers(currentFiltered()); }
+$('playerSearch').addEventListener('input',applyPlayerFilters);
+$('playerStatusFilter').addEventListener('change',applyPlayerFilters);
 $('btnLoadPlayers').onclick=loadPlayers;
+
+$('btnExportPlayers').onclick=()=>{
+  const list=currentFiltered();
+  const blob=new Blob([JSON.stringify(list,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='players-export-'+Date.now()+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+};
+
+async function bulkApply(action){
+  if(selectedUids.size===0) return;
+  const uids=[...selectedUids];
+  if(!confirm(action+' '+uids.length+' selected player(s)?')) return;
+  const msg=$('playersMsg'); msg.textContent='applying…'; msg.className='msg';
+  let mins=Number($('bulkTimeoutDur').value)||60;
+  try{
+    for(const u of uids){
+      if(action==='ban') await fb.setDoc(fb.doc(db,'leaderboard',u),{banned:true,bannedAt:Date.now()},{merge:true});
+      else if(action==='unban') await fb.setDoc(fb.doc(db,'leaderboard',u),{banned:false,bannedAt:fb.deleteField()},{merge:true});
+      else if(action==='timeout') await fb.setDoc(fb.doc(db,'leaderboard',u),{timeoutUntil:Date.now()+mins*60000},{merge:true});
+    }
+    await logAction('bulk-'+action,null,uids.length+' players: '+uids.join(','));
+    msg.textContent='done.'; msg.className='msg ok';
+    selectedUids.clear(); loadPlayers();
+  }catch(e){ msg.textContent='bulk action failed (check Firestore rules are deployed): '+e.message; msg.className='msg err'; }
+}
+$('btnBulkBan').onclick=()=>bulkApply('ban');
+$('btnBulkUnban').onclick=()=>bulkApply('unban');
+$('btnBulkTimeout').onclick=()=>bulkApply('timeout');
 
 /* ---------- player detail ---------- */
 let currentUid=null, currentLb=null;
@@ -470,11 +614,54 @@ async function openPlayer(u){
     $('editBestPolice').value=currentLb.bestPolice??'';
     $('editStreak').value=currentLb.streak??'';
     $('editBestStreak').value=currentLb.bestStreak??'';
+    $('renameHandle').value=''; $('renameName').value='';
+    const tu=currentLb.timeoutUntil||0;
+    $('timeoutStatus').textContent=(tu>Date.now())
+      ? ('currently timed out until '+new Date(tu).toLocaleString())
+      : 'no active timeout';
+    $('editBio').value=currentLb.bio||'';
+    $('followCounts').textContent='followers/following are computed from the follows collection — open "leaderboard" tab or the game profile to see live counts.';
   }catch(e){
     $('pdMsg').textContent='could not load leaderboard doc: '+e.message; $('pdMsg').className='msg err';
   }
+  $('coinsAmount').value=''; $('coinsStatus').textContent='';
+  $('adminNotes').value='loading…';
+  try{
+    const n=await fb.getDoc(fb.doc(db,'adminNotes',u));
+    $('adminNotes').value=n.exists()?(n.data().text||''):'';
+  }catch(e){ $('adminNotes').value=''; }
   loadSaveJson();
 }
+
+$('btnSaveNote').onclick=async()=>{
+  const msg=$('pdMsg');
+  try{
+    await fb.setDoc(fb.doc(db,'adminNotes',currentUid),{text:$('adminNotes').value,updatedAt:Date.now(),by:uid});
+    await logAction('save-note',currentUid);
+    msg.textContent='note saved.'; msg.className='msg ok';
+  }catch(e){ msg.textContent='note save failed (check Firestore rules are deployed for /adminNotes): '+e.message; msg.className='msg err'; }
+};
+
+/* ---- coins (bike_wallet lives inside the save JSON blob, not the leaderboard doc) ---- */
+async function patchWallet(fn){
+  const st=$('coinsStatus');
+  const amt=Number($('coinsAmount').value);
+  if(!Number.isFinite(amt)){ st.textContent='enter a number first.'; return; }
+  try{
+    const s=await fb.getDoc(fb.doc(db,'saves',currentUid));
+    const d=s.exists()?s.data():{};
+    let obj={}; try{ obj=d.json?JSON.parse(d.json):{}; }catch(e){ obj={}; }
+    const cur=parseInt(obj.bike_wallet||'0',10)||0;
+    const next=Math.max(0,fn(cur,amt));
+    obj.bike_wallet=String(next);
+    await fb.setDoc(fb.doc(db,'saves',currentUid),{json:JSON.stringify(obj),updatedAt:Date.now()});
+    await logAction('edit-coins',currentUid,cur+' -> '+next);
+    st.textContent='coins now: '+next;
+    if($('pdSaveJson').value) loadSaveJson();
+  }catch(e){ st.textContent='failed (check Firestore rules are deployed): '+e.message; }
+}
+$('btnCoinsAdd').onclick=()=>patchWallet((cur,amt)=>cur+amt);
+$('btnCoinsSet').onclick=()=>patchWallet((cur,amt)=>amt);
 $('btnBackToList').onclick=()=>{
   $('playerDetail').classList.add('hidden');
   $('playersList').classList.remove('hidden');
@@ -506,10 +693,139 @@ $('btnSaveLb').onclick=async()=>{
   if(bs!==undefined) patch.bestStreak=bs;
   try{
     await fb.setDoc(fb.doc(db,'leaderboard',currentUid),patch,{merge:true});
+    await logAction('edit-stats',currentUid,JSON.stringify(patch));
     msg.textContent='leaderboard fields saved.'; msg.className='msg ok';
   }catch(e){
     msg.textContent='save failed (check Firestore rules are deployed): '+e.message; msg.className='msg err';
   }
+};
+
+/* ---- timeout (temporary ban) ---- */
+$('btnTimeout').onclick=async()=>{
+  const msg=$('pdMsg');
+  const mins=Number($('timeoutDur').value)||60;
+  const until=Date.now()+mins*60000;
+  try{
+    await fb.setDoc(fb.doc(db,'leaderboard',currentUid),{timeoutUntil:until},{merge:true});
+    await logAction('timeout',currentUid,mins+' minutes (until '+new Date(until).toISOString()+')');
+    msg.textContent='timeout applied until '+new Date(until).toLocaleString()+'.'; msg.className='msg ok';
+    openPlayer(currentUid);
+  }catch(e){ msg.textContent='timeout write failed (check Firestore rules are deployed): '+e.message; msg.className='msg err'; }
+};
+$('btnClearTimeout').onclick=async()=>{
+  const msg=$('pdMsg');
+  try{
+    await fb.setDoc(fb.doc(db,'leaderboard',currentUid),{timeoutUntil:fb.deleteField()},{merge:true});
+    await logAction('clear-timeout',currentUid);
+    msg.textContent='timeout cleared.'; msg.className='msg ok';
+    openPlayer(currentUid);
+  }catch(e){ msg.textContent='write failed: '+e.message; msg.className='msg err'; }
+};
+
+/* ---- rename (handle + display name) ----
+   writes the handle registry doc AND the leaderboard doc, as a batch, the
+   same way the game itself does it — this is what the old version was
+   missing, which is why it did nothing before. */
+$('btnRename').onclick=async()=>{
+  const msg=$('pdMsg');
+  const newHandle=$('renameHandle').value.trim().toLowerCase();
+  const newName=$('renameName').value.trim().replace(/\s+/g,' ');
+  if(!newHandle && !newName){ msg.textContent='enter a new handle and/or display name.'; msg.className='msg err'; return; }
+  if(newHandle && !/^[a-z0-9_]{4,16}$/.test(newHandle)){
+    msg.textContent='handle must be 4-16 chars, lowercase letters/numbers/underscore only.'; msg.className='msg err'; return;
+  }
+  try{
+    const oldHandle=currentLb&&currentLb.handle;
+    if(newHandle && newHandle!==oldHandle){
+      const taken=await fb.getDoc(fb.doc(db,'handles',newHandle));
+      if(taken.exists() && taken.data().uid!==currentUid){
+        msg.textContent='that handle is already taken by another player.'; msg.className='msg err'; return;
+      }
+      const b=fb.writeBatch(db);
+      if(oldHandle) b.delete(fb.doc(db,'handles',oldHandle));
+      b.set(fb.doc(db,'handles',newHandle),{uid:currentUid});
+      const lbPatch={handle:newHandle};
+      if(newName) lbPatch.name=newName;
+      b.set(fb.doc(db,'leaderboard',currentUid),lbPatch,{merge:true});
+      await b.commit();
+    }else if(newName){
+      await fb.setDoc(fb.doc(db,'leaderboard',currentUid),{name:newName},{merge:true});
+    }
+    await logAction('rename',currentUid,JSON.stringify({handle:newHandle||undefined,name:newName||undefined}));
+    msg.textContent='renamed.'; msg.className='msg ok';
+    openPlayer(currentUid);
+  }catch(e){
+    msg.textContent='rename failed (check Firestore rules are deployed — handles need the admin create/delete rule): '+e.message;
+    msg.className='msg err';
+  }
+};
+
+/* ---- bio / photo ---- */
+$('btnSaveBio').onclick=async()=>{
+  const msg=$('pdMsg');
+  const bio=$('editBio').value.slice(0,160);
+  try{
+    await fb.setDoc(fb.doc(db,'leaderboard',currentUid),{bio},{merge:true});
+    await logAction('edit-bio',currentUid);
+    msg.textContent='bio saved.'; msg.className='msg ok';
+  }catch(e){ msg.textContent='save failed: '+e.message; msg.className='msg err'; }
+};
+$('btnClearPhoto').onclick=async()=>{
+  const msg=$('pdMsg');
+  try{
+    await fb.setDoc(fb.doc(db,'leaderboard',currentUid),{photo:fb.deleteField()},{merge:true});
+    await logAction('clear-photo',currentUid);
+    msg.textContent='profile picture cleared.'; msg.className='msg ok';
+  }catch(e){ msg.textContent='write failed: '+e.message; msg.className='msg err'; }
+};
+
+/* ---- custom field injector ---- */
+$('btnCustomSet').onclick=async()=>{
+  const msg=$('pdMsg');
+  const key=$('customKey').value.trim();
+  const raw=$('customVal').value;
+  if(!key){ msg.textContent='enter a field name.'; msg.className='msg err'; return; }
+  let val;
+  try{ val=JSON.parse(raw); }catch(e){ val=raw; } // plain text is fine if it isn't valid JSON
+  try{
+    await fb.setDoc(fb.doc(db,'leaderboard',currentUid),{[key]:val},{merge:true});
+    await logAction('set-field',currentUid,key+'='+JSON.stringify(val));
+    msg.textContent='field "'+key+'" set.'; msg.className='msg ok';
+  }catch(e){ msg.textContent='write failed: '+e.message; msg.className='msg err'; }
+};
+
+/* ---- reset save / delete player entirely ---- */
+$('btnResetSave').onclick=async()=>{
+  const msg=$('pdMsg');
+  if(!confirm('Reset this player\'s cloud save to a blank default? Their progress (levels, coins, unlocks) will be lost.')) return;
+  try{
+    await fb.setDoc(fb.doc(db,'saves',currentUid),{json:JSON.stringify({}),updatedAt:Date.now()});
+    await logAction('reset-save',currentUid);
+    msg.textContent='save reset to blank.'; msg.className='msg ok';
+    loadSaveJson();
+  }catch(e){ msg.textContent='reset failed: '+e.message; msg.className='msg err'; }
+};
+$('btnDeletePlayer').onclick=async()=>{
+  const msg=$('pdMsg');
+  if(!confirm('Permanently delete this ONE player — their save, leaderboard entry, handle, and follow relationships? This cannot be undone.')) return;
+  try{
+    const u=currentUid;
+    const handle=currentLb&&currentLb.handle;
+    const jobs=[fb.deleteDoc(fb.doc(db,'saves',u)),fb.deleteDoc(fb.doc(db,'leaderboard',u)),fb.deleteDoc(fb.doc(db,'adminNotes',u)).catch(()=>{})];
+    if(handle) jobs.push(fb.deleteDoc(fb.doc(db,'handles',handle)));
+    await Promise.all(jobs);
+    const [asFollower,asTarget]=await Promise.all([
+      fb.getDocs(fb.query(fb.collection(db,'follows'),fb.where('from','==',u))),
+      fb.getDocs(fb.query(fb.collection(db,'follows'),fb.where('to','==',u)))
+    ]);
+    const b=fb.writeBatch(db);
+    asFollower.forEach(d=>b.delete(d.ref));
+    asTarget.forEach(d=>b.delete(d.ref));
+    await b.commit();
+    await logAction('delete-player',u,handle||'');
+    msg.textContent='player deleted.'; msg.className='msg ok';
+    setTimeout(()=>{ $('btnBackToList').click(); loadPlayers(); },800);
+  }catch(e){ msg.textContent='delete failed (check Firestore rules are deployed): '+e.message; msg.className='msg err'; }
 };
 
 async function loadSaveJson(){
@@ -536,17 +852,93 @@ $('btnSaveSave').onclick=async()=>{
   catch(e){ meta.textContent='invalid JSON: '+e.message; return; }
   try{
     await fb.setDoc(fb.doc(db,'saves',currentUid),{json:JSON.stringify(parsed),updatedAt:Date.now()});
+    await logAction('edit-save-json',currentUid);
     meta.textContent='save written at '+new Date().toLocaleTimeString();
   }catch(e){
     meta.textContent='write failed (check Firestore rules are deployed): '+e.message;
   }
 };
 
+/* ---------- global message tab ----------
+   writes one doc at /meta/announcement. the game reads it at most once
+   every few minutes (see bike_17.html changes) so this never causes
+   extra reads on every page load. */
+async function loadCurrentMsg(){
+  const el=$('msgCurrent');
+  try{
+    const s=await fb.getDoc(fb.doc(db,'meta','announcement'));
+    if(s.exists() && s.data().text){
+      const d=s.data();
+      el.textContent='currently live: "'+d.text+'" · '+(d.placement||'top')+' · '+(d.closable===false?'not closable':'closable')+
+        (d.expiresAt?' · expires '+new Date(d.expiresAt).toLocaleString():' · no expiry')+
+        ' · sent '+new Date(d.updatedAt||0).toLocaleString();
+      $('msgText').value=d.text;
+      $('msgPlacement').value=d.placement||'top';
+      $('msgClosable').checked=d.closable!==false;
+    }else{
+      el.textContent='no message currently live.';
+    }
+  }catch(e){ el.textContent='could not load current message: '+e.message; }
+}
+document.querySelector('.tabs button[data-tab="message"]').addEventListener('click',loadCurrentMsg);
+
+$('btnSendMsg').onclick=async()=>{
+  const msg=$('msgMsg');
+  const text=$('msgText').value.trim();
+  if(!text){ msg.textContent='type a message first (or use "clear message" to remove it).'; msg.className='msg err'; return; }
+  const mins=Number($('msgExpiry').value)||0;
+  const doc={
+    text,
+    placement:$('msgPlacement').value,
+    closable:$('msgClosable').checked,
+    updatedAt:Date.now(),
+    by:uid,
+    id:Date.now()+'_'+Math.random().toString(36).slice(2,6)
+  };
+  if(mins>0) doc.expiresAt=Date.now()+mins*60000;
+  try{
+    await fb.setDoc(fb.doc(db,'meta','announcement'),doc);
+    await logAction('send-message',null,text);
+    msg.textContent='sent to all players.'; msg.className='msg ok';
+    loadCurrentMsg();
+  }catch(e){ msg.textContent='send failed (check Firestore rules are deployed): '+e.message; msg.className='msg err'; }
+};
+$('btnClearMsg').onclick=async()=>{
+  const msg=$('msgMsg');
+  try{
+    await fb.deleteDoc(fb.doc(db,'meta','announcement'));
+    await logAction('clear-message');
+    msg.textContent='message cleared.'; msg.className='msg ok';
+    $('msgText').value='';
+    loadCurrentMsg();
+  }catch(e){ msg.textContent='clear failed: '+e.message; msg.className='msg err'; }
+};
+
+/* ---------- audit log tab ---------- */
+$('btnLoadLog').onclick=async()=>{
+  const msg=$('logMsg'); msg.textContent='loading…'; msg.className='msg';
+  try{
+    const snap=await fb.getDocs(fb.query(fb.collection(db,'adminLog'),fb.orderBy('at','desc'),fb.limit(200)));
+    const tb=$('logTbody'); tb.innerHTML=''; let n=0;
+    snap.forEach(d=>{
+      n++; const l=d.data();
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td style="white-space:nowrap">${esc(new Date(l.at||0).toLocaleString())}</td><td style="font-size:10.5px">${esc((l.by||'').slice(0,8))}</td><td>${esc(l.action||'')}</td><td style="font-size:10.5px">${esc(l.target||'')}</td><td style="font-size:10.5px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(l.detail||'')}</td>`;
+      tb.appendChild(tr);
+    });
+    $('logCount').textContent=n+' entries';
+    msg.textContent='';
+  }catch(e){
+    msg.textContent='failed to load (check Firestore rules are deployed for /adminLog): '+e.message; msg.className='msg err';
+  }
+};
+
 /* ---------- leaderboard tab ---------- */
 $('btnLoadLb').onclick=async()=>{
   const msg=$('lbMsg'); msg.textContent='loading…'; msg.className='msg';
+  const field=$('lbSortField').value;
   try{
-    const snap=await fb.getDocs(fb.query(fb.collection(db,'leaderboard'),fb.orderBy('maxLevel','desc'),fb.limit(100)));
+    const snap=await fb.getDocs(fb.query(fb.collection(db,'leaderboard'),fb.orderBy(field,'desc'),fb.limit(100)));
     const tb=$('lbTbody'); tb.innerHTML=''; let n=0;
     snap.forEach(d=>{
       n++; const p=d.data();
@@ -616,6 +1008,7 @@ $('btnWipe').onclick=async()=>{
     for(const col of ['saves','leaderboard','handles','follows']){
       total+=await wipeCollection(col,msg);
     }
+    await logAction('wipe-all',null,total+' documents deleted');
     msg.textContent='done. deleted '+total+' documents.'; msg.className='msg ok';
   }catch(e){
     msg.textContent='wipe failed partway through (check Firestore rules are deployed to allow admin deletes): '+e.message;
