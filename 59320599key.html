@@ -1049,8 +1049,6 @@ html.touch #rotateHint.on{display:block;position:absolute;left:50%;top:50%;trans
     <div class="toggle-row"><span>camera shake</span><div class="switch on" id="shakeToggle"></div></div>
     <div class="controls-note" id="playNote">time played: 0s</div>
     <div class="controls-note" id="saveNote">progress saves automatically on this device</div>
-    <div class="settings-row" style="margin-top:6px"><button class="action-btn" id="exportSave" type="button">export save</button><button class="action-btn" id="importSave" type="button">import save</button></div>
-    <input type="file" id="importFile" accept=".json,application/json" hidden>
     <button class="close-btn" id="closeSettings">close</button>
   </div>
 
@@ -5856,21 +5854,6 @@ async function runSync(u){
   else signOut();
 }
 
-/* ---- export / import a save file (a backup you control) ---- */
-$('exportSave').onclick=()=>{
-  const b=new Blob([JSON.stringify(snapshot())],{type:'application/json'}), a=document.createElement('a');
-  a.href=URL.createObjectURL(b); a.download='bike-save.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-};
-$('importSave').onclick=()=>$('importFile').click();
-$('importFile').onchange=async e=>{
-  const f=e.target.files[0]; e.target.value=''; if(!f) return;
-  try{
-    const o=JSON.parse(await f.text()); if(!o||typeof o!=='object'||Array.isArray(o)||!Object.keys(o).some(isSaveKey)) throw new Error('bad');
-    if(!confirm('replace the save on this device with this file?')) return;
-    if(!adopt(o,Date.now(),null)) alert("couldn't write to browser storage");
-  }catch(x){ alert("that file isn't a bike save"); }
-};
-
 /* ---- sign in / out (sign-in happens on its own page: signin.html) ---- */
 function openAuth(){
   if(!CONFIGURED){ showMsg("sign-in isn't set up yet. The game owner needs to add a firebase config. You can keep playing as a guest."); return; }
@@ -5942,7 +5925,8 @@ $('acctEdit').onclick=()=>{   // editing happens on the sign-in page (picture ed
 };
 async function loadProfile(u){
   try{ const s=await fb.getDoc(fb.doc(db,'leaderboard',u.uid)); const d=s.exists()?s.data():null;
-    return d&&d.handle?{handle:d.handle,name:d.name||d.handle,photo:okPhoto(d.photo),bio:typeof d.bio==='string'?d.bio:''}:null; }
+    return d&&d.handle?{handle:d.handle,name:d.name||d.handle,photo:okPhoto(d.photo),bio:typeof d.bio==='string'?d.bio:'',
+      banned:!!d.banned,timeoutUntil:Number(d.timeoutUntil)||0}:null; }
   catch(e){ console.warn(e); return undefined; }
 }
 
@@ -6216,10 +6200,109 @@ if(CONFIGURED){
       let p=await loadProfile(u); if(!user||user.uid!==u.uid) return;
       if(p===undefined){ showMsg("couldn't load your profile. Check your connection."); p=null; }
       else if(p===null){ p=await profileFlow(null); if(!user||user.uid!==u.uid) return; } // first time: handle + name + picture
-      profile=p; renderAccount(); runSync(u); profRefresh();
+      profile=p;
+      if(p&&p.banned){ showAccessBlock('banned'); return; }
+      if(p&&p.timeoutUntil&&p.timeoutUntil>Date.now()){ showAccessBlock('timeout',p.timeoutUntil); return; }
+      renderAccount(); runSync(u); profRefresh();
     });
     if(bootProfile) openProfile(bootProfile);
+    initGlobalMessage();
   }catch(e){ console.warn('firebase failed to load',e); }
+}
+
+/* ===== ban / timeout block screen =====
+   shown instead of the normal game when the signed-in account is banned
+   or timed out on /leaderboard/{uid}. matches the game's own visual
+   language (white card, black border, blue accent, mono labels). */
+let abEl=null, abTimer=null;
+function showAccessBlock(kind,until){
+  if(!abEl){
+    abEl=document.createElement('div');
+    abEl.id='accessBlock';
+    abEl.style.cssText='position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;'+
+      'background:radial-gradient(circle at 50% 0%,#ffffff 0%,#f3f4f7 60%,#e9ebf0 100%);'+
+      'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:#111;text-align:center;padding:24px;';
+    document.body.appendChild(abEl);
+  }
+  const card='background:#fff;border:1.6px solid #111;border-radius:16px;padding:32px 28px;max-width:360px;'+
+    'box-shadow:0 16px 40px rgba(17,17,17,.14);';
+  const monoTag='font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:1.5px;'+
+    'text-transform:uppercase;color:#d11;margin-bottom:10px;';
+  const btn='margin-top:18px;padding:10px 22px;border:1px solid #111;border-radius:20px;background:#111;color:#fff;'+
+    'font-size:13px;cursor:pointer;';
+  const wireSignOut=()=>{
+    const so=document.getElementById('abSignOut');
+    if(so) so.onclick=()=>{ signOut(); clearInterval(abTimer); if(abEl){ abEl.remove(); abEl=null; } location.reload(); };
+  };
+  if(kind==='banned'){
+    clearInterval(abTimer);
+    abEl.innerHTML='<div style="'+card+'"><div style="'+monoTag+'">account suspended</div>'+
+      '<div style="font-size:17px;font-weight:700;margin-bottom:8px">you\'ve been banned from this game</div>'+
+      '<div style="font-size:13px;color:#666">if you think this is a mistake, contact <a href="mailto:contact@declan.fun" style="color:#2f6fed">contact@declan.fun</a>.</div>'+
+      '<button id="abSignOut" style="'+btn+'">sign out</button></div>';
+    wireSignOut();
+  }else{
+    clearInterval(abTimer);
+    const render=()=>{
+      const left=Math.max(0,until-Date.now());
+      if(left<=0){ clearInterval(abTimer); if(abEl){ abEl.remove(); abEl=null; } location.reload(); return; }
+      const h=Math.floor(left/3600000), m=Math.floor(left%3600000/60000), s=Math.floor(left%60000/1000);
+      const t=(h>0?h+'h ':'')+m+'m '+s+'s';
+      abEl.innerHTML='<div style="'+card+'"><div style="'+monoTag+'">temporary timeout</div>'+
+        '<div style="font-size:17px;font-weight:700;margin-bottom:8px">you can play again in</div>'+
+        '<div style="font-size:28px;font-weight:800;font-family:ui-monospace,Menlo,Consolas,monospace;color:#2f6fed">'+t+'</div>'+
+        '<button id="abSignOut" style="'+btn+'">sign out</button></div>';
+      wireSignOut();
+    };
+    render(); abTimer=setInterval(render,1000);
+  }
+}
+
+/* ===== global announcement banner =====
+   reads one doc, /meta/announcement, written by the admin tool. cached in
+   localStorage and re-checked at most every REFRESH_MINS minutes (not on
+   every reload) to keep Firestore reads low. public collection, so this
+   works for signed-out guests too. */
+const MSG_REFRESH_MINS=10;
+async function initGlobalMessage(){
+  try{
+    const cacheRaw=ls('bike_msgCache');
+    const cache=cacheRaw?JSON.parse(cacheRaw):null;
+    const stale=!cache||(Date.now()-(cache.checkedAt||0))>MSG_REFRESH_MINS*60000;
+    let d=cache&&cache.doc;
+    if(stale){
+      const s=await fb.getDoc(fb.doc(db,'meta','announcement'));
+      d=s.exists()?s.data():null;
+      lsw('bike_msgCache',JSON.stringify({doc:d,checkedAt:Date.now()}));
+    }
+    renderGlobalMessage(d);
+    clearInterval(initGlobalMessage._t);
+    initGlobalMessage._t=setInterval(()=>initGlobalMessage(),MSG_REFRESH_MINS*60000);
+  }catch(e){ console.warn('global message check failed',e); }
+}
+function renderGlobalMessage(d){
+  const old=document.getElementById('globalMsgBanner'); if(old) old.remove();
+  if(!d||!d.text) return;
+  if(d.expiresAt&&Date.now()>d.expiresAt) return;
+  const closedId=ls('bike_msgClosed');
+  if(d.closable!==false&&closedId&&d.id&&closedId===d.id) return;
+  const top=(d.placement||'top')==='top';
+  const el=document.createElement('div');
+  el.id='globalMsgBanner';
+  el.style.cssText='position:fixed;left:50%;transform:translateX(-50%);'+(top?'top:10px;':'bottom:10px;')+
+    'z-index:99998;max-width:min(560px,92vw);background:#fff;border:1.6px solid #111;border-radius:14px;'+
+    'box-shadow:0 8px 24px rgba(17,17,17,.10);padding:10px 16px;font-family:-apple-system,BlinkMacSystemFont,'+
+    '"Segoe UI",Helvetica,Arial,sans-serif;font-size:13px;color:#111;display:flex;align-items:center;gap:10px;';
+  const span=document.createElement('span'); span.textContent=d.text; span.style.flex='1';
+  el.appendChild(span);
+  if(d.closable!==false){
+    const x=document.createElement('button');
+    x.textContent='×'; x.setAttribute('aria-label','close');
+    x.style.cssText='border:none;background:none;cursor:pointer;font-size:18px;line-height:1;color:#999;padding:0 2px;';
+    x.onclick=()=>{ if(d.id) lsw('bike_msgClosed',d.id); el.remove(); };
+    el.appendChild(x);
+  }
+  document.body.appendChild(el);
 }
 </script>
 <!-- ACCESS-LOCK-SENTINEL:BEGIN - DO NOT REMOVE. If the access lock script at the top of this file is ever missing, this blocks the page instead of silently opening the game. -->
