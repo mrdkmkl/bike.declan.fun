@@ -1133,7 +1133,23 @@ html.udark .hp-green{color:#3ddc84;}
 #startScreen.gm-sub-join #gmPriv{display:none;}
 #startScreen.gm-sub-rooms #gmPub{display:none;}
 #startScreen.gm-net-peer #gmPub,#startScreen.gm-net-peer #gmSub,#startScreen.gm-net-peer .gm-adv{display:none !important;}
-#startScreen.gm-net-peer #gmPriv{display:flex !important;border-top:0;padding-top:0;}
+#startScreen.gm-net-peer #gmPriv{display:flex !important;}
+/* tidy layout: one even rhythm, no stray headings or divider lines */
+#gmMenu{gap:12px;}
+#gmMenu>*{margin:0;}
+#gmTop{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:100%;}
+#gmTop #gmChange{justify-self:start;}
+#gmNetName{font:700 12px/1 var(--mono);letter-spacing:1.6px;color:var(--s-fg,#111);}
+#gmMenu .modes{margin:0;}
+#gmMenu .gm-stat{margin:0;}
+#gmMenu #gmHint{margin:0;min-height:0;}
+#gmMenu .gm-sec{border-top:0;padding:0;gap:10px;}
+#gmMenu .gm-sec h4{display:none;}
+#gmMenu #gmMsg{min-height:0;max-width:330px;}
+#gmMsg:empty{display:none;}
+#gmMenu .gm-adv{border-top:0;padding:0;margin-top:2px;}
+#startScreen #gmMenu #gmNow{position:static;transform:none;width:100%;max-width:330px;box-sizing:border-box;display:none;}
+#startScreen.gm-net-global #gmMenu #gmNow{display:block;}
 #startScreen.gm-on #modes,#startScreen.gm-on #startBtn,#startScreen.gm-on .settings-row{display:none;}
 #gmMenu .modes{margin:2px 0 8px;}
 #gmMenu .start-btn{margin:0 0 6px;}
@@ -1196,6 +1212,71 @@ html.udark .hp-green{color:#3ddc84;}
 .pr-live{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 2px;font-size:12px;color:#12a150;font-weight:700;flex-wrap:wrap;}
 .pr-live::before{content:"";width:8px;height:8px;border-radius:50%;background:#2fc56b;box-shadow:0 0 0 4px rgba(47,197,107,.2);}
 html.udark .pr-live{color:#3ddc84;}
+
+/* ===== v0.0.53 polish: teams, real-game look, mobile ===== */
+#gmQuit{left:auto;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:3;}
+.gm-view{padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch;}
+#gmPlay{padding:0;}
+#gmOv .gm-card{max-width:100%;align-items:stretch;padding:0;border:0;cursor:default;}
+#gmOv .gm-card:hover{background:transparent;color:var(--s-fg,#111);transform:none;}
+.gm-tscore,.gm-plist{width:100%;}
+.gm-plist{max-height:46vh;overflow-y:auto;padding:2px;}
+.gm-p.tm{border-left:5px solid var(--tc);}
+.gm-team{font:700 9.5px/1 var(--mono,monospace);letter-spacing:1px;text-transform:lowercase;padding:4px 9px;border-radius:999px;background:var(--tc);color:#fff;flex:none;}
+.gm-tscore{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.gm-tbox{border:2px solid var(--tc);border-radius:16px;padding:12px 8px;display:flex;flex-direction:column;gap:2px;align-items:center;color:var(--tc);}
+.gm-tbox b{font-size:34px;line-height:1.1;font-weight:800;}
+.gm-tbox small{font-size:10px;letter-spacing:1.2px;opacity:.85;}
+.gm-tbox.win{background:var(--tc);color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.18);}
+#gmMenu .modes{gap:6px;}
+#gmMenu .mode-btn{padding:8px 12px;}
+@media (max-width:520px){
+  #startScreen{padding:76px 14px 78px;overflow-y:auto;justify-content:flex-start;}
+  #startScreen .title{margin:auto 0 18px;padding-top:6vh;}
+  #startScreen>.modes,#startScreen>.start-btn,#startScreen>.settings-row,#startScreen>.status-row,#startScreen>#gmMenu,#startScreen>#gmPick{margin-left:0;margin-right:0;}
+  #startScreen>.status-row{margin-bottom:auto;}
+  #startScreen #acctStatus{position:absolute;top:56px;left:12px;right:12px;text-align:center;font-size:9px;line-height:1.3;}
+  #startScreen .ver{display:none;}
+  #startScreen .help-btn,#helpBtn{bottom:12px !important;right:12px !important;width:36px;height:36px;}
+  #startScreen #gmSwitch{bottom:14px;}
+  #startScreen .settings-row{max-width:340px;}
+  #startScreen #gmMenu{padding-bottom:6px;}
+  #gmNow{position:static !important;}
+}
+@media (max-height:700px) and (max-width:520px){ #startScreen.gm-on{padding-top:84px;} }
+@media (max-height:480px){ #startScreen{padding-top:60px;} #startScreen .title{margin-bottom:10px;padding-top:0;} }
+
+/* ===== friends ===== */
+#gmNow{display:none !important;}
+#friendDock{display:none;position:relative;width:100%;margin-top:auto;flex:none;flex-direction:column;align-items:center;gap:6px;padding:18px 0 0;font-family:var(--mono);}
+#startScreen.gm-on .title{margin-top:auto;}
+#startScreen.gm-on #friendDock{display:flex;}
+#startScreen.gm-on{justify-content:flex-start;padding-top:70px;padding-bottom:70px;overflow-y:auto;}
+#fdHead{display:flex;align-items:center;gap:10px;font:700 9.5px/1 var(--mono);letter-spacing:1.6px;color:var(--s-muted,#555);text-transform:lowercase;}
+#fdHead span{display:flex;align-items:center;gap:6px;} #fdHead span::before{content:"";width:7px;height:7px;border-radius:50%;background:#2fc56b;}
+#fdAll{border:1.4px solid var(--s-line,#d2d2d0);background:transparent;color:var(--s-muted,#555);font:600 9.5px/1 var(--mono);letter-spacing:1px;padding:5px 10px;border-radius:999px;cursor:pointer;}
+#fdAll:hover{background:var(--s-fg,#111);color:var(--s-inv,#fff);border-color:var(--s-fg,#111);}
+#fdRow{display:flex;align-items:flex-start;justify-content:flex-start;gap:14px;width:min(560px,100%);height:104px;overflow-x:auto;overflow-y:hidden;padding:6px 8px 0;scrollbar-width:none;}
+#fdRow::-webkit-scrollbar{display:none;}
+#fdRow:has(.gm-empty){justify-content:center;align-items:center;height:60px;}
+#fdRow .gm-empty{text-align:center;max-width:300px;font-size:10px;line-height:1.5;}
+.fd-item:first-child{margin-left:auto;} .fd-item:last-child{margin-right:auto;}
+.fd-item{flex:none;width:72px;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0;cursor:pointer;color:var(--s-fg,#111);font:600 10px/1.2 var(--mono);}
+.fd-ring{display:block;border-radius:50%;padding:3px;border:2.5px solid #2fc56b;transition:transform .15s,box-shadow .15s;line-height:0;}
+.fd-item:hover .fd-ring,.fd-item:focus-visible .fd-ring{transform:scale(1.08);box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.fd-item:not(.can) .fd-ring{border-color:var(--s-line,#d2d2d0);}
+.fd-name{max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fd-tip{display:none;font-size:8.5px;font-weight:500;opacity:.75;text-align:center;line-height:1.25;max-width:92px;}
+.fd-item:hover .fd-tip,.fd-item:focus-visible .fd-tip{display:block;}
+@media (hover:none){ .fd-tip{display:block;} #fdRow{height:112px;} }
+.fd-ring .fr-star{display:none;}
+.fr-wrap{position:relative;display:inline-flex;line-height:0;flex:none;}
+.fr-star{position:absolute;right:-4px;bottom:-4px;width:14px;height:14px;border-radius:50%;background:#f5b301;color:#fff;font:700 9px/14px sans-serif;text-align:center;font-style:normal;box-shadow:0 0 0 2px var(--s-bg,#fff);}
+#friendsBody{padding:8px 16px 40px;max-width:560px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:8px;overflow-y:auto;}
+.fr-h{font:700 10px/1 var(--mono,monospace);letter-spacing:1.6px;text-transform:lowercase;color:#888;margin:12px 2px 2px;}
+.fr-empty{text-align:center;color:#888;font-size:13px;line-height:1.5;padding:30px 10px;}
+.fr-row{cursor:pointer;} .fr-row .pr-btn{margin-left:auto;flex:none;padding:7px 14px;font-size:11px;}
+@media (max-width:520px){ #startScreen.gm-on{padding-bottom:66px;} }
 </style>
 </head>
 <body>
@@ -1273,19 +1354,19 @@ html.udark .pr-live{color:#3ddc84;}
       <button class="mode-btn" data-mode="police">🚓 police</button>
     </div>
     <button class="start-btn" id="startBtn">play</button>
-    <div id="gmNow"><h3>playing now</h3><div id="gmNowList"><div class="gm-empty">connecting…</div></div></div>
     <div id="gmPick">
       <h2>play online</h2>
       <button class="gm-card" type="button" data-net="peer"><span class="ic">⚡</span><span class="tx"><b>PeerJS</b><small>same network · faster</small></span></button>
       <button class="gm-card" type="button" data-net="global"><span class="ic">🌍</span><span class="tx"><b>Global</b><small>anybody · slower</small></span></button>
     </div>
     <div id="gmMenu">
-      <div id="gmTop"><button class="gm-btn sm" id="gmChange" type="button">‹ change</button></div>
-      <div id="gmSub" role="tablist" aria-label="join a server or use rooms"><button type="button" class="on" data-sub="join">join server</button><button type="button" data-sub="rooms">rooms</button></div>
+      <div id="gmTop"><button class="gm-btn sm" id="gmChange" type="button">‹ back</button><b id="gmNetName">Global</b><i></i></div>
       <div id="gmStat" class="gm-stat off" role="button" tabindex="0" title="tap to reconnect"><i></i><span>connecting…</span></div>
-            <div class="modes" id="gmModes">
+      <div id="gmSub" role="tablist" aria-label="join a server or use rooms"><button type="button" class="on" data-sub="join">join server</button><button type="button" data-sub="rooms">rooms</button></div>
+      <div class="modes" id="gmModes">
         <button class="mode-btn active" data-gtype="race" type="button">🏁 race</button>
         <button class="mode-btn" data-gtype="timed" type="button">⏱ timed</button>
+        <button class="mode-btn" data-gtype="teams" type="button">👥 teams</button>
       </div>
       <div id="gmHint"></div>
       <div class="gm-sec" id="gmPub">
@@ -1300,12 +1381,14 @@ html.udark .pr-live{color:#3ddc84;}
         <div class="gm-row"><input id="gmCode" type="text" maxlength="6" placeholder="room code" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="room code"><button class="gm-btn" id="gmCodeGo" type="button">join code</button></div>
       </div>
       <div id="gmMsg"></div>
+      <div id="gmNow"><h3>playing now</h3><div id="gmNowList"><div class="gm-empty">connecting…</div></div></div>
       <details class="gm-adv"><summary>server</summary>
         <div class="gm-row"><input id="gmSrv" type="text" placeholder="wss://your-tunnel-address" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="global server address"><button class="gm-btn" id="gmSrvGo" type="button">save</button></div>
       </details>
     </div>
+    <div id="friendDock"><div id="fdHead"><span>friends playing</span><button id="fdAll" type="button">all friends</button></div><div id="fdRow"></div></div>
     <div id="gmSwitch" role="tablist" aria-label="local or online"><button type="button" class="on" data-scope="local">local</button><button type="button" data-scope="online">online</button></div>
-    <div class="settings-row"><button class="action-btn" id="dailyBtn" type="button">rewards</button><button class="action-btn" id="upgradesBtn" style="display:none">upgrades</button><button class="action-btn" id="stuntsBtn" style="display:none">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button><button class="action-btn" id="soundBtn" type="button" aria-label="sound on or off">🔊</button></div>
+    <div class="settings-row"><button class="action-btn" id="dailyBtn" type="button">rewards</button><button class="action-btn" id="friendsBtn" type="button">friends</button><button class="action-btn" id="upgradesBtn" style="display:none">upgrades</button><button class="action-btn" id="stuntsBtn" style="display:none">stunts</button><button class="action-btn" id="gearBtn">shop</button><button class="action-btn" id="lbBtn">leaderboard</button><button class="action-btn" id="soundBtn" type="button" aria-label="sound on or off">🔊</button></div>
     <div class="status-row"><div class="level-pill" id="menuLevelTag">level 1</div><div class="wallet-pill" id="menuWalletTag">0c</div><div class="level-pill" id="menuHoursTag">0s played</div></div>
     <div class="ver">v.0.0.52 (alpha)</div>
     <button class="help-btn" id="helpBtn" type="button" aria-label="how to play" title="how to play">?</button>
@@ -1379,6 +1462,12 @@ html.udark .pr-live{color:#3ddc84;}
       <button class="action-btn" id="trainTopBtn" type="button">🏋️ train</button>
     </div>
     <div id="skillLab"></div>
+  </div>
+
+  <div class="panel hidden" id="friendsPanel">
+    <button class="close-x" id="closeFriends" aria-label="close">✕</button>
+    <div class="shop-header"><h2>friends</h2></div>
+    <div id="friendsBody"></div>
   </div>
 
   <div class="panel hidden" id="lbPanel">
@@ -1686,7 +1775,7 @@ function renderStartPers(root,el){
 // menu panels: the start screen is hidden while any panel is open (it used to stay active underneath),
 // and comes back when the panel closes
 const startScreenEl=document.getElementById('startScreen');
-const PANEL_IDS=['helpPanel','profilePanel','settingsPanel','upgradesPanel','gearPanel','stuntsPanel','lbPanel','rewardsPanel','shopHubPanel'];
+const PANEL_IDS=['friendsPanel','helpPanel','profilePanel','settingsPanel','upgradesPanel','gearPanel','stuntsPanel','lbPanel','rewardsPanel','shopHubPanel'];
 function openPanel(id){ startScreenEl.classList.add('hidden'); document.getElementById(id).classList.remove('hidden'); }
 function closePanel(id){
   document.getElementById(id).classList.add('hidden');
@@ -6661,7 +6750,7 @@ async function loadProfile(u){
 }
 
 /* ---- leaderboard ---- */
-const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['playSecs','hours played']];   // (police chase and daily streak still show on profiles, they just have no board)
+const LB_TABS=[['maxLevel','highest level'],['bestRun','best run'],['playSecs','hours played'],['friends','friends ★']];   // (police chase and daily streak still show on profiles, they just have no board)
 const fmtPlayM=sec=>{ sec=Math.max(0,Math.floor(sec)); const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60); return h>0?h+'h '+m+'m':m+'m'; };   // hours played, for profiles
 let lbTab='maxLevel', lbToken=0, lbLastPushed='', skillFieldBlocked=false;
 const num=k=>Math.max(0,parseInt(ls(k)||'0',10)||0);
@@ -6720,9 +6809,22 @@ function lbFoot(){
   $('lbFoot').textContent=!user?'sign in (top right of the menu) to put your scores on the board. You can play fine without it.'
     :profile?"you're on the board as @"+profile.handle+'. Change your handle, name or picture with "edit" on the menu.':'finish setting up your profile to appear on the board.';
 }
+async function lbFriends(tok){
+  if(!user) return lbMsg('sign in to see your friends');
+  const fl=await gmFollows(); if(!fl.length) return lbMsg('no friends yet. follow players and ask them to follow you back.');
+  const docs=[]; await Promise.all(fl.slice(0,40).map(async u=>{ try{ const s=await fb.getDoc(fb.doc(db,'leaderboard',u)); if(s.exists()){ const d=s.data(); if(d.handle&&!badText(d.handle)) docs.push(d); } }catch(e){} }));
+  if(tok!==lbToken) return; docs.sort((a,b)=>(Number(b.maxLevel)||0)-(Number(a.maxLevel)||0));
+  const l=$('lbList'); l.textContent=''; if(!docs.length) return lbMsg('no friends on the board yet');
+  docs.forEach((d,i)=>{ const r=document.createElement('div'); r.className='lb-row'; r.onclick=()=>openProfile(d.handle);
+    const a=document.createElement('span'); a.className='lb-rank'; a.textContent='#'+(i+1);
+    const w=document.createElement('span'); w.className='lb-who'; const hb=document.createElement('b'); hb.textContent='@'+String(d.handle).slice(0,16); const nm=document.createElement('span'); nm.textContent=String(d.name||'').slice(0,20); w.append(hb,nm);
+    const vl=document.createElement('span'); vl.className='lb-val'; vl.textContent='lvl '+(Number(d.maxLevel)||1);
+    r.append(a,avatar({handle:d.handle,name:d.name,photo:d.photo},30),w,vl); l.appendChild(r); });
+}
 async function lbLoad(){
   const tok=++lbToken; lbMsg('loading…');
   if(!CONFIGURED||!db){ lbMsg(!CONFIGURED?"the leaderboard isn't set up yet.":'loading…'); if(CONFIGURED) setTimeout(()=>{ if(tok===lbToken&&!$('lbPanel').classList.contains('hidden')) lbLoad(); },1500); return; }
+  if(lbTab==='friends') return lbFriends(tok);
   try{
     const snap=await fb.getDocs(fb.query(fb.collection(db,'leaderboard'),fb.orderBy(lbTab,'desc'),fb.limit(lbTab==='streak'?60:15)));
     if(tok!==lbToken) return;
@@ -6800,7 +6902,7 @@ async function openProfile(h){
     const d=ds.exists()?ds.data():null;
     if(!d||!d.handle||badText(d.handle)||badText(d.name||'')){ prMsg('no player called @'+h); return; }
     prData={uid,h,d,nFol,nFing,following:!!(fs&&fs.exists()),editing:false,err:''};
-    renderProfile();
+    renderProfile(); if(user) gmFollows().then(()=>{ if(prData&&prData.uid===uid) renderProfile(); });
     if(!(user&&user.uid===uid)) gmQuickWho(uid).then(w=>{ if(w&&prData&&prData.uid===uid&&tok===prTok){ prData.live=w; renderProfile(); } });
   }catch(e){ console.warn(e); if(tok===prTok) prMsg("couldn't load this profile. Check your connection."); }
 }
@@ -6812,6 +6914,7 @@ async function toggleFollow(){
     if(P.following){ await fb.deleteDoc(ref); P.following=false; P.nFol=Math.max(0,P.nFol-1); }
     else{ await fb.setDoc(ref,{from:user.uid,to:P.uid,at:Date.now()}); P.following=true; P.nFol++; }
   }catch(e){ console.warn(e); P.err=e&&e.code==='permission-denied'?'following is blocked: the firestore rules need the follows update.':"couldn't do that. Check your connection."; }
+  await gmFollows(true); G.nowSig=''; gmNowShow(G.lastWho||[]);
   P.busy=false; if(prData===P) renderProfile();
 }
 async function saveBio(txt){
@@ -6851,13 +6954,13 @@ function renderProfile(){
     if(mine) act.appendChild(btn('edit bio',()=>{ P.editing=true; P.err=''; renderProfile(); }));
     else if(!user) act.appendChild(btn('sign in to follow',openAuth));
     else if(!profile) act.appendChild(btn('finish your profile to follow',()=>{},'',true));
-    else act.appendChild(btn(P.busy?'…':(P.following?'following ✓':'follow'),toggleFollow,P.following?'on':'',P.busy));
+    else act.appendChild(btn(P.busy?'…':(P.following?((G.friends||[]).includes(P.uid)?'friends ✓':'following ✓'):((G.followers||[]).includes(P.uid)?'follow back':'follow')),toggleFollow,P.following?'on':'',P.busy));
     act.appendChild(btn('copy link',async e=>{ const t=e.currentTarget; let ok=false; try{ await navigator.clipboard.writeText(shareUrl(P.h)); ok=true; }catch(x){} t.textContent=ok?'link copied':'copy failed'; setTimeout(()=>{ t.textContent='copy link'; },1600); }));
     b.appendChild(act); b.appendChild(mk('div','pr-hint'+(P.err?' err':''),P.err||''));
   }
   if(P.live&&!mine&&!P.editing){   // global mode: they are in a server right now
     const L=P.live, lr=mk('div','pr-live');
-    lr.appendChild(document.createTextNode('playing global '+(L.type==='timed'?'timed':'race')+(L.private?' (private room)':(L.status==='lobby'?' · in the lobby':' · in a match'))));
+    lr.appendChild(document.createTextNode('playing global '+gmTypeName(L.type)+(L.private?' (private room)':(L.status==='lobby'?' · in the lobby':' · in a match'))));
     if(!L.private&&L.roomId&&L.status==='lobby'&&L.n<GM_MAX){ if(user&&profile) lr.appendChild(btn('join',()=>gmProfileJoin(L.roomId))); else lr.appendChild(btn('sign in to join',openAuth)); }
     b.appendChild(lr);
   }
@@ -6938,11 +7041,15 @@ let gmToastTimer=null, gmLastTs=0;
 function gmToast(t){ const e=$('gmToast'); e.textContent=t; e.classList.remove('hidden'); clearTimeout(gmToastTimer); gmToastTimer=setTimeout(()=>e.classList.add('hidden'),4200); }
 function gmMsg(t){ $('gmMsg').textContent=t||''; }
 const gmCode=()=>{ let s=''; for(let i=0;i<6;i++) s+=GM_CODE_CHARS[Math.floor(Math.random()*GM_CODE_CHARS.length)]; return s; };
-const gmTypeName=t=>t==='timed'?'timed':'race';
+const gmTypeName=t=>t==='timed'?'timed':t==='teams'?'teams':'race';
+const gmFlip=r=>!!r&&(r.type==='timed'||r.type==='teams');
+const TEAM_NAME=['Red','Blue'], TEAM_COL=['#e5484d','#2f6fed'];
+const gmTeamOf=uid=>{ const m=(G.room&&G.room.members)||[]; const i=m.indexOf(uid); return i<0?0:i%2; };
 async function gmProf(uid){ return G.prof.get(uid)||null; }
 function gmAvatar(uid,h,n,size){
   const c=G.prof.get(uid), el=avatar({handle:h,name:n,photo:c&&c.photo},size);
   if(!G.prof.has(uid)) gmProf(uid).then(d=>{ if(d&&d.photo&&el.isConnected) el.replaceWith(avatar({handle:h,name:n,photo:d.photo},size)); });
+  if(uid&&uid!==gmMe.uid&&(G.friends||[]).includes(uid)){ const w=document.createElement('span'); w.className='fr-wrap'; w.appendChild(el); const s=document.createElement('i'); s.className='fr-star'; s.textContent='★'; w.appendChild(s); return w; }
   return el;
 }
 
@@ -6955,7 +7062,7 @@ function gmApplyUI(){
   cl.toggle('gm-sub-join',picked&&G.sub==='join'); cl.toggle('gm-sub-rooms',picked&&G.sub==='rooms');
   document.querySelectorAll('#gmSwitch button').forEach(b=>b.classList.toggle('on',b.dataset.scope===G.scope));
   document.querySelectorAll('#gmSub button').forEach(b=>b.classList.toggle('on',b.dataset.sub===G.sub));
-  $('gmChange').textContent='‹ '+(G.net==='peer'?'PeerJS':'Global')+' · change';
+  $('gmNetName').textContent=G.net==='peer'?'PeerJS':'Global'; gmDockTimer();
 }
 function gmNetStart(){   // connect (or not) for whatever is picked right now
   clearInterval(G.statT); G.statT=null;
@@ -6976,7 +7083,7 @@ document.querySelectorAll('#gmPick .gm-card').forEach(b=>b.onclick=()=>gmSetNet(
 $('gmChange').onclick=()=>{ if(G.roomId) return; G.net=null; gmApplyUI(); gmMsg(''); gmNetStart(); };
 document.querySelectorAll('#gmSub button').forEach(b=>b.onclick=()=>{ G.sub=b.dataset.sub; gmApplyUI(); gmMsg(''); });
 document.querySelectorAll('#gmSwitch button').forEach(b=>b.onclick=()=>{ if(b.dataset.scope==='online'&&G.scope!=='online'&&!G.roomId) G.net=null; gmScope(b.dataset.scope); });
-const GM_HINT={race:'click to build up speed · first across the line ('+GM_LEN+' m) wins',timed:'do as many stunts as you can in '+GM_DUR+' seconds · most stunts wins'};
+const GM_HINT={race:'click to build up speed · first across the line ('+GM_LEN+' m) wins',timed:'do as many stunts as you can in '+GM_DUR+' seconds · most stunts wins',teams:'two teams · most combined flips in '+GM_DUR+' seconds wins'};
 document.querySelectorAll('#gmModes .mode-btn').forEach(b=>b.onclick=()=>{
   G.type=b.dataset.gtype; document.querySelectorAll('#gmModes .mode-btn').forEach(x=>x.classList.toggle('active',x===b)); gmMsg(''); $('gmOpen').classList.add('hidden'); gmRefresh();
 });
@@ -6985,7 +7092,7 @@ function gmRefresh(){   // called whenever sign-in state or the busy flag change
   $('gmHint').textContent=GM_HINT[G.type]||''; gmStatUI(); gmNowRefresh();
 }
 function gmBusy(b){ G.busy=b; gmRefresh(); }
-function gmOnAuth(u){ G.follows=null; G.nowSig=''; if(!u&&G.roomId) gmLeave(true); gmRefresh(); gmStatPoll(); }
+function gmOnAuth(u){ G.follows=null; G.friends=[]; G.followers=[]; G.nowSig=''; if(!u&&G.roomId) gmLeave(true); gmRefresh(); gmNowShow([]); if(u) gmFollows(true).then(()=>{ G.nowSig=''; gmNowShow(G.lastWho||[]); gmDockPoll(); }); gmStatPoll(); }
 
 /* ---------- connection to the global server (a WebSocket, through your cloudflare tunnel) ----------
    The server (bike_global_server.py, running on your PC) owns the rooms and relays positions 10x a second.
@@ -7075,7 +7182,7 @@ function psMakeServer(code){
     if(t==='open'){
       if(c.inRoom) return c.send({t:'rej',why:'inroom'});
       if(S.room) return c.send({t:'rej',why:'rooms'});
-      S.room={code:S.code,type:m.type==='timed'?'timed':'race',hostUid:c.uid,members:[],status:'lobby',round:0,startAt:null,players:{},dirty:false,profilesDirty:false};
+      S.room={code:S.code,type:m.type==='timed'?'timed':m.type==='teams'?'teams':'race',hostUid:c.uid,members:[],status:'lobby',round:0,startAt:null,players:{},dirty:false,profilesDirty:false};
       addMember(c); return c.send({t:'ok',room:view(S.room),me:c.uid});
     }
     if(t==='join'){
@@ -7324,7 +7431,7 @@ function gmPhase(){
   const t=gmClock()-Number(r.startAt);
   if(t<-3000) return 'count'; if(t<0) return 'ready'; return 'match';
 }
-const gmMatchMs=r=>r&&r.type==='timed'?GM_DUR*1000:120000;
+const gmMatchMs=r=>gmFlip(r)?GM_DUR*1000:120000;
 function gmRoomChanged(){
   const r=G.room; if(!r) return;
   if(!(r.members||[]).includes(gmMe.uid)){ gmGone('you are no longer in this room'); return; }
@@ -7371,7 +7478,7 @@ function gmBuildLobby(keep){
   L.textContent='';
   const r=G.room, box=gmEl('div','gm-card');
   box.appendChild(gmEl('h2','',r.private?'private room':'global '+gmTypeName(r.type)+' server'));
-  box.appendChild(gmEl('div','gm-sub',r.type==='timed'?'most stunts in '+GM_DUR+' seconds wins':'first to cross the line ('+GM_LEN+' m) wins'));
+  box.appendChild(gmEl('div','gm-sub',r.type==='teams'?'2 teams · most combined flips in '+GM_DUR+' seconds wins':gmFlip(r)?'most stunts in '+GM_DUR+' seconds wins':'first to cross the line ('+GM_LEN+' m) wins'));
   if(r.private){
     const c=gmEl('div','gm-code'); c.appendChild(gmEl('span','','room code')); const b=gmEl('b','',r.id||G.roomId); c.appendChild(b);
     const cp=gmEl('button','gm-btn sm','copy'); cp.type='button';
@@ -7396,12 +7503,12 @@ function gmRenderLobby(){
   $('gmLobStatus').textContent=s;
   if(sig===G.lobbySig) return; G.lobbySig=sig;
   const list=$('gmLobList'); list.textContent='';
-  m.forEach(uid=>{
+  (r.type==='teams'?m.slice().sort((x,y)=>gmTeamOf(x)-gmTeamOf(y)):m).forEach(uid=>{
     const d=G.players[uid], row=gmEl('div','gm-p'+(uid===gmMe.uid?' me':''));
     const h=d?d.handle:(uid===gmMe.uid?gmMe.handle:'…'), n=d?d.name:'';
     row.appendChild(gmAvatar(uid,h,n||h,30));
     const w=gmEl('span','gm-who'); w.appendChild(gmEl('b','','@'+String(h).slice(0,16))); w.appendChild(gmEl('span','',(uid===r.hostUid?(r.private?'host':'')+(uid===gmMe.uid?(r.private?' · you':'you'):''):(uid===gmMe.uid?'you':''))||String(n||'').slice(0,20)));
-    row.appendChild(w); list.appendChild(row);
+    row.appendChild(w); if(r.type==='teams'){ const tp=gmEl('span','gm-team',TEAM_NAME[gmTeamOf(uid)]); tp.style.setProperty('--tc',TEAM_COL[gmTeamOf(uid)]); row.appendChild(tp); } list.appendChild(row);
   });
   const btns=$('gmLobBtns'); btns.textContent='';
   if(r.private&&isHost&&!r.startAt){
@@ -7424,7 +7531,7 @@ function gmStep(){
 function gmCheckEnd(){
   const r=G.room, st=Number(r.startAt), t=gmClock()-st, live=gmLive();
   let end=false;
-  if(r.type==='timed'){
+  if(gmFlip(r)){
     end=t>=GM_DUR*1000+2500||(t>=GM_DUR*1000&&live.length===(r.members||[]).length&&live.every(p=>p.done));
   }else{
     const fins=live.filter(p=>p.fin).map(p=>Number(p.finMs)||0), first=fins.length?Math.min(...fins):0;
@@ -7436,7 +7543,7 @@ function gmLive(){   // everyone in the room this round (my own numbers come fro
   const r=G.room, out=[]; if(!r) return out;
   (r.members||[]).forEach(uid=>{
     const d=G.players[uid]; if(!d||(d.round||0)!==(r.round||0)) return;
-    const p={uid,handle:d.handle,name:d.name,look:d.look,x:Number(d.x)||0,v:Number(d.v)||0,score:Number(d.score)||0,fin:!!d.fin,finMs:Number(d.finMs)||0,done:!!d.done};
+    const p={uid,team:gmTeamOf(uid),handle:d.handle,name:d.name,look:d.look,x:Number(d.x)||0,v:Number(d.v)||0,score:Number(d.score)||0,fin:!!d.fin,finMs:Number(d.finMs)||0,done:!!d.done};
     if(uid===gmMe.uid&&G.run){ p.x=G.run.x; p.score=G.run.score|0; p.fin=!!G.run.fin; p.finMs=G.run.finMs||p.finMs; p.done=!!G.run.done; }
     out.push(p);
   });
@@ -7447,8 +7554,11 @@ function gmLive(){   // everyone in the room this round (my own numbers come fro
 function gmStartRun(){
   const r=G.room; let col={}; try{ const cs=getComputedStyle(document.documentElement); const g=k=>cs.getPropertyValue(k).trim(); col={fg:g('--s-fg'),bg:g('--s-bg'),line:g('--s-line'),cloud:g('--s-cloud'),muted:g('--s-muted')}; }catch(e){}
   G.col={fg:col.fg||'#111',bg:col.bg||'#f0f0ef',line:col.line||'#d2d2d0',cloud:col.cloud||'#e8e8e6',muted:col.muted||'#555'};
-  G.run=r.type==='timed'?{type:'timed',x:0,z:0,vz:0,air:false,ang:0,spinT:0,dir:1,queued:false,score:0,pops:[],done:false,wob:0,lastT:0,hint:0}
+  G.run=gmFlip(r)?{type:'timed',x:0,z:0,vz:0,air:false,ang:0,spinT:0,dir:1,queued:false,score:0,pops:[],done:false,wob:0,lastT:0,hint:0}
                         :{type:'race',x:0,v:0,fin:false,finMs:0,last:0,clicks:[]};
+  const th=document.documentElement.classList.contains('uthemed');
+  G.real=th?{sky:G.col.bg,fill:G.col.cloud,line:G.col.fg,cloud:G.col.cloud,grid:'rgba(128,128,128,.10)',dash:G.col.line,pill:G.col.bg,pillLine:G.col.line,fg:G.col.fg,muted:G.col.muted}
+           :{sky:'#ffffff',fill:'#eeeeee',line:'#111111',cloud:'#f2f2f2',grid:'rgba(0,0,0,.035)',dash:'rgba(0,0,0,.18)',pill:'rgba(255,255,255,.78)',pillLine:'#cccccc',fg:'#111111',muted:'#777777'};
   G.stage='play'; G.lastPush=0;
 }
 function gmAct(){
@@ -7489,7 +7599,10 @@ function gmSizeCv(){
   const cv=$('gmCv'), ov=$('gmPlay'); gmDpr=Math.min(devicePixelRatio||1,2);
   const w=ov.clientWidth||innerWidth, h=ov.clientHeight||innerHeight;
   cv.width=Math.max(1,Math.floor(w*gmDpr)); cv.height=Math.max(1,Math.floor(h*gmDpr));
-  gmS=Math.min(w/GW,h/GH); gmOx=(w-GW*gmS)/2; gmOy=(h-GH*gmS)/2;
+  G.portrait=h>w*1.1;
+  if(gmFlip(G.room)){   // flip modes fill the whole screen, a little zoomed in like the real game
+    gmS=h/GH*(G.portrait?.85:1.1); gmOx=0; gmOy=0; G.vw=w/gmS; G.vh=h/gmS;
+  }else{ gmS=Math.min(w/GW,h/GH); gmOx=(w-GW*gmS)/2; gmOy=(h-GH*gmS)/2; G.vw=GW; G.vh=GH; }
 }
 addEventListener('resize',()=>{ if(G.view==='play') gmSizeCv(); });
 /* the player's own bike (same drawing as the profile page), cropped to the bike so it can be scaled and rotated */
@@ -7519,9 +7632,9 @@ function gmFrame(ts){
   G.raf=0; if(G.view!=='play'||!G.room||!G.run) return;
   const dt=Math.min(.05,Math.max(0,(ts-(gmLastTs||ts))/1000)); gmLastTs=ts;
   const cv=$('gmCv'), ctx=cv.getContext('2d');
-  ctx.setTransform(1,0,0,1,0,0); ctx.fillStyle=G.col.bg; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.setTransform(1,0,0,1,0,0); ctx.fillStyle=(G.real&&G.real.sky)||G.col.bg; ctx.fillRect(0,0,cv.width,cv.height);
   ctx.setTransform(gmDpr*gmS,0,0,gmDpr*gmS,gmDpr*gmOx,gmDpr*gmOy);
-  ctx.save(); ctx.beginPath(); ctx.rect(0,0,GW,GH); ctx.clip();
+  ctx.save(); ctx.beginPath(); ctx.rect(0,0,G.vw,G.vh); ctx.clip();
   if(G.room.type==='race') gmRace(ctx,dt); else gmTimed(ctx,dt);
   ctx.restore();
   gmPush();
@@ -7539,7 +7652,7 @@ function gmPush(force){
 }
 function gmCountdown(ctx,t){   // big 3 · 2 · 1 · GO
   if(t>=1.1) return; let s; if(t<0) s=String(Math.ceil(-t)); else s='GO!';
-  const a=t<0?1:Math.max(0,1-t/1.1); ctx.save(); ctx.globalAlpha=a; gmText(ctx,s,GW/2,GH/2-20,t<0?120:96,G.col.fg,'center',800); ctx.restore();
+  const a=t<0?1:Math.max(0,1-t/1.1); ctx.save(); ctx.globalAlpha=a; gmText(ctx,s,G.vw/2,G.vh/2-20,t<0?120:96,(G.real&&G.real.fg)||G.col.fg,'center',800); ctx.restore();
 }
 
 /* ----- race ----- */
@@ -7554,9 +7667,11 @@ function gmRace(ctx,dt){
   const me={uid:gmMe.uid,handle:gmMe.handle,name:gmMe.name,look:gmMine(),x:run.x,fin:run.fin,finMs:run.finMs};
   const lanes=[me].concat(others).slice(0,GM_MAX);
   // everyone rides in ONE lane, stacked on top of each other, with their @handle floating above their bike
-  const X0=150, X1=868, trackW=X1-X0, laneY=300;
-  gmText(ctx,'race · first to '+GM_LEN+' m',24,34,15,G.col.fg,'left',700);
-  gmText(ctx,Math.round(run.v*2.237)+' mph',GW-24,34,15,G.col.fg,'right',700);
+  const X0=150, X1=868, trackW=X1-X0, laneY=330;
+  const R=G.real, gy0=laneY+2;
+  ctx.fillStyle=R.cloud; for(let i=0;i<4;i++){ const cx=120+i*250, cy=70+(i%2)*40; ctx.beginPath(); ctx.ellipse(cx,cy,56,22,0,0,7); ctx.ellipse(cx+34,cy-8,31,20,0,0,7); ctx.ellipse(cx-34,cy-6,28,18,0,0,7); ctx.fill(); }
+  ctx.fillStyle=R.fill; ctx.fillRect(0,gy0,GW,GH-gy0); ctx.strokeStyle=R.line; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(0,gy0); ctx.lineTo(GW,gy0); ctx.stroke();
+  gmPill(ctx,'first to '+GM_LEN+' m',GW/2-70,30,15); gmPill(ctx,Math.round(run.v*2.237)+' mph',GW/2+80,30,15);
   const pos=lanes.map(p=>{
     const isMe=p.uid===gmMe.uid; let dx;
     if(isMe) dx=run.x;
@@ -7564,7 +7679,7 @@ function gmRace(ctx,dt){
     return {p,isMe,dx,px:X0+(dx/GM_LEN)*trackW};
   });
   // ground + finish line
-  ctx.strokeStyle=G.col.line; ctx.lineWidth=2; ctx.setLineDash([10,10]); ctx.beginPath(); ctx.moveTo(X0-40,laneY+2); ctx.lineTo(X1+10,laneY+2); ctx.stroke(); ctx.setLineDash([]);
+  ctx.strokeStyle=R.dash; ctx.lineWidth=1.2; ctx.setLineDash([6,10]); ctx.beginPath(); ctx.moveTo(0,laneY+12); ctx.lineTo(GW,laneY+12); ctx.stroke(); ctx.setLineDash([]);
   const fTop=laneY-110, fH=120; for(let k=0;k<Math.ceil(fH/12);k++){ ctx.fillStyle=k%2?G.col.fg:G.col.bg; ctx.fillRect(X1+30,fTop+k*12,10,12); ctx.fillStyle=k%2?G.col.bg:G.col.fg; ctx.fillRect(X1+40,fTop+k*12,10,12); }
   ctx.strokeStyle=G.col.fg; ctx.lineWidth=1; ctx.strokeRect(X1+30,fTop,20,Math.ceil(fH/12)*12);
   gmText(ctx,'0',X0,laneY+16,10,G.col.muted,'center'); gmText(ctx,GM_LEN+' m',X1+40,laneY+16,10,G.col.muted,'center');
@@ -7575,14 +7690,15 @@ function gmRace(ctx,dt){
   ctx.font=gmFont(13,700);
   const placed=[], LH=19;
   for(const q of pos.slice().sort((u,v)=>(v.isMe-u.isMe)||(v.dx-u.dx))){      // me first, then the leaders
-    const txt='@'+String(q.p.handle||'').slice(0,16); q.txt=txt; q.w=ctx.measureText(txt).width+14;
+    const txt=((G.friends||[]).includes(q.p.uid)&&!q.isMe?'★ ':'')+'@'+String(q.p.handle||'').slice(0,16); q.txt=txt; q.w=ctx.measureText(txt).width+14;
     let lvl=0; while(placed.some(o=>o.lvl===lvl&&Math.abs(o.px-q.px)<(o.w+q.w)/2+3)) lvl++;
     q.lvl=lvl; placed.push(q);
   }
-  for(const q of placed){
-    const y=laneY-98-q.lvl*LH, topOfBike=laneY-86;
-    if(q.lvl>0){ ctx.strokeStyle=G.col.line; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(q.px,y+9); ctx.lineTo(q.px,topOfBike); ctx.stroke(); }
-    ctx.fillStyle=q.isMe?G.col.fg:G.col.bg; ctx.globalAlpha=q.isMe?1:.9; ctx.beginPath(); ctx.roundRect(q.px-q.w/2,y-9,q.w,18,9); ctx.fill(); ctx.globalAlpha=1;
+  for(const q of placed){ q.y=laneY-98-q.lvl*LH; }
+  for(const q of placed){ if(q.lvl>0){ ctx.strokeStyle=G.col.line; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(q.px,q.y+9); ctx.lineTo(q.px,laneY-86); ctx.stroke(); } }   // leader lines first, so they sit behind the tags
+  for(const q of placed.slice().reverse()){   // tags: me is drawn last, on top
+    const y=q.y;
+    ctx.fillStyle=q.isMe?G.col.fg:G.col.bg; ctx.globalAlpha=q.isMe?1:.94; ctx.beginPath(); ctx.roundRect(q.px-q.w/2,y-9,q.w,18,9); ctx.fill(); ctx.globalAlpha=1;
     if(!q.isMe){ ctx.strokeStyle=G.col.line; ctx.lineWidth=1; ctx.beginPath(); ctx.roundRect(q.px-q.w/2,y-9,q.w,18,9); ctx.stroke(); }
     gmText(ctx,q.txt,q.px,y,13,q.isMe?G.col.bg:G.col.fg,'center',q.isMe?800:600);
   }
@@ -7593,6 +7709,7 @@ function gmRace(ctx,dt){
     gmText(ctx,q.p.fin?((q.p.finMs/1000).toFixed(2)+'s'):(Math.floor(q.dx)+' m'),x+380,y,12,G.col.muted,'right',500); });
   gmCountdown(ctx,t);
   if(t>=0&&t<2.5&&!run.fin&&run.x<2) gmText(ctx,'click / tap / space to pedal',GW/2,GH-24,14,G.col.muted,'center',600);
+  if(G.portrait) gmText(ctx,'turn your phone sideways for a bigger view',GW/2,GH-52,13,G.col.muted,'center',600);
   if(run.fin){
     const order=all.filter(p=>p.fin).sort((a,b)=>a.finMs-b.finMs), place=Math.max(1,order.findIndex(p=>p.uid===gmMe.uid)+1);
     gmText(ctx,place===1?'you win!':'you finished #'+place,GW/2,GH-24,22,G.col.fg,'center',800);
@@ -7605,8 +7722,14 @@ const tmHash=(s,k)=>{ let h=(s^(k*2654435761))>>>0; h=Math.imul(h^(h>>>15),22468
 function tmRamp(k){ const s=G.room.seed|0, a=tmHash(s,k), b=tmHash(s,k+7777), c=tmHash(s,k+31337);
   return {x:700+k*TM_GAP+(a%120),w:TM_RW,h:44+(b%36),vy:690+(c%230)}; }
 function tmGround(x){ const k=Math.floor((x-700)/TM_GAP); for(let j=k-1;j<=k+1;j++){ if(j<0) continue; const q=tmRamp(j); if(x>=q.x&&x<=q.x+q.w) return q.h*(x-q.x)/q.w; } return 0; }
+function gmPill(ctx,txt,cx,cy,px,o){
+  o=o||{}; ctx.font=gmFont(px,700); const w=ctx.measureText(txt).width+px*1.5, h=px*1.9, R=G.real;
+  ctx.save(); ctx.fillStyle=o.bg||R.pill; ctx.strokeStyle=o.line||R.pillLine; ctx.lineWidth=o.lw||1.2; ctx.beginPath(); ctx.roundRect(cx-w/2,cy-h/2,w,h,h/2); ctx.fill(); ctx.stroke(); ctx.restore();
+  gmText(ctx,txt,cx,cy+1,px,o.fg||R.fg,'center',700); return w;
+}
+function gmTeamTotals(list){ const T=[0,0]; list.forEach(p=>{ T[p.team]+=p.score; }); return T; }
 function gmTimed(ctx,dt){
-  const run=G.run, r=G.room, t=(gmClock()-Number(r.startAt))/1000;
+  const run=G.run, r=G.room, t=(gmClock()-Number(r.startAt))/1000, W=G.vw, H=G.vh, R=G.real, teams=r.type==='teams';
   if(!run.done&&t>=GM_DUR){ run.done=true; run.air=false; gmPush(true); }
   if(t>=0&&!run.done){
     const px=run.x; run.x+=TM_SPD*dt;
@@ -7625,54 +7748,70 @@ function gmTimed(ctx,dt){
     }
   }
   run.hint=Math.max(0,run.hint-dt); run.pops.forEach(p=>p.t+=dt); run.pops=run.pops.filter(p=>p.t<.9);
-  const camX=run.x-250;
-  // sky + hills + clouds
-  ctx.fillStyle=G.col.cloud; for(let i=0;i<4;i++){ const cx=((i*330-camX*.15)%1320+1320)%1320-180, cy=70+((i*53)%80); ctx.beginPath(); ctx.roundRect(cx,cy,170,46,23); ctx.fill(); }
-  ctx.fillStyle=G.col.cloud; ctx.globalAlpha=.7; ctx.beginPath(); ctx.moveTo(0,TM_GY);
-  for(let x=0;x<=GW;x+=20) ctx.lineTo(x,TM_GY-70-Math.sin((x+camX*.3)*.006)*34-Math.sin((x+camX*.3)*.017)*14); ctx.lineTo(GW,TM_GY); ctx.fill(); ctx.globalAlpha=1;
-  // ground + ramps
-  ctx.fillStyle=G.col.fg; ctx.fillRect(0,TM_GY,GW,GH-TM_GY);
-  ctx.strokeStyle=G.col.bg; ctx.globalAlpha=.25; ctx.lineWidth=2; ctx.setLineDash([22,26]); ctx.lineDashOffset=camX; ctx.beginPath(); ctx.moveTo(0,TM_GY+40); ctx.lineTo(GW,TM_GY+40); ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset=0; ctx.globalAlpha=1;
-  const k0=Math.max(0,Math.floor((camX-700)/TM_GAP)-1);
-  for(let j=k0;j<k0+4;j++){ const q=tmRamp(j), sx=q.x-camX; if(sx>GW+50||sx+q.w<-50) continue;
-    ctx.fillStyle=G.col.fg; ctx.beginPath(); ctx.moveTo(sx,TM_GY); ctx.lineTo(sx+q.w,TM_GY-q.h); ctx.lineTo(sx+q.w,TM_GY); ctx.closePath(); ctx.fill(); }
-  // my bike
-  const bx=run.x-camX, by=TM_GY-run.z; let ang=run.ang;
+  const bx=Math.min(250,W*.3), camX=run.x-bx, off=Math.min(150,Math.max(0,run.z-140)*.6), GY=H*.76+off;
+  // grid + clouds + far hills (same look as the real game)
+  ctx.strokeStyle=R.grid; ctx.lineWidth=1; for(let x=-((camX*.4)%60);x<W;x+=60){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  ctx.fillStyle=R.cloud; for(let i=0;i<5;i++){ const cx=((i*300-camX*.3)%1500+1500)%1500-200, cy=46+((i*47)%70)+off*.3; ctx.beginPath(); ctx.ellipse(cx,cy,56,22,0,0,7); ctx.ellipse(cx+34,cy-8,31,20,0,0,7); ctx.ellipse(cx-34,cy-6,28,18,0,0,7); ctx.fill(); }
+  ctx.fillStyle=R.fill; ctx.globalAlpha=.55; ctx.beginPath(); ctx.moveTo(0,H+10);
+  for(let x=0;x<=W+20;x+=20) ctx.lineTo(x,GY-60-Math.sin((x+camX*.3)*.006)*34-Math.sin((x+camX*.3)*.017)*14); ctx.lineTo(W+20,H+10); ctx.fill(); ctx.globalAlpha=1;
+  // terrain: flat road with ramps, black outline + dashed line below, like the real game
+  const path=dy=>{ ctx.beginPath(); for(let sx=-16;sx<=W+16;sx+=6){ const y=GY-tmGround(camX+sx)+dy; if(sx===-16) ctx.moveTo(sx,y); else ctx.lineTo(sx,y); } };
+  path(0); ctx.lineTo(W+16,H+300); ctx.lineTo(-16,H+300); ctx.closePath(); ctx.fillStyle=R.fill; ctx.fill();
+  path(0); ctx.strokeStyle=R.line; ctx.lineWidth=2.4; ctx.lineJoin='round'; ctx.stroke();
+  ctx.setLineDash([6,10]); path(10); ctx.strokeStyle=R.dash; ctx.lineWidth=1.2; ctx.stroke(); ctx.setLineDash([]);
+  // my bike (the one equipped in your inventory)
+  const by=GY-run.z; let ang=run.ang;
   if(run.spinT>0) ang+=run.dir*(1-run.spinT/TM_T)*Math.PI*2;
   if(run.wob>0) ang+=Math.sin(run.wob*40)*.12*run.wob*2;
-  gmBike(ctx,gmMine(),bx,by+2,110,110,ang,1);
-  run.pops.forEach(p=>{ ctx.save(); ctx.globalAlpha=Math.max(0,1-p.t/.9); gmText(ctx,p.s,p.x-camX,TM_GY-p.y-90-p.t*50,p.bad?15:22,p.bad?G.col.muted:G.col.fg,'center',800); ctx.restore(); });
-  // hud
+  gmBike(ctx,gmMine(),bx,by+2,130,130,ang,1);
+  if(teams){ const tc=TEAM_COL[gmTeamOf(gmMe.uid)], hy=Math.max(150,by-168); gmPill(ctx,'@'+String(gmMe.handle||'you').slice(0,12),bx,hy,12,{bg:tc,line:tc,fg:'#fff'}); }
+  run.pops.forEach(p=>{ ctx.save(); ctx.globalAlpha=Math.max(0,1-p.t/.9); gmText(ctx,p.s,p.x-camX,GY-p.y-110-p.t*50,p.bad?15:24,p.bad?R.muted:R.fg,'center',800); ctx.restore(); });
+  // hud: pills like the real game's top tags
   const left=Math.max(0,Math.ceil(GM_DUR-Math.max(0,t)));
-  gmText(ctx,'timed · most stunts wins',24,34,15,G.col.fg,'left',700);
-  gmText(ctx,t<0?'starts soon':(run.done?'time!':left+'s'),GW/2,34,26,G.col.fg,'center',800);
-  gmText(ctx,run.score+' stunt'+(run.score===1?'':'s'),24,70,22,G.col.fg,'left',800);
-  const all=gmLive().slice().sort((a,b)=>b.score-a.score);
-  all.slice(0,GM_MAX).forEach((p,i)=>{ const me=p.uid===gmMe.uid; gmText(ctx,(i+1)+'. @'+String(p.handle||'').slice(0,10),GW-150,28+i*20,12,G.col.fg,'left',me?800:500); gmText(ctx,String(p.score),GW-22,28+i*20,12,G.col.fg,'right',me?800:500); });
+  gmPill(ctx,t<0?'starts soon':(run.done?'time!':left+'s'),W/2,30,17);
+  const all=gmLive();
+  if(teams){
+    const T=gmTeamTotals(all), me=gmTeamOf(gmMe.uid);
+    [0,1].forEach(i=>gmPill(ctx,TEAM_NAME[i]+' '+T[i],W/2+(i?1:-1)*Math.min(64,W*.2),68,14,{line:TEAM_COL[i],fg:TEAM_COL[i],lw:i===me?3:1.4}));
+    gmPill(ctx,'your flips: '+run.score,W/2,104,12);
+  }else{
+    gmPill(ctx,run.score+' stunt'+(run.score===1?'':'s'),W/2,68,14);
+    if(W>=620) all.slice().sort((a,b)=>b.score-a.score).slice(0,GM_MAX).forEach((p,i)=>{ const m=p.uid===gmMe.uid; gmText(ctx,(i+1)+'. @'+String(p.handle||'').slice(0,10),W-160,26+i*19,12,R.fg,'left',m?800:500); gmText(ctx,String(p.score),W-24,26+i*19,12,R.fg,'right',m?800:500); });
+  }
   gmCountdown(ctx,t);
-  if(run.hint>0) gmText(ctx,'wait for the ramp, then tap in the air',GW/2,GH-26,14,G.col.muted,'center',600);
-  if(t>=0&&t<4&&run.score===0) gmText(ctx,'ride off a ramp, then click / tap / S in the air',GW/2,GH-26,14,G.col.muted,'center',600);
+  if(run.hint>0) gmText(ctx,'wait for a ramp, then tap in the air',W/2,H-34,14,R.muted,'center',600);
+  else if(t>=0&&t<4&&run.score===0) gmText(ctx,'ramp → tap in the air to flip',W/2,H-34,14,R.muted,'center',600);
 }
 
 /* ---------- results ---------- */
 function gmRank(){
   const r=G.room, live=gmLive();
-  if(r.type==='timed'){ const a=live.slice().sort((x,y)=>y.score-x.score); let rk=0,prev=null; a.forEach((p,i)=>{ if(p.score!==prev){ rk=i+1; prev=p.score; } p.rank=rk; }); return a; }
+  if(gmFlip(r)){ const a=live.slice().sort((x,y)=>y.score-x.score); let rk=0,prev=null; a.forEach((p,i)=>{ if(p.score!==prev){ rk=i+1; prev=p.score; } p.rank=rk; }); return a; }
   const fin=live.filter(p=>p.fin).sort((a,b)=>a.finMs-b.finMs), rest=live.filter(p=>!p.fin).sort((a,b)=>b.x-a.x);
   const a=fin.concat(rest); a.forEach((p,i)=>p.rank=i+1); return a;
 }
 function gmRenderRes(){
   const r=G.room, box=$('gmRes'); if(!r) return;
-  const a=gmRank(), sig=a.map(p=>p.uid+p.rank+(p.fin?1:0)+p.score).join('|')+'|'+(r.private&&r.hostUid===gmMe.uid)+'|'+G.busy;
+  const a=gmRank(), teams=r.type==='teams', flip=gmFlip(r), sig=a.map(p=>p.uid+p.rank+(p.fin?1:0)+p.score).join('|')+'|'+(r.private&&r.hostUid===gmMe.uid)+'|'+G.busy;
   if(sig===G.rcache) return; G.rcache=sig; box.textContent='';
-  const c=gmEl('div','gm-card'); c.appendChild(gmEl('h2','',a.length&&a[0].rank===1&&a[0].uid===gmMe.uid?'you won! 🏆':'results'));
-  const w=a[0]; if(w&&(r.type==='timed'?w.score>0:w.fin)) c.appendChild(gmEl('div','gm-sub','@'+String(w.handle).slice(0,16)+' wins'+(a[1]&&a[1].rank===1?' (tie)':'')));
+  const c=gmEl('div','gm-card');
+  if(teams){
+    const T=gmTeamTotals(a), mine=gmTeamOf(gmMe.uid), tie=T[0]===T[1], win=T[0]>T[1]?0:1;
+    c.appendChild(gmEl('h2','',tie?'it’s a tie':(win===mine?'your team won! 🏆':TEAM_NAME[win]+' team wins')));
+    const sc=gmEl('div','gm-tscore');
+    [0,1].forEach(i=>{ const s=gmEl('div','gm-tbox'+(!tie&&win===i?' win':'')); s.style.setProperty('--tc',TEAM_COL[i]); s.appendChild(gmEl('small','',TEAM_NAME[i].toLowerCase()+(i===mine?' · you':''))); s.appendChild(gmEl('b','',String(T[i]))); s.appendChild(gmEl('small','','flips')); sc.appendChild(s); });
+    c.appendChild(sc);
+  }else{
+    c.appendChild(gmEl('h2','',a.length&&a[0].rank===1&&a[0].uid===gmMe.uid?'you won! 🏆':'results'));
+    const w=a[0]; if(w&&(flip?w.score>0:w.fin)) c.appendChild(gmEl('div','gm-sub','@'+String(w.handle).slice(0,16)+' wins'+(a[1]&&a[1].rank===1?' (tie)':'')));
+  }
   const list=gmEl('div','gm-plist');
   a.forEach(p=>{
-    const row=gmEl('div','gm-p'+(p.uid===gmMe.uid?' me':'')); row.appendChild(gmEl('span','gm-rank',String(p.rank)));
+    const row=gmEl('div','gm-p'+(p.uid===gmMe.uid?' me':'')+(teams?' tm':'')); if(teams) row.style.setProperty('--tc',TEAM_COL[p.team]);
+    row.appendChild(gmEl('span','gm-rank',String(p.rank)));
     row.appendChild(gmAvatar(p.uid,p.handle,p.name||p.handle,30));
-    const wh=gmEl('span','gm-who'); wh.appendChild(gmEl('b','','@'+String(p.handle).slice(0,16))); wh.appendChild(gmEl('span','',String(p.name||'').slice(0,20))); row.appendChild(wh);
-    row.appendChild(gmEl('span','gm-val',r.type==='timed'?p.score+' stunt'+(p.score===1?'':'s'):(p.fin?(p.finMs/1000).toFixed(2)+'s':'did not finish')));
+    const wh=gmEl('span','gm-who'); wh.appendChild(gmEl('b','','@'+String(p.handle).slice(0,16))); wh.appendChild(gmEl('span','',teams?TEAM_NAME[p.team].toLowerCase()+' team':String(p.name||'').slice(0,20))); row.appendChild(wh);
+    row.appendChild(gmEl('span','gm-val',teams?p.score+' flip'+(p.score===1?'':'s'):flip?p.score+' stunt'+(p.score===1?'':'s'):(p.fin?(p.finMs/1000).toFixed(2)+'s':'did not finish')));
     list.appendChild(row);
   });
   c.appendChild(list);
@@ -7686,14 +7825,16 @@ function gmRenderRes(){
 }
 
 /* ---------- playing now (people you follow) ---------- */
-async function gmFollows(){
-  if(!user||!db||!fb) return [];
-  if(G.follows&&Date.now()-G.followsAt<600000) return G.follows;     // at most ~60 firestore reads every 10 minutes
+async function gmFollows(force){   // friends = people you follow who follow you back
+  if(!user||!db||!fb){ G.friends=[]; G.follows=[]; G.followers=[]; return []; }
+  if(!force&&G.follows&&Date.now()-G.followsAt<120000) return G.friends||[];
   try{
-    const s=await fb.getDocs(fb.query(fb.collection(db,'follows'),fb.where('from','==',user.uid),fb.limit(60)));
-    const a=[]; s.forEach(x=>{ const t=x.data().to; if(typeof t==='string') a.push(t); }); G.follows=a; G.followsAt=Date.now();
-  }catch(e){ G.followsAt=Date.now(); G.follows=G.follows||[]; }
-  return G.follows;
+    const col=fb.collection(db,'follows');
+    const [a,b]=await Promise.all([fb.getDocs(fb.query(col,fb.where('from','==',user.uid),fb.limit(100))),fb.getDocs(fb.query(col,fb.where('to','==',user.uid),fb.limit(100)))]);
+    const fo=[],fr=[]; a.forEach(x=>{ const t=x.data().to; if(typeof t==='string') fo.push(t); }); b.forEach(x=>{ const t=x.data().from; if(typeof t==='string') fr.push(t); });
+    G.follows=fo; G.followers=fr; G.friends=fo.filter(u=>fr.includes(u)); G.followsAt=Date.now();
+  }catch(e){ G.followsAt=Date.now(); G.follows=G.follows||[]; G.followers=G.followers||[]; G.friends=G.friends||[]; }
+  return G.friends;
 }
 async function gmStatPoll(){
   if(!gmIsGlobal()||G.roomId||document.hidden||!G.conn||!G.conn.ready) return;
@@ -7702,20 +7843,72 @@ async function gmStatPoll(){
 }
 function gmNowRefresh(){ if(gmIsGlobal()&&!G.roomId) gmStatPoll(); }
 function gmNowShow(who){
-  const list=$('gmNowList'), box=$('gmNow'); if(!list) return;
-  const fl=G.follows||[], sig=who.map(d=>d.uid+d.roomId+d.status+d.private+d.n).sort().join('|')+'#'+fl.length+(user?1:0);
-  if(sig===G.nowSig) return; G.nowSig=sig; list.textContent='';
-  if(!user){ list.appendChild(gmEl('div','gm-empty','sign in to see which players you follow are playing')); return; }
-  if(!who.length){ list.appendChild(gmEl('div','gm-empty',fl.length?'nobody you follow is playing right now':'follow players to see when they play')); return; }
+  const row=$('fdRow'); if(!row) return;
+  const fl=G.friends||[]; who=(who||[]).filter(d=>fl.includes(d.uid));
+  const sig=who.map(d=>d.uid+d.roomId+d.status+d.private+d.n).sort().join('|')+'#'+fl.length+(user?1:0);
+  if(sig===G.nowSig) return; G.nowSig=sig; G.lastWho=who; row.textContent='';
+  if(!user||!who.length){ row.appendChild(gmEl('div','gm-empty',!user?'sign in to see which friends are playing':fl.length?'none of your friends are playing right now':'follow players, and when they follow you back they show up here')); return; }
   who.forEach(d=>{
-    const row=gmEl('div','gm-now-row'); row.appendChild(gmAvatar(d.uid,d.handle,d.name||d.handle,24));
-    const w=gmEl('span','gm-who'); w.appendChild(gmEl('b','','@'+String(d.handle).slice(0,16)));
-    w.appendChild(gmEl('span','',(d.private?'private room':gmTypeName(d.type)+' server')+' · '+(d.status==='lobby'?'in the lobby':'in a match')+' · '+d.n+'/'+GM_MAX)); row.appendChild(w);
-    if(d.private||!d.roomId) row.appendChild(gmEl('span','gm-tag','private'));
-    else{ const b=gmEl('button','gm-btn sm','join'); b.type='button'; b.disabled=d.status!=='lobby'||d.n>=GM_MAX; b.onclick=()=>{ b.disabled=true; gmJoinRoom(d.roomId).finally(()=>{ b.disabled=false; }); }; row.appendChild(b); }
-    list.appendChild(row);
+    const h=String(d.handle||'').slice(0,16), b=gmEl('button','fd-item'); b.type='button';
+    const can=!d.private&&!!d.roomId&&d.status==='lobby'&&d.n<GM_MAX; b.classList.toggle('can',can);
+    const ring=gmEl('span','fd-ring'); ring.appendChild(gmAvatar(d.uid,d.handle,d.name||d.handle,52)); b.appendChild(ring);
+    b.appendChild(gmEl('span','fd-name','@'+h));
+    b.appendChild(gmEl('span','fd-tip',(d.private?'private room':gmTypeName(d.type)+' · '+(d.status==='lobby'?'lobby':'in a match')+' · '+d.n+'/'+GM_MAX)));
+    b.onclick=()=>{
+      if(d.private||!d.roomId) return gmToast('@'+h+' is in a private room');
+      if(d.status!=='lobby') return gmToast('@'+h+' is already in a match');
+      if(d.n>=GM_MAX) return gmToast('that server is full');
+      gmProfileJoin(d.roomId);
+    };
+    row.appendChild(b);
   });
 }
+async function gmDockPoll(){
+  if(G.scope!=='online'||G.roomId||document.hidden) return;
+  const fl=await gmFollows(); if(!fl.length||!user){ gmNowShow([]); return; }
+  if(gmIsGlobal()) return gmStatPoll();
+  if(G.dockBusy||!gmServerUrl()) return; G.dockBusy=true;
+  try{ await gmConnect(); G.whoCb=w=>{ G.whoCb=null; gmNowShow(w); }; gmWsSend({t:'status',uids:fl}); }catch(e){}
+  setTimeout(()=>{ G.dockBusy=false; if(!gmIsGlobal()&&!G.roomId) gmDisconnect(); },2500);
+}
+function gmDockTimer(){
+  if(G.scope==='online'&&!G.roomId){ if(!G.dockT){ gmDockPoll(); G.dockT=setInterval(gmDockPoll,10000); } }
+  else if(G.dockT){ clearInterval(G.dockT); G.dockT=null; }
+}
+/* ---------- friends panel ---------- */
+async function friendFollow(uid,on){
+  if(!user||!profile) return gmToast('finish your profile to follow people');
+  try{ const ref=fb.doc(db,'follows',user.uid+'_'+uid); if(on) await fb.setDoc(ref,{from:user.uid,to:uid,at:Date.now()}); else await fb.deleteDoc(ref); }catch(e){ gmToast("couldn't do that. Check your connection."); }
+  await friendsRender(true); G.nowSig=''; gmNowShow(G.lastWho||[]); gmDockPoll();
+}
+async function friendsRender(force){
+  const body=$('friendsBody'); if(!body) return;
+  const msg=(t,btn)=>{ body.textContent=''; body.appendChild(gmEl('div','fr-empty',t)); if(btn){ const b=gmEl('button','pr-btn on',btn[0]); b.type='button'; b.onclick=btn[1]; body.appendChild(b); } };
+  if(!user) return msg('sign in to add friends',['sign in',openAuth]);
+  if(!profile) return msg('finish your profile first, then you can follow people and make friends');
+  if(!G.fbusy){ msg('loading…'); G.fbusy=true; }
+  await gmFollows(force);
+  const all=[...new Set([...(G.friends||[]),...(G.followers||[]),...(G.follows||[])])];
+  await Promise.all(all.filter(u=>!(G.prof.get(u)&&G.prof.get(u).handle)).slice(0,60).map(async u=>{ try{ const s=await fb.getDoc(fb.doc(db,'leaderboard',u)); if(s.exists()){ const d=s.data(); G.prof.set(u,{handle:d.handle,name:d.name,photo:d.photo}); } }catch(e){} }));
+  G.fbusy=false; body.textContent='';
+  const live={}; (G.lastWho||[]).forEach(d=>{ live[d.uid]=d; });
+  const sec=(title,list,mk)=>{ if(!list.length) return; body.appendChild(gmEl('div','fr-h',title+' · '+list.length)); list.forEach(u=>{ const p=G.prof.get(u); if(p&&p.handle) body.appendChild(mk(u,p)); }); };
+  const rowFor=(u,p,sub,act)=>{
+    const r=gmEl('div','lb-row fr-row'); r.title='view profile'; r.onclick=()=>{ window.__bikePanels.close('friendsPanel'); openProfile(p.handle); };
+    r.appendChild(avatar({handle:p.handle,name:p.name,photo:p.photo},40));
+    const w=gmEl('span','lb-who'); w.appendChild(gmEl('b','','@'+String(p.handle).slice(0,16))); w.appendChild(gmEl('span','',sub)); r.appendChild(w);
+    if(act){ const b=gmEl('button','pr-btn'+(act[2]?' on':''),act[0]); b.type='button'; b.onclick=e=>{ e.stopPropagation(); b.disabled=true; act[1](); }; r.appendChild(b); }
+    return r;
+  };
+  sec('friends',G.friends||[],(u,p)=>{ const d=live[u]; const can=d&&!d.private&&d.roomId&&d.status==='lobby'&&d.n<GM_MAX;
+    return rowFor(u,p,d?('playing '+gmTypeName(d.type)+' · '+(d.private?'private room':d.status==='lobby'?'in the lobby':'in a match')):'friend',can?['join',()=>{ window.__bikePanels.close('friendsPanel'); gmProfileJoin(d.roomId); },true]:null); });
+  sec('follow requests',(G.followers||[]).filter(u=>!(G.follows||[]).includes(u)),(u,p)=>rowFor(u,p,'follows you',['follow back',()=>friendFollow(u,true),true]));
+  sec('waiting for a follow back',(G.follows||[]).filter(u=>!(G.followers||[]).includes(u)),(u,p)=>rowFor(u,p,'they need to follow you back',['cancel',()=>friendFollow(u,false)]));
+  if(!body.children.length) msg('no friends yet. follow players from the leaderboard or search. when they follow you back, you are friends.');
+}
+function friendsOpen(){ window.__bikePanels.open('friendsPanel'); friendsRender(true); }
+$('friendsBtn').onclick=friendsOpen; $('fdAll').onclick=friendsOpen; $('closeFriends').onclick=()=>window.__bikePanels.close('friendsPanel');
+
 /* a profile asks "is this player in a server right now?" (one question, then the socket is closed again unless you are in global mode) */
 async function gmQuickWho(uid){
   if(!gmServerUrl()) return null;
